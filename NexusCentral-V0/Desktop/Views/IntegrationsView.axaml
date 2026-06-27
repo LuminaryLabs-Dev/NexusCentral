@@ -1,0 +1,204 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.IntegrationsView"
+             x:DataType="vm:IntegrationsViewModel">
+    <Grid RowDefinitions="*"
+          Margin="0">
+        <components:SplitPaneShell LayoutKey="integrations"
+                                   SplitterWidth="8"
+                                   SurfaceMode="PerPane">
+            <components:SplitPaneShell.LeftHeaderContent>
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Integration Server"
+                               Classes="pageTitle"/>
+                    <TextBlock Text="{Binding StatusText}"
+                               Classes="pageMeta"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </components:SplitPaneShell.LeftHeaderContent>
+
+            <components:SplitPaneShell.LeftContent>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8"
+                                Classes="paneStack">
+                        <Border Classes="controlBand">
+                                    <StackPanel Spacing="8">
+                                        <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+                                            <TextBlock Text="Host"
+                                                       Classes="fieldLabel"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBox Grid.Column="1"
+                                                     Margin="6,0,0,0"
+                                                     Width="{DynamicResource UiToolbarControlWidthMedium}"
+                                                     Text="{Binding Host}"/>
+
+                                            <TextBlock Grid.Column="2"
+                                                       Text="Port"
+                                                       Classes="fieldLabel"
+                                                       Margin="6,0,0,0"
+                                                       VerticalAlignment="Center"/>
+                                            <NumericUpDown Grid.Column="3"
+                                                           Margin="6,0,0,0"
+                                                           Width="{DynamicResource UiToolbarControlWidthSmall}"
+                                                           Value="{Binding Port}"
+                                                           Minimum="1"
+                                                           Maximum="65535"/>
+
+                                            <CheckBox Grid.Column="4"
+                                                      Margin="6,0,0,0"
+                                                      Content="LAN"
+                                                      IsChecked="{Binding IsLan}"
+                                                      VerticalAlignment="Center"/>
+                                        </Grid>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="8">
+                                            <Button Content="Start"
+                                                    Command="{Binding StartCommand}"
+                                                    IsEnabled="{Binding !IsRunning}"
+                                                    Classes="primary"/>
+                                            <Button Content="Stop"
+                                                    Command="{Binding StopCommand}"
+                                                    IsEnabled="{Binding IsRunning}"/>
+                                            <Button Content="Check"
+                                                    Command="{Binding CheckCommand}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                        </Border>
+
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                <TextBlock Text="Integrations"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="Manage registered integrations and their RPC capabilities."
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"
+                                           Margin="0,2,0,8"/>
+                                    <ItemsControl ItemsSource="{Binding Integrations}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="0"
+                                                        Classes="subSection">
+                                                    <Grid ColumnDefinitions="*,Auto,Auto"
+                                                          RowDefinitions="Auto,Auto">
+                                                        <CheckBox Content="{Binding Name}"
+                                                                  IsChecked="{Binding IsEnabled}"
+                                                                  FontWeight="SemiBold"/>
+                                                        <Border Grid.Column="1"
+                                                                Classes="inlineBadge"
+                                                                VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Status}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Button Grid.Column="2"
+                                                                Classes="headerAction"
+                                                                Content="⚙"
+                                                                ToolTip.Tip="Integration settings"/>
+
+                                                        <TextBlock Grid.Row="1"
+                                                                   Grid.ColumnSpan="3"
+                                                                   Text="{Binding Description}"
+                                                                   Classes="sectionMeta"
+                                                                   TextWrapping="Wrap"
+                                                                   Margin="0"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </components:SplitPaneShell.LeftContent>
+
+            <components:SplitPaneShell.RightHeaderContent>
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Registered Tools"
+                               Classes="pageTitle"/>
+                    <TextBlock Text="Enable or disable individual RPC tools for agents."
+                               Classes="pageMeta"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </components:SplitPaneShell.RightHeaderContent>
+
+            <components:SplitPaneShell.RightContent>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8"
+                                Classes="paneStack">
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Tools}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="0"
+                                                        Classes="subSection">
+                                                    <Grid ColumnDefinitions="Auto,*">
+                                                        <CheckBox IsChecked="{Binding IsEnabled}"
+                                                                  VerticalAlignment="Top"/>
+                                                        <StackPanel Grid.Column="1"
+                                                                    Spacing="0">
+                                                            <WrapPanel Orientation="Horizontal">
+                                                                <Border Classes="inlineBadge">
+                                                                    <TextBlock Text="{Binding Method}"
+                                                                               FontSize="10"
+                                                                               FontWeight="SemiBold"/>
+                                                                </Border>
+                                                                <TextBlock Text="{Binding Route}"
+                                                                           Classes="sectionTitle"
+                                                                           VerticalAlignment="Center"
+                                                                           Margin="0"/>
+                                                                <Border Classes="inlineField"
+                                                                        Margin="0">
+                                                                    <TextBlock Text="{Binding AuthScope}"
+                                                                               Classes="inlineLabel"/>
+                                                                </Border>
+                                                                <Border Classes="inlineField"
+                                                                        Margin="0">
+                                                                    <TextBlock Text="{Binding UsageCount, StringFormat='{}{0} uses'}"
+                                                                               Classes="inlineLabel"/>
+                                                                </Border>
+                                                            </WrapPanel>
+                                                            <TextBlock Text="{Binding Description}"
+                                                                       Classes="sectionMeta"
+                                                                       TextWrapping="Wrap"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                <TextBlock Text="Logs"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="Recent integration activity."
+                                           Classes="sectionSummary"
+                                           Margin="0,2,0,8"/>
+                                    <ScrollViewer MaxHeight="{DynamicResource UiLogPanelMaxHeight}">
+                                        <ItemsControl ItemsSource="{Binding RecentLogs}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"
+                                                               Classes="monoText"
+                                                               Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </components:SplitPaneShell.RightContent>
+        </components:SplitPaneShell>
+    </Grid>
+</UserControl>

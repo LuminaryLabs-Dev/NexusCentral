@@ -1,0 +1,1 @@
+Build a documentation knowledge-base web app. Use a multi-file Vite React project. Include a sidebar document tree, article viewer, breadcrumbs, search, tags, related articles, dark/light readable styling, and at least 12 local mock articles. The app must work entirely from local data files with no backend. Include empty search state and keyboard-accessible navigation.

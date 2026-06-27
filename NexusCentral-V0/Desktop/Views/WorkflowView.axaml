@@ -1,0 +1,572 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             x:Class="NexusCentral_Avalonia.Views.WorkflowView"
+             x:DataType="vm:WorkflowViewModel">
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0"
+                Background="Transparent"
+                BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="14">
+            <StackPanel Spacing="12">
+                <Grid ColumnDefinitions="2.4*,1.4*">
+                    <ComboBox Grid.Column="0"
+                              ItemsSource="{Binding WorkflowLibrary}"
+                              SelectedItem="{Binding SelectedLibraryWorkflow}"
+                              HorizontalContentAlignment="Stretch">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="vm:WorkflowLibraryItemViewModel">
+                                <StackPanel Margin="0,2">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Id}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBox Grid.Column="1"
+                             Margin="10,0,0,0"
+                             Watermark="Search workflows"
+                             Text="{Binding SearchText}"/>
+                </Grid>
+
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Content="New Workflow" Command="{Binding NewWorkflowCommand}"/>
+                    <Button Content="Duplicate" Command="{Binding DuplicateWorkflowCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Save Workflow" Command="{Binding SaveWorkflowCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Add Input" Command="{Binding AddInputLabelCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Add Agent Step" Command="{Binding AddAgentStepCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Add Tool Step" Command="{Binding AddToolStepCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Validate Workflow" Command="{Binding ValidateWorkflowCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Classes="primary" Content="Run Workflow" Command="{Binding RunWorkflowCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Stop" Command="{Binding StopWorkflowCommand}" IsEnabled="{Binding HasCurrentWorkflow}"/>
+                    <Button Content="Refresh" Command="{Binding RefreshCommand}"/>
+                </StackPanel>
+
+                <Border Background="Transparent"
+                        BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="12">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Bundle Tools"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                        <Grid ColumnDefinitions="*,Auto,Auto">
+                            <TextBox Grid.Column="0"
+                                     Watermark="Bundle id or path"
+                                     Text="{Binding BundleIdText}"/>
+                            <Button Grid.Column="1"
+                                    Margin="8,0,0,0"
+                                    Content="Save Bundle"
+                                    Command="{Binding SaveBundleCommand}"
+                                    IsEnabled="{Binding HasCurrentWorkflow}"/>
+                            <Button Grid.Column="2"
+                                    Margin="8,0,0,0"
+                                    Content="Load Bundle"
+                                    Command="{Binding LoadBundleCommand}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Text="{Binding StatusText}" Foreground="{DynamicResource TokyoACCENTBrush}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding FilterSummaryText}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="300,*">
+            <Border Grid.Column="0"
+                    BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                    BorderThickness="0,0,1,0"
+                    Padding="0,0,14,0">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="WORKFLOW LIBRARY"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Foreground="{DynamicResource TokyoSecondaryBrush}"
+                               Margin="0,0,0,10"/>
+                    <ListBox ItemsSource="{Binding WorkflowLibrary}"
+                             SelectedItem="{Binding SelectedLibraryWorkflow}"
+                             Background="{DynamicResource TokyoInputBrush}"
+                             BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                             BorderThickness="1"
+                             CornerRadius="10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="vm:WorkflowLibraryItemViewModel">
+                                <Border Padding="8" Margin="0,2">
+                                    <StackPanel Spacing="4">
+                                        <Grid ColumnDefinitions="*,Auto">
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                                            <Border Grid.Column="1"
+                                                    Background="{DynamicResource TokyoSurfaceBrush}"
+                                                    BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="999"
+                                                    Padding="7,2">
+                                                <TextBlock Text="{Binding SourceLabel}" FontSize="10"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Text="{Binding Id}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                        <TextBlock Text="{Binding Description}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding StepCount, StringFormat='{}{0} steps'}"
+                                                   FontSize="10"
+                                                   Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="1" Padding="18,0,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ContentControl Content="{Binding CurrentWorkflow}">
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate DataType="vm:WorkflowDocumentViewModel">
+                                <StackPanel Spacing="18">
+                                    <Border Background="Transparent"
+                                            BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Padding="16">
+                                        <StackPanel Spacing="12">
+                                            <Grid ColumnDefinitions="2*,*" RowDefinitions="Auto,Auto,Auto">
+                                                <StackPanel Grid.Row="0" Grid.Column="0" Spacing="8">
+                                                    <TextBlock Text="Workflow Header"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                    <TextBox Watermark="Workflow name" Text="{Binding Name}"/>
+                                                    <TextBox Watermark="Description"
+                                                             Text="{Binding Description}"
+                                                             AcceptsReturn="True"
+                                                             TextWrapping="Wrap"
+                                                             MinHeight="72"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="0" Grid.Column="1" Margin="18,0,0,0" Spacing="8">
+                                                    <TextBlock Text="Status"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                    <TextBlock Text="{Binding RunStatus}" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding ActiveRunId}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding LastError}" Foreground="{DynamicResource TokyoDangerBrush}" TextWrapping="Wrap"/>
+                                                    <Border Background="{DynamicResource TokyoInputBrush}"
+                                                            BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="10"
+                                                            Padding="10"
+                                                            Margin="0,8,0,0">
+                                                        <StackPanel Spacing="4">
+                                                            <TextBlock Text="Validation"
+                                                                       FontSize="11"
+                                                                       FontWeight="Bold"
+                                                                       Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                            <TextBlock Text="{Binding ValidationReadiness, StringFormat='Readiness: {0}'}" FontWeight="SemiBold"/>
+                                                            <TextBlock Text="{Binding ValidationStatus, StringFormat='Status: {0}'}" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                            <TextBlock Text="{Binding LastValidatedAtText, StringFormat='Last Validated: {0}'}" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                            <TextBlock Text="{Binding ValidationSummary}" TextWrapping="Wrap"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0" Spacing="6">
+                                                    <TextBlock Text="Workflow Id"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                    <TextBox Text="{Binding Id}"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,10,0,0" Spacing="6">
+                                                    <TextBlock Text="Working Directory"
+                                                               FontSize="11"
+                                                               FontWeight="SemiBold"
+                                                               Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                    <TextBox Text="{Binding WorkingDirectory}"/>
+                                                    <TextBlock Text="{Binding SourcePath}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Background="Transparent"
+                                            BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Padding="16">
+                                        <StackPanel Spacing="12">
+                                            <TextBlock Text="Global Settings"
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+
+                                            <Grid ColumnDefinitions="Auto,180,Auto,*" RowDefinitions="Auto,Auto,Auto">
+                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Wrapper" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                                <ComboBox Grid.Row="0" Grid.Column="1"
+                                                          ItemsSource="{Binding AvailableWrapperIds}"
+                                                          SelectedItem="{Binding DefaultWrapperId}"/>
+
+                                                <TextBlock Grid.Row="0" Grid.Column="2" Text="Model" VerticalAlignment="Center" Margin="16,0,8,0"/>
+                                                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding DefaultModelId}"/>
+
+                                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Max Tokens" VerticalAlignment="Center" Margin="0,10,8,0"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" Text="{Binding DefaultMaxTokensText}"/>
+
+                                                <TextBlock Grid.Row="1" Grid.Column="2" Text="Timeout (s)" VerticalAlignment="Center" Margin="16,10,8,0"/>
+                                                <TextBox Grid.Row="1" Grid.Column="3" Margin="0,10,0,0" Text="{Binding DefaultTimeoutSecText}"/>
+
+                                                <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                                          Margin="0,12,0,0"
+                                                          Content="Stop On Error"
+                                                          IsChecked="{Binding StopOnError}"/>
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="*,*" Margin="0,4,0,0">
+                                                <StackPanel Grid.Column="0" Spacing="6">
+                                                    <TextBlock Text="Global Flags" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                    <TextBox Text="{Binding GlobalFlags}"
+                                                             AcceptsReturn="True"
+                                                             TextWrapping="Wrap"
+                                                             MinHeight="84"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="6">
+                                                    <TextBlock Text="Environment" FontSize="11" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                    <TextBox Text="{Binding EnvironmentText}"
+                                                             AcceptsReturn="True"
+                                                             TextWrapping="Wrap"
+                                                             MinHeight="84"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Background="Transparent"
+                                            BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Padding="16">
+                                        <StackPanel Spacing="12">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <TextBlock Text="Workflow Inputs"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding Inputs.Count, StringFormat='{}{0} labels'}"
+                                                           Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                            </Grid>
+
+                                            <ItemsControl ItemsSource="{Binding Inputs}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="vm:WorkflowInputLabelViewModel">
+                                                        <Border Background="{DynamicResource TokyoInputBrush}"
+                                                                BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="10"
+                                                                Padding="10"
+                                                                Margin="0,0,0,8">
+                                                            <Grid ColumnDefinitions="1.1*,1.1*,110,Auto,1*,1*,Auto">
+                                                                <TextBox Grid.Column="0" Text="{Binding Key}" Watermark="key"/>
+                                                                <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding Label}" Watermark="label"/>
+                                                                <ComboBox Grid.Column="2"
+                                                                          Margin="8,0,0,0"
+                                                                          ItemsSource="{Binding AvailableKinds}"
+                                                                          SelectedItem="{Binding Kind}"/>
+                                                                <CheckBox Grid.Column="3"
+                                                                          Margin="8,0,0,0"
+                                                                          VerticalAlignment="Center"
+                                                                          Content="Required"
+                                                                          IsChecked="{Binding Required}"/>
+                                                                <TextBox Grid.Column="4" Margin="8,0,0,0" Text="{Binding DefaultValue}" Watermark="default"/>
+                                                                <TextBox Grid.Column="5" Margin="8,0,0,0" Text="{Binding CurrentValue}" Watermark="current"/>
+                                                                <Button Grid.Column="6" Margin="8,0,0,0" Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Background="Transparent"
+                                            BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Padding="16">
+                                        <StackPanel Spacing="12">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <TextBlock Text="Linear Steps"
+                                                           FontSize="12"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                <TextBlock Grid.Column="1"
+                                                           Text="{Binding Steps.Count, StringFormat='{}{0} steps'}"
+                                                           Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                            </Grid>
+
+                                            <ItemsControl ItemsSource="{Binding Steps}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate DataType="vm:WorkflowStepViewModel">
+                                                        <Border Background="{DynamicResource TokyoInputBrush}"
+                                                                BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                                BorderThickness="1"
+                                                                CornerRadius="12"
+                                                                Margin="0,0,0,14">
+                                                            <Expander IsExpanded="{Binding IsExpanded}">
+                                                                <Expander.Header>
+                                                                    <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto,Auto,Auto"
+                                                                          Margin="0"
+                                                                          MinHeight="38">
+                                                                        <StackPanel Grid.Column="0" Spacing="2">
+                                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="15"/>
+                                                                            <TextBlock Text="{Binding Id}" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                        </StackPanel>
+
+                                                                        <Border Grid.Column="1"
+                                                                                Background="{DynamicResource TokyoSurfaceBrush}"
+                                                                                BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                                                BorderThickness="1"
+                                                                                CornerRadius="999"
+                                                                                Padding="8,3"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding TypeLabel}" FontSize="10"/>
+                                                                        </Border>
+
+                                                                        <Border Grid.Column="2"
+                                                                                Background="{DynamicResource TokyoSurfaceBrush}"
+                                                                                BorderBrush="{DynamicResource TokyoSecondaryBrush}"
+                                                                                BorderThickness="1"
+                                                                                CornerRadius="999"
+                                                                                Padding="8,3"
+                                                                                Margin="8,0,0,0"
+                                                                                VerticalAlignment="Center">
+                                                                            <TextBlock Text="{Binding HeaderStatus}" FontSize="10"/>
+                                                                        </Border>
+
+                                                                        <Button Grid.Column="3" Margin="8,0,0,0" Content="Run" Command="{Binding RunStepCommand}"/>
+                                                                        <Button Grid.Column="4" Margin="8,0,0,0" Content="Dup" Command="{Binding DuplicateCommand}"/>
+                                                                        <Button Grid.Column="5" Margin="8,0,0,0" Content="↑" Command="{Binding MoveUpCommand}"/>
+                                                                        <Button Grid.Column="6" Margin="8,0,0,0" Content="↓" Command="{Binding MoveDownCommand}"/>
+                                                                    </Grid>
+                                                                </Expander.Header>
+
+                                                                <StackPanel Spacing="14" Margin="14,10,14,14">
+                                                                    <Grid ColumnDefinitions="1.3*,130,130,140,Auto" RowDefinitions="Auto,Auto">
+                                                                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Name}" Watermark="Step name"/>
+                                                                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,0"
+                                                                                  ItemsSource="{Binding AvailableStepTypes}"
+                                                                                  SelectedItem="{Binding Type}"/>
+                                                                        <CheckBox Grid.Row="0" Grid.Column="2" Margin="8,0,0,0"
+                                                                                  VerticalAlignment="Center"
+                                                                                  Content="Enabled"
+                                                                                  IsChecked="{Binding Enabled}"/>
+                                                                        <CheckBox Grid.Row="0" Grid.Column="3" Margin="8,0,0,0"
+                                                                                  VerticalAlignment="Center"
+                                                                                  Content="Continue On Error"
+                                                                                  IsChecked="{Binding ContinueOnError}"/>
+                                                                        <Button Grid.Row="0" Grid.Column="4" Margin="8,0,0,0"
+                                                                                Content="Remove"
+                                                                                Command="{Binding RemoveCommand}"/>
+
+                                                                        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                                                                                 Margin="0,10,0,0"
+                                                                                 Text="{Binding WorkingDirectoryOverride}"
+                                                                                 Watermark="Working directory override"/>
+                                                                    </Grid>
+
+                                                                    <StackPanel Spacing="8">
+                                                                        <Grid ColumnDefinitions="*,Auto">
+                                                                            <TextBlock Text="Input Bindings" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                            <Button Grid.Column="1" Content="Add Binding" Command="{Binding AddInputBindingCommand}"/>
+                                                                        </Grid>
+                                                                        <ItemsControl ItemsSource="{Binding InputBindings}">
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate DataType="vm:WorkflowBindingViewModel">
+                                                                                    <Grid ColumnDefinitions="1.1*,120,1.1*,1.2*,Auto" Margin="0,0,0,6">
+                                                                                        <TextBox Grid.Column="0" Text="{Binding Target}" Watermark="target"/>
+                                                                                        <ComboBox Grid.Column="1" Margin="8,0,0,0"
+                                                                                                  ItemsSource="{Binding AvailableSourceTypes}"
+                                                                                                  SelectedItem="{Binding SourceType}"/>
+                                                                                        <TextBox Grid.Column="2" Margin="8,0,0,0" Text="{Binding SourceKey}" Watermark="label/source key"/>
+                                                                                        <TextBox Grid.Column="3" Margin="8,0,0,0" Text="{Binding LiteralValue}" Watermark="literal template"/>
+                                                                                        <Button Grid.Column="4" Margin="8,0,0,0" Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                                                    </Grid>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+                                                                    </StackPanel>
+
+                                                                    <StackPanel Spacing="8">
+                                                                        <Grid ColumnDefinitions="*,Auto">
+                                                                            <TextBlock Text="Output Bindings" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                            <Button Grid.Column="1" Content="Add Output" Command="{Binding AddOutputBindingCommand}"/>
+                                                                        </Grid>
+                                                                        <TextBlock Text="{Binding OutputBindingHelpText}"
+                                                                                   FontSize="11"
+                                                                                   Foreground="{DynamicResource TokyoFGDimBrush}"
+                                                                                   TextWrapping="Wrap"/>
+                                                                        <ItemsControl ItemsSource="{Binding OutputBindings}">
+                                                                            <ItemsControl.ItemTemplate>
+                                                                                <DataTemplate DataType="vm:WorkflowOutputBindingViewModel">
+                                                                                    <Grid ColumnDefinitions="1.2*,1.2*,Auto" Margin="0,0,0,6">
+                                                                                        <TextBox Grid.Column="0" Text="{Binding Source}" Watermark="source (final_text, primary_text, text_output_0, data, $.x)"/>
+                                                                                        <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding TargetLabel}" Watermark="target label"/>
+                                                                                        <Button Grid.Column="2" Margin="8,0,0,0" Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                                                    </Grid>
+                                                                                </DataTemplate>
+                                                                            </ItemsControl.ItemTemplate>
+                                                                        </ItemsControl>
+                                                                    </StackPanel>
+
+                                                                    <StackPanel Spacing="10" IsVisible="{Binding IsAgentStep}">
+                                                                        <TextBlock Text="Agent Step" FontWeight="SemiBold" Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                                        <Grid ColumnDefinitions="1.1*,Auto,1.1*,1.1*" RowDefinitions="Auto,Auto,Auto">
+                                                                            <ComboBox Grid.Row="0" Grid.Column="0"
+                                                                                      ItemsSource="{Binding AvailableTemplateIds}"
+                                                                                      SelectedItem="{Binding SelectedPresetTemplateId}"/>
+                                                                            <Button Grid.Row="0" Grid.Column="1" Margin="8,0,0,0" Content="Apply Preset" Command="{Binding ApplyPresetCommand}"/>
+                                                                            <ComboBox Grid.Row="0" Grid.Column="2" Margin="8,0,0,0"
+                                                                                      ItemsSource="{Binding AvailableWrapperIds}"
+                                                                                      SelectedItem="{Binding WrapperIdOverride}"/>
+                                                                            <TextBox Grid.Row="0" Grid.Column="3" Margin="8,0,0,0" Text="{Binding ModelIdOverride}" Watermark="model override"/>
+
+                                                                            <TextBox Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" Text="{Binding TemplateId}" Watermark="template id"/>
+                                                                            <TextBox Grid.Row="1" Grid.Column="1" Margin="8,10,0,0" Text="{Binding MaxTokensOverrideText}" Watermark="max tokens"/>
+                                                                            <TextBox Grid.Row="1" Grid.Column="2" Margin="8,10,0,0" Text="{Binding TimeoutSecOverrideText}" Watermark="timeout sec"/>
+                                                                            <CheckBox Grid.Row="1" Grid.Column="3" Margin="8,10,0,0"
+                                                                                      VerticalAlignment="Center"
+                                                                                      Content="Append Previous Output"
+                                                                                      IsChecked="{Binding AppendPreviousStepOutput}"/>
+
+                                                                            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4"
+                                                                                     Margin="0,10,0,0"
+                                                                                     Text="{Binding ArtifactInputsText}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="56"
+                                                                                     Watermark="Artifact inputs, one path/template per line"/>
+                                                                        </Grid>
+
+                                                                        <StackPanel Spacing="8">
+                                                                            <Grid ColumnDefinitions="*,Auto">
+                                                                                <TextBlock Text="Structured Flags" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                                <Button Grid.Column="1" Content="Add Flag" Command="{Binding AddFlagCommand}"/>
+                                                                            </Grid>
+                                                                            <ItemsControl ItemsSource="{Binding Flags}">
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate DataType="vm:WorkflowFlagViewModel">
+                                                                                        <Grid ColumnDefinitions="140,1.2*,1.2*,Auto" Margin="0,0,0,6">
+                                                                                            <TextBox Grid.Column="0" Text="{Binding Type}" Watermark="type"/>
+                                                                                            <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding Name}" Watermark="name"/>
+                                                                                            <TextBox Grid.Column="2" Margin="8,0,0,0" Text="{Binding Value}" Watermark="value"/>
+                                                                                            <Button Grid.Column="3" Margin="8,0,0,0" Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                                                        </Grid>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </StackPanel>
+
+                                                                        <TextBox Text="{Binding RawFlags}"
+                                                                                 AcceptsReturn="True"
+                                                                                 TextWrapping="Wrap"
+                                                                                 MinHeight="60"
+                                                                                 Watermark="Raw CLI flags passed through to the wrapper"/>
+
+                                                                        <TextBox Text="{Binding PromptTemplate}"
+                                                                                 AcceptsReturn="True"
+                                                                                 TextWrapping="Wrap"
+                                                                                 MinHeight="140"
+                                                                                 Watermark="Prompt template. Use {{label_key}} for workflow labels."/>
+                                                                    </StackPanel>
+
+                                                                    <StackPanel Spacing="10" IsVisible="{Binding IsToolStep}">
+                                                                        <TextBlock Text="Tool Call Step" FontWeight="SemiBold" Foreground="{DynamicResource TokyoSecondaryBrush}"/>
+                                                                        <Grid ColumnDefinitions="1.1*,1.1*" RowDefinitions="Auto,Auto">
+                                                                            <ComboBox Grid.Row="0" Grid.Column="0"
+                                                                                      ItemsSource="{Binding AvailableIntegrationIds}"
+                                                                                      SelectedItem="{Binding IntegrationId}"/>
+                                                                            <ComboBox Grid.Row="0" Grid.Column="1"
+                                                                                      Margin="8,0,0,0"
+                                                                                      ItemsSource="{Binding AvailableToolNames}"
+                                                                                      SelectedItem="{Binding ToolName}"/>
+
+                                                                            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                                                     Margin="0,10,0,0"
+                                                                                     Text="{Binding ResponseText}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="72"
+                                                                                     Watermark="Resolved tool response preview"/>
+                                                                        </Grid>
+
+                                                                        <StackPanel Spacing="8">
+                                                                            <Grid ColumnDefinitions="*,Auto">
+                                                                                <TextBlock Text="Tool Arguments" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                                <Button Grid.Column="1" Content="Add Argument" Command="{Binding AddArgumentCommand}"/>
+                                                                            </Grid>
+                                                                            <ItemsControl ItemsSource="{Binding Arguments}">
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate DataType="vm:WorkflowArgumentViewModel">
+                                                                                        <Grid ColumnDefinitions="1.1*,1.6*,Auto" Margin="0,0,0,6">
+                                                                                            <TextBox Grid.Column="0" Text="{Binding Key}" Watermark="argument key"/>
+                                                                                            <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding Value}" Watermark="literal or {{label}} template"/>
+                                                                                            <Button Grid.Column="2" Margin="8,0,0,0" Content="Remove" Command="{Binding RemoveCommand}"/>
+                                                                                        </Grid>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </StackPanel>
+                                                                    </StackPanel>
+
+                                                                    <Grid ColumnDefinitions="*,*" Margin="0,4,0,0">
+                                                                        <StackPanel Grid.Column="0" Spacing="6">
+                                                                            <TextBlock Text="Final / Response Output" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                            <TextBox Text="{Binding FinalText}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="86"/>
+                                                                            <TextBox Text="{Binding ArtifactOutputText}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="56"
+                                                                                     Watermark="Artifact outputs"/>
+                                                                        </StackPanel>
+
+                                                                        <StackPanel Grid.Column="1" Margin="16,0,0,0" Spacing="6">
+                                                                            <TextBlock Text="Logs / Errors" FontWeight="SemiBold" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                                                                            <TextBox Text="{Binding LogsText}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="120"/>
+                                                                            <TextBox Text="{Binding Error}"
+                                                                                     AcceptsReturn="True"
+                                                                                     TextWrapping="Wrap"
+                                                                                     MinHeight="50"
+                                                                                     Watermark="Error text"/>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                </StackPanel>
+                                                            </Expander>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </ContentControl>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

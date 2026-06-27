@@ -1,0 +1,45 @@
+id: runtime_status_summary
+name: Runtime Status Summary
+description: Query runtime status and then draft a short summary with NexusGLMHarness.
+working_directory: .
+global_settings:
+  default_wrapper_id: nexusglmharness
+  default_model_id: ""
+  default_max_tokens: 1200
+  default_timeout_sec: 240
+  global_flags: ""
+  environment: ""
+  stop_on_error: true
+inputs:
+  - key: goal
+    label: Goal
+    kind: text
+    required: false
+    default_value: Summarize the current NexusCentral runtime state.
+steps:
+  - id: read_status
+    name: Read Runtime Status
+    type: tool_call
+    enabled: true
+    integration_id: nexuscentral
+    tool_name: status
+    output_bindings:
+      - source: data.status_text
+        target_label: runtime_status_text
+      - source: data.summary_text
+        target_label: runtime_summary
+  - id: draft_summary
+    name: Draft Summary
+    type: agent
+    enabled: true
+    wrapper_id_override: nexusglmharness
+    prompt_template: |
+      Goal: {{goal}}
+
+      Runtime status: {{runtime_status_text}}
+      Runtime summary: {{runtime_summary}}
+
+      Write a concise operational summary for the current workspace.
+    output_bindings:
+      - source: final_text
+        target_label: draft_summary.final_text

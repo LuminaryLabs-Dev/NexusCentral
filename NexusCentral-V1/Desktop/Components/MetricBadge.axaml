@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NexusCentral.V3.Desktop.Components.MetricBadge"
+             x:Name="Root">
+  <Border Classes="metricBadge"
+          Background="{Binding BackgroundBrush, ElementName=Root}">
+    <StackPanel Orientation="Horizontal"
+                Spacing="6">
+      <TextBlock Text="{Binding Label, ElementName=Root}"
+                 Classes="metricLabel"
+                 VerticalAlignment="Center" />
+      <TextBlock Text="{Binding Value, ElementName=Root}"
+                 Classes="metricValue"
+                 VerticalAlignment="Center" />
+    </StackPanel>
+  </Border>
+</UserControl>

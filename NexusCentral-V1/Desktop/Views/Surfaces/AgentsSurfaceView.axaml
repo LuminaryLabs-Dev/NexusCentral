@@ -1,0 +1,151 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             xmlns:components="using:NexusCentral.V3.Desktop.Components"
+             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.AgentsSurfaceView"
+             x:DataType="vm:NavigationItemViewModel">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Border Grid.Row="0"
+            Classes="flatToolbar">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="8"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center">
+        <components:MetricBadge Label="Policy"
+                                Value="{Binding StatusLabel}"
+                                AccentBrush="{DynamicResource StatusOfflineBrush}"
+                                BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
+        <Button Classes="primary"
+                IsEnabled="False"
+                Content="{Binding PrimaryActionLabel}" />
+        <Button Classes="secondary"
+                IsEnabled="False"
+                Content="{Binding SecondaryActionLabel}" />
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="1"
+          ColumnDefinitions="300,*">
+      <Border Classes="flatLane">
+        <Grid RowDefinitions="Auto,*">
+          <TextBlock Text="Harnesses / wrappers"
+                     Classes="sectionTitle" />
+          <StackPanel Grid.Row="1"
+                      Margin="0,8,0,0"
+                      Spacing="0">
+            <Border Classes="flatListRow selected">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Default assistant harness"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Normalized manifest placeholder"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <TextBlock Text="Code harness placeholder"
+                         Classes="sectionMeta" />
+            </Border>
+            <Border Classes="flatListRow">
+              <TextBlock Text="Research harness placeholder"
+                         Classes="sectionMeta" />
+            </Border>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1"
+              Classes="flatMainLane">
+        <Grid RowDefinitions="Auto,*"
+              RowSpacing="10">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Selected harness details"
+                         Classes="sectionTitle" />
+              <TextBlock Text="{Binding CapabilitySummary}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <components:MetricBadge Grid.Column="1"
+                                    Label="Tools"
+                                    Value="{Binding ToolSurfaceSummaryText}"
+                                    AccentBrush="{DynamicResource StatusActiveBrush}"
+                                    BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+          </Grid>
+
+          <Grid Grid.Row="1"
+                ColumnDefinitions="*,320"
+                ColumnSpacing="10">
+            <Border Classes="flatBlock">
+              <StackPanel Spacing="6">
+                <TextBlock Text="Manifest and compatibility"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Wrapper defaults, template compatibility, recent runs, and validation output stay in this Agents-owned workspace."
+                           Classes="sectionMeta"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Classes="flatLane right">
+              <Grid RowDefinitions="Auto,*">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="Tool surface"
+                             Classes="sectionTitle" />
+                  <TextBlock Text="Allowed contracts only; execution is not implemented in this pass."
+                             Classes="sectionMeta"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1"
+                              Margin="0,8,0,0"
+                              VerticalScrollBarVisibility="Auto">
+                  <ItemsControl ItemsSource="{Binding Tools}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate DataType="vm:ToolSurfaceItemViewModel">
+                        <Border Classes="flatListRow">
+                          <Grid RowDefinitions="Auto,Auto"
+                                RowSpacing="4">
+                            <Grid ColumnDefinitions="*,Auto"
+                                  ColumnSpacing="8">
+                              <TextBlock Text="{Binding Name}"
+                                         Classes="sectionTitle" />
+                              <TextBlock Grid.Column="1"
+                                         Text="{Binding Status}"
+                                         Classes="caption" />
+                            </Grid>
+                            <Grid Grid.Row="1"
+                                  ColumnDefinitions="*,Auto"
+                                  ColumnSpacing="8">
+                              <StackPanel Spacing="1">
+                                <TextBlock Text="{Binding Route}"
+                                           Classes="monoText"
+                                           Foreground="{DynamicResource TextMutedBrush}" />
+                                <TextBlock Text="{Binding Scope}"
+                                           Classes="caption" />
+                              </StackPanel>
+                              <TextBlock Grid.Column="1"
+                                         Text="{Binding Safety}"
+                                         Classes="caption"
+                                         VerticalAlignment="Center" />
+                            </Grid>
+                          </Grid>
+                        </Border>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+              </Grid>
+            </Border>
+          </Grid>
+
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="2"
+            Classes="flatStatusStrip">
+      <TextBlock Text="Tool policy placeholder: permissions, auth references, and approval requirements will stay inside Agents or Settings."
+                 Classes="sectionMeta" />
+    </Border>
+  </Grid>
+</UserControl>

@@ -1,0 +1,554 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.ModelsView"
+             x:DataType="vm:ModelsViewModel">
+    <UserControl.Styles>
+        <Style Selector="ListBox.catalogList">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBox.catalogList > ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Border.catalogRow">
+            <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Margin" Value="4,3"/>
+        </Style>
+
+        <Style Selector="ListBox.catalogList > ListBoxItem:pointerover Border.catalogRow">
+            <Setter Property="Background" Value="{DynamicResource UiCardGradientBrush}"/>
+        </Style>
+
+        <Style Selector="ListBox.catalogList > ListBoxItem:selected Border.catalogRow">
+            <Setter Property="Background" Value="{DynamicResource UiCardSelectedGradientBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+    <components:SplitPaneShell LayoutKey="models"
+                               SplitterWidth="8"
+                               SurfaceMode="PerPane">
+        <components:SplitPaneShell.LeftHeaderContent>
+            <StackPanel Spacing="6">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Catalog" Classes="pageTitle"/>
+                        <TextBlock Text="{Binding CatalogStatusText}"
+                                   Classes="pageMeta"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Content="+"
+                            Classes="headerAction"
+                            ToolTip.Tip="Add model"
+                            Command="{Binding ToggleCatalogIntakeCommand}"/>
+                </Grid>
+
+                <ProgressBar IsVisible="{Binding IsDownloading}"
+                             Value="{Binding DownloadProgress}"
+                             Height="4"/>
+                <TextBlock Text="{Binding DownloadStatusText}"
+                           Classes="sectionMeta"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </components:SplitPaneShell.LeftHeaderContent>
+
+        <components:SplitPaneShell.LeftContent>
+            <Grid RowDefinitions="Auto,*">
+                <Border Grid.Row="0"
+                        Classes="controlBand"
+                        IsVisible="{Binding IsCatalogIntakeOpen}">
+                    <StackPanel Spacing="10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Add Model" Classes="sectionTitle"/>
+                            <Button Grid.Column="1"
+                                    Content="✕"
+                                    Classes="headerAction"
+                                    ToolTip.Tip="Close add model"
+                                    Command="{Binding CloseCatalogIntakeCommand}"/>
+                        </Grid>
+
+                        <Border BorderBrush="{DynamicResource TokyoDividerBrush}"
+                                BorderThickness="0,0,0,1"
+                                Padding="0,0,0,10">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Download Source" Classes="fieldLabel"/>
+
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Repo" Classes="sectionMeta"/>
+                                    <TextBox Text="{Binding RepoText}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Revision" Classes="sectionMeta"/>
+                                    <TextBox Text="{Binding RevisionText}"/>
+                                </StackPanel>
+
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="File" Classes="sectionMeta"/>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBox Text="{Binding FilenameText}"/>
+                                        <Button Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Content="Download"
+                                                Classes="primary compactAction"
+                                                Command="{Binding DownloadModelCommand}"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Save To" Classes="sectionMeta"/>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBox Text="{Binding SaveToPath}"/>
+                                        <Button Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Content="…"
+                                                Classes="iconSecondary"
+                                                ToolTip.Tip="Browse save location"
+                                                Command="{Binding BrowseSaveToCommand}"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="Import Local File" Classes="fieldLabel"/>
+
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Path" Classes="sectionMeta"/>
+                                <Grid ColumnDefinitions="*,Auto,Auto">
+                                    <TextBox Text="{Binding ImportPath}"
+                                             Watermark="/absolute/path/to/model.gguf"/>
+                                    <Button Grid.Column="1"
+                                            Margin="8,0,0,0"
+                                            Content="…"
+                                            Classes="iconSecondary"
+                                            ToolTip.Tip="Browse import path"
+                                            Command="{Binding BrowseImportPathCommand}"/>
+                                    <Button Grid.Column="2"
+                                            Margin="8,0,0,0"
+                                            Content="Import"
+                                            Classes="primary compactAction"
+                                            Command="{Binding ImportLocalModelCommand}"/>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <ListBox Grid.Row="1"
+                         Classes="catalogList"
+                         ItemsSource="{Binding DownloadedModels}"
+                         SelectedItem="{Binding SelectedCatalogModel, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                            <DataTemplate DataType="vm:ModelItemViewModel">
+                                <Border Classes="catalogRow">
+                                    <StackPanel Spacing="0">
+                                        <Border Padding="{DynamicResource UiSectionBodySubtlePadding}">
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               Classes="sectionTitle"
+                                                               TextWrapping="Wrap"/>
+                                                    <WrapPanel Orientation="Horizontal"
+                                                               ItemHeight="24">
+                                                        <Border Classes="inlineBadge">
+                                                            <TextBlock Text="{Binding Size}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Border Classes="inlineBadge">
+                                                            <TextBlock Text="{Binding StateBadgeText}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Border Classes="inlineBadge">
+                                                            <TextBlock Text="{Binding AdmissionBadgeText}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Border Classes="inlineBadge">
+                                                            <TextBlock Text="{Binding BackendBadgeText}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Border Classes="inlineBadge"
+                                                                IsVisible="{Binding HasHealthStatus}">
+                                                            <TextBlock Text="{Binding HealthBadgeText}"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                        <Border Classes="inlineBadge"
+                                                                IsVisible="{Binding IsPinned}">
+                                                            <TextBlock Text="Pinned"
+                                                                       FontSize="10"
+                                                                       FontWeight="SemiBold"/>
+                                                        </Border>
+                                                    </WrapPanel>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1"
+                                                            Classes="headerActions"
+                                                            VerticalAlignment="Top">
+                                                    <Button Content="{Binding PrimaryActionGlyph}"
+                                                            Classes="headerAction"
+                                                            Command="{Binding $parent[UserControl].((vm:ModelsViewModel)DataContext).ActivateCatalogModelCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            IsEnabled="{Binding IsRunnable}"
+                                                            ToolTip.Tip="{Binding PrimaryActionToolTip}"/>
+                                                    <Button Content="↓"
+                                                            Classes="headerAction"
+                                                            Command="{Binding $parent[UserControl].((vm:ModelsViewModel)DataContext).PreloadCatalogModelCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            IsEnabled="{Binding IsRunnable}"
+                                                            ToolTip.Tip="{Binding PreloadToolTip}"/>
+                                                    <Button Content="{Binding ExpandGlyph}"
+                                                            Classes="headerAction"
+                                                            Command="{Binding ToggleExpandedCommand}"
+                                                            ToolTip.Tip="{Binding ExpandToolTip}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+
+                                        <Border Classes="sectionBody subtle"
+                                                IsVisible="{Binding IsExpanded}">
+                                            <StackPanel Spacing="8">
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Backend" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding Backend}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Compatibility" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding CompatibilityText}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Memory Policy" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding MemoryPolicyText}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Assigned Routes" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding RoutesText}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Health" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding HealthDetailText}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Path" Classes="fieldLabel"/>
+                                                    <TextBlock Text="{Binding Path}"
+                                                               Classes="sectionMeta"
+                                                               TextWrapping="Wrap"
+                                                               ToolTip.Tip="{Binding Path}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </components:SplitPaneShell.LeftContent>
+
+        <components:SplitPaneShell.RightHeaderContent>
+            <StackPanel Spacing="4">
+                <TextBlock Text="Loaded" Classes="pageTitle"/>
+                <TextBlock Text="{Binding InstanceSettingsStatusText}"
+                           Classes="pageMeta"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </components:SplitPaneShell.RightHeaderContent>
+
+        <components:SplitPaneShell.RightContent>
+                <ScrollViewer Grid.Row="0"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Spacing="0">
+                        <TextBlock Margin="{DynamicResource UiSectionBodySubtlePadding}"
+                                   Text="No loaded instances."
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap"
+                                   IsVisible="{Binding NoLoadedInstances}"/>
+
+                        <ItemsControl ItemsSource="{Binding LoadedInstances}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:LoadedInstanceCardViewModel">
+                                    <Border Background="{DynamicResource UiCardGradientBrush}"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="0"
+                                            CornerRadius="8"
+                                            Margin="8,4">
+                                        <StackPanel Spacing="0">
+                                            <Border Padding="{DynamicResource UiSectionBodySubtlePadding}">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <StackPanel Spacing="4">
+                                                        <TextBlock Text="{Binding HeaderTitle}"
+                                                                   Classes="sectionTitle"
+                                                                   TextWrapping="Wrap"/>
+                                                        <WrapPanel Orientation="Horizontal"
+                                                                   ItemHeight="24">
+                                                            <Border Classes="inlineBadge">
+                                                                <TextBlock Text="{Binding ActivityBadgeText}"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <Border Classes="inlineBadge">
+                                                                <TextBlock Text="{Binding SelectedMode}"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <Border Classes="inlineBadge"
+                                                                    IsVisible="{Binding HasHealthStatus}">
+                                                                <TextBlock Text="{Binding HealthStatus}"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <Border Classes="inlineBadge"
+                                                                    IsVisible="{Binding HasPendingSettings}">
+                                                                <TextBlock Text="Pending"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"/>
+                                                            </Border>
+                                                        </WrapPanel>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Column="1"
+                                                                Classes="headerActions"
+                                                                VerticalAlignment="Top">
+                                                        <Button Content="{Binding PrimaryActionGlyph}"
+                                                                Classes="headerAction"
+                                                                Command="{Binding ToggleActiveCommand}"
+                                                                ToolTip.Tip="{Binding PrimaryActionToolTip}"/>
+                                                        <Button Content="{Binding PinGlyph}"
+                                                                Classes="headerAction"
+                                                                Command="{Binding TogglePinCommand}"
+                                                                ToolTip.Tip="{Binding PinToolTip}"/>
+                                                        <Button Content="⟳"
+                                                                Classes="headerAction"
+                                                                Command="{Binding ReloadCommand}"
+                                                                ToolTip.Tip="Reload instance"/>
+                                                        <Button Content="✕"
+                                                                Classes="headerAction"
+                                                                Command="{Binding DeleteCommand}"
+                                                                ToolTip.Tip="Delete instance"/>
+                                                        <Button Content="{Binding ExpandGlyph}"
+                                                                Classes="headerAction"
+                                                                Command="{Binding ToggleExpandedCommand}"
+                                                                ToolTip.Tip="{Binding ExpandToolTip}"/>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Classes="sectionBody subtle"
+                                                    IsVisible="{Binding IsExpanded}">
+                                                <StackPanel Spacing="10">
+                                                    <StackPanel Spacing="6">
+                                                        <TextBlock Text="Facts" Classes="fieldLabel"/>
+
+                                                        <WrapPanel Orientation="Horizontal"
+                                                                   ItemHeight="44">
+                                                            <Border Classes="inlineField">
+                                                                <StackPanel Spacing="2">
+                                                                    <TextBlock Text="Runtime"
+                                                                               Classes="inlineLabel"/>
+                                                                    <TextBlock Text="{Binding RuntimeDisplayText}"
+                                                                               Classes="sectionMeta"
+                                                                               TextWrapping="Wrap"/>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                            <Border Classes="inlineField"
+                                                                    Margin="8,0,0,0">
+                                                                <StackPanel Spacing="2">
+                                                                    <TextBlock Text="Capabilities"
+                                                                               Classes="inlineLabel"/>
+                                                                    <TextBlock Text="{Binding CapabilitiesDisplayText}"
+                                                                               Classes="sectionMeta"
+                                                                               TextWrapping="Wrap"/>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                            <Border Classes="inlineField"
+                                                                    Margin="8,0,0,0">
+                                                                <StackPanel Spacing="2">
+                                                                    <TextBlock Text="Health"
+                                                                               Classes="inlineLabel"/>
+                                                                    <TextBlock Text="{Binding HealthDisplayText}"
+                                                                               Classes="sectionMeta"
+                                                                               TextWrapping="Wrap"/>
+                                                                </StackPanel>
+                                                            </Border>
+
+                                                            <Border Classes="inlineField"
+                                                                    Margin="8,0,0,0">
+                                                                <StackPanel Spacing="2">
+                                                                    <TextBlock Text="Memory"
+                                                                               Classes="inlineLabel"/>
+                                                                    <TextBlock Text="{Binding MemoryMetricText}"
+                                                                               Classes="sectionMeta"
+                                                                               TextWrapping="Wrap"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </WrapPanel>
+
+                                                        <StackPanel Spacing="4">
+                                                            <Grid ColumnDefinitions="*,Auto">
+                                                                <TextBlock Text="Memory Allocation"
+                                                                           Classes="sectionMeta"/>
+                                                                <TextBlock Grid.Column="1"
+                                                                           Text="{Binding MemoryUsagePercent}"
+                                                                           Classes="sectionStatus"/>
+                                                            </Grid>
+                                                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                                                  VerticalAlignment="Center">
+                                                                <TextBlock Grid.Column="0"
+                                                                           Text="{Binding MemoryUsedText}"
+                                                                           Classes="inlineLabel"
+                                                                           VerticalAlignment="Center"/>
+                                                                <ProgressBar Grid.Column="1"
+                                                                             Minimum="0"
+                                                                             Maximum="{Binding MemoryReservedMb}"
+                                                                             Value="{Binding MemoryActualMb}"
+                                                                             Height="8"
+                                                                             Margin="8,0"
+                                                                             VerticalAlignment="Center"/>
+                                                                <TextBlock Grid.Column="2"
+                                                                           Text="{Binding MemoryAllocatedText}"
+                                                                           Classes="inlineLabel"
+                                                                           VerticalAlignment="Center"/>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                    </StackPanel>
+
+                                                    <Border BorderBrush="{DynamicResource TokyoDividerBrush}"
+                                                            BorderThickness="0,1,0,0"
+                                                            Padding="0,10,0,0">
+                                                        <StackPanel Spacing="6">
+                                                            <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto"
+                                                                  VerticalAlignment="Center">
+                                                                <TextBlock Text="Settings"
+                                                                           Classes="fieldLabel"
+                                                                           VerticalAlignment="Center"/>
+                                                                <Button Grid.Column="1"
+                                                                        Margin="8,0,0,0"
+                                                                        Content="↺"
+                                                                        Classes="headerAction"
+                                                                        Command="{Binding ResetSettingsCommand}"
+                                                                        IsEnabled="{Binding HasPendingSettings}"
+                                                                        ToolTip.Tip="Reset local changes"/>
+                                                                <Button Grid.Column="2"
+                                                                        Margin="8,0,0,0"
+                                                                        Content="✓"
+                                                                        Classes="headerAction"
+                                                                        Command="{Binding SaveSettingsCommand}"
+                                                                        IsEnabled="{Binding HasPendingSettings}"
+                                                                        ToolTip.Tip="Apply local changes"/>
+                                                                <TextBlock Grid.Column="3"
+                                                                           Margin="12,0,0,0"
+                                                                           Text="Mode"
+                                                                           Classes="sectionMeta"
+                                                                           VerticalAlignment="Center"/>
+                                                                <ComboBox Grid.Column="4"
+                                                                          Margin="8,0,0,0"
+                                                                          Width="132"
+                                                                          MinHeight="36"
+                                                                          VerticalAlignment="Center"
+                                                                          ItemsSource="{Binding AvailableModes}"
+                                                                          SelectedItem="{Binding SelectedMode}"/>
+                                                                <TextBlock Grid.Column="5"
+                                                                           Margin="12,0,0,0"
+                                                                           Text="Memory Capacity"
+                                                                           Classes="sectionMeta"
+                                                                           VerticalAlignment="Center"/>
+                                                                <Grid Grid.Column="6"
+                                                                      Margin="12,0,0,0"
+                                                                      VerticalAlignment="Center">
+                                                                    <Slider Minimum="50"
+                                                                            Maximum="2048"
+                                                                            MinWidth="240"
+                                                                            TickFrequency="50"
+                                                                            IsSnapToTickEnabled="True"
+                                                                            Value="{Binding PendingMemoryReservedMb}"
+                                                                            VerticalAlignment="Center"
+                                                                            PointerReleased="OnInstanceMemorySliderPointerReleased"
+                                                                            KeyUp="OnInstanceMemorySliderKeyUp"/>
+                                                                </Grid>
+                                                                <Border Grid.Column="7"
+                                                                        Margin="8,0"
+                                                                        Classes="inlineBadge"
+                                                                        MinWidth="44"
+                                                                        VerticalAlignment="Center">
+                                                                    <TextBlock Text="{Binding PendingMemoryReservedMb}"
+                                                                               FontSize="10"
+                                                                               FontWeight="SemiBold"
+                                                                               HorizontalAlignment="Center"/>
+                                                                </Border>
+                                                            </Grid>
+
+                                                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                                                  VerticalAlignment="Center">
+                                                                <TextBlock Text="Console"
+                                                                           Classes="fieldLabel"
+                                                                           VerticalAlignment="Center"/>
+                                                                <TextBlock Grid.Column="1"
+                                                                           Text="Expanded output and verification details."
+                                                                           Classes="sectionMeta"
+                                                                           VerticalAlignment="Center"/>
+                                                                <Button Grid.Column="2"
+                                                                        Content="{Binding ConsoleExpandGlyph}"
+                                                                        Classes="headerAction"
+                                                                        Command="{Binding ToggleConsoleExpandedCommand}"
+                                                                        ToolTip.Tip="{Binding ConsoleToggleToolTip}"/>
+                                                            </Grid>
+
+                                                            <Border Classes="inlineSection"
+                                                                    Background="Black"
+                                                                    IsVisible="{Binding IsConsoleExpanded}">
+                                                                <ScrollViewer Height="96"
+                                                                              VerticalScrollBarVisibility="Auto"
+                                                                              HorizontalScrollBarVisibility="Disabled">
+                                                                    <TextBlock Text="{Binding ConsoleText}"
+                                                                               Classes="monoText"
+                                                                               Foreground="White"
+                                                                               TextWrapping="Wrap"/>
+                                                                </ScrollViewer>
+                                                            </Border>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+        </components:SplitPaneShell.RightContent>
+    </components:SplitPaneShell>
+</UserControl>

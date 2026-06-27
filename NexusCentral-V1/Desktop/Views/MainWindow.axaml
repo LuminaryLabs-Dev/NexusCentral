@@ -1,0 +1,145 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+        xmlns:components="using:NexusCentral.V3.Desktop.Components"
+        xmlns:backgrounds="using:NexusCentral.V3.Desktop.Backgrounds"
+        x:Class="NexusCentral.V3.Desktop.Views.MainWindow"
+        x:DataType="vm:MainShellViewModel"
+        Title="NexusCentral V3"
+        Width="1280"
+        Height="820"
+        MinWidth="1024"
+        MinHeight="680"
+        WindowStartupLocation="CenterScreen">
+  <Grid x:Name="ShellRoot"
+        RowDefinitions="42,*,168,32"
+        ColumnDefinitions="*,334"
+        Classes="shellRoot"
+        PointerMoved="ShellRootPointerMoved"
+        PointerExited="ShellRootPointerExited">
+    <backgrounds:MosaicShaderBackground x:Name="ShellBackground"
+                                         Grid.RowSpan="4"
+                                         IsHitTestVisible="False" />
+
+    <Border Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Classes="finalTopBar">
+      <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+            ColumnSpacing="14">
+        <TextBlock Text="Menu"
+                   Classes="topMeta"
+                   VerticalAlignment="Center" />
+        <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="10"
+                    VerticalAlignment="Center">
+          <TextBlock Text="NexusCentral V3"
+                     Classes="appTitle" />
+          <TextBlock Text="|"
+                     Classes="topDivider" />
+          <TextBlock Text="Modular control plane"
+                     Classes="appSubtitle" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="3"
+                    Orientation="Horizontal"
+                    Spacing="18"
+                    VerticalAlignment="Center">
+          <TextBlock Text="{Binding AppStatusText, StringFormat='Online: {0}'}"
+                     Classes="topStatusReady" />
+          <TextBlock Text="{Binding ModeLabel}"
+                     Classes="topMeta" />
+          <TextBlock Text="{Binding AgentLabel}"
+                     Classes="topMeta" />
+          <TextBlock Text="Cfg"
+                     Classes="topMeta" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1"
+          Grid.Column="0"
+          Classes="finalWorkspace">
+      <Border Classes="workspacePane">
+        <ContentControl Content="{Binding SelectedSurface}" />
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Classes="rightSidebar">
+      <Grid RowDefinitions="Auto,*">
+        <Border Classes="sidebarSection tabsSection">
+          <Grid RowDefinitions="Auto,Auto"
+                RowSpacing="12">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="Tabs"
+                         Classes="statusPaneTitle" />
+              <TextBlock Grid.Column="1"
+                         Text="&lt;&lt;"
+                         Classes="railCollapse" />
+            </Grid>
+
+            <ListBox Grid.Row="1"
+                     Classes="rightNav"
+                     ItemsSource="{Binding SecondarySurfaces}"
+                     SelectedItem="{Binding SelectedSurface, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="vm:NavigationItemViewModel">
+                  <Border Classes="rightNavItem"
+                          Classes.selected="{Binding IsSelected}">
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="10">
+                      <Border Classes="navGlyph">
+                        <TextBlock Text="{Binding Glyph}"
+                                   Classes="navGlyphText" />
+                      </Border>
+                      <TextBlock Grid.Column="1"
+                                 Text="{Binding Name}"
+                                 Classes="navText"
+                                 VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+        </Border>
+
+        <components:ShellStatusRail Grid.Row="1" />
+      </Grid>
+    </Border>
+
+    <components:StatusDock Grid.Row="2"
+                           Grid.Column="0" />
+
+    <Border Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Classes="finalFooter">
+      <Grid ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto,Auto"
+            ColumnSpacing="18">
+        <TextBlock Text="{Binding AppStatusText, StringFormat='Status  {0}'}"
+                   Classes="footerStatus" />
+        <TextBlock Grid.Column="1"
+                   Text="{Binding ModeLabel, StringFormat='Mode  {0}'}"
+                   Classes="footerText" />
+        <TextBlock Grid.Column="2"
+                   Text="{Binding ShortSessionId}"
+                   Classes="footerText" />
+        <TextBlock Grid.Column="3"
+                   Text="{Binding ShortRunId}"
+                   Classes="footerText" />
+        <TextBlock Grid.Column="4"
+                   Text="{Binding FooterWorkspaceText, StringFormat='Workspace  {0}'}"
+                   Classes="footerChip" />
+        <TextBlock Grid.Column="5"
+                   Text="{Binding BranchLabel, StringFormat='Branch  {0}'}"
+                   Classes="footerText" />
+        <TextBlock Grid.Column="6"
+                   Text="{Binding VersionLabel}"
+                   Classes="footerText" />
+      </Grid>
+    </Border>
+  </Grid>
+</Window>

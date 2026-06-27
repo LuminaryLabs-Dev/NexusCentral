@@ -1,0 +1,108 @@
+{
+  "suite_id": "glm-harness-reliability",
+  "description": "Ten exact NexusGLMHarness prompts used to prove reliable multi-file Vite, React, 2D canvas, and Three.js project generation.",
+  "output_root": "lab-build-suite/projects",
+  "validation_root": "lab-build-suite/validation",
+  "defaults": {
+    "max_repair_attempts": 3,
+    "requires_package_json": true,
+    "requires_index_html": true,
+    "requires_src_directory": true,
+    "requires_readme": true,
+    "requires_validation_md": true,
+    "requires_harness_report": true,
+    "forbid_remote_assets": true
+  },
+  "projects": [
+    {
+      "slug": "01-2d-game-orbit-rescue",
+      "prompt": "prompts/01-orbit-rescue.md",
+      "kind": "2d-game",
+      "stack": "vite-canvas",
+      "expected_title": "Orbit Rescue",
+      "long_file_min_lines": 0,
+      "required_terms": ["canvas", "pause", "restart", "score", "health", "win", "fail"]
+    },
+    {
+      "slug": "02-2d-game-cavern-switches-long",
+      "prompt": "prompts/02-cavern-switches-long.md",
+      "kind": "2d-game",
+      "stack": "vite-canvas",
+      "expected_title": "Cavern Switches",
+      "long_file_min_lines": 450,
+      "required_terms": ["canvas", "switch", "door", "checkpoint", "timer", "pause", "restart", "win", "fail"]
+    },
+    {
+      "slug": "03-2d-game-delivery-dash",
+      "prompt": "prompts/03-delivery-dash.md",
+      "kind": "2d-game",
+      "stack": "vite-canvas",
+      "expected_title": "Delivery Dash",
+      "long_file_min_lines": 0,
+      "required_terms": ["canvas", "package", "delivery", "route", "score", "timer", "pause", "restart"]
+    },
+    {
+      "slug": "04-app-portfolio-command-center",
+      "prompt": "prompts/04-portfolio-command-center.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "Portfolio Command Center",
+      "long_file_min_lines": 0,
+      "required_terms": ["project", "filter", "search", "detail", "timeline", "responsive"]
+    },
+    {
+      "slug": "05-app-kanban-crm-long",
+      "prompt": "prompts/05-kanban-crm-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "Kanban CRM",
+      "long_file_min_lines": 500,
+      "required_terms": ["Lead", "Qualified", "Proposal", "Negotiation", "Won", "localStorage", "filter", "search"]
+    },
+    {
+      "slug": "06-app-docs-knowledge-base",
+      "prompt": "prompts/06-docs-knowledge-base.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "Knowledge Base",
+      "long_file_min_lines": 0,
+      "required_terms": ["sidebar", "article", "breadcrumb", "search", "tag", "related"]
+    },
+    {
+      "slug": "07-app-ecommerce-configurator",
+      "prompt": "prompts/07-ecommerce-configurator.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "Desk Configurator",
+      "long_file_min_lines": 0,
+      "required_terms": ["desk", "price", "cart", "stock", "warranty", "checkout", "incompatible"]
+    },
+    {
+      "slug": "08-app-automation-monitor-long",
+      "prompt": "prompts/08-automation-monitor-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "Automation Monitor",
+      "long_file_min_lines": 500,
+      "required_terms": ["automation", "status", "filter", "logs", "retry", "cancel", "queue", "timeline"]
+    },
+    {
+      "slug": "09-threejs-game-asteroid-hangar",
+      "prompt": "prompts/09-asteroid-hangar-threejs.md",
+      "kind": "threejs-game",
+      "stack": "vite-threejs",
+      "expected_title": "Asteroid Hangar",
+      "long_file_min_lines": 0,
+      "required_terms": ["three", "camera", "lighting", "collision", "score", "pause", "restart", "win", "fail"]
+    },
+    {
+      "slug": "10-threejs-game-marble-temple-long",
+      "prompt": "prompts/10-marble-temple-threejs-long.md",
+      "kind": "threejs-game",
+      "stack": "vite-threejs",
+      "expected_title": "Marble Temple",
+      "long_file_min_lines": 500,
+      "required_terms": ["three", "marble", "camera", "lighting", "hazard", "pickup", "pause", "restart", "win", "fail"]
+    }
+  ]
+}

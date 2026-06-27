@@ -1,0 +1,526 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:views="using:NexusCentral_Avalonia.Views"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.RouterView"
+             x:DataType="vm:RouterViewModel">
+
+    <UserControl.Resources>
+        <views:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="*" Margin="0">
+        <components:SplitPaneShell LayoutKey="router"
+                                   SplitterWidth="8"
+                                   SurfaceMode="PerPane">
+            <components:SplitPaneShell.LeftHeaderContent>
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <TextBox Text="{Binding PeerSearchText}"
+                             Watermark="Search peers by name or host"
+                             VerticalAlignment="Center"/>
+                            <Button Grid.Column="1"
+                                    Margin="8,0,0,0"
+                                    Content="⟳"
+                            Classes="headerAction"
+                            ToolTip.Tip="Refresh selected peer"
+                            Command="{Binding RefreshSelectedPeerCommand}"
+                            IsEnabled="{Binding CanRefreshSelectedPeer}"/>
+                    <Button Grid.Column="2"
+                            Margin="8,0,0,0"
+                            Content="+"
+                            Classes="headerAction"
+                            ToolTip.Tip="Add or inspect peer"
+                            Command="{Binding TogglePeerOverlayCommand}"/>
+                </Grid>
+            </components:SplitPaneShell.LeftHeaderContent>
+
+            <components:SplitPaneShell.LeftContent>
+                <Grid RowDefinitions="Auto,*">
+
+                    <Border Grid.Row="0" Classes="controlBand">
+                        <StackPanel Spacing="8">
+                            <WrapPanel Orientation="Horizontal" ItemWidth="104">
+                                <CheckBox Content="Discovered" IsChecked="{Binding ShowDiscoveredPeers}"/>
+                                <CheckBox Content="Trusted" IsChecked="{Binding ShowTrustedPeers}"/>
+                                <CheckBox Content="Connected" IsChecked="{Binding ShowConnectedPeers}"/>
+                                <CheckBox Content="Stale/Offline" IsChecked="{Binding ShowStalePeers}"/>
+                                <CheckBox Content="Manual" IsChecked="{Binding ShowManualPeers}"/>
+                            </WrapPanel>
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="{Binding PeerUtilitySummaryText}"
+                                           Classes="sectionMeta"
+                                           VerticalAlignment="Center"
+                                           TextWrapping="Wrap"/>
+                                <Button Grid.Column="1"
+                                        Content="{Binding QueuePanelToggleText}"
+                                        Classes="secondary compactAction"
+                                        Command="{Binding ToggleQueuePanelCommand}"/>
+                            </Grid>
+
+                            <Border Classes="railCard">
+                                <StackPanel>
+                                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                        <StackPanel Spacing="2">
+                                            <TextBlock Text="Request Queue" Classes="sectionTitle"/>
+                                            <TextBlock Text="{Binding QueueFilterSummaryText}" Classes="pageMeta" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                        <Button Grid.Column="1"
+                                                Margin="8,0,0,0"
+                                                Content="✂"
+                                                Classes="headerAction"
+                                                ToolTip.Tip="Prune completed requests"
+                                                Command="{Binding PruneCompletedRequestsCommand}"
+                                                IsEnabled="{Binding CanPruneCompletedRequests}"/>
+                                        <Button Grid.Column="2"
+                                                Margin="8,0,0,0"
+                                                Content="⌫"
+                                                Classes="headerAction"
+                                                ToolTip.Tip="Clear completed requests"
+                                                Command="{Binding ClearCompletedRequestsCommand}"
+                                                IsEnabled="{Binding CanClearCompletedRequests}"/>
+                                        <Button Grid.Column="3"
+                                                Margin="8,0,0,0"
+                                                Content="▾"
+                                                Classes="headerAction"
+                                                ToolTip.Tip="Show or hide queue"
+                                                Command="{Binding ToggleQueuePanelCommand}"/>
+                                    </Grid>
+
+                                    <Border ClipToBounds="True"
+                                            MaxHeight="{Binding QueuePanelMaxHeight}"
+                                            Opacity="{Binding QueuePanelOpacity}"
+                                            IsHitTestVisible="{Binding IsQueuePanelOpen}">
+                                        <Border.Transitions>
+                                            <Transitions>
+                                                <DoubleTransition Property="MaxHeight" Duration="0:0:0.22"/>
+                                                <DoubleTransition Property="Opacity" Duration="0:0:0.18"/>
+                                            </Transitions>
+                                        </Border.Transitions>
+
+                                        <Border Padding="{DynamicResource UiSectionBodySubtlePadding}">
+                                            <StackPanel Spacing="8">
+                                                <Grid ColumnDefinitions="Auto,Auto,Auto,Auto">
+                                                    <TextBlock Text="Status" Classes="fieldLabel" VerticalAlignment="Center"/>
+                                                    <ComboBox Grid.Column="1"
+                                                              Margin="8,0,0,0"
+                                                              Width="{DynamicResource UiToolbarControlWidthMedium}"
+                                                              ItemsSource="{Binding QueueFilterOptions}"
+                                                              SelectedItem="{Binding SelectedQueueFilter}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate DataType="vm:RouterQueueFilterOptionViewModel">
+                                                                <TextBlock Text="{Binding Label}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+
+                                                    <TextBlock Grid.Column="2"
+                                                               Margin="12,0,0,0"
+                                                               Text="Keep Completed"
+                                                               Classes="fieldLabel"
+                                                               VerticalAlignment="Center"/>
+                                                    <ComboBox Grid.Column="3"
+                                                              Margin="8,0,0,0"
+                                                              Width="{DynamicResource UiToolbarControlWidthSmall}"
+                                                              ItemsSource="{Binding CompletedRetentionOptions}"
+                                                              SelectedItem="{Binding SelectedCompletedRetentionOption}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate DataType="vm:RouterQueueRetentionOptionViewModel">
+                                                                <TextBlock Text="{Binding Label}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </Grid>
+
+                                                <TextBlock Text="{Binding QueueEmptyStateText}"
+                                                           Classes="pageMeta"
+                                                           TextWrapping="Wrap"
+                                                           IsVisible="{Binding HasVisibleQueueRequests, Converter={x:Static views:InverseBooleanConverter.Instance}}"/>
+
+                                                <ScrollViewer MaxHeight="{DynamicResource UiDiagnosticsMaxHeight}"
+                                                              VerticalScrollBarVisibility="Auto"
+                                                              HorizontalScrollBarVisibility="Disabled"
+                                                              IsVisible="{Binding HasVisibleQueueRequests}">
+                                                    <ItemsControl ItemsSource="{Binding QueueRequests}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate DataType="vm:RouterQueueRequestViewModel">
+                                                                <Border Margin="0,0,0,8" Classes="inlineField">
+                                                                    <StackPanel Spacing="6">
+                                                                        <Grid ColumnDefinitions="*,Auto">
+                                                                            <StackPanel Spacing="2">
+                                                                                <TextBlock Text="{Binding RequestText}" Classes="fieldLabel" TextWrapping="Wrap"/>
+                                                                                <TextBlock Text="{Binding MetaText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                                            </StackPanel>
+                                                                            <Border Grid.Column="1" Classes="inlineBadge" VerticalAlignment="Top">
+                                                                                <TextBlock Text="{Binding StatusText}" FontSize="10" FontWeight="SemiBold"/>
+                                                                            </Border>
+                                                                        </Grid>
+
+                                                                        <TextBlock Text="{Binding TimelineText}" Classes="pageMeta"/>
+                                                                        <TextBlock Text="{Binding ErrorText}" Classes="sectionMeta" TextWrapping="Wrap" IsVisible="{Binding HasError}"/>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </ScrollViewer>
+                                            </StackPanel>
+                                        </Border>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid Grid.Row="1">
+                        <ScrollViewer Margin="0"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="No peers discovered or registered."
+                                           Classes="sectionMeta"
+                                           TextWrapping="Wrap"
+                                           IsVisible="{Binding NoPeers}"/>
+
+                                <ListBox ItemsSource="{Binding Peers}"
+                                         SelectedItem="{Binding SelectedPeer}"
+                                         Background="Transparent"
+                                         BorderThickness="0"
+                                         IsVisible="{Binding HasPeers}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="vm:RouterPeerListItemViewModel">
+                                            <Expander Classes="sectionShell"
+                                                      Margin="0,0,0,8"
+                                                      IsExpanded="{Binding IsExpanded}">
+                                                <Expander.Header>
+                                                    <Grid ColumnDefinitions="*,Auto" Margin="8">
+                                                        <StackPanel Spacing="3">
+                                                            <TextBlock Text="{Binding DisplayName}" Classes="sectionTitle" TextWrapping="Wrap"/>
+                                                            <TextBlock Text="{Binding SummaryText}" Classes="pageMeta" TextWrapping="Wrap"/>
+                                                        </StackPanel>
+                                                        <Border Grid.Column="1" Classes="inlineBadge" VerticalAlignment="Center" Margin="8,0,0,0">
+                                                            <TextBlock Text="{Binding StatusText}" FontSize="10" FontWeight="SemiBold"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </Expander.Header>
+
+                                                <Border Classes="sectionBody subtle">
+                                                    <StackPanel Spacing="8">
+                                                        <TextBlock Text="{Binding HostText}" Classes="fieldLabel" TextWrapping="Wrap"/>
+                                                        <Grid ColumnDefinitions="Auto,Auto,*">
+                                                            <Border Classes="inlineBadge">
+                                                                <TextBlock Text="{Binding SourceText}" FontSize="10" FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <Border Grid.Column="1" Classes="inlineBadge" Margin="8,0,0,0">
+                                                                <TextBlock Text="{Binding ImportedTargetCount, StringFormat='{}{0} imported'}"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <TextBlock Grid.Column="2"
+                                                                       Margin="8,0,0,0"
+                                                                       Text="{Binding SummaryText}"
+                                                                       Classes="sectionMeta"
+                                                                       TextWrapping="Wrap"
+                                                                       VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Expander>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <Border Classes="largeCard"
+                                Width="420"
+                                MaxWidth="420"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,12,12,0"
+                                IsVisible="{Binding IsPeerOverlayOpen}">
+                            <StackPanel>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <TextBlock Text="Add / Inspect Peer" Classes="sectionTitle" VerticalAlignment="Center"/>
+                                    <Button Grid.Column="1"
+                                            Margin="8,0,0,0"
+                                            Content="✕"
+                                            Classes="headerAction"
+                                            ToolTip.Tip="Close overlay"
+                                            Command="{Binding ClosePeerOverlayCommand}"/>
+                                </Grid>
+
+                                <Border Padding="{DynamicResource UiSectionBodySubtlePadding}">
+                                    <StackPanel Spacing="12">
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Button Content="Manual Peer"
+                                                    Classes="secondary compactAction"
+                                                    Command="{Binding OpenManualPeerOverlayCommand}"/>
+                                            <Button Grid.Column="1"
+                                                    Margin="8,0,0,0"
+                                                    Content="This Machine"
+                                                    Classes="secondary compactAction"
+                                                    Command="{Binding OpenThisMachineOverlayCommand}"/>
+                                        </Grid>
+
+                                        <StackPanel Spacing="8"
+                                                    IsVisible="{Binding ShowManualPeerOverlay}">
+                                            <Grid ColumnDefinitions="Auto,*"
+                                                  RowDefinitions="Auto,Auto,Auto,Auto">
+                                                <TextBlock Grid.Row="0" Text="Label" Classes="fieldLabel" VerticalAlignment="Center"/>
+                                                <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,0" Text="{Binding ManualDisplayNameInput}" Watermark="Optional friendly name"/>
+
+                                                <TextBlock Grid.Row="1" Text="Host" Classes="fieldLabel" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1" Margin="8,8,0,0" Text="{Binding ManualHostInput}" Watermark="192.168.1.25"/>
+
+                                                <TextBlock Grid.Row="2" Text="Port" Classes="fieldLabel" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                                                <TextBox Grid.Row="2" Grid.Column="1" Margin="8,8,0,0" Text="{Binding ManualPortText}" Watermark="3005"/>
+
+                                                <TextBlock Grid.Row="3" Text="Token" Classes="fieldLabel" VerticalAlignment="Center" Margin="0,8,0,0"/>
+                                                <TextBox Grid.Row="3" Grid.Column="1" Margin="8,8,0,0" Text="{Binding ManualPeerTokenInput}" Watermark="Remote LAN token"/>
+                                            </Grid>
+
+                                            <CheckBox Content="Allow imported targets for routing"
+                                                      IsChecked="{Binding ManualAllowRoutingInput}"/>
+
+                                            <Grid ColumnDefinitions="*,Auto">
+                                                <TextBlock Text="{Binding ManualPeerStatusText}"
+                                                           Classes="sectionMeta"
+                                                           TextWrapping="Wrap"
+                                                           VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1"
+                                                        Margin="8,0,0,0"
+                                                        Content="Add Peer"
+                                                        Classes="primary compactAction"
+                                                        Command="{Binding AddManualPeerCommand}"/>
+                                            </Grid>
+                                        </StackPanel>
+
+                                        <StackPanel Spacing="8"
+                                                    IsVisible="{Binding ShowManualPeerOverlay, Converter={x:Static views:InverseBooleanConverter.Instance}}">
+                                            <TextBlock Text="{Binding LocalLanDisplayName}" Classes="fieldLabel" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding LanControlPlaneStatusText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Control" Classes="fieldLabel" VerticalAlignment="Center"/>
+                                                <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding LocalLanControlPlaneUrl}" IsReadOnly="True"/>
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="Auto,*">
+                                                <TextBlock Text="Token" Classes="fieldLabel" VerticalAlignment="Center"/>
+                                                <TextBox Grid.Column="1" Margin="8,0,0,0" Text="{Binding LocalLanSharedSecret}" IsReadOnly="True"/>
+                                            </Grid>
+
+                                            <Grid ColumnDefinitions="Auto,Auto,*">
+                                                <Button Content="{Binding LanControlPlaneToggleText}"
+                                                        Classes="primary compactAction"
+                                                        Command="{Binding ToggleLanControlPlaneExposureCommand}"/>
+                                                <Button Grid.Column="1"
+                                                        Content="Rotate Token"
+                                                        Classes="secondary compactAction"
+                                                        Command="{Binding RotateLanSharedSecretCommand}"/>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="Share tokens only with peers you trust."
+                                                           Classes="sectionMeta"
+                                                           TextWrapping="Wrap"
+                                                           VerticalAlignment="Center"/>
+                                            </Grid>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </components:SplitPaneShell.LeftContent>
+
+            <components:SplitPaneShell.RightHeaderContent>
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Selected Peer" Classes="pageTitle"/>
+                    <TextBlock Text="{Binding SelectedPeerSummaryText}" Classes="pageMeta" TextWrapping="Wrap"/>
+                </StackPanel>
+            </components:SplitPaneShell.RightHeaderContent>
+
+            <components:SplitPaneShell.RightContent>
+                <Grid RowDefinitions="Auto,Auto,*">
+
+                    <Border Grid.Row="1"
+                            Margin="0"
+                            Classes="inlineSection"
+                            IsVisible="{Binding HasSelectedPeer}">
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="{Binding SelectedPeer.DisplayName, FallbackValue='Peer Details'}"
+                                       Classes="sectionTitle"
+                                       TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding SelectedPeerAddressText}"
+                                       Classes="sectionMeta"
+                                       TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding SelectedPeerImportedSummaryText}"
+                                       Classes="sectionMeta"
+                                       TextWrapping="Wrap"/>
+
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                                <TextBox Text="{Binding SelectedPeerTokenInput}"
+                                         Watermark="Enter token to pair or repair auth"
+                                         IsEnabled="{Binding CanRepairSelectedPeer}"/>
+                                <Button Grid.Column="1"
+                                        Content="Pair / Repair"
+                                        Classes="primary compactAction"
+                                        Command="{Binding PairOrRepairSelectedPeerCommand}"
+                                        IsEnabled="{Binding CanRepairSelectedPeer}"/>
+                                <Button Grid.Column="2"
+                                        Content="Refresh"
+                                        Classes="secondary compactAction"
+                                        Command="{Binding RefreshSelectedPeerCommand}"
+                                        IsEnabled="{Binding CanRefreshSelectedPeer}"/>
+                                <Button Grid.Column="3"
+                                        Content="Forget"
+                                        Classes="destructiveSecondary compactAction"
+                                        Command="{Binding ForgetSelectedPeerCommand}"
+                                        IsEnabled="{Binding CanForgetSelectedPeer}"/>
+                            </Grid>
+
+                            <TextBlock Text="{Binding SelectedPeerActionStatusText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="1"
+                            Margin="0"
+                            Classes="inlineSection"
+                            IsVisible="{Binding HasSelectedPeer, Converter={x:Static views:InverseBooleanConverter.Instance}}">
+                        <TextBlock Text="Select a discovered or registered peer to inspect trust, imported targets, and repair actions."
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+
+                    <Grid Grid.Row="2" Grid.RowSpan="2" RowDefinitions="Auto,*" IsVisible="{Binding HasSelectedPeer}">
+                        <Border Grid.Row="0" Margin="0" Classes="inlineSection">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Imported Targets" Classes="sectionTitle"/>
+                                <TextBlock Text="{Binding ImportedTargetsEmptyText}"
+                                           Classes="pageMeta"
+                                           TextWrapping="Wrap"
+                                           IsVisible="{Binding HasImportedTargets, Converter={x:Static views:InverseBooleanConverter.Instance}}"/>
+
+                                <ItemsControl ItemsSource="{Binding ImportedTargets}" IsVisible="{Binding HasImportedTargets}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:RouterImportedTargetViewModel">
+                                            <Border Margin="0,0,0,8" Classes="inlineField">
+                                                <StackPanel Spacing="6">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <StackPanel Spacing="2">
+                                                            <TextBlock Text="{Binding DisplayName}" Classes="fieldLabel" TextWrapping="Wrap"/>
+                                                            <TextBlock Text="{Binding DetailText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                        </StackPanel>
+                                                        <Border Grid.Column="1" Classes="inlineBadge" VerticalAlignment="Top" Margin="8,0,0,0">
+                                                            <TextBlock Text="{Binding StatusText}" FontSize="10" FontWeight="SemiBold"/>
+                                                        </Border>
+                                                    </Grid>
+
+                                                    <TextBlock Text="{Binding CapabilityText}" Classes="pageMeta" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding AssignedRolesText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding BlockedReasonText}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <ScrollViewer Grid.Row="1"
+                                      Margin="0"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <Border Classes="inlineSection">
+                                <StackPanel Spacing="8">
+                                    <TextBlock Text="Route Roles" Classes="sectionTitle"/>
+                                    <ItemsControl ItemsSource="{Binding RouteRoles}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="vm:RoutingRoleCardViewModel">
+                                                <Border Margin="0,0,0,8" Classes="paneSection">
+                                                    <StackPanel Margin="12" Spacing="8">
+                                                        <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+                                                            <TextBlock Text="{Binding RoleName}"
+                                                                       Classes="sectionTitle"
+                                                                       VerticalAlignment="Center"/>
+                                                            <Border Grid.Column="1"
+                                                                    Margin="8,0,0,0"
+                                                                    Classes="inlineBadge"
+                                                                    VerticalAlignment="Center">
+                                                                <TextBlock Text="{Binding LiveStatus}" FontSize="10" FontWeight="SemiBold"/>
+                                                            </Border>
+                                                            <TextBlock Grid.Column="2"
+                                                                       Margin="8,0,0,0"
+                                                                       Text="{Binding AssignedSummaryText}"
+                                                                       Classes="pageMeta"
+                                                                       VerticalAlignment="Center"
+                                                                       TextWrapping="Wrap"/>
+                                                            <Button Grid.Column="3"
+                                                                    Margin="8,0,0,0"
+                                                                    Content="Reset"
+                                                                    Classes="secondary compactAction"
+                                                                    Command="{Binding ResetChangesCommand}"
+                                                                    IsEnabled="{Binding HasPendingChanges}"/>
+                                                            <Button Grid.Column="4"
+                                                                    Margin="8,0,0,0"
+                                                                    Content="Apply"
+                                                                    Classes="primary compactAction"
+                                                                    Command="{Binding SaveChangesCommand}"
+                                                                    IsEnabled="{Binding HasPendingChanges}"/>
+                                                        </Grid>
+
+                                                        <Grid ColumnDefinitions="2*,*,Auto,Auto,Auto">
+                                                            <StackPanel Spacing="4">
+                                                                <TextBlock Text="Assigned Target" Classes="fieldLabel"/>
+                                                                <ComboBox ItemsSource="{Binding AvailableTargets}" SelectedItem="{Binding SelectedTarget}">
+                                                                    <ComboBox.ItemTemplate>
+                                                                        <DataTemplate DataType="vm:RoutingTargetOptionViewModel">
+                                                                            <StackPanel>
+                                                                                <TextBlock Text="{Binding Label}"/>
+                                                                                <TextBlock Text="{Binding Detail}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                                            </StackPanel>
+                                                                        </DataTemplate>
+                                                                    </ComboBox.ItemTemplate>
+                                                                </ComboBox>
+                                                            </StackPanel>
+
+                                                            <StackPanel Grid.Column="1" Spacing="4" Margin="10,0,0,0">
+                                                                <TextBlock Text="Mode" Classes="fieldLabel"/>
+                                                                <TextBox Text="{Binding RoutingModeText}"/>
+                                                            </StackPanel>
+
+                                                            <StackPanel Grid.Column="2" Spacing="4" Width="112" Margin="10,0,0,0">
+                                                                <TextBlock Text="Reserved MB" Classes="fieldLabel"/>
+                                                                <TextBox Text="{Binding ReservedMemoryText}"/>
+                                                            </StackPanel>
+
+                                                            <StackPanel Grid.Column="3" Spacing="4" Width="112" Margin="10,0,0,0">
+                                                                <TextBlock Text="Max Parallel" Classes="fieldLabel"/>
+                                                                <TextBox Text="{Binding MaxParallelText}"/>
+                                                            </StackPanel>
+
+                                                            <StackPanel Grid.Column="4" Spacing="4" Width="112" Margin="10,0,0,0">
+                                                                <TextBlock Text="Queue Limit" Classes="fieldLabel"/>
+                                                                <TextBox Text="{Binding QueueLimitText}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+
+                                                        <TextBlock Text="Local and imported targets use the same stable ids."
+                                                                   Classes="sectionMeta"
+                                                                   TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </components:SplitPaneShell.RightContent>
+        </components:SplitPaneShell>
+    </Grid>
+</UserControl>

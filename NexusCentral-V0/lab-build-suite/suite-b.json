@@ -1,0 +1,109 @@
+{
+  "suite_id": "glm-harness-reliability-b",
+  "description": "Ten handwritten massive app prompts used to harden NexusGLMHarness long-form multi-file Vite React generation.",
+  "pack": "b",
+  "output_root": "lab-build-suite/projects-b",
+  "validation_root": "lab-build-suite/validation",
+  "defaults": {
+    "max_repair_attempts": 3,
+    "requires_package_json": true,
+    "requires_index_html": true,
+    "requires_src_directory": true,
+    "requires_readme": true,
+    "requires_validation_md": true,
+    "requires_harness_report": true,
+    "forbid_remote_assets": true
+  },
+  "projects": [
+    {
+      "slug": "11-local-finance-planner-long",
+      "prompt": "prompts-b/11-local-finance-planner-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "LedgerLens",
+      "long_file_min_lines": 550,
+      "required_terms": ["account", "budget", "forecast", "transaction", "goal", "debt", "localStorage", "chart"]
+    },
+    {
+      "slug": "12-health-habit-dashboard",
+      "prompt": "prompts-b/12-health-habit-dashboard.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "RhythmGarden",
+      "long_file_min_lines": 0,
+      "required_terms": ["habit", "streak", "mood", "sleep", "water", "calendar", "localStorage", "chart"]
+    },
+    {
+      "slug": "13-event-schedule-builder-long",
+      "prompt": "prompts-b/13-event-schedule-builder-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "TrackWeaver",
+      "long_file_min_lines": 500,
+      "required_terms": ["session", "speaker", "room", "track", "favorite", "conflict", "timeline", "localStorage"]
+    },
+    {
+      "slug": "14-creator-media-library",
+      "prompt": "prompts-b/14-creator-media-library.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "AssetHarbor",
+      "long_file_min_lines": 0,
+      "required_terms": ["asset", "collection", "tag", "license", "metadata", "batch", "upload", "localStorage"]
+    },
+    {
+      "slug": "15-research-citation-board",
+      "prompt": "prompts-b/15-research-citation-board.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "EvidenceBoard",
+      "long_file_min_lines": 0,
+      "required_terms": ["source", "claim", "note", "citation", "evidence", "tag", "research", "localStorage"]
+    },
+    {
+      "slug": "16-team-retrospective-tool-long",
+      "prompt": "prompts-b/16-team-retrospective-tool-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "RetroForge",
+      "long_file_min_lines": 550,
+      "required_terms": ["retro", "vote", "group", "action", "timer", "sentiment", "localStorage", "facilitator"]
+    },
+    {
+      "slug": "17-inventory-forecast-dashboard",
+      "prompt": "prompts-b/17-inventory-forecast-dashboard.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "StockPulse",
+      "long_file_min_lines": 0,
+      "required_terms": ["sku", "warehouse", "supplier", "forecast", "reorder", "stock", "alert", "localStorage"]
+    },
+    {
+      "slug": "18-course-progress-tracker",
+      "prompt": "prompts-b/18-course-progress-tracker.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "LearnMap",
+      "long_file_min_lines": 0,
+      "required_terms": ["course", "lesson", "quiz", "note", "bookmark", "progress", "keyboard", "localStorage"]
+    },
+    {
+      "slug": "19-budget-travel-planner-long",
+      "prompt": "prompts-b/19-budget-travel-planner-long.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "RouteNest",
+      "long_file_min_lines": 500,
+      "required_terms": ["trip", "itinerary", "budget", "packing", "conflict", "transport", "lodging", "localStorage"]
+    },
+    {
+      "slug": "20-service-ticket-triage",
+      "prompt": "prompts-b/20-service-ticket-triage.md",
+      "kind": "app",
+      "stack": "vite-react",
+      "expected_title": "TriageDesk",
+      "long_file_min_lines": 0,
+      "required_terms": ["ticket", "priority", "SLA", "assignee", "reply", "escalation", "activity", "localStorage"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NexusCentral_Avalonia.Components.AudioControl">
+    <Border Background="{DynamicResource TokyoSurfaceBrush}" Padding="10" CornerRadius="8" BorderBrush="{DynamicResource TokyoSecondaryBrush}" BorderThickness="1">
+        <Grid ColumnDefinitions="Auto, *, Auto">
+            <Button Content="▶ Play" Foreground="{DynamicResource TokyoAccentBrush}" Background="Transparent" Padding="0"/>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
+                <TextBlock Text="audio_response_01.wav" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}"/>
+                <ProgressBar Height="4" Value="30" Foreground="{DynamicResource TokyoAccentBrush}" Background="{DynamicResource TokyoInputBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+            <TextBlock Grid.Column="2" Text="0:15" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TokyoFGDimBrush}" Margin="10,0,0,0"/>
+        </Grid>
+    </Border>
+</UserControl>

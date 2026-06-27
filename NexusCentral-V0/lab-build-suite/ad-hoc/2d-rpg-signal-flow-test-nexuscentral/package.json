@@ -1,0 +1,15 @@
+{
+  "name": "nexus-2d-rpg-signal-flow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vite": "^5.4.0"
+  },
+  "devDependencies": {}
+}

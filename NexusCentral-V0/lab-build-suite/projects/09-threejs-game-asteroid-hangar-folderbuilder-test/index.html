@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroid Hangar</title>
+    <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="ui-overlay">
+            <div id="hud">
+                <div class="hud-section">
+                    <span class="hud-label">SCORE:</span>
+                    <span id="score" class="hud-value">0</span>
+                </div>
+                <div class="hud-section">
+                    <span class="hud-label">ENERGY:</span>
+                    <div id="energy-bar" class="energy-bar">
+                        <div id="energy-fill" class="energy-fill"></div>
+                    </div>
+                </div>
+                <div class="hud-section">
+                    <span class="hud-label">PROGRESS:</span>
+                    <span id="progress" class="hud-value">0%</span>
+                </div>
+            </div>
+            <div id="game-message" class="game-message hidden">
+                <h2 id="message-title"></h2>
+                <p id="message-text"></p>
+                <button id="message-button" class="game-button"></button>
+            </div>
+            <div id="pause-overlay" class="overlay hidden">
+                <h2>PAUSED</h2>
+                <p>Press ESC or P to resume</p>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

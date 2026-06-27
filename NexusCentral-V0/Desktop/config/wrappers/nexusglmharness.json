@@ -1,0 +1,130 @@
+{
+  "id": "nexusglmharness",
+  "name": "NexusGLMHarness",
+  "description": "Single external NexusGLMHarness wrapper backed by the Markdown-authored workspace editing harness.",
+  "transport": "cli",
+  "command": "{python}",
+  "args": [
+    "{wrapper_scripts_dir}/nexusglmharness_adapter.py"
+  ],
+  "env": {},
+  "supports_chat": true,
+  "supports_artifacts": true,
+  "supports_templates": true,
+  "supports_hosted_web": true,
+  "allowed_tools": [
+    "status",
+    "get_logs",
+    "list_models",
+    "get_runtime_inventory",
+    "get_runtime_roles",
+    "get_model_catalog",
+    "get_instance_console",
+    "thinking",
+    "thinking-raw",
+    "thinking-stream",
+    "get_wrapper_run",
+    "get_wrapper_run_artifacts",
+    "create_sandbox",
+    "delete_sandbox",
+    "clear_sandbox",
+    "save_sandbox_file",
+    "create_sandbox_directory",
+    "delete_sandbox_path"
+  ],
+  "web_chat_mode": "wrapper_run",
+  "supports_attachments": true,
+  "default_timeout_sec": 300,
+  "settings": [
+    {
+      "id": "max_iterations",
+      "label": "Repair",
+      "kind": "number",
+      "default_value": "3",
+      "value": "3",
+      "exposed": true,
+      "description": "Maximum patch/validate/repair iterations.",
+      "min": 1,
+      "max": 12
+    },
+    {
+      "id": "build",
+      "label": "Build",
+      "kind": "toggle",
+      "default_value": "true",
+      "value": "true",
+      "exposed": true,
+      "description": "Run project build validation when a build script exists."
+    },
+    {
+      "id": "offline",
+      "label": "Offline",
+      "kind": "toggle",
+      "default_value": "false",
+      "value": "false",
+      "exposed": true,
+      "description": "Disable model calls and block runs locally."
+    },
+    {
+      "id": "max_runtime_minutes",
+      "label": "Minutes",
+      "kind": "number",
+      "default_value": "30",
+      "value": "30",
+      "exposed": true,
+      "description": "Maximum wall-clock runtime in minutes.",
+      "min": 1,
+      "max": 180
+    },
+    {
+      "id": "max_model_calls",
+      "label": "Calls",
+      "kind": "number",
+      "default_value": "20",
+      "value": "20",
+      "exposed": true,
+      "description": "Maximum GLM calls per run.",
+      "min": 1,
+      "max": 200
+    },
+    {
+      "id": "context_budget_chars",
+      "label": "Context",
+      "kind": "number",
+      "default_value": "60000",
+      "value": "60000",
+      "exposed": true,
+      "description": "Maximum workspace context characters sent per model call.",
+      "min": 4000,
+      "max": 250000
+    },
+    {
+      "id": "require_approval",
+      "label": "Gates",
+      "kind": "toggle",
+      "default_value": "true",
+      "value": "true",
+      "exposed": true,
+      "description": "Pause on policy actions that require approval."
+    },
+    {
+      "id": "allow_tool_factory",
+      "label": "Tools",
+      "kind": "toggle",
+      "default_value": "true",
+      "value": "true",
+      "exposed": true,
+      "description": "Allow generated tool requests and pending tool files."
+    },
+    {
+      "id": "trace_detail",
+      "label": "Trace",
+      "kind": "option",
+      "default_value": "verbose",
+      "value": "verbose",
+      "exposed": true,
+      "description": "Controls phase-tree trace detail.",
+      "options": ["compact", "verbose", "debug"]
+    }
+  ]
+}

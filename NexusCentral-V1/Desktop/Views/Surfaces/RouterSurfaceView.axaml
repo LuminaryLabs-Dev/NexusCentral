@@ -1,0 +1,228 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             xmlns:components="using:NexusCentral.V3.Desktop.Components"
+             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.RouterSurfaceView"
+             x:DataType="vm:NavigationItemViewModel">
+  <Grid RowDefinitions="*">
+    <Grid ColumnDefinitions="340,*">
+      <Border Classes="flatLane">
+        <Grid RowDefinitions="Auto,Auto,*"
+              RowSpacing="8">
+          <Grid ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Available routers"
+                         Classes="sectionTitle" />
+              <TextBlock Text="Inspector-style list of route handlers this NexusCentral can use."
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Classes="primary"
+                    IsEnabled="False"
+                    Content="Add" />
+          </Grid>
+
+          <Grid Grid.Row="1"
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="8">
+            <TextBlock Text="Type"
+                       Classes="sectionMeta"
+                       VerticalAlignment="Center" />
+            <ComboBox Grid.Column="1"
+                      IsEnabled="False"
+                      SelectedIndex="0">
+              <ComboBoxItem Content="Local endpoint router" />
+              <ComboBoxItem Content="Provider fallback router" />
+              <ComboBoxItem Content="NexusCentral peer router" />
+              <ComboBoxItem Content="Hybrid queue router" />
+            </ComboBox>
+            <Button Grid.Column="2"
+                    Classes="secondary"
+                    IsEnabled="False"
+                    Content="Remove" />
+          </Grid>
+
+          <StackPanel Grid.Row="2"
+                      Spacing="0">
+            <Border Classes="flatListRow selected">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Local first"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Available - local endpoint router"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Provider fallback"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Available - OpenAI / Claude / OpenRouter / NVIDIA"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Trusted peer overflow"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Available - routes into peer queues"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Hybrid queue"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Available - local, provider, and peer order"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1"
+              Classes="flatMainLane">
+        <Grid RowDefinitions="Auto,*"
+              RowSpacing="10">
+          <Grid ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Router queue"
+                         Classes="sectionTitle" />
+              <TextBlock Text="Visual order of available routers, current capacity, and where the next request will go."
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <components:MetricBadge Grid.Column="1"
+                                    Label="Next"
+                                    Value="Local first"
+                                    AccentBrush="{DynamicResource StatusActiveBrush}"
+                                    BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+          </Grid>
+
+          <Grid Grid.Row="1"
+                RowDefinitions="Auto,Auto,Auto,*"
+                RowSpacing="8">
+            <Border Classes="flatBlock">
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <TextBlock Text="1"
+                           Classes="pageTitle"
+                           VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1"
+                            Spacing="2">
+                  <TextBlock Text="Local first"
+                             Classes="sectionTitle" />
+                  <TextBlock Text="Uses local endpoint/runtime capacity before any remote handoff."
+                             Classes="sectionMeta"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                  <components:MetricBadge Label="State"
+                                          Value="Ready"
+                                          AccentBrush="{DynamicResource StatusReadyBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+                  <components:MetricBadge Label="Queue"
+                                          Value="0 waiting"
+                                          AccentBrush="{DynamicResource StatusActiveBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+                  <components:MetricBadge Label="Capacity"
+                                          Value="1 open"
+                                          AccentBrush="{DynamicResource StatusReadyBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+                </StackPanel>
+              </Grid>
+            </Border>
+
+            <Border Grid.Row="1"
+                    Classes="flatBlock">
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <TextBlock Text="2"
+                           Classes="pageTitle"
+                           VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1"
+                            Spacing="2">
+                  <TextBlock Text="Provider fallback"
+                             Classes="sectionTitle" />
+                  <TextBlock Text="Falls back to configured provider endpoints when local capacity is unavailable."
+                             Classes="sectionMeta"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                  <components:MetricBadge Label="State"
+                                          Value="Ready"
+                                          AccentBrush="{DynamicResource StatusReadyBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+                  <components:MetricBadge Label="Queue"
+                                          Value="2 endpoints"
+                                          AccentBrush="{DynamicResource StatusActiveBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+                  <components:MetricBadge Label="Capacity"
+                                          Value="unknown"
+                                          AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+                </StackPanel>
+              </Grid>
+            </Border>
+
+            <Border Grid.Row="2"
+                    Classes="flatBlock">
+              <Grid ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="10">
+                <TextBlock Text="3"
+                           Classes="pageTitle"
+                           VerticalAlignment="Center" />
+                <StackPanel Grid.Column="1"
+                            Spacing="2">
+                  <TextBlock Text="Trusted peer overflow"
+                             Classes="sectionTitle" />
+                  <TextBlock Text="Routes to another trusted NexusCentral queue only when local/provider capacity is busy."
+                             Classes="sectionMeta"
+                             TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                  <components:MetricBadge Label="State"
+                                          Value="No peer"
+                                          AccentBrush="{DynamicResource StatusOfflineBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
+                  <components:MetricBadge Label="Queue"
+                                          Value="offline"
+                                          AccentBrush="{DynamicResource StatusOfflineBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
+                  <components:MetricBadge Label="Capacity"
+                                          Value="0"
+                                          AccentBrush="{DynamicResource StatusOfflineBrush}"
+                                          BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
+                </StackPanel>
+              </Grid>
+            </Border>
+
+            <Border Grid.Row="3"
+                    Classes="flatBlock">
+              <StackPanel Spacing="6">
+                <TextBlock Text="Queue rule"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Requests enter the local NexusCentral queue first. The router selects the first available router in order, while the local queue keeps ownership of job state, history, and cancellation."
+                           Classes="sectionMeta"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+          </Grid>
+        </Grid>
+      </Border>
+
+    </Grid>
+  </Grid>
+</UserControl>

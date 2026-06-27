@@ -1,0 +1,37 @@
+{
+  "id": "workflow_agent_step",
+  "name": "Workflow Agent Step",
+  "description": "Generic NexusGLMHarness-backed workflow step used by the Workflows tab.",
+  "default_mode": "wrapper",
+  "default_wrapper_id": "nexusglmharness",
+  "allowed_wrapper_ids": [],
+  "wrapper_locked": false,
+  "inputs": [
+    {
+      "id": "prompt",
+      "label": "Prompt",
+      "kind": "text",
+      "required": true,
+      "maps_to": "prompt"
+    },
+    {
+      "id": "artifact_inputs",
+      "label": "Artifact Inputs",
+      "kind": "files",
+      "required": false,
+      "maps_to": "artifact_inputs"
+    }
+  ],
+  "artifact_outputs": {
+    "discover": false,
+    "globs": []
+  },
+  "default_model_id": "",
+  "default_max_tokens": 1200,
+  "default_args": [],
+  "tags": [
+    "workflow",
+    "wrapper",
+    "agent"
+  ]
+}

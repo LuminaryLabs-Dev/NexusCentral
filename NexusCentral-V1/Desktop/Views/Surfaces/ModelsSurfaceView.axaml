@@ -1,0 +1,149 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             xmlns:components="using:NexusCentral.V3.Desktop.Components"
+             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.ModelsSurfaceView"
+             x:DataType="vm:NavigationItemViewModel">
+  <Grid RowDefinitions="*">
+    <Grid ColumnDefinitions="340,*">
+      <Border Classes="flatLane">
+        <Grid RowDefinitions="Auto,Auto,*"
+              RowSpacing="8">
+          <Grid ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Download model config"
+                         Classes="sectionTitle" />
+              <TextBlock Text="Select model source and download profile."
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Classes="primary"
+                    IsEnabled="False"
+                    Content="Add model" />
+          </Grid>
+
+          <Grid Grid.Row="1"
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="8">
+            <TextBlock Text="Type"
+                       Classes="sectionMeta"
+                       VerticalAlignment="Center" />
+            <ComboBox Grid.Column="1"
+                      IsEnabled="False"
+                      SelectedIndex="0">
+              <ComboBoxItem Content="Hugging Face model" />
+              <ComboBoxItem Content="LM Studio local model" />
+              <ComboBoxItem Content="OpenAI provider model" />
+              <ComboBoxItem Content="Claude provider model" />
+              <ComboBoxItem Content="OpenRouter provider model" />
+              <ComboBoxItem Content="NVIDIA provider model" />
+            </ComboBox>
+          </Grid>
+
+          <StackPanel Grid.Row="2"
+                      Spacing="0">
+            <Border Classes="flatListRow selected">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Qwen 2.5 7B Instruct"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Hugging Face model"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Qwen 3.5 2B"
+                           Classes="sectionTitle" />
+                <TextBlock Text="LM Studio local model"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="GPT-4.1 Mini"
+                           Classes="sectionTitle" />
+                <TextBlock Text="OpenAI provider model"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Claude Sonnet"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Claude provider model"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1"
+              Classes="flatMainLane">
+        <Grid RowDefinitions="Auto,*"
+              RowSpacing="10">
+          <Grid ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Selected download model"
+                         Classes="sectionTitle" />
+              <TextBlock Text="{Binding CapabilitySummary}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <components:MetricBadge Grid.Column="1"
+                                    Label="Source"
+                                    Value="{Binding StatusLabel}"
+                                    AccentBrush="{DynamicResource StatusReadyBrush}"
+                                    BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+          </Grid>
+
+          <Border Grid.Row="1"
+                  Classes="flatBlock">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  RowSpacing="10">
+              <TextBlock Text="Qwen 2.5 7B Instruct"
+                         Classes="pageTitle" />
+              <TextBlock Grid.Row="1"
+                         Text="Model type: Hugging Face model"
+                         Classes="sectionTitle" />
+              <TextBlock Grid.Row="2"
+                         Text="This placeholder represents the selected downloadable model. Real model source, size, quantization, license, runtime target, and local path will come from the Models service."
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+              <StackPanel Grid.Row="3"
+                          Orientation="Horizontal"
+                          Spacing="8">
+                <components:MetricBadge Label="State"
+                                        Value="Not downloaded"
+                                        AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                        BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+                <components:MetricBadge Label="Size"
+                                        Value="Medium"
+                                        AccentBrush="{DynamicResource StatusActiveBrush}"
+                                        BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+                <components:MetricBadge Label="Runtime"
+                                        Value="Local"
+                                        AccentBrush="{DynamicResource StatusReadyBrush}"
+                                        BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+              </StackPanel>
+              <StackPanel Grid.Row="4"
+                          Orientation="Horizontal"
+                          Spacing="8">
+                <Button Classes="primary"
+                        IsEnabled="False"
+                        Content="Download selected" />
+                <Button Classes="secondary"
+                        IsEnabled="False"
+                        Content="Set active" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

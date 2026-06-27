@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Runner 3D</title>
+    <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+    <main id="game-container">
+        <!-- The 3D Canvas will be injected here by Three.js -->
+        
+        <!-- UI Overlay Layer -->
+        <div id="ui-layer">
+            <!-- HUD (Heads Up Display) -->
+            <div id="hud" class="hidden">
+                <div class="hud-top">
+                    <div class="score-box">
+                        <span class="label">SCORE</span>
+                        <span id="score-val">0</span>
+                    </div>
+                    <div class="speed-box">
+                        <span class="label">SPEED</span>
+                        <span id="speed-val">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start Screen -->
+            <div id="start-screen" class="screen active">
+                <h1 class="game-title">NEON RUNNER</h1>
+                <p class="game-subtitle">Dodge the red blocks. Survive the infinite grid.</p>
+                <div class="controls-hint">
+                    <div class="key-group">
+                        <span class="key">←</span> <span class="key">→</span>
+                        <span>or</span>
+                        <span class="key">A</span> <span class="key">D</span>
+                        <span>to Move</span>
+                    </div>
+                </div>
+                <button id="start-btn" class="btn-primary">INITIALIZE RUN</button>
+            </div>
+
+            <!-- Game Over Screen -->
+            <div id="game-over-screen" class="screen hidden">
+                <h1 class="game-title danger">SYSTEM FAILURE</h1>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">FINAL SCORE</span>
+                        <span id="final-score" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">DISTANCE</span>
+                        <span id="final-distance" class="stat-value">0m</span>
+                    </div>
+                </div>
+                <button id="restart-btn" class="btn-primary">REBOOT SYSTEM</button>
+            </div>
+        </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

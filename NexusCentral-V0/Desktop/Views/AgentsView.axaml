@@ -1,0 +1,268 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:models="using:NexusCentral_Avalonia.Models"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.AgentsView"
+             x:DataType="vm:AgentsViewModel">
+    <Grid RowDefinitions="*"
+          Margin="4">
+        <components:SplitPaneShell LayoutKey="agents"
+                                   SplitterWidth="6"
+                                   SurfaceMode="PerPane">
+            <components:SplitPaneShell.LeftHeaderContent>
+                <StackPanel Spacing="8">
+                    <Grid ColumnDefinitions="*,Auto,Auto,Auto">
+                        <StackPanel Spacing="2">
+                            <TextBlock Text="Agents Explorer" Classes="pageTitle"/>
+                            <TextBlock Text="{Binding StatusText}"
+                                       Classes="pageMeta"
+                                       TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Content="⟳"
+                                Classes="headerAction"
+                                ToolTip.Tip="Refresh wrappers"
+                                Command="{Binding RefreshCommand}"/>
+                        <Button Grid.Column="2"
+                                Margin="8,0,0,0"
+                                Content="✓"
+                                Classes="headerAction"
+                                ToolTip.Tip="Validate selected wrapper"
+                                Command="{Binding ValidateSelectedWrapperCommand}"
+                                IsEnabled="{Binding SelectedWrapper, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                        <Button Grid.Column="3"
+                                Margin="8,0,0,0"
+                                Content="✕"
+                                Classes="headerAction"
+                                ToolTip.Tip="Cancel selected run"
+                                Command="{Binding CancelSelectedRunCommand}"
+                                IsEnabled="{Binding SelectedRun, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    </Grid>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBox Watermark="Path to NexusAgent wrapper manifest"
+                                 Text="{Binding ImportManifestPath}"/>
+                        <Button Grid.Column="1"
+                                Margin="8,0,0,0"
+                                Content="Import"
+                                Classes="compactAction"
+                                Command="{Binding ImportWrapperCommand}"/>
+                    </Grid>
+                </StackPanel>
+            </components:SplitPaneShell.LeftHeaderContent>
+
+            <components:SplitPaneShell.LeftContent>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="8"
+                                Classes="paneStack">
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                <TextBlock Text="Wrappers"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="{Binding HostedWebStatusText}"
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"
+                                           Margin="0,2,0,8"/>
+                                    <ListBox ItemsSource="{Binding Wrappers}"
+                                             SelectedItem="{Binding SelectedWrapper}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="models:WrapperDefinition">
+                                                <Border Margin="0,0,0,4"
+                                                        Padding="6"
+                                                        Classes="inlineSection">
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   Classes="sectionTitle"/>
+                                                        <TextBlock Text="{Binding AvailabilityMessage}"
+                                                                   Classes="sectionSummary"
+                                                                   TextWrapping="Wrap"/>
+                                                        <TextBlock Text="{Binding Description}"
+                                                                   Classes="sectionMeta"
+                                                                   TextWrapping="Wrap"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                <TextBlock Text="Wrapper Runs"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="Recent wrapper executions from the desktop control plane."
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"
+                                           Margin="0,2,0,8"/>
+                                    <ListBox ItemsSource="{Binding RecentRuns}"
+                                             SelectedItem="{Binding SelectedRun}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="models:WrapperRunState">
+                                                <Border Margin="0,0,0,8"
+                                                        Padding="10"
+                                                        Classes="inlineSection">
+                                                    <StackPanel Spacing="4">
+                                                        <TextBlock Text="{Binding RunId}"
+                                                                   Classes="sectionTitle"/>
+                                                        <TextBlock Text="{Binding Status}"
+                                                                   Classes="sectionStatus"/>
+                                                        <TextBlock Text="{Binding WrapperName}"
+                                                                   Classes="sectionMeta"/>
+                                                        <TextBlock Text="{Binding FinalText}"
+                                                                   Classes="sectionMeta"
+                                                                   TextWrapping="Wrap"
+                                                                   MaxHeight="{DynamicResource UiCompactPreviewMaxHeight}"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </components:SplitPaneShell.LeftContent>
+
+            <components:SplitPaneShell.RightHeaderContent>
+                <Grid ColumnDefinitions="*,Auto,Auto">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Agent Overview"
+                                   Classes="pageTitle"/>
+                        <TextBlock Text="{Binding SelectedWrapper.Name, FallbackValue='No agent selected'}"
+                                   Classes="pageMeta"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Margin="4,0,0,0"
+                            Classes="headerAction"
+                            Content="✓"
+                            ToolTip.Tip="Validate selected wrapper"
+                            Command="{Binding ValidateSelectedWrapperCommand}"
+                            IsEnabled="{Binding SelectedWrapper, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                    <Button Grid.Column="2"
+                            Margin="4,0,0,0"
+                            Classes="headerAction"
+                            Content="✕"
+                            ToolTip.Tip="Close overview"
+                            Command="{Binding CloseOverviewCommand}"/>
+                </Grid>
+            </components:SplitPaneShell.RightHeaderContent>
+
+            <components:SplitPaneShell.RightContent>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="12"
+                                Classes="paneStack">
+                        <Border Classes="largeCard">
+                            <StackPanel>
+                                    <StackPanel Spacing="6">
+                                        <TextBlock Text="{Binding SelectedWrapperDescription}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperBehaviorSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperContractSummary}"
+                                                   Classes="sectionStatus"
+                                                   TextWrapping="Wrap"/>
+
+                                        <Border Classes="subSection">
+                                            <Grid ColumnDefinitions="*,*"
+                                                  RowDefinitions="Auto,Auto">
+                                                <StackPanel Grid.Row="0"
+                                                            Grid.Column="0"
+                                                            Spacing="4">
+                                                    <TextBlock Text="Workflow Binding"
+                                                               Classes="fieldLabel"/>
+                                                    <ComboBox ItemsSource="{Binding AgentWorkflowOptions}"
+                                                              SelectedItem="{Binding SelectedWorkflowOption}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Label}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="1"
+                                                            Grid.Column="0"
+                                                            Spacing="3">
+                                                    <TextBlock Text="Default Model"
+                                                               Classes="fieldLabel"/>
+                                                    <ComboBox ItemsSource="{Binding AgentModelOptions}"
+                                                              SelectedItem="{Binding SelectedModelOption}">
+                                                        <ComboBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Text="{Binding Label}"/>
+                                                            </DataTemplate>
+                                                        </ComboBox.ItemTemplate>
+                                                    </ComboBox>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="1"
+                                                            Grid.Column="1"
+                                                            Orientation="Horizontal"
+                                                            Spacing="4">
+                                                    <Button Content="Save Agent Config"
+                                                            Command="{Binding SaveSelectedAgentConfigCommand}"
+                                                            Classes="primary"
+                                                            IsEnabled="{Binding SelectedWrapper, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                                    <Button Content="Reset"
+                                                            Command="{Binding ResetSelectedAgentConfigCommand}"
+                                                            IsEnabled="{Binding SelectedWrapper, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+
+                                        <TextBlock Text="{Binding SelectedWrapperConfigSummary}"
+                                                   Classes="sectionStatus"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding AgentConfigStatusText}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperToolSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperRoleSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperInputSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperOutputSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperSourceSummary}"
+                                                   Classes="sectionStatus"/>
+                                        <TextBlock Text="{Binding SelectedWrapperValidationStatusText}"
+                                                   Classes="sectionStatus"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding SelectedWrapperImportSummary}"
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="railCard">
+                            <StackPanel>
+                                <TextBlock Text="Nexus Web Lab"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="{Binding HostedWebStatusText}"
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"
+                                           Margin="0,2,0,8"/>
+                                    <TextBlock Text="The old hosted-session browser surface has been removed. Launch the remote web IDE from the Lab tab."
+                                               Classes="sectionMeta"
+                                               TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </components:SplitPaneShell.RightContent>
+        </components:SplitPaneShell>
+    </Grid>
+</UserControl>

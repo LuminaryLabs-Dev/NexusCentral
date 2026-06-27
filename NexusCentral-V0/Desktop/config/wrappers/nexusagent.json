@@ -1,0 +1,350 @@
+{
+  "id": "nexusagent",
+  "name": "NexusAgent",
+  "description": "Single external NexusAgent wrapper backed by the Markdown-authored NexusAgent harness.",
+  "transport": "cli",
+  "command": "{python}",
+  "args": [
+    "{wrapper_scripts_dir}/nexusagent_adapter.py"
+  ],
+  "env": {},
+  "supports_chat": true,
+  "supports_artifacts": true,
+  "supports_templates": true,
+  "supports_hosted_web": true,
+  "allowed_tools": [
+    "status",
+    "get_logs",
+    "list_models",
+    "get_runtime_inventory",
+    "get_runtime_roles",
+    "get_model_catalog",
+    "get_instance_console",
+    "thinking",
+    "thinking-raw",
+    "thinking-stream",
+    "get_wrapper_run",
+    "get_wrapper_run_artifacts",
+    "create_sandbox",
+    "delete_sandbox",
+    "clear_sandbox",
+    "save_sandbox_file",
+    "create_sandbox_directory",
+    "delete_sandbox_path"
+  ],
+  "web_chat_mode": "wrapper_run",
+  "supports_attachments": true,
+  "default_timeout_sec": 300,
+  "settings": [
+    {
+      "id": "execution_mode",
+      "label": "Exec",
+      "kind": "options",
+      "default_value": "async_queue",
+      "value": "async_queue",
+      "exposed": true,
+      "description": "Run inline or through the durable async queue.",
+      "options": [
+        "inline",
+        "async_queue"
+      ]
+    },
+    {
+      "id": "inference_mode",
+      "label": "Inference",
+      "kind": "options",
+      "default_value": "sparse_low_memory",
+      "value": "sparse_low_memory",
+      "exposed": true,
+      "description": "Controls serial and sparse model-call admission.",
+      "options": [
+        "normal",
+        "layer_serial",
+        "sparse_low_memory",
+        "global_sparse"
+      ]
+    },
+    {
+      "id": "execution_mode",
+      "label": "Exec",
+      "kind": "options",
+      "default_value": "async_queue",
+      "value": "async_queue",
+      "exposed": true,
+      "description": "Run inline or through the durable async queue.",
+      "options": [
+        "inline",
+        "async_queue"
+      ]
+    },
+    {
+      "id": "inference_mode",
+      "label": "Inference",
+      "kind": "options",
+      "default_value": "sparse_low_memory",
+      "value": "sparse_low_memory",
+      "exposed": true,
+      "description": "Controls serial and sparse model-call admission.",
+      "options": [
+        "normal",
+        "layer_serial",
+        "sparse_low_memory",
+        "global_sparse"
+      ]
+    },
+    {
+      "id": "layers",
+      "label": "Layers",
+      "kind": "number",
+      "default_value": "0",
+      "value": "0",
+      "exposed": true,
+      "description": "Recursive NexusAgent layer depth; 0 disables nested passes.",
+      "min": 0,
+      "max": 6
+    },
+    {
+      "id": "max_run_minutes",
+      "label": "Minutes",
+      "kind": "number",
+      "default_value": "20",
+      "value": "20",
+      "exposed": true,
+      "description": "Wall-clock run budget in minutes.",
+      "min": 1,
+      "max": 240
+    },
+    {
+      "id": "planning_fanout_loops",
+      "label": "Fanout",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Bounded planning fanout loop count.",
+      "min": 1,
+      "max": 12
+    },
+    {
+      "id": "act_loops_per_layer",
+      "label": "Act Loops",
+      "kind": "number",
+      "default_value": "3",
+      "value": "3",
+      "exposed": true,
+      "description": "Execution loop budget per recursive layer.",
+      "min": 1,
+      "max": 24
+    },
+    {
+      "id": "validation_repair_loops",
+      "label": "Repairs",
+      "kind": "number",
+      "default_value": "2",
+      "value": "2",
+      "exposed": true,
+      "description": "Validation repair loop budget after patch application.",
+      "min": 0,
+      "max": 12
+    },
+    {
+      "id": "reconciliation_passes",
+      "label": "Reconcile",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Reconciliation passes after fanout or nested work.",
+      "min": 1,
+      "max": 12
+    },
+    {
+      "id": "memory_budget_mb",
+      "label": "Memory MB",
+      "kind": "number",
+      "default_value": "512",
+      "value": "512",
+      "exposed": true,
+      "description": "Runtime memory budget hint for NexusAgent-owned loops.",
+      "min": 128,
+      "max": 4096
+    },
+    {
+      "id": "max_active_runs",
+      "label": "Runs",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Maximum active async runs.",
+      "min": 1,
+      "max": 256
+    },
+    {
+      "id": "max_active_model_calls",
+      "label": "Calls",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Maximum active model calls admitted by the local sparse lane.",
+      "min": 1,
+      "max": 64
+    },
+    {
+      "id": "phase_time_slice_minutes",
+      "label": "Slice",
+      "kind": "number",
+      "default_value": "5",
+      "value": "5",
+      "exposed": true,
+      "description": "Maximum minutes per async phase lease.",
+      "min": 1,
+      "max": 240
+    },
+    {
+      "id": "model_cooldown_ms",
+      "label": "Cooldown",
+      "kind": "number",
+      "default_value": "1000",
+      "value": "1000",
+      "exposed": true,
+      "description": "Cooldown after sparse model phases.",
+      "min": 0,
+      "max": 60000
+    },
+    {
+      "id": "max_threads_per_call",
+      "label": "Threads",
+      "kind": "number",
+      "default_value": "2",
+      "value": "2",
+      "exposed": true,
+      "description": "Thread cap hint forwarded to compatible local runtimes.",
+      "min": 0,
+      "max": 256
+    },
+    {
+      "id": "memory_admission_mb",
+      "label": "Admit MB",
+      "kind": "number",
+      "default_value": "4096",
+      "value": "4096",
+      "exposed": true,
+      "description": "Memory admission budget for sparse model lanes.",
+      "min": 64,
+      "max": 262144
+    },
+    {
+      "id": "queue_poll_ms",
+      "label": "Poll",
+      "kind": "number",
+      "default_value": "1000",
+      "value": "1000",
+      "exposed": true,
+      "description": "Async queue polling interval hint.",
+      "min": 100,
+      "max": 60000
+    },
+    {
+      "id": "max_active_runs",
+      "label": "Runs",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Maximum active async runs.",
+      "min": 1,
+      "max": 256
+    },
+    {
+      "id": "max_active_model_calls",
+      "label": "Calls",
+      "kind": "number",
+      "default_value": "1",
+      "value": "1",
+      "exposed": true,
+      "description": "Maximum active model calls admitted by the local sparse lane.",
+      "min": 1,
+      "max": 64
+    },
+    {
+      "id": "phase_time_slice_minutes",
+      "label": "Slice",
+      "kind": "number",
+      "default_value": "5",
+      "value": "5",
+      "exposed": true,
+      "description": "Maximum minutes per async phase lease.",
+      "min": 1,
+      "max": 240
+    },
+    {
+      "id": "model_cooldown_ms",
+      "label": "Cooldown",
+      "kind": "number",
+      "default_value": "1000",
+      "value": "1000",
+      "exposed": true,
+      "description": "Cooldown after sparse model phases.",
+      "min": 0,
+      "max": 60000
+    },
+    {
+      "id": "max_threads_per_call",
+      "label": "Threads",
+      "kind": "number",
+      "default_value": "2",
+      "value": "2",
+      "exposed": true,
+      "description": "Thread cap hint forwarded to compatible local runtimes.",
+      "min": 0,
+      "max": 256
+    },
+    {
+      "id": "memory_admission_mb",
+      "label": "Admit MB",
+      "kind": "number",
+      "default_value": "4096",
+      "value": "4096",
+      "exposed": true,
+      "description": "Memory admission budget for sparse model lanes.",
+      "min": 64,
+      "max": 262144
+    },
+    {
+      "id": "queue_poll_ms",
+      "label": "Poll",
+      "kind": "number",
+      "default_value": "1000",
+      "value": "1000",
+      "exposed": true,
+      "description": "Async queue polling interval hint.",
+      "min": 100,
+      "max": 60000
+    },
+    {
+      "id": "trace_detail",
+      "label": "Trace",
+      "kind": "options",
+      "default_value": "verbose",
+      "value": "verbose",
+      "exposed": true,
+      "description": "Controls NexusAgent grouped chain trace verbosity.",
+      "options": [
+        "compact",
+        "verbose",
+        "debug"
+      ]
+    }
+  ],
+  "input_contract": {
+    "prompt": "Prompt text.",
+    "artifact_inputs": "Optional artifact inputs."
+  },
+  "output_contract": {
+    "final": "Final NexusAgent harness response.",
+    "artifact": "Generated run artifacts or reports."
+  },
+  "validation": "python wrapper"
+}

@@ -1,0 +1,99 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             x:Class="NexusCentral_Avalonia.Views.SystemSettingsView"
+             x:DataType="vm:SystemSettingsViewModel">
+    <StackPanel Spacing="8">
+        <Border Classes="largeCard">
+                    <StackPanel Spacing="10">
+                        <Border Classes="subSection">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Diagnostics"
+                                           Classes="sectionTitle"/>
+                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                    <TextBlock Text="Settings file"
+                                               Classes="fieldLabel"
+                                               Margin="0,0,8,0"/>
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding SettingsPath}"
+                                               Classes="monoText"
+                                               TextWrapping="Wrap"/>
+
+                                    <TextBlock Grid.Row="1"
+                                               Text="Theme"
+                                               Classes="fieldLabel"
+                                               Margin="0,0,8,0"/>
+                                    <TextBlock Grid.Row="1"
+                                               Grid.Column="1"
+                                               Text="{Binding ThemeSummary}"
+                                               Classes="monoText"
+                                               TextWrapping="Wrap"/>
+
+                                    <TextBlock Grid.Row="2"
+                                               Text="Schema"
+                                               Classes="fieldLabel"
+                                               Margin="0,0,8,0"/>
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="1"
+                                               Text="{Binding SchemaVersion}"
+                                               Classes="sectionMeta"/>
+
+                                    <TextBlock Grid.Row="3"
+                                               Text="Overlay"
+                                               Classes="fieldLabel"
+                                               Margin="0,0,8,0"/>
+                                    <TextBlock Grid.Row="3"
+                                               Grid.Column="1"
+                                               Text="{Binding OverlayOpacity}"
+                                               Classes="sectionMeta"/>
+                                </Grid>
+                                <TextBlock Text="{Binding ContrastRatio, StringFormat='Contrast {0}'}"
+                                           Classes="sectionMeta"/>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Classes="subSection">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="Semantic Colors"
+                                           Classes="sectionTitle"/>
+                                <ItemsControl ItemsSource="{Binding SemanticColors}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="vm:SystemColorSummaryViewModel">
+                                            <Border Margin="0,0,0,6"
+                                                    Background="{DynamicResource TokyoPanelBrush}"
+                                                    BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Padding="8">
+                                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                                    <Border Width="18"
+                                                            Height="18"
+                                                            CornerRadius="3"
+                                                            Background="{Binding Brush}"
+                                                            BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                                            BorderThickness="1"
+                                                            Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="1"
+                                                               Text="{Binding Name}"
+                                                               Classes="fieldLabel"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,0,10,0"/>
+                                                    <TextBlock Grid.Column="2"
+                                                               Text="{Binding Hex}"
+                                                               Classes="monoText"
+                                                               VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="{Binding StatusText}"
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

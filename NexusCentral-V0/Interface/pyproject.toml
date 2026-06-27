@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexuscentral_interface"
+version = "0.1.0"
+description = "NexusCentral Interface CLI tool structured by domains"
+authors = [
+    { name = "NexusCentral", email = "info@nexuscentral.dev" }
+]
+readme = "docs/CLI_ARCHITECTURE.md"
+requires-python = ">=3.9"
+dependencies = [
+    "huggingface_hub"
+]
+
+[project.scripts]
+nci = "nexuscentral_interface.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

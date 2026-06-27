@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asteroid Hangar</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: sans-serif; }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; box-sizing: border-box; color: white; }
+        .hud-top { display: flex; justify-content: space-between; font-size: 1.2rem; text-shadow: 0 0 5px #0ff; }
+        #message-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: auto; background: rgba(0,0,0,0.8); padding: 40px; border: 2px solid #0ff; border-radius: 10px; display: none; }
+        h1 { margin: 0 0 20px 0; color: #0ff; }
+        button { background: #0ff; border: none; padding: 10px 20px; font-size: 1rem; cursor: pointer; color: #000; font-weight: bold; }
+        button:hover { background: #fff; }
+        .controls-hint { font-size: 0.8rem; color: #aaa; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div id="ui-layer">
+        <div class="hud-top">
+            <div id="score-display">Score: 0</div>
+            <div id="energy-display">Energy: 100%</div>
+        </div>
+        <div id="progress-display">Distance: 0m</div>
+    </div>
+    <div id="message-overlay">
+        <h1 id="msg-title">Ready?</h1>
+        <p id="msg-text">Navigate the asteroid field.</p>
+        <button id="action-btn">Start</button>
+        <div class="controls-hint">WASD / Arrows to move</div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

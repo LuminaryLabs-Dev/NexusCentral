@@ -1,0 +1,44 @@
+{
+  "id": "artifact_build",
+  "name": "Artifact Build",
+  "description": "NexusGLMHarness artifact planning/build prompt.",
+  "default_mode": "wrapper",
+  "default_wrapper_id": "nexusglmharness",
+  "allowed_wrapper_ids": [
+    "nexusglmharness",
+    "nexusagent",
+    "direct_llm"
+  ],
+  "wrapper_locked": false,
+  "inputs": [
+    {
+      "id": "prompt",
+      "label": "Prompt",
+      "kind": "text",
+      "required": true,
+      "maps_to": "prompt"
+    },
+    {
+      "id": "artifact_inputs",
+      "label": "Artifact Inputs",
+      "kind": "files",
+      "required": false,
+      "maps_to": "artifact_inputs"
+    }
+  ],
+  "artifact_outputs": {
+    "discover": true,
+    "globs": [
+      "**/*.md",
+      "**/*.txt"
+    ]
+  },
+  "default_model_id": "",
+  "default_max_tokens": 1200,
+  "default_args": [],
+  "tags": [
+    "artifact",
+    "build",
+    "nexusglmharness"
+  ]
+}

@@ -1,0 +1,109 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             xmlns:components="using:NexusCentral.V3.Desktop.Components"
+             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.DevicesSurfaceView"
+             x:DataType="vm:NavigationItemViewModel">
+  <Grid RowDefinitions="Auto,*,Auto">
+    <Border Grid.Row="0"
+            Classes="flatToolbar">
+      <StackPanel Orientation="Horizontal"
+                  Spacing="8"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center">
+        <components:MetricBadge Label="Peers"
+                                Value="{Binding StatusLabel}"
+                                AccentBrush="{DynamicResource StatusOfflineBrush}"
+                                BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
+        <Button Classes="primary"
+                IsEnabled="False"
+                Content="{Binding PrimaryActionLabel}" />
+        <Button Classes="secondary"
+                IsEnabled="False"
+                Content="{Binding SecondaryActionLabel}" />
+      </StackPanel>
+    </Border>
+
+    <Grid Grid.Row="1"
+          ColumnDefinitions="320,*">
+      <Border Classes="flatLane">
+        <Grid RowDefinitions="Auto,*">
+          <TextBlock Text="Trusted peers"
+                     Classes="sectionTitle" />
+          <StackPanel Grid.Row="1"
+                      Margin="0,8,0,0"
+                      Spacing="0">
+            <Border Classes="flatListRow selected">
+              <StackPanel Spacing="2">
+                <TextBlock Text="Local NexusCentral"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Queue owner placeholder"
+                           Classes="caption" />
+              </StackPanel>
+            </Border>
+            <Border Classes="flatListRow">
+              <TextBlock Text="Remote peer placeholder"
+                         Classes="sectionMeta" />
+            </Border>
+            <Border Classes="flatListRow">
+              <TextBlock Text="Imported route target placeholder"
+                         Classes="sectionMeta" />
+            </Border>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1"
+              Classes="flatMainLane">
+        <Grid RowDefinitions="Auto,*"
+              RowSpacing="10">
+          <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="2">
+              <TextBlock Text="Selected peer queue / routes"
+                         Classes="sectionTitle" />
+              <TextBlock Text="{Binding CapabilitySummary}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <components:MetricBadge Grid.Column="1"
+                                    Label="Routeable"
+                                    Value="local only"
+                                    AccentBrush="{DynamicResource StatusActiveBrush}"
+                                    BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+          </Grid>
+
+          <Grid Grid.Row="1"
+                ColumnDefinitions="*,*"
+                ColumnSpacing="10">
+            <Border Classes="flatBlock">
+              <StackPanel Spacing="6">
+                <TextBlock Text="Queue card"
+                           Classes="sectionTitle" />
+                <TextBlock Text="Running, waiting, capacity, accepted capabilities, and health indicators will appear here."
+                           Classes="sectionMeta"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+            <Border Grid.Column="1"
+                    Classes="flatBlock">
+              <StackPanel Spacing="6">
+                <TextBlock Text="Routes"
+                           Classes="sectionTitle" />
+                <TextBlock Text="A NexusCentral endpoint routes into another trusted queue, not directly into the remote provider list."
+                           Classes="sectionMeta"
+                           TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+          </Grid>
+
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="2"
+            Classes="flatStatusStrip">
+      <TextBlock Text="Request telemetry placeholder: queue depth, stale state, trust changes, remote session IDs, and route attempts."
+                 Classes="sectionMeta" />
+    </Border>
+  </Grid>
+</UserControl>

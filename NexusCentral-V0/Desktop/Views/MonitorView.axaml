@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:views="using:NexusCentral_Avalonia.Views"
+             x:Class="NexusCentral_Avalonia.Views.MonitorView"
+             x:DataType="vm:MonitorViewModel">
+
+    <UserControl.Resources>
+        <views:ResourceToBrushConverter x:Key="ResourceToBrushConverter"/>
+    </UserControl.Resources>
+
+    <Border Margin="12"
+            Classes="sectionShell">
+        <StackPanel>
+            <Border Classes="sectionHeader compact">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="Monitor"
+                                   Classes="sectionTitle"/>
+                        <TextBlock Text="{Binding SummaryText}"
+                                   Classes="sectionSummary"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <Border Grid.Column="1"
+                            Classes="inlineBadge"
+                            Background="{Binding ConnectionColor, Converter={StaticResource ResourceToBrushConverter}}"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding StatusText}"
+                                   Foreground="{DynamicResource TokyoBGBrush}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Border Classes="sectionBody subtle">
+                <Grid ColumnDefinitions="Auto,220,*,Auto,Auto"
+                      RowDefinitions="Auto,Auto">
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="API URL"
+                               Classes="fieldLabel"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             Grid.ColumnSpan="2"
+                             Text="{Binding ApiUrl}"/>
+
+                    <Button Grid.Row="0"
+                            Grid.Column="3"
+                            Content="Connect"
+                            Classes="primary"/>
+
+                    <Button Grid.Row="0"
+                            Grid.Column="4"
+                            Content="Disconnect"/>
+
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Grid.ColumnSpan="3"
+                               Text="{Binding StatusDetail}"
+                               Foreground="{DynamicResource TokyoErrorBrush}"
+                               FontSize="11"
+                               IsVisible="{Binding StatusDetail, Converter={x:Static ObjectConverters.IsNotNull}}"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,186 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:lab="using:NexusCentral.V3.Features.Lab"
+             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.LabSurfaceView"
+             x:DataType="lab:LabViewModel">
+  <Grid ColumnDefinitions="276,*"
+        Classes="labRoot">
+    <Border Classes="labWorkspaceLane">
+      <Grid RowDefinitions="Auto,Auto,*,Auto"
+            RowSpacing="10">
+        <StackPanel Spacing="3">
+          <TextBlock Text="Workspace"
+                     Classes="sectionTitle" />
+          <Grid ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <ComboBox ItemsSource="{Binding Workspaces}"
+                      SelectedItem="{Binding SelectedWorkspace, Mode=TwoWay}">
+              <ComboBox.ItemTemplate>
+                <DataTemplate DataType="lab:WorkspaceSummaryViewModel">
+                  <TextBlock Text="{Binding DisplayText}" />
+                </DataTemplate>
+              </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="1"
+                    Classes="iconButton"
+                    Content="R"
+                    Command="{Binding RefreshWorkspaceTreeCommand}"
+                    ToolTip.Tip="Refresh workspace tree" />
+          </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="8">
+          <Button Classes="secondary"
+                  Content="Open folder"
+                  Click="OpenWorkspaceButtonClick" />
+          <Button Grid.Column="1"
+                  Classes="secondary"
+                  Content="Refresh"
+                  Command="{Binding RefreshWorkspaceTreeCommand}" />
+        </Grid>
+
+        <ScrollViewer Grid.Row="2"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
+          <ItemsControl ItemsSource="{Binding WorkspaceTree}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="lab:WorkspaceTreeNodeViewModel">
+                <Border Classes="treeRow">
+                  <TextBlock Text="{Binding DisplayText}"
+                             Classes="monoText" />
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+        <Grid Grid.Row="3"
+              RowDefinitions="Auto,Auto"
+              RowSpacing="8">
+          <Button Classes="wideAction"
+                  Content="+  Create Sandbox"
+                  Command="{Binding CreateSandboxWorkspaceCommand}" />
+          <Grid Grid.Row="1"
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="8">
+            <TextBlock Text="{Binding SelectedPathText}"
+                       Classes="footerText"
+                       TextTrimming="CharacterEllipsis" />
+            <TextBlock Grid.Column="1"
+                       Text="{Binding SelectedPathSizeText}"
+                       Classes="footerText" />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Border Grid.Column="1"
+            Classes="labChatLane"
+            DragDrop.AllowDrop="True"
+            DragDrop.DragOver="ChatDragOver"
+            DragDrop.Drop="ChatDrop">
+      <Grid RowDefinitions="48,*,74">
+        <Border Classes="sessionHeader">
+          <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+                ColumnSpacing="12">
+            <TextBlock Text="Session"
+                       Classes="sectionMeta"
+                       VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1"
+                       Text="{Binding SessionName}"
+                       Classes="sessionName"
+                       VerticalAlignment="Center" />
+            <StackPanel Grid.Column="3"
+                        Orientation="Horizontal"
+                        Spacing="14"
+                        VerticalAlignment="Center">
+              <Button Classes="headerAction"
+                      Content="Clear"
+                      IsEnabled="False" />
+              <Button Classes="headerAction"
+                      Content="Save"
+                      IsEnabled="False" />
+              <Button Classes="headerAction"
+                      Content="Filter"
+                      IsEnabled="False" />
+              <Button Classes="headerAction"
+                      Content="..."
+                      IsEnabled="False" />
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1"
+                      Classes="transcriptScroll"
+                      VerticalScrollBarVisibility="Auto">
+          <ItemsControl ItemsSource="{Binding Transcript}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="lab:LabTranscriptItemViewModel">
+                <TextBlock Text="{Binding FormattedText}"
+                           Classes="transcriptText"
+                           TextWrapping="Wrap" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+
+        <Border Grid.Row="2"
+                Classes="composerBar">
+          <Grid RowDefinitions="Auto,Auto"
+                RowSpacing="5">
+            <ItemsControl ItemsSource="{Binding PendingAttachments}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <WrapPanel />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="lab:ChatAttachmentViewModel">
+                  <Border Classes="attachmentPill">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="4">
+                      <TextBlock Text="{Binding FileName}"
+                                 Classes="caption" />
+                      <TextBlock Text="{Binding SizeText}"
+                                 Classes="caption" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="Auto,Auto,*,Auto,Auto"
+                  ColumnSpacing="8">
+              <Button Content="+"
+                      Classes="iconButton"
+                      Click="UploadButtonClick"
+                      ToolTip.Tip="Upload files through chat." />
+              <Button Grid.Column="1"
+                      Content="Attach"
+                      Classes="iconButton"
+                      Click="UploadButtonClick"
+                      ToolTip.Tip="Upload files through chat." />
+              <TextBox Grid.Column="2"
+                       Text="{Binding InputText, Mode=TwoWay}"
+                       PlaceholderText="Ask anything... (drag files or click + to attach)"
+                       AcceptsReturn="True"
+                       MinHeight="34" />
+              <ComboBox Grid.Column="3"
+                        IsEnabled="False"
+                        SelectedIndex="0">
+                <ComboBoxItem Content="Select model" />
+              </ComboBox>
+              <Button Grid.Column="4"
+                      Classes="primary"
+                      Content="Send"
+                      Command="{Binding SendMessageCommand}" />
+            </Grid>
+          </Grid>
+        </Border>
+      </Grid>
+    </Border>
+  </Grid>
+</UserControl>

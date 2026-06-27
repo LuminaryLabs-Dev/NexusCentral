@@ -1,0 +1,42 @@
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencies and build outputs
+**/node_modules/
+**/bin/
+**/obj/
+**/dist/
+**/build/
+**/.next/
+**/.vite/
+**/target/
+**/vendor/bundle/
+**/.bundle/
+**/*.egg-info/
+
+# Local automation, browser, and proof artifacts
+**/.playwright-mcp/
+playwright-report/
+test-results/
+NexusCentral-V0/*proof*.png
+NexusCentral-V0/web-lab-*.png
+**/state/evidence/
+**/state/automation/
+**/state/reports/
+*.log
+*.tmp
+*.temp
+
+# Repo-local private operating memory
+memory.md
+**/memory.md

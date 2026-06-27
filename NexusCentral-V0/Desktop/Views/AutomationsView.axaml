@@ -1,0 +1,291 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.AutomationsView"
+             x:DataType="vm:AutomationsViewModel">
+    <UserControl.Resources>
+        <!-- StepCardGradient removed to share ThoughtCardBackgroundBrush -->
+
+        <DataTemplate x:Key="WorkflowSummaryTemplate" DataType="vm:AutomationWorkflowViewModel">
+            <Border Classes="workflowSummaryCard">
+                <StackPanel Spacing="0">
+                    <Border Padding="12,8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="{Binding Name}"
+                                       Classes="sectionTitle"
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center"/>
+                            <Border Grid.Column="1"
+                                    Classes="inlineBadge"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Steps.Count, StringFormat='{}{0} steps'}"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <Border Padding="12,0,12,8">
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="{Binding GoalText}"
+                                       Classes="sectionMeta"
+                                       TextWrapping="Wrap"
+                                       MaxHeight="36"/>
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Border Classes="inlineBadge"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding StatusText}"
+                                               FontSize="10"
+                                               FontWeight="SemiBold"/>
+                                </Border>
+                                <TextBlock Grid.Column="1"
+                                           Margin="8,0,0,0"
+                                           Text="{Binding SelectedWorkspaceSummary}"
+                                           Classes="sectionMeta"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WorkflowStepTemplate" DataType="vm:AutomationWorkflowStepViewModel">
+            <Border Classes="workflowStepLane">
+                <Grid ColumnDefinitions="*,Auto"
+                      RowDefinitions="Auto,Auto,Auto,Auto">
+                    <StackPanel Grid.Column="0"
+                                Spacing="8">
+                        <Grid ColumnDefinitions="Auto,Auto,*">
+                            <TextBlock Text="{Binding Name}"
+                                       Classes="sectionTitle"/>
+                            <Border Grid.Column="1"
+                                    Classes="inlineBadge"
+                                    Margin="8,0,0,0"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="{Binding StatusText}"
+                                           FontSize="10"
+                                           FontWeight="SemiBold"/>
+                            </Border>
+                        </Grid>
+
+                        <StackPanel Spacing="12" Margin="0,4,0,0">
+                            <!-- Inputs Section -->
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Inputs" Classes="fieldLabel"/>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Spacing="2">
+                                        <TextBlock Text="Supporting files for this step."
+                                                   Classes="sectionMeta"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="1"
+                                            Classes="compactAction"
+                                            Content="Add Input"
+                                            VerticalAlignment="Center"
+                                            Click="OnAddInputClick"/>
+                                </Grid>
+
+                                <ListBox ItemsSource="{Binding InputFiles}"
+                                         Background="Transparent"
+                                         BorderThickness="0">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,4">
+                                                <TextBox Text="{Binding PathText}"
+                                                         Watermark="Relative path inside workspace"/>
+                                                <Button Grid.Column="1"
+                                                        Margin="8,0,0,0"
+                                                        Classes="destructiveSecondary compactAction"
+                                                        Content="Remove"
+                                                        Click="OnRemoveInputClick"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+
+                            <!-- Prompt Section -->
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Prompt" Classes="fieldLabel"/>
+                                <TextBox Text="{Binding PromptText}"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         MinHeight="120"
+                                         Watermark="Describe how this step should transform the input files"/>
+                            </StackPanel>
+
+                            <!-- Output Section -->
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="Output" Classes="fieldLabel"/>
+                                <TextBox Text="{Binding OutputPath}"
+                                         Watermark="outputs/result_{ts}.md"/>
+                                <TextBlock Text="{Binding LastOutputPath}"
+                                           IsVisible="{Binding LastOutputPath, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                           Classes="sectionMeta"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Vertical"
+                                Spacing="6"
+                                Margin="16,0,0,0"
+                                VerticalAlignment="Top">
+                        <CheckBox IsChecked="{Binding Enabled}"
+                                  ToolTip.Tip="Enable step"
+                                  VerticalAlignment="Center"/>
+                        <Button Classes="headerAction"
+                                Content="↑"
+                                ToolTip.Tip="Move step up"
+                                Click="OnMoveStepUpClick"/>
+                        <Button Classes="headerAction"
+                                Content="↓"
+                                ToolTip.Tip="Move step down"
+                                Click="OnMoveStepDownClick"/>
+                        <Button Classes="headerAction"
+                                Content="−"
+                                ToolTip.Tip="Remove step"
+                                Click="OnRemoveStepClick"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="WorkflowEditorTemplate" DataType="vm:AutomationWorkflowViewModel">
+            <StackPanel Classes="paneStack" Margin="16">
+                <!-- Workflow Settings Pill -->
+                <Border Classes="inlineSection" Padding="16,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto,*"
+                          RowDefinitions="Auto,Auto">
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="Enabled"
+                                   Classes="fieldLabel"
+                                   VerticalAlignment="Center"/>
+                        <CheckBox Grid.Row="0"
+                                  Grid.Column="1"
+                                  IsChecked="{Binding Enabled}"
+                                  VerticalAlignment="Center"
+                                  Margin="12,0,0,0"/>
+
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="2"
+                                   Text="Workspace"
+                                   Classes="fieldLabel"
+                                   VerticalAlignment="Center"
+                                   Margin="12,0,0,0"/>
+                        <ComboBox Grid.Row="0"
+                                  Grid.Column="3"
+                                  Classes="compactCombo"
+                                  ItemsSource="{Binding WorkspaceOptions}"
+                                  SelectedItem="{Binding SelectedWorkspace}"
+                                  Margin="12,0,0,0"
+                                  HorizontalAlignment="Stretch">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <TextBlock Grid.Row="1"
+                                   Grid.ColumnSpan="4"
+                                   Margin="0,8,0,0"
+                                   Text="{Binding SelectedWorkspaceSummary}"
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap"/>
+                    </Grid>
+                </Border>
+
+                <!-- Steps List -->
+                <ItemsControl ItemsSource="{Binding Steps}"
+                              ItemTemplate="{StaticResource WorkflowStepTemplate}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="16"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <Button Content="+ Add Step"
+                        Classes="secondary"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <components:SplitPaneShell LayoutKey="automations"
+                               SplitterWidth="4"
+                               SurfaceMode="None">
+        <components:SplitPaneShell.LeftHeaderContent>
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="Workflows"
+                               Classes="pageTitle"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Classes="headerAction"
+                        Content="+"
+                        ToolTip.Tip="Add workflow"
+                        Command="{Binding AddWorkflowCommand}"/>
+            </Grid>
+        </components:SplitPaneShell.LeftHeaderContent>
+
+        <components:SplitPaneShell.LeftContent>
+            <ListBox ItemsSource="{Binding Workflows}"
+                     ItemTemplate="{StaticResource WorkflowSummaryTemplate}"
+                     SelectedItem="{Binding SelectedWorkflow, Mode=TwoWay}"
+                     Background="Transparent"
+                     BorderThickness="0">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                </ListBox.Styles>
+            </ListBox>
+        </components:SplitPaneShell.LeftContent>
+
+        <components:SplitPaneShell.RightHeaderContent>
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Spacing="2">
+                    <TextBlock Text="{Binding SelectedWorkflow.Name, FallbackValue='Workflow'}"
+                               Classes="pageTitle"/>
+                    <TextBlock Text="{Binding SelectedWorkflow.GoalText, FallbackValue='Select a workflow to edit steps and bindings.'}"
+                               Classes="pageMeta"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Spacing="8"
+                            VerticalAlignment="Center">
+                    <Button Content="▶"
+                            DataContext="{Binding SelectedWorkflow}"
+                            Classes="headerAction primary"
+                            ToolTip.Tip="Play workflow"/>
+                    <Button Content="Dup"
+                            DataContext="{Binding SelectedWorkflow}"
+                            Classes="headerAction"
+                            Click="OnDuplicateWorkflowClick"/>
+                    <Button Content="Remove"
+                            DataContext="{Binding SelectedWorkflow}"
+                            Classes="headerAction"
+                            Click="OnRemoveWorkflowClick"/>
+                </StackPanel>
+            </Grid>
+        </components:SplitPaneShell.RightHeaderContent>
+
+        <components:SplitPaneShell.RightContent>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ContentControl Content="{Binding SelectedWorkflow}"
+                                ContentTemplate="{StaticResource WorkflowEditorTemplate}">
+                </ContentControl>
+            </ScrollViewer>
+        </components:SplitPaneShell.RightContent>
+    </components:SplitPaneShell>
+</UserControl>

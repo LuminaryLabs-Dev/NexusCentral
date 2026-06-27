@@ -1,0 +1,172 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:views="using:NexusCentral_Avalonia.Views"
+             x:Class="NexusCentral_Avalonia.Components.CollapsibleDock"
+             x:DataType="vm:MainViewModel">
+
+    <UserControl.Resources>
+        <views:TimestampToDateTimeConverter x:Key="TimestampConverter"/>
+        <views:ResourceToBrushConverter x:Key="ResourceToBrushConverter"/>
+        <views:LogLevelToBrushConverter x:Key="LogLevelToBrushConverter"/>
+    </UserControl.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+        <Border Grid.Row="0"
+                Background="{DynamicResource TokyoShellBrush}"
+                BorderBrush="{DynamicResource TokyoDividerBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="8,1">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- LEFT EDGE: CORE STATUS -->
+                <StackPanel Grid.Column="0" Orientation="Horizontal" Spacing="6">
+                    <ToggleButton x:Name="ToggleBtn"
+                                   Classes="headerAction"
+                                   Content="▲"
+                                   ToolTip.Tip="Toggle Console"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"/>
+
+                    <Border Classes="inlineBadge"
+                            VerticalAlignment="Center"
+                            Background="#10FFFFFF"
+                            BorderBrush="{DynamicResource TokyoDividerBrush}"
+                            BorderThickness="1"
+                            ToolTip.Tip="{Binding SummaryText}">
+                        <TextBlock Text="{Binding StatusText}"
+                                    FontSize="10"
+                                    FontWeight="SemiBold"
+                                    Foreground="{DynamicResource TokyoAccentBrush}"
+                                    Margin="4,0"/>
+                    </Border>
+
+                    <Border Classes="inlineBadge"
+                            IsVisible="{Binding Chat.GenerationStatusText, Converter={x:Static views:StringNotEqualsConverter.Instance}, ConverterParameter='Idle'}"
+                            Background="{DynamicResource TokyoAccentBrush}"
+                            Opacity="0.9"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Chat.GenerationStatusText}"
+                                    FontSize="10"
+                                    FontWeight="Bold"
+                                    Foreground="{DynamicResource TokyoBGBrush}"
+                                    Margin="4,0"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- CENTER: ACTIVE CONTEXT -->
+                <StackPanel Grid.Column="1" 
+                            Orientation="Horizontal" 
+                            Spacing="8" 
+                            HorizontalAlignment="Center">
+                    
+                    <Border Classes="inlineBadge"
+                            Background="#08FFFFFF"
+                            IsVisible="{Binding Chat.QueueStatusText, Converter={x:Static views:StringNotEqualsConverter.Instance}, ConverterParameter='Queue empty'}">
+                        <StackPanel Orientation="Horizontal" Spacing="4" Margin="4,0">
+                            <TextBlock Text="󱔗" FontFamily="{StaticResource LucideFont}" FontSize="12" Opacity="0.5"/>
+                            <TextBlock Text="{Binding Chat.QueueStatusText}" FontSize="10" FontWeight="SemiBold" Opacity="0.8"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Classes="inlineField"
+                            IsVisible="{Binding Chat.WebLabStatusText, Converter={x:Static views:StringNotEqualsConverter.Instance}, ConverterParameter='Nexus Web Lab offline'}"
+                            Background="#1500FFCC">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,0">
+                            <TextBlock Text="󰖟" FontFamily="{StaticResource LucideFont}" FontSize="12" Foreground="#00FFCC" Opacity="0.6"/>
+                            <TextBlock Text="{Binding Chat.WebLabStatusText}"
+                                       FontSize="10"
+                                       MaxWidth="300"
+                                       TextTrimming="CharacterEllipsis"
+                                       Opacity="0.8"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- RIGHT EDGE: METADATA -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                    <Border Classes="inlineField" Background="#08FFFFFF" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="4,0">
+                            <StackPanel Orientation="Horizontal" Spacing="2">
+                                <TextBlock Text="SID" FontSize="8" Opacity="0.3" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Chat.ShortSessionId}" Classes="monoText" FontSize="10" Opacity="0.5" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Rectangle Width="1" Height="8" Fill="{DynamicResource TokyoDividerBrush}" VerticalAlignment="Center" Margin="2,0"/>
+                            <StackPanel Orientation="Horizontal" Spacing="2">
+                                <TextBlock Text="RID" FontSize="8" Opacity="0.3" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Chat.ShortLatestRunId}" Classes="monoText" FontSize="10" Opacity="0.5" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock Text="CONSOLE"
+                               Margin="8,0,4,0"
+                               FontSize="9"
+                               FontWeight="Bold"
+                               LetterSpacing="1"
+                               Opacity="0.3"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Background="{DynamicResource TokyoSurfaceBrush}"
+                BorderBrush="{DynamicResource TokyoDividerBrush}"
+                BorderThickness="0,1,0,0"
+                IsVisible="{Binding #ToggleBtn.IsChecked}"
+                Height="280">
+            <!-- VERBOSE LOG LIST - NO INTERNAL HEADER -->
+            <ScrollViewer Padding="0"
+                          VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Monitor.LogEvents}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#08FFFFFF"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="12,2">
+                                <Grid ColumnDefinitions="140,80,60,*">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding TimestampMs, Converter={StaticResource TimestampConverter}, StringFormat='HH:mm:ss.fff'}"
+                                               Opacity="0.3"
+                                               FontSize="10"
+                                               Classes="monoText"
+                                               VerticalAlignment="Center"/>
+                                    
+                                    <Border Grid.Column="1"
+                                            HorizontalAlignment="Left"
+                                            Padding="4,0"
+                                            CornerRadius="2"
+                                            Background="{Binding Level, Converter={StaticResource LogLevelToBrushConverter}}"
+                                            Margin="4,0"
+                                            Opacity="0.8">
+                                        <TextBlock Text="{Binding Level, Converter={x:Static views:StringToUpperConverter.Instance}}"
+                                                   FontSize="8"
+                                                   FontWeight="Bold"
+                                                   Foreground="{DynamicResource TokyoBGBrush}"
+                                                   HorizontalAlignment="Center"/>
+                                    </Border>
+
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding Source}"
+                                               Opacity="0.3"
+                                               FontSize="9"
+                                               Classes="monoText"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"/>
+
+                                    <TextBlock Grid.Column="3"
+                                               Text="{Binding Message}"
+                                               FontSize="11"
+                                               TextWrapping="Wrap"
+                                               Opacity="0.8"
+                                               VerticalAlignment="Center"
+                                               Margin="8,0,0,0"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

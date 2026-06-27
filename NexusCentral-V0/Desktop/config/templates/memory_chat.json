@@ -1,0 +1,37 @@
+{
+  "id": "memory_chat",
+  "name": "Memory Chat",
+  "description": "NexusGLMHarness chat with harness-owned memory search.",
+  "default_mode": "wrapper",
+  "default_wrapper_id": "nexusglmharness",
+  "allowed_wrapper_ids": [
+    "nexusglmharness",
+    "nexusagent",
+    "direct_llm"
+  ],
+  "wrapper_locked": false,
+  "inputs": [
+    {
+      "id": "prompt",
+      "label": "Prompt",
+      "kind": "text",
+      "required": true,
+      "maps_to": "prompt"
+    }
+  ],
+  "artifact_outputs": {
+    "discover": true,
+    "globs": [
+      "**/*.md",
+      "**/*.txt"
+    ]
+  },
+  "default_model_id": "",
+  "default_max_tokens": 1200,
+  "default_args": [],
+  "tags": [
+    "chat",
+    "memory",
+    "nexusglmharness"
+  ]
+}

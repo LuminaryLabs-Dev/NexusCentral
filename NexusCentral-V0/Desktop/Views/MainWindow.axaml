@@ -1,0 +1,55 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:components="using:NexusCentral_Avalonia.Components"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="820"
+        x:Class="NexusCentral_Avalonia.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="NexusCentral"
+        MinWidth="1024" MinHeight="680"
+        Width="1280" Height="820"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <Border Grid.Row="0" Classes="shellStrip" Padding="6,0,6,0">
+            <Grid ColumnDefinitions="*,Auto">
+                <ItemsControl ItemsSource="{Binding NavButtons}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="0"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Classes="navTab"
+                                    Content="{Binding Name}"
+                                    Classes.selected="{Binding IsSelected}"
+                                    Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).SetPage}"
+                                    CommandParameter="{Binding}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <Button Grid.Column="1"
+                        Classes="headerAction"
+                        Content="⚙"
+                        ToolTip.Tip="Settings"
+                        Command="{Binding OpenSettingsPageCommand}"
+                        Margin="8,0,0,0"/>
+            </Grid>
+        </Border>
+
+        <ContentControl Grid.Row="1"
+                        Classes="pageHost"
+                        Content="{Binding CurrentPage}"/>
+
+        <components:CollapsibleDock Grid.Row="2" />
+    </Grid>
+
+</Window>

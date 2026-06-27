@@ -1,0 +1,1 @@
+from .commands import register_nexuscentral_commands

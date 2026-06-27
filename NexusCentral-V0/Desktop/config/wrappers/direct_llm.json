@@ -1,0 +1,29 @@
+{
+  "id": "direct_llm",
+  "name": "Direct LLM",
+  "description": "Built-in direct LLM execution with no external CLI.",
+  "transport": "builtin",
+  "command": "",
+  "args": [],
+  "env": {},
+  "supports_chat": true,
+  "supports_artifacts": false,
+  "supports_templates": true,
+  "supports_hosted_web": true,
+  "allowed_tools": [
+    "status",
+    "list_models",
+    "get_runtime_inventory",
+    "instruct"
+  ],
+  "web_chat_mode": "wrapper_run",
+  "supports_attachments": false,
+  "default_timeout_sec": 240,
+  "input_contract": {
+    "prompt": "Required prompt text."
+  },
+  "output_contract": {
+    "final": "Direct final text response."
+  },
+  "validation": "builtin"
+}

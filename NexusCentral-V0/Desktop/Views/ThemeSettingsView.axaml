@@ -1,0 +1,230 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             x:Class="NexusCentral_Avalonia.Views.ThemeSettingsView"
+             x:DataType="vm:ThemeSettingsViewModel">
+    <StackPanel Spacing="8">
+        <Border Classes="largeCard">
+                    <StackPanel Spacing="12">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Use the swatch button to open the picker, or edit the hex field directly."
+                                       Classes="sectionSummary"
+                                       TextWrapping="Wrap"/>
+                            <Button Grid.Column="1"
+                                    Content="Reset Theme"
+                                    Classes="secondary compactAction"
+                                    Command="{Binding ResetThemeCommand}"/>
+                        </Grid>
+
+                        <StackPanel Spacing="10">
+                            <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                                <TextBlock Text="Core"
+                                           Classes="fieldLabel"
+                                           VerticalAlignment="Center"
+                                           Width="{DynamicResource UiInspectorLabelWidth}"
+                                           Margin="0,0,8,0"/>
+                                <ToggleButton Grid.Column="1"
+                                              Width="30"
+                                              Height="30"
+                                              Padding="0"
+                                              IsChecked="{Binding CorePickerOpen, Mode=TwoWay}"
+                                              Background="{Binding CoreBrush}"
+                                              BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                              BorderThickness="1"
+                                              ToolTip.Tip="Open color picker for Core"/>
+                                <TextBox Grid.Column="2"
+                                         Margin="8,0,8,0"
+                                         Text="{Binding CoreHex, Mode=TwoWay}"
+                                         Watermark="#20283A"/>
+                                <Button Grid.Column="3"
+                                        Content="Reset"
+                                        Classes="secondary compactAction"
+                                        Command="{Binding ResetCoreColorCommand}"/>
+                            </Grid>
+
+                            <ColorPicker IsVisible="{Binding CorePickerOpen}"
+                                         Color="{Binding CoreColor, Mode=TwoWay}"
+                                         IsAlphaEnabled="False"
+                                         IsHexInputVisible="False"
+                                         IsAccentColorsVisible="False"
+                                         IsColorModelVisible="False"
+                                         IsColorPreviewVisible="True"
+                                         Margin="38,0,0,0"/>
+
+                            <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                                <TextBlock Text="Content"
+                                           Classes="fieldLabel"
+                                           VerticalAlignment="Center"
+                                           Width="{DynamicResource UiInspectorLabelWidth}"
+                                           Margin="0,0,8,0"/>
+                                <ToggleButton Grid.Column="1"
+                                              Width="30"
+                                              Height="30"
+                                              Padding="0"
+                                              IsChecked="{Binding ContentPickerOpen, Mode=TwoWay}"
+                                              Background="{Binding ContentBrush}"
+                                              BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                              BorderThickness="1"
+                                              ToolTip.Tip="Open color picker for Content"/>
+                                <TextBox Grid.Column="2"
+                                         Margin="8,0,8,0"
+                                         Text="{Binding ContentHex, Mode=TwoWay}"
+                                         Watermark="#C7D2F4"/>
+                                <Button Grid.Column="3"
+                                        Content="Reset"
+                                        Classes="secondary compactAction"
+                                        Command="{Binding ResetContentColorCommand}"/>
+                            </Grid>
+
+                            <ColorPicker IsVisible="{Binding ContentPickerOpen}"
+                                         Color="{Binding ContentColor, Mode=TwoWay}"
+                                         IsAlphaEnabled="False"
+                                         IsHexInputVisible="False"
+                                         IsAccentColorsVisible="False"
+                                         IsColorModelVisible="False"
+                                         IsColorPreviewVisible="True"
+                                         Margin="38,0,0,0"/>
+
+                            <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                                <TextBlock Text="Highlight"
+                                           Classes="fieldLabel"
+                                           VerticalAlignment="Center"
+                                           Width="{DynamicResource UiInspectorLabelWidth}"
+                                           Margin="0,0,8,0"/>
+                                <ToggleButton Grid.Column="1"
+                                              Width="30"
+                                              Height="30"
+                                              Padding="0"
+                                              IsChecked="{Binding HighlightPickerOpen, Mode=TwoWay}"
+                                              Background="{Binding HighlightBrush}"
+                                              BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                              BorderThickness="1"
+                                              ToolTip.Tip="Open color picker for Highlight"/>
+                                <TextBox Grid.Column="2"
+                                         Margin="8,0,8,0"
+                                         Text="{Binding HighlightHex, Mode=TwoWay}"
+                                         Watermark="#7AA2F7"/>
+                                <Button Grid.Column="3"
+                                        Content="Reset"
+                                        Classes="secondary compactAction"
+                                        Command="{Binding ResetHighlightColorCommand}"/>
+                            </Grid>
+
+                            <ColorPicker IsVisible="{Binding HighlightPickerOpen}"
+                                         Color="{Binding HighlightColor, Mode=TwoWay}"
+                                         IsAlphaEnabled="False"
+                                         IsHexInputVisible="False"
+                                         IsAccentColorsVisible="False"
+                                         IsColorModelVisible="False"
+                                         IsColorPreviewVisible="True"
+                                         Margin="38,0,0,0"/>
+                        </StackPanel>
+
+                        <Border Classes="subSection">
+                            <StackPanel Spacing="8">
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Live Preview"
+                                               Classes="sectionTitle"/>
+                                    <TextBlock Text="This stays compact and uses the same shared tokens as the main shell."
+                                               Classes="sectionSummary"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                                    <Border Grid.Column="0"
+                                            Grid.Row="0"
+                                            Background="{DynamicResource UiShellBackgroundBrush}"
+                                            BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6"
+                                            Padding="10">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="Shell"
+                                                       Classes="sectionTitle"/>
+                                            <Border Background="{DynamicResource TokyoPanelBrush}"
+                                                    BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Padding="8">
+                                                <StackPanel Spacing="4">
+                                                    <TextBlock Text="Primary surface"
+                                                               Foreground="{DynamicResource TokyoFGBrightBrush}"/>
+                                                    <TextBlock Text="Secondary support text"
+                                                               Foreground="{DynamicResource TokyoFGMutedBrush}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1"
+                                            Grid.Row="0"
+                                            Background="{DynamicResource TokyoPanelBrush}"
+                                            BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6"
+                                            Padding="10"
+                                            Margin="8,0,0,0">
+                                        <StackPanel Spacing="6">
+                                            <TextBlock Text="Inputs"
+                                                       Classes="sectionTitle"/>
+                                            <Border Background="{DynamicResource TokyoPanelAltBrush}"
+                                                    BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Padding="8">
+                                                <StackPanel Spacing="6">
+                                                    <TextBox Text="Example field"
+                                                             Watermark="Placeholder"/>
+                                                    <StackPanel Orientation="Horizontal"
+                                                                Spacing="{DynamicResource UiInlineControlGap}">
+                                                        <Button Content="Primary"
+                                                                Classes="primary compactAction"/>
+                                                        <Button Content="Secondary"
+                                                                Classes="secondary compactAction"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Grid.Row="1"
+                                            Background="{DynamicResource TokyoPanelBrush}"
+                                            BorderBrush="{DynamicResource TokyoDividerStrongBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="6"
+                                            Padding="8"
+                                            Margin="0,8,0,0">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="8">
+                                            <Border Classes="inlineBadge">
+                                                <TextBlock Text="{Binding StatusText}"
+                                                           Classes="sectionSummary"
+                                                           TextWrapping="Wrap"/>
+                                            </Border>
+                                            <Border Classes="inlineBadge">
+                                                <TextBlock Text="{Binding CoreHex, StringFormat='Core {0}'}"
+                                                           Classes="monoText"/>
+                                            </Border>
+                                            <Border Classes="inlineBadge">
+                                                <TextBlock Text="{Binding ContentHex, StringFormat='Content {0}'}"
+                                                           Classes="monoText"/>
+                                            </Border>
+                                            <Border Classes="inlineBadge">
+                                                <TextBlock Text="{Binding HighlightHex, StringFormat='Highlight {0}'}"
+                                                           Classes="monoText"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="{Binding StatusText}"
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

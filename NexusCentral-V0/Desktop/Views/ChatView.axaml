@@ -1,0 +1,788 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:local="using:NexusCentral_Avalonia.Views"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.ChatView"
+             x:DataType="vm:ChatViewModel">
+    <UserControl.DataTemplates>
+        <DataTemplate DataType="vm:ChatHeadingBlockViewModel">
+            <TextBlock Text="{Binding Text}"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0,6,0,4"
+                       Foreground="{DynamicResource TokyoFGBrightBrush}"/>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ChatParagraphBlockViewModel">
+            <ItemsControl ItemsSource="{Binding Lines}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="4"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ItemsControl ItemsSource="{Binding Segments}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding IsCode, Converter={x:Static local:BooleanToResourceConverter.Instance}, ConverterParameter='TokyoInputBrush|Transparent'}"
+                                            BorderBrush="{Binding IsCode, Converter={x:Static local:BooleanToResourceConverter.Instance}, ConverterParameter='TokyoDividerBrush|Transparent'}"
+                                            BorderThickness="{Binding IsCode, Converter={x:Static local:BooleanToThicknessConverter.Instance}, ConverterParameter='1|0'}"
+                                            CornerRadius="3"
+                                            Padding="{Binding IsCode, Converter={x:Static local:BooleanToThicknessConverter.Instance}, ConverterParameter='5,2|0'}"
+                                            Margin="0,0,4,2">
+                                        <TextBlock Text="{Binding Text}"
+                                                   TextWrapping="Wrap"
+                                                   FontFamily="{Binding IsCode, Converter={x:Static local:BooleanToStringConverter.Instance}, ConverterParameter='Cascadia Code,Consolas,monospace|Inter, Segoe UI, Arial'}"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ChatParagraphLineViewModel">
+            <ItemsControl ItemsSource="{Binding Segments}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding IsCode, Converter={x:Static local:BooleanToResourceConverter.Instance}, ConverterParameter='TokyoInputBrush|Transparent'}"
+                                BorderBrush="{Binding IsCode, Converter={x:Static local:BooleanToResourceConverter.Instance}, ConverterParameter='TokyoDividerBrush|Transparent'}"
+                                BorderThickness="{Binding IsCode, Converter={x:Static local:BooleanToThicknessConverter.Instance}, ConverterParameter='1|0'}"
+                                CornerRadius="3"
+                                Padding="{Binding IsCode, Converter={x:Static local:BooleanToThicknessConverter.Instance}, ConverterParameter='5,2|0'}"
+                                Margin="0,0,4,4">
+                            <TextBlock Text="{Binding Text}"
+                                       TextWrapping="Wrap"
+                                       FontFamily="{Binding IsCode, Converter={x:Static local:BooleanToStringConverter.Instance}, ConverterParameter='Cascadia Code,Consolas,monospace|Inter, Segoe UI, Arial'}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ChatListBlockViewModel">
+            <ItemsControl ItemsSource="{Binding Items}" Margin="0,2,0,4">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,*" Margin="0,2,0,2">
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Marker}"
+                                       Margin="0,0,8,0"
+                                       IsVisible="{Binding IsOrdered}"
+                                       Foreground="{DynamicResource TokyoAccentBrush}"/>
+                            <TextBlock Grid.Column="0"
+                                       Text="•"
+                                       Margin="0,0,8,0"
+                                       IsVisible="{Binding IsOrdered, Converter={x:Static local:InverseBooleanConverter.Instance}}"
+                                       Foreground="{DynamicResource TokyoAccentBrush}"/>
+                            <ItemsControl Grid.Column="1" ItemsSource="{Binding Lines}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Spacing="4"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Content="{Binding}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ChatCodeBlockViewModel">
+            <Border Classes="inlineSection" Margin="0,4,0,8">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="{Binding Language}"
+                               IsVisible="{Binding Language, Converter={x:Static local:StringHasValueConverter.Instance}}"
+                               Foreground="{DynamicResource TokyoAccentBrush}"
+                               FontSize="10"/>
+                    <TextBlock Text="{Binding Code}"
+                               Classes="monoText"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ChatExecutionFeedChainViewModel">
+            <Border Classes="runStackLine"
+                    Padding="0">
+                <Expander IsExpanded="{Binding IsExpanded}">
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="7,5">
+                            <Border Grid.Column="0"
+                                    Width="3"
+                                    CornerRadius="0"
+                                    Background="{Binding AccentBrushResourceKey, Converter={x:Static local:ResourceKeyToBrushConverter.Instance}}"
+                                    Margin="0,1,7,1"/>
+                            <StackPanel Grid.Column="1" Spacing="2">
+                                <TextBlock Text="{Binding HeaderText}"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TokyoFGBrightBrush}"/>
+                                <TextBlock Text="{Binding MetaText}"
+                                           Classes="sectionMeta"/>
+                            </StackPanel>
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding Status}"
+                                       Classes="inlineBadge"
+                                       VerticalAlignment="Top"/>
+                        </Grid>
+                    </Expander.Header>
+                    <StackPanel Margin="14,0,8,8" Spacing="6">
+                        <ItemsControl ItemsSource="{Binding Entries}"
+                                      IsVisible="{Binding HasEntries}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="vm:ChatExecutionFeedEntryViewModel">
+                                    <TextBlock Text="{Binding BulletText}"
+                                               IsVisible="{Binding IsUserFacing}"
+                                               TextWrapping="Wrap"
+                                               xml:space="preserve"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Border Classes="inlineSection"
+                                IsVisible="{Binding HasStreamingText}">
+                            <TextBlock Text="{Binding StreamingText}"
+                                       TextWrapping="Wrap"
+                                       xml:space="preserve"/>
+                        </Border>
+                        <ItemsControl ItemsSource="{Binding Children}"
+                                      IsVisible="{Binding HasChildren}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Content="{Binding}" Margin="10,0,0,0"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Expander>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate DataType="vm:ExplorerTreeNodeViewModel">
+            <Border Padding="4,3"
+                    Classes.elementSelected="{Binding IsSelected}"
+                    Classes.workspaceSection="{Binding IsWorkspaceRoot}"
+                    ToolTip.Tip="{Binding TooltipText}">
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+                      Margin="{Binding IndentMargin}">
+                    <Button Grid.Column="0"
+                            Classes="flat"
+                            Content="{Binding ExpansionGlyph}"
+                            Width="18"
+                            Padding="0"
+                            FontSize="10"
+                            Command="{Binding $parent[UserControl].((vm:ChatViewModel)DataContext).ToggleExplorerNodeCommand}"
+                            CommandParameter="{Binding}"
+                            IsVisible="{Binding HasChildren}"/>
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding KindGlyph}"
+                               Width="14"
+                               Margin="0,0,4,0"
+                               VerticalAlignment="Center"
+                               Classes="sectionMeta"/>
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding DisplayName}"
+                               TextTrimming="CharacterEllipsis"
+                               VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Classes="iconSecondary"
+                                Content="💾"
+                                FontSize="10"
+                                ToolTip.Tip="Promote Sandbox to Project"
+                                IsVisible="{Binding IsSandbox}"
+                                Command="{Binding $parent[UserControl].((vm:ChatViewModel)DataContext).SaveSandboxWorkspaceCommand}"/>
+                        <Button Classes="iconSecondary"
+                                Content="×"
+                                FontSize="12"
+                                ToolTip.Tip="Delete Sandbox"
+                                IsVisible="{Binding CanDeleteSandbox}"
+                                Command="{Binding $parent[UserControl].((vm:ChatViewModel)DataContext).DeleteSandboxWorkspaceCommand}"
+                                CommandParameter="{Binding}"/>
+                        <Border Margin="8,0,0,0"
+                                Classes="inlineBadge"
+                                IsVisible="{Binding IsSelected}"
+                                VerticalAlignment="Center">
+                            <TextBlock Text="Active"
+                                       FontSize="10"
+                                       FontWeight="SemiBold"/>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <components:SplitPaneShell LayoutKey="lab"
+                               SplitterWidth="8"
+                               ShowsPreview="True"
+                               SurfaceMode="None">
+        <components:SplitPaneShell.LeftHeaderContent>
+            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto">
+                <TextBlock Text="Explorer"
+                           Classes="pageTitle"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1"
+                        Margin="8,0,0,0"
+                        Classes="iconSecondary"
+                        Width="{DynamicResource UiIconButtonSize}"
+                        Height="{DynamicResource UiIconButtonSize}"
+                        Content="□+"
+                        FontWeight="Bold"
+                        ToolTip.Tip="New Sandbox"
+                        Command="{Binding CreateSandboxWorkspaceCommand}"/>
+                <Button Grid.Column="2"
+                        Margin="8,0,0,0"
+                        Classes="iconSecondary"
+                        Width="{DynamicResource UiIconButtonSize}"
+                        Height="{DynamicResource UiIconButtonSize}"
+                        Content="+"
+                        FontWeight="Bold"
+                        ToolTip.Tip="Open Folder"
+                        Click="OnOpenWorkspaceFolderClick"/>
+                <Button Grid.Column="3"
+                        Margin="8,0,0,0"
+                        Classes="iconSecondary"
+                        Width="{DynamicResource UiIconButtonSize}"
+                        Height="{DynamicResource UiIconButtonSize}"
+                        Content="⟳"
+                        FontWeight="Bold"
+                        ToolTip.Tip="Refresh Tree"
+                        Command="{Binding RefreshWorkspaceTreeCommand}"/>
+                <Button Grid.Column="4"
+                        Margin="8,0,0,0"
+                        Classes="iconSecondary"
+                        Width="{DynamicResource UiIconButtonSize}"
+                        Height="{DynamicResource UiIconButtonSize}"
+                        Content="⤓"
+                        FontWeight="Bold"
+                        ToolTip.Tip="Archive Chat"
+                        Command="{Binding ArchiveActiveWorkspaceChatCommand}"/>
+            </Grid>
+        </components:SplitPaneShell.LeftHeaderContent>
+
+        <components:SplitPaneShell.LeftContent>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <ListBox ItemsSource="{Binding VisibleExplorerNodes}"
+                         SelectedItem="{Binding SelectedExplorerNode}"/>
+            </ScrollViewer>
+        </components:SplitPaneShell.LeftContent>
+
+        <components:SplitPaneShell.RightHeaderContent>
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <TextBlock Text="{Binding ActiveWorkspaceName}"
+                           Classes="pageTitle"
+                           VerticalAlignment="Center"/>
+
+                <Border Grid.Column="1"
+                        Classes="headerInlineGroup"
+                        Classes.toolTarget="{Binding IsAgentDropdownHighlighted}"
+                        Classes.elementActive="{Binding IsAgentDropdownOpen}"
+                        Margin="12,0,0,0"
+                        HorizontalAlignment="Left"
+                        IsVisible="{Binding ShowAgentSelector}">
+                    <Grid ColumnDefinitions="Auto,Auto,*"
+                          VerticalAlignment="Center">
+                        <TextBlock Text="Talk To"
+                                   Classes="inlineLabel"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center"/>
+                        <ComboBox Grid.Column="1"
+                                  Classes="compactCombo"
+                                  ItemsSource="{Binding AvailableAgents}"
+                                  SelectedItem="{Binding SelectedAgent}"
+                                  IsDropDownOpen="{Binding IsAgentDropdownOpen}"
+                                  Width="190">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}"/>
+                                        <TextBlock Text="{Binding Description}"
+                                                   Classes="sectionMeta"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <ScrollViewer Grid.Column="2"
+                                      Margin="8,0,0,0"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Disabled"
+                                      HorizontalAlignment="Stretch">
+                            <ItemsControl ItemsSource="{Binding ExposedAgentSettings}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="{DynamicResource UiInlineControlGap}"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:WrapperSettingViewModel">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="4"
+                                                    ToolTip.Tip="{Binding Description}">
+                                            <Button Classes="secondary"
+                                                    Padding="8,4"
+                                                    MinHeight="28"
+                                                    IsVisible="{Binding IsToggle}"
+                                                    Content="{Binding DisplayText}"
+                                                    Command="{Binding ToggleCommand}"/>
+                                            <TextBlock Text="{Binding Label}"
+                                                       Classes="inlineLabel"
+                                                       VerticalAlignment="Center"
+                                                       IsVisible="{Binding IsNumber}"/>
+                                            <TextBox Width="46"
+                                                     MinHeight="28"
+                                                     Padding="6,3"
+                                                     IsVisible="{Binding IsNumber}"
+                                                     Text="{Binding Value, Mode=TwoWay}"/>
+                                            <TextBlock Text="{Binding Label}"
+                                                       Classes="inlineLabel"
+                                                       VerticalAlignment="Center"
+                                                       IsVisible="{Binding IsText}"/>
+                                            <TextBox Width="110"
+                                                     MinHeight="28"
+                                                     Padding="6,3"
+                                                     IsVisible="{Binding IsText}"
+                                                     Text="{Binding Value, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <StackPanel Grid.Column="2"
+                            Classes="headerActions"
+                            Margin="12,0,0,0"
+                            VerticalAlignment="Center">
+                    <Button Classes="iconSecondary"
+                            Width="{DynamicResource UiIconButtonSize}"
+                            Height="{DynamicResource UiIconButtonSize}"
+                            Classes.toolTarget="{Binding IsReloadButtonHighlighted}"
+                            ToolTip.Tip="Reset Session"
+                            Content="♻"
+                            FontWeight="Bold"
+                            Command="{Binding ReloadConversationCommand}"/>
+                    <Button Classes="iconSecondary"
+                            Width="{DynamicResource UiIconButtonSize}"
+                            Height="{DynamicResource UiIconButtonSize}"
+                            Foreground="{DynamicResource TokyoAccentBrush}"
+                            ToolTip.Tip="Open Nexus Web Lab"
+                            Content="↑"
+                            FontWeight="Bold"
+                            Command="{Binding OpenNexusWebLabCommand}"/>
+                    <Button Classes="iconSecondary"
+                            Width="{DynamicResource UiIconButtonSize}"
+                            Height="{DynamicResource UiIconButtonSize}"
+                            ToolTip.Tip="Copy URL"
+                            Content="⧉"
+                            FontWeight="Bold"
+                            Command="{Binding CopyNexusWebLabUrlCommand}"/>
+                </StackPanel>
+            </Grid>
+        </components:SplitPaneShell.RightHeaderContent>
+
+        <components:SplitPaneShell.RightContent>
+        <Grid RowDefinitions="*,Auto,Auto">
+
+            <ScrollViewer Grid.Row="0"
+                          x:Name="TranscriptScrollViewer"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto"
+                          ScrollChanged="OnTranscriptScrollChanged">
+                <ItemsControl ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowDefinitions="Auto,Auto" HorizontalAlignment="Stretch">
+                                <Border Grid.Row="0"
+                                        Classes="userToAiDivider"
+                                        IsVisible="{Binding ShowUserToAiDivider}"/>
+                            <Border Classes="transcriptRow"
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Stretch">
+                                <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+                                    <!-- AI RAIL -->
+                                    <Border Grid.Column="0"
+                                            Width="3"
+                                            Background="{DynamicResource AiRailBrush}"
+                                            IsVisible="{Binding Role, Converter={x:Static local:StringNotEqualsConverter.Instance}, ConverterParameter=user}"/>
+                                    
+                                    <!-- AI LABEL -->
+                                    <TextBlock Grid.Column="1"
+                                               Width="{DynamicResource UiRoleLabelWidth}"
+                                               Margin="10,0,10,0"
+                                               Text="{Binding Role, Converter={x:Static local:StringToUpperConverter.Instance}}"
+                                               Classes="roleLabel"
+                                               VerticalAlignment="Top"
+                                               IsVisible="{Binding Role, Converter={x:Static local:StringNotEqualsConverter.Instance}, ConverterParameter=user}"/>
+
+                                    <StackPanel Grid.Column="2" 
+                                                Spacing="8" 
+                                                MaxWidth="800"
+                                                HorizontalAlignment="{Binding Role, Converter={x:Static local:RoleToAlignmentConverter.Instance}}">
+                                        <Grid ColumnDefinitions="Auto,*" IsVisible="{Binding ShowStatus}">
+                                            <Border Grid.Column="0"
+                                                    Classes="inlineBadge"
+                                                    Background="{Binding StatusBrushResourceKey, Converter={x:Static local:ResourceToBrushConverter.Instance}}">
+                                                <TextBlock Text="{Binding Status}"
+                                                           Foreground="White"
+                                                           FontSize="10"
+                                                           FontWeight="SemiBold"/>
+                                            </Border>
+                                        </Grid>
+
+                                        <Border IsVisible="{Binding IsPhaseMessage}"
+                                                Classes="runStack"
+                                                Margin="0,4,0,6">
+                                            <StackPanel Spacing="6">
+                                                <Border IsVisible="{Binding HasExecutionFeedDigest}"
+                                                        Classes="runStackHeader">
+                                                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="Agent Run" Classes="fieldLabel"/>
+                                                            <TextBlock Text="{Binding Status}" Classes="sectionMeta"/>
+                                                        </StackPanel>
+                                                        <TextBlock Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   Text="{Binding ExecutionFeedLastUpdateText}"
+                                                                   Classes="sectionMeta"
+                                                                   Margin="12,0,0,0"/>
+                                                        <TextBlock Grid.Row="1"
+                                                                   Grid.Column="0"
+                                                                   Grid.ColumnSpan="2"
+                                                                   Text="{Binding ExecutionFeedCurrentStepText}"
+                                                                   TextWrapping="Wrap"
+                                                                   Foreground="{DynamicResource TokyoFGBrightBrush}"
+                                                                   FontWeight="SemiBold"
+                                                                   Margin="0,5,0,0"/>
+                                                    </Grid>
+                                                </Border>
+
+                                                <StackPanel Orientation="Horizontal" Spacing="6" IsVisible="{Binding HasExecutionFeedDigest}">
+                                                    <Border Classes="inlineBadge">
+                                                        <TextBlock Text="{Binding ExecutionFeedIssueSummaryText}"
+                                                                   Foreground="{Binding HasExecutionFeedIssues, Converter={x:Static local:BooleanToResourceConverter.Instance}, ConverterParameter=TokyoWarningBrush|TokyoSuccessBrush}"
+                                                                   FontSize="10"
+                                                                   FontWeight="SemiBold"/>
+                                                    </Border>
+                                                    <Border Classes="inlineBadge">
+                                                        <TextBlock Text="{Binding ExecutionFeedArtifactSummaryText}"
+                                                                   Foreground="{DynamicResource TokyoAccentBrush}"
+                                                                   FontSize="10"
+                                                                   FontWeight="SemiBold"/>
+                                                    </Border>
+                                                    <Button Content="Expand"
+                                                            Classes="compactAction"
+                                                            Command="{Binding ExpandExecutionFeedCommand}"/>
+                                                    <Button Content="Collapse"
+                                                            Classes="compactAction"
+                                                            Command="{Binding CollapseExecutionFeedCommand}"/>
+                                                </StackPanel>
+
+                                                <ItemsControl ItemsSource="{Binding ExecutionFeedChains}"
+                                                              IsVisible="{Binding HasExecutionFeedChains}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <ContentControl Content="{Binding}" Margin="0,0,0,3"/>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                                <Border Classes="runStackLine" IsVisible="{Binding HasStreamingExecutionFeedBullet}">
+                                                    <Grid ColumnDefinitions="*,Auto">
+                                                        <TextBlock Grid.Column="0"
+                                                                   Text="{Binding StreamingExecutionFeedBulletText}"
+                                                                   TextWrapping="Wrap"
+                                                                   xml:space="preserve"/>
+                                                        <TextBlock Grid.Column="1"
+                                                                   Text="▍"
+                                                                   Margin="4,0,0,0"
+                                                                   Foreground="{DynamicResource TokyoAccentBrush}"
+                                                                   FontSize="11"
+                                                                   VerticalAlignment="Bottom"/>
+                                                    </Grid>
+                                                </Border>
+
+                                                <StackPanel IsVisible="{Binding HasReasoningSummary}" Spacing="5">
+                                                    <TextBlock Text="Thoughts" Classes="fieldLabel" Opacity="0.65"/>
+                                                    <ItemsControl ItemsSource="{Binding ReasoningSummaryBlocks}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Content="{Binding}" Margin="0,0,0,3"/>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+
+                                                <StackPanel IsVisible="{Binding IsAnswerPhase}" Spacing="5">
+                                                    <TextBlock Text="Output" Classes="fieldLabel" Opacity="0.65"/>
+                                                    <ItemsControl ItemsSource="{Binding Blocks}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Content="{Binding}"/>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+
+                                                    <ItemsControl ItemsSource="{Binding Artifacts}" IsVisible="{Binding HasArtifacts}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Border Classes="runStackLine" Margin="0,0,0,4">
+                                                                    <StackPanel>
+                                                                        <TextBlock Text="{Binding Label}" FontWeight="SemiBold"/>
+                                                                        <TextBlock Text="{Binding Path}" Classes="sectionMeta" TextWrapping="Wrap"/>
+                                                                    </StackPanel>
+                                                                </Border>
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <StackPanel IsVisible="{Binding IsPlainChatPresentation}"
+                                                    Spacing="8"
+                                                    Margin="0,2,0,4">
+                                            <TextBlock IsVisible="{Binding ShowPlainTypingStatus}"
+                                                       Text="{Binding Status}"
+                                                       Classes="fieldLabel"/>
+
+                                            <ItemsControl IsVisible="{Binding ShowPlainTypingStatus, Converter={x:Static local:InverseBooleanConverter.Instance}}"
+                                                          ItemsSource="{Binding Blocks}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ContentControl Content="{Binding}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </StackPanel>
+
+                                        <ItemsControl IsVisible="{Binding ShowStandardTextBlocks}"
+                                                      ItemsSource="{Binding Blocks}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ContentControl Content="{Binding}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+
+                                        <components:AudioControl Margin="0,8,0,0" IsVisible="{Binding HasAudio}"/>
+                                    </StackPanel>
+
+                                    <!-- USER LABEL -->
+                                    <TextBlock Grid.Column="3"
+                                               Width="{DynamicResource UiRoleLabelWidth}"
+                                               Margin="10,0,10,0"
+                                               Text="{Binding Role, Converter={x:Static local:StringToUpperConverter.Instance}}"
+                                               Classes="roleLabel"
+                                               VerticalAlignment="Top"
+                                               TextAlignment="Right"
+                                               IsVisible="{Binding Role, Converter={x:Static local:StringEqualsConverter.Instance}, ConverterParameter=user}"/>
+
+                                    <!-- USER RAIL -->
+                                    <Border Grid.Column="4"
+                                            Width="3"
+                                            Background="Transparent"
+                                            IsVisible="{Binding Role, Converter={x:Static local:StringEqualsConverter.Instance}, ConverterParameter=user}"/>
+                                </Grid>
+                            </Border>
+                            </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="1"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Stretch"
+                            Margin="0,0,0,-8"
+                            Spacing="2">
+                    <StackPanel.Transitions>
+                        <Transitions>
+                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.4" Easing="CubicEaseOut"/>
+                            <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                        </Transitions>
+                    </StackPanel.Transitions>
+                    
+                    <!-- PREVIEW WINDOW -->
+                    <Border IsVisible="{Binding IsPreviewVisible}"
+                            CornerRadius="12,12,0,0"
+                            Background="{DynamicResource UiShellBackgroundBrush}"
+                            BoxShadow="0 8 32 #40000000"
+                            ClipToBounds="True">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                            </Transitions>
+                        </Border.Transitions>
+                        <Grid RowDefinitions="Auto,*">
+                            <Border Grid.Row="0"
+                                    Padding="12,8"
+                                    Background="#20FFFFFF">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="PREVIEW:"
+                                                   Classes="sectionSummary"
+                                                   VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding PreviewFileName}"
+                                                   FontWeight="SemiBold"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Button Grid.Column="1"
+                                            Classes="flat"
+                                            Content="✕"
+                                            Width="24"
+                                            Height="24"
+                                            Padding="0"
+                                            Command="{Binding ClosePreviewCommand}"/>
+                                </Grid>
+                            </Border>
+                            <ScrollViewer Grid.Row="1"
+                                          MaxHeight="240"
+                                          Padding="12"
+                                          VerticalScrollBarVisibility="Auto">
+                                <TextBlock Text="{Binding PreviewFileContent}"
+                                           FontFamily="Cascadia Code, Consolas, Monospace"
+                                           FontSize="11"
+                                           Opacity="0.8"
+                                           TextWrapping="Wrap"/>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+
+                    <!-- BACKLOG QUEUE -->
+                    <Border IsVisible="{Binding HasQueuedItems}"
+                            CornerRadius="12,12,0,0"
+                            Background="{DynamicResource UiShellBackgroundBrush}"
+                            BoxShadow="0 8 32 #40000000"
+                            ClipToBounds="True">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.3"/>
+                            </Transitions>
+                        </Border.Transitions>
+                        <Grid RowDefinitions="Auto,*">
+                            <Border Grid.Row="0"
+                                    Padding="12,6"
+                                    Background="#20FFFFFF">
+                                <TextBlock Text="BACKLOG QUEUE"
+                                           Classes="sectionSummary"
+                                           FontSize="10"
+                                           LetterSpacing="1"/>
+                            </Border>
+                            <ScrollViewer Grid.Row="1"
+                                          MaxHeight="160"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ItemsControl ItemsSource="{Binding PendingQueueItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Padding="12,8"
+                                                    BorderBrush="#10FFFFFF"
+                                                    BorderThickness="0,0,0,1">
+                                                <Grid ColumnDefinitions="*,Auto">
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="{Binding Title}"
+                                                                   FontWeight="SemiBold"
+                                                                   FontSize="12"/>
+                                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                                            <TextBlock Text="{Binding StatusText}"
+                                                                       Opacity="0.6"
+                                                                       FontSize="11"/>
+                                                            <TextBlock Text="•" Opacity="0.3" FontSize="11"/>
+                                                            <TextBlock Text="{Binding ModelLabel}"
+                                                                       Opacity="0.6"
+                                                                       FontSize="11"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Column="1"
+                                                               Text="{Binding CreatedAtUtc, StringFormat=HH:mm:ss}"
+                                                               Opacity="0.4"
+                                                               FontSize="10"
+                                                               VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+            <Border Grid.Row="2" Classes="composerBar" BorderThickness="0" Padding="0,8,12,8">
+                <StackPanel Spacing="8">
+                    <Border IsVisible="{Binding ShowArtifactInputBox}"
+                            Classes="inlineSection">
+                        <TextBox Watermark="Attachment paths, one path per line"
+                                 Text="{Binding ArtifactInputsText}"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 MinHeight="56"/>
+                    </Border>
+
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Button Grid.Column="0"
+                                Width="{DynamicResource UiHeaderActionSize}"
+                                Height="{DynamicResource UiHeaderActionSize}"
+                                Classes="iconSecondary"
+                                Classes.toolTarget="{Binding IsAttachButtonHighlighted}"
+                                Content="+"
+                                FontWeight="Bold"
+                                Command="{Binding ToggleAttachmentTrayCommand}"
+                                IsVisible="{Binding CanAttachArtifacts}"
+                                Margin="0,0,8,0"/>
+
+                        <Border Grid.Column="1"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Classes.toolTarget="{Binding IsInputHighlighted}">
+                            <TextBox x:Name="ChatInputBox"
+                                     MinHeight="34"
+                                     MaxHeight="98"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Foreground="{DynamicResource TokyoFGBrightBrush}"
+                                     Watermark="Ask anything or tell the agent what to do..."
+                                     Text="{Binding InputText}"
+                                     AcceptsReturn="True"
+                                     TextWrapping="Wrap"
+                                     TextChanged="OnChatInputTextChanged"
+                                     KeyDown="OnChatInputKeyDown"/>
+                        </Border>
+
+                        <Button Grid.Column="2"
+                                Classes="iconSecondary"
+                                Classes.toolTarget="{Binding IsSendButtonHighlighted}"
+                                Content="↑"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Command="{Binding SendMessageCommand}"
+                                Width="{DynamicResource UiHeaderActionSize}"
+                                Height="{DynamicResource UiHeaderActionSize}"
+                                Margin="8,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+        </components:SplitPaneShell.RightContent>
+    </components:SplitPaneShell>
+</UserControl>

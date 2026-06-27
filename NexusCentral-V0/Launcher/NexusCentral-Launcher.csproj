@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <BundleRid Condition="'$(RuntimeIdentifier)' != ''">$(RuntimeIdentifier)</BundleRid>
+    <BundleRid Condition="'$(BundleRid)' == ''">osx-arm64</BundleRid>
+    <SupportedBundleRid Condition="'$(BundleRid)' == 'osx-arm64' or '$(BundleRid)' == 'osx-x64' or '$(BundleRid)' == 'win-x64'">true</SupportedBundleRid>
+    <WorkspaceRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</WorkspaceRoot>
+    <AvaloniaProject>$(WorkspaceRoot)/Desktop/NexusCentral-Avalonia.csproj</AvaloniaProject>
+  </PropertyGroup>
+
+  <Target Name="BundleProduct" AfterTargets="Publish">
+    <Error Condition="'$(SupportedBundleRid)' != 'true'" Text="Unsupported RuntimeIdentifier '$(BundleRid)'. Use osx-arm64, osx-x64, or win-x64." />
+    <RemoveDir Directories="$(PublishDir)" Condition="Exists('$(PublishDir)')" />
+    <MakeDir Directories="$(PublishDir)" />
+    <Exec Command="dotnet publish &quot;$(AvaloniaProject)&quot; -c $(Configuration) -r $(BundleRid) -o &quot;$(PublishDir)&quot; /p:SelfContained=true" />
+    <ItemGroup>
+      <PublishedStateArtifacts Include="$(PublishDir)**/*.gguf;$(PublishDir)**/*.safetensors;$(PublishDir)**/catalog.json;$(PublishDir)**/library-state.json" />
+    </ItemGroup>
+    <Error Condition="Exists('$(PublishDir)models')" Text="Publish output must not include a writable models directory. Remove legacy runtime state before publishing." />
+    <Error Condition="Exists('$(PublishDir)logs')" Text="Publish output must not include a writable logs directory. Remove legacy runtime state before publishing." />
+    <Error Condition="'@(PublishedStateArtifacts)' != ''" Text="Publish output contains model or state artifacts: @(PublishedStateArtifacts, ', ')" />
+    <Message Importance="high" Text="Bundle assembled at $(PublishDir)" />
+  </Target>
+</Project>

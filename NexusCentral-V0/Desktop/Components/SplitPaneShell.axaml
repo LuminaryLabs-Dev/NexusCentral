@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NexusCentral_Avalonia.Components.SplitPaneShell"
+             x:Name="Root">
+    <Border x:Name="OuterSurface"
+            Background="Transparent"
+            Classes="splitPaneShell">
+        <Grid x:Name="SplitRoot"
+              ColumnDefinitions="*,Auto,*">
+            <Border x:Name="LeftSurface"
+                    Background="{DynamicResource UiPaneGradientBrush}"
+                    Classes="splitPaneLeft">
+                <Grid RowDefinitions="Auto,*">
+                    <Border Grid.Row="0" 
+                            Classes="pageHeader"
+                            IsVisible="{Binding LeftHeaderContent, ElementName=Root, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <ContentPresenter Content="{Binding LeftHeaderContent, ElementName=Root}"/>
+                    </Border>
+                    <ContentPresenter Grid.Row="1"
+                                      Content="{Binding LeftContent, ElementName=Root}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+                </Grid>
+            </Border>
+
+            <GridSplitter x:Name="SplitBar"
+                          Grid.Column="1"
+                          Width="{Binding SplitterWidth, ElementName=Root}"
+                          Background="{DynamicResource TokyoDividerStrongBrush}"
+                          ResizeDirection="Columns"
+                          ResizeBehavior="PreviousAndNext"
+                          ShowsPreview="{Binding ShowsPreview, ElementName=Root}"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Cursor="SizeWestEast"
+                          Classes="splitPaneSplitter"/>
+
+            <Border x:Name="RightSurface"
+                    Grid.Column="2"
+                    Background="{DynamicResource UiPaneGradientBrush}"
+                    Classes="splitPaneRight">
+                <Grid RowDefinitions="Auto,*">
+                    <Border Grid.Row="0" 
+                            Classes="pageHeader"
+                            IsVisible="{Binding RightHeaderContent, ElementName=Root, Converter={x:Static ObjectConverters.IsNotNull}}">
+                        <ContentPresenter Content="{Binding RightHeaderContent, ElementName=Root}"/>
+                    </Border>
+                    <ContentPresenter Grid.Row="1"
+                                      Content="{Binding RightContent, ElementName=Root}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

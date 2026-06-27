@@ -1,0 +1,645 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource UiShellBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="FontFamily" Value="Inter, Segoe UI, Arial"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="{DynamicResource UiButtonPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiButtonMinHeight}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <Style Selector="Button:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+    </Style>
+
+    <Style Selector="ToggleButton">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="{DynamicResource UiToggleButtonPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiToggleButtonMinHeight}"/>
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource TokyoInputBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="SelectionBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource UiTextBoxPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiTextBoxMinHeight}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style Selector="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource TokyoInputBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="Padding" Value="{DynamicResource UiComboBoxPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiComboBoxMinHeight}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+
+    <Style Selector="NumericUpDown">
+        <Setter Property="Background" Value="{DynamicResource TokyoInputBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiNumericUpDownMinHeight}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+    </Style>
+
+    <Style Selector="ListBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style Selector="ListBoxItem">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+    <Style Selector="ListBoxItem:selected">
+        <Setter Property="Background" Value="{DynamicResource TokyoSelectionFillBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+    <Style Selector="ListBoxItem:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+    </Style>
+
+    <Style Selector="ScrollViewer">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="TabControl">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="TextBlock.pageTitle">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.pageMeta">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGDimBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.sectionTitle">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.sectionMeta">
+        <Setter Property="FontSize" Value="{DynamicResource UiSectionMetaFontSize}"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiSectionMetaBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.fieldLabel">
+        <Setter Property="FontSize" Value="{DynamicResource UiFieldLabelFontSize}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiFieldLabelBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.inlineLabel">
+        <Setter Property="FontSize" Value="{DynamicResource UiInlineLabelFontSize}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiInlineLabelBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.roleLabel">
+        <Setter Property="FontSize" Value="{DynamicResource UiRoleLabelFontSize}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiRoleLabelBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.monoText">
+        <Setter Property="FontFamily" Value="Cascadia Code, Consolas, monospace"/>
+        <Setter Property="FontSize" Value="11"/>
+    </Style>
+
+    <Style Selector="Border.shellStrip">
+        <Setter Property="Background" Value="{DynamicResource TokyoShellBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+    </Style>
+
+    <Style Selector="ContentControl.pageHost">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="Border.pagePane">
+        <Setter Property="Background" Value="{DynamicResource UiPaneGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
+    <Style Selector="Border.pageScaffold">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="Border.pageHeader">
+        <Setter Property="Background" Value="{DynamicResource UiHeaderGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="{DynamicResource UiPageHeaderPadding}"/>
+    </Style>
+
+    <Style Selector="Border.toolbarStrip">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="{DynamicResource UiToolbarStripPadding}"/>
+    </Style>
+
+    <Style Selector="Border.composerBar">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="0,1,0,0"/>
+        <Setter Property="Padding" Value="0,10,12,10"/>
+    </Style>
+
+    <Style Selector="Border.paneSection">
+        <Setter Property="Background" Value="{DynamicResource UiCardGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="{DynamicResource UiPaneSectionPadding}"/>
+    </Style>
+
+    <Style Selector="Border.workflowCard">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="0,0,0,10"/>
+    </Style>
+
+    <Style Selector="Border.workflowDetails">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style Selector="Border.inlineSection">
+        <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineSectionPadding}"/>
+    </Style>
+
+    <Style Selector="Border.thinkingRail">
+        <Setter Property="Background" Value="{DynamicResource TokyoThinkingRailBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="999"/>
+    </Style>
+
+    <Style Selector="Border.inlineBadge">
+        <Setter Property="Background" Value="{DynamicResource UiControlGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineBadgePadding}"/>
+    </Style>
+
+    <Style Selector="Border.inlineField">
+        <Setter Property="Background" Value="{DynamicResource UiControlGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineFieldPadding}"/>
+    </Style>
+
+    <Style Selector="Border.bannerCluster">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="{DynamicResource UiBannerClusterPadding}"/>
+    </Style>
+
+    <Style Selector="Border.headerInlineGroup">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    <Style Selector="Border.headerInlineGroup.elementActive">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineControlGap}"/>
+    </Style>
+    <Style Selector="Border.headerInlineGroup.toolTarget">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalEmphasisBorderThickness}"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineControlGap}"/>
+    </Style>
+
+    <Style Selector="StackPanel.headerActions">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Spacing" Value="{DynamicResource UiHeaderClusterGap}"/>
+    </Style>
+
+    <Style Selector="Border.inspectorGroup">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInspectorGroupPadding}"/>
+        <Setter Property="Margin" Value="{DynamicResource UiInspectorGroupMargin}"/>
+    </Style>
+
+    <Style Selector="Border.transcriptRow">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="{DynamicResource UiTranscriptRowPadding}"/>
+    </Style>
+
+    <Style Selector="Border.userToAiDivider">
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Margin" Value="28,6"/>
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="#00FFFFFF" Offset="0"/>
+                <GradientStop Color="#5598D9FF" Offset="0.5"/>
+                <GradientStop Color="#00FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
+    <Style Selector="Border.workspaceSection">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Padding" Value="{DynamicResource UiWorkspaceSectionPadding}"/>
+    </Style>
+    <Style Selector="Border.workspaceSection.elementSelected">
+        <Setter Property="Background" Value="{DynamicResource TokyoSelectionFillBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+    </Style>
+
+    <Style Selector="Border.paneColumn">
+        <Setter Property="Background" Value="{DynamicResource UiPaneGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
+    <Style Selector="StackPanel.paneStack">
+        <Setter Property="Spacing" Value="{DynamicResource UiPaneStackSpacing}"/>
+    </Style>
+
+    <Style Selector="GridSplitter.splitPaneSplitter">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Opacity" Value="0"/>
+    </Style>
+    <Style Selector="GridSplitter.splitPaneSplitter:pointerover">
+        <Setter Property="Opacity" Value="0.12"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoDividerBrush}"/>
+    </Style>
+
+    <Style Selector="Border.sectionShell">
+        <Setter Property="Background" Value="{DynamicResource UiCardGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+    </Style>
+
+    <Style Selector="Expander.sectionShell">
+        <Setter Property="Background" Value="{DynamicResource UiCardGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+    </Style>
+
+    <Style Selector="Expander.sectionShell /template/ ToggleButton#PART_HeaderSite">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+    </Style>
+
+    <Style Selector="Expander.sectionShell /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <Style Selector="Border.sectionHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="{DynamicResource UiSectionHeaderPadding}"/>
+    </Style>
+
+    <Style Selector="Border.sectionHeader.compact">
+        <Setter Property="Padding" Value="{DynamicResource UiSectionHeaderCompactPadding}"/>
+    </Style>
+
+    <Style Selector="Border.sectionBody">
+        <Setter Property="Padding" Value="{DynamicResource UiSectionBodyPadding}"/>
+    </Style>
+
+    <Style Selector="Border.sectionBody.subtle">
+        <Setter Property="Padding" Value="{DynamicResource UiSectionBodySubtlePadding}"/>
+    </Style>
+
+    <Style Selector="Border.subSection">
+        <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="{DynamicResource UiSubSectionPadding}"/>
+    </Style>
+
+    <Style Selector="TextBlock.sectionSummary">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGDimBrush}"/>
+    </Style>
+
+    <Style Selector="TextBlock.sectionStatus">
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGMutedBrush}"/>
+    </Style>
+
+    <Style Selector="Button.navTab">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="{DynamicResource UiNavTabPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiNavTabMinHeight}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGMutedBrush}"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.navTab:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceBrush}"/>
+    </Style>
+    <Style Selector="Button.navTab.selected">
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+    </Style>
+
+    <Style Selector="Button.primary">
+        <Setter Property="Background" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.primary:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+    </Style>
+
+    <Style Selector="Button.secondary">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <Style Selector="Button.destructiveSecondary">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoErrorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoErrorBrush}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.destructiveSecondary:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoErrorBrush}"/>
+    </Style>
+
+    <Style Selector="Button.cardAction">
+        <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerStrongBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="40"/>
+        <Setter Property="MinWidth" Value="40"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.cardAction:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoAccentBrush}"/>
+    </Style>
+
+    <Style Selector="ToggleButton.workflowToggle">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="MinWidth" Value="28"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoFGBrightBrush}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector="ToggleButton.workflowToggle:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TokyoAccentBrush}"/>
+    </Style>
+
+    <Style Selector="Button.iconSecondary">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiInlineLabelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="{DynamicResource UiIconButtonFontSize}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiIconButtonSize}"/>
+        <Setter Property="MinWidth" Value="{DynamicResource UiIconButtonSize}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.iconSecondary:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+    </Style>
+
+    <Style Selector="Button.headerAction">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiInlineLabelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiHeaderActionSize}"/>
+        <Setter Property="MinWidth" Value="{DynamicResource UiHeaderActionSize}"/>
+        <Setter Property="FontSize" Value="{DynamicResource UiHeaderActionFontSize}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.headerAction:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+    </Style>
+
+    <Style Selector="ToggleButton.headerAction">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource UiInlineLabelBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoDividerBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+        <Setter Property="CornerRadius" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiHeaderActionSize}"/>
+        <Setter Property="MinWidth" Value="{DynamicResource UiHeaderActionSize}"/>
+        <Setter Property="FontSize" Value="{DynamicResource UiHeaderActionFontSize}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="ToggleButton.headerAction:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+    </Style>
+
+    <Style Selector="Button.compactAction">
+        <Setter Property="Padding" Value="{DynamicResource UiCompactActionPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiCompactActionMinHeight}"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <Style Selector="Button.flat">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="{DynamicResource UiFlatButtonPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiFlatButtonMinHeight}"/>
+    </Style>
+
+    <Style Selector="ComboBox.compactCombo">
+        <Setter Property="Padding" Value="{DynamicResource UiCompactComboPadding}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource UiCompactComboMinHeight}"/>
+        <Setter Property="FontSize" Value="{DynamicResource UiCompactComboFontSize}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <Style Selector="Border.controlBand">
+        <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineSectionPadding}"/>
+    </Style>
+
+    <Style Selector="Border.railCard">
+        <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="{DynamicResource UiInlineSectionPadding}"/>
+    </Style>
+
+    <Style Selector="Border.largeCard">
+        <Setter Property="Background" Value="{DynamicResource UiCardGradientBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="{DynamicResource UiSectionBodyPadding}"/>
+    </Style>
+
+    <Style Selector="Border.runStack">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0,8"/>
+    </Style>
+
+    <Style Selector="Border.runStackHeader">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0,2,0,4"/>
+    </Style>
+
+    <Style Selector="Border.runStackLine">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Padding" Value="0,4"/>
+    </Style>
+
+    <Style Selector="Border.workflowSummaryCard">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Margin" Value="4,2"/>
+    </Style>
+    <Style Selector="ListBoxItem:pointerover Border.workflowSummaryCard">
+        <Setter Property="Background" Value="{DynamicResource UiCardSubtleGradientBrush}"/>
+    </Style>
+    <Style Selector="ListBoxItem:selected Border.workflowSummaryCard">
+        <Setter Property="Background" Value="{DynamicResource UiCardSelectedGradientBrush}"/>
+    </Style>
+
+    <Style Selector="Border.workflowStepLane">
+        <Setter Property="Background" Value="{DynamicResource ThoughtCardBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="16"/>
+    </Style>
+
+    <Style Selector="Border.elementSelected">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource TokyoSelectionFillBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalEmphasisBorderThickness}"/>
+    </Style>
+
+    <Style Selector="Border.elementActive">
+        <Setter Property="Background" Value="{DynamicResource TokyoSurfaceHighlightBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalStandardBorderThickness}"/>
+    </Style>
+
+    <Style Selector="Border.toolTarget">
+        <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource UiSignalEmphasisBorderThickness}"/>
+    </Style>
+</Styles>

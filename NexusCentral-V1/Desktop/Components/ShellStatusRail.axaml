@@ -1,0 +1,113 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             x:Class="NexusCentral.V3.Desktop.Components.ShellStatusRail"
+             x:DataType="vm:MainShellViewModel">
+  <Border Classes="statusStack">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+      <Border Classes="statusPane">
+        <StackPanel Spacing="7">
+          <TextBlock Text="Workspace"
+                     Classes="statusPaneTitle" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Ellipse Width="8"
+                     Height="8"
+                     Fill="{DynamicResource StatusReadyBrush}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding FooterWorkspaceText}"
+                       Classes="statusPaneValue" />
+          </StackPanel>
+          <TextBlock Text="File-backed"
+                     Classes="statusPaneMeta" />
+          <TextBlock Text="Browse-only tree"
+                     Classes="statusPaneMeta" />
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Row="1"
+              Classes="statusPane">
+        <StackPanel Spacing="7">
+          <TextBlock Text="Queue"
+                     Classes="statusPaneTitle" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Ellipse Width="8"
+                     Height="8"
+                     Fill="{DynamicResource StatusWaitingBrush}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding QueueSummaryText}"
+                       Classes="statusPaneValue" />
+          </StackPanel>
+          <TextBlock Text="0 running"
+                     Classes="statusPaneMeta" />
+          <TextBlock Text="0 queued"
+                     Classes="statusPaneMeta" />
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Row="2"
+              Classes="statusPane">
+        <StackPanel Spacing="7">
+          <TextBlock Text="Route"
+                     Classes="statusPaneTitle" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Ellipse Width="8"
+                     Height="8"
+                     Fill="{DynamicResource StatusActiveBrush}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding RouteStatusText}"
+                       Classes="statusPaneValue" />
+          </StackPanel>
+          <TextBlock Text="Endpoint: inactive"
+                     Classes="statusPaneMeta" />
+          <TextBlock Text="Health: unavailable"
+                     Classes="statusPaneMeta" />
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Row="3"
+              Classes="statusPane">
+        <StackPanel Spacing="7">
+          <TextBlock Text="Model"
+                     Classes="statusPaneTitle" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Ellipse Width="8"
+                     Height="8"
+                     Fill="{DynamicResource StatusReadyBrush}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding ModelStatusText}"
+                       Classes="statusPaneValue" />
+          </StackPanel>
+          <TextBlock Text="Runtime: inactive"
+                     Classes="statusPaneMeta" />
+          <TextBlock Text="Context: unavailable"
+                     Classes="statusPaneMeta" />
+        </StackPanel>
+      </Border>
+
+      <Border Grid.Row="4"
+              Classes="statusPane">
+        <StackPanel Spacing="7">
+          <TextBlock Text="Session"
+                     Classes="statusPaneTitle" />
+          <StackPanel Orientation="Horizontal"
+                      Spacing="8">
+            <Ellipse Width="8"
+                     Height="8"
+                     Fill="{DynamicResource StatusActiveBrush}"
+                     VerticalAlignment="Center" />
+            <TextBlock Text="{Binding SessionSummaryText}"
+                       Classes="statusPaneValue" />
+          </StackPanel>
+          <TextBlock Text="{Binding ShortRunId}"
+                     Classes="statusPaneMeta" />
+          <TextBlock Text="Lab first slice"
+                     Classes="statusPaneMeta" />
+        </StackPanel>
+      </Border>
+    </Grid>
+  </Border>
+</UserControl>

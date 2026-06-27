@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             x:Class="NexusCentral_Avalonia.Views.BehaviorSettingsView"
+             x:DataType="vm:BehaviorSettingsViewModel">
+    <StackPanel Spacing="8">
+        <Border Classes="largeCard">
+                    <StackPanel Spacing="10">
+                        <Grid ColumnDefinitions="Auto,*">
+                            <TextBlock Text="Density"
+                                       Classes="fieldLabel"
+                                       VerticalAlignment="Center"
+                                       Width="{DynamicResource UiInspectorLabelWidth}"
+                                       Margin="0,0,8,0"/>
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding DensityOptions}"
+                                      SelectedItem="{Binding SelectedDensityPreset, Mode=TwoWay}"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <TextBlock Text="Compression"
+                                       Classes="fieldLabel"
+                                       VerticalAlignment="Center"
+                                       Width="{DynamicResource UiInspectorLabelWidth}"
+                                       Margin="0,0,8,0"/>
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding CompressionOptions}"
+                                      SelectedItem="{Binding SelectedCompressionPreset, Mode=TwoWay}"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto,*">
+                            <TextBlock Text="Signal"
+                                       Classes="fieldLabel"
+                                       VerticalAlignment="Center"
+                                       Width="{DynamicResource UiInspectorLabelWidth}"
+                                       Margin="0,0,8,0"/>
+                            <ComboBox Grid.Column="1"
+                                      ItemsSource="{Binding SignalOptions}"
+                                      SelectedItem="{Binding SelectedSignalPreset, Mode=TwoWay}"/>
+                        </Grid>
+
+                        <Border Classes="subSection">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Behavior affects spacing and emphasis across the desktop shell."
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding StatusText}"
+                                           Classes="sectionMeta"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

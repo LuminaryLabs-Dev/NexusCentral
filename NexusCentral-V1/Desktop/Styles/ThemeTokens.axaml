@@ -1,0 +1,132 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <SolidColorBrush x:Key="ShellBackgroundBrush" Color="#00000000" />
+
+    <RadialGradientBrush x:Key="PaneBackgroundBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="95%"
+                         RadiusY="95%">
+      <GradientStop Color="#66203C34" Offset="0" />
+      <GradientStop Color="#33203C34" Offset="0.62" />
+      <GradientStop Color="#00203C34" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="HeaderBackgroundBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="120%"
+                         RadiusY="120%">
+      <GradientStop Color="#A613302E" Offset="0" />
+      <GradientStop Color="#5913302E" Offset="0.66" />
+      <GradientStop Color="#0013302E" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="CardBackgroundBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#8C143E31" Offset="0" />
+      <GradientStop Color="#40143E31" Offset="0.64" />
+      <GradientStop Color="#00143E31" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="SubtleCardBackgroundBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#80102E29" Offset="0" />
+      <GradientStop Color="#33102E29" Offset="0.68" />
+      <GradientStop Color="#00102E29" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="SelectedBackgroundBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#A60B6B65" Offset="0" />
+      <GradientStop Color="#590B6B65" Offset="0.64" />
+      <GradientStop Color="#000B6B65" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="ShellBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="100%"
+                         RadiusY="100%">
+      <GradientStop Color="#73081D19" Offset="0" />
+      <GradientStop Color="#33081D19" Offset="0.7" />
+      <GradientStop Color="#00081D19" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="SurfaceBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="95%"
+                         RadiusY="95%">
+      <GradientStop Color="#80102D2A" Offset="0" />
+      <GradientStop Color="#40102D2A" Offset="0.66" />
+      <GradientStop Color="#00102D2A" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="PanelBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#991A4038" Offset="0" />
+      <GradientStop Color="#401A4038" Offset="0.68" />
+      <GradientStop Color="#001A4038" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="PanelAltBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#B31D4A40" Offset="0" />
+      <GradientStop Color="#591D4A40" Offset="0.66" />
+      <GradientStop Color="#001D4A40" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="InputBrush"
+                         Center="50%,50%"
+                         GradientOrigin="50%,50%"
+                         RadiusX="90%"
+                         RadiusY="90%">
+      <GradientStop Color="#B30B2826" Offset="0" />
+      <GradientStop Color="#590B2826" Offset="0.68" />
+      <GradientStop Color="#000B2826" Offset="1" />
+    </RadialGradientBrush>
+
+    <SolidColorBrush x:Key="DividerBrush" Color="#334B7468" />
+    <SolidColorBrush x:Key="DividerStrongBrush" Color="#55739D8E" />
+    <SolidColorBrush x:Key="TextBrush" Color="#E6F2F1" />
+    <SolidColorBrush x:Key="TextBrightBrush" Color="#F3FBF8" />
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#91A3A8" />
+    <SolidColorBrush x:Key="TextDimBrush" Color="#6F8389" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#5ED0A5" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#85F0C8" />
+
+    <SolidColorBrush x:Key="StatusActiveBrush" Color="#55B7FF" />
+    <SolidColorBrush x:Key="StatusReadyBrush" Color="#9ECE6A" />
+    <SolidColorBrush x:Key="StatusWaitingBrush" Color="#E0AF68" />
+    <SolidColorBrush x:Key="StatusErrorBrush" Color="#F7768E" />
+    <SolidColorBrush x:Key="StatusOfflineBrush" Color="#7B8991" />
+
+    <SolidColorBrush x:Key="BadgeBlueBackgroundBrush" Color="#1A2D4A" />
+    <SolidColorBrush x:Key="BadgeGreenBackgroundBrush" Color="#1A3325" />
+    <SolidColorBrush x:Key="BadgeAmberBackgroundBrush" Color="#332719" />
+    <SolidColorBrush x:Key="BadgeRedBackgroundBrush" Color="#3A1D27" />
+    <SolidColorBrush x:Key="BadgeGrayBackgroundBrush" Color="#202A31" />
+
+    <Thickness x:Key="ShellPadding">12,10</Thickness>
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <Thickness x:Key="CompactPadding">10,7</Thickness>
+    <Thickness x:Key="BadgePadding">8,4</Thickness>
+  </Styles.Resources>
+</Styles>

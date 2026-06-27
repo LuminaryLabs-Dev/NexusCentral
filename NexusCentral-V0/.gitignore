@@ -1,0 +1,18 @@
+# Build outputs
+**/bin/
+**/obj/
+Runtime/target/
+
+# Local dependency installs
+Interface/venv/
+Web/frontend/node_modules/
+Web/frontend/.next/
+Web/backend/vendor/bundle/
+NexusCentral-WebHost/frontend/node_modules/
+NexusCentral-WebHost/frontend/.next/
+NexusCentral-WebHost/backend/vendor/bundle/
+
+# Local state
+.publish-verify/
+models/
+logs/

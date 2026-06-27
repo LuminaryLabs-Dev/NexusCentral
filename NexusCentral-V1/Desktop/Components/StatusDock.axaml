@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
+             x:Class="NexusCentral.V3.Desktop.Components.StatusDock"
+             x:DataType="vm:MainShellViewModel">
+  <Border Classes="finalStatusDock">
+    <Grid RowDefinitions="36,*">
+      <Border Classes="dockHeader">
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+              ColumnSpacing="10">
+          <TextBlock Text="Console"
+                     Classes="dockTitle"
+                     VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1"
+                     Text="{Binding ConsoleCountText, StringFormat='All  {0}'}"
+                     Classes="dockChip"
+                     VerticalAlignment="Center" />
+          <StackPanel Grid.Column="3"
+                      Orientation="Horizontal"
+                      Spacing="14"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Center">
+            <Button Classes="headerAction"
+                    Content="Pause"
+                    IsEnabled="False" />
+            <Button Classes="headerAction"
+                    Content="Clear"
+                    IsEnabled="False" />
+            <TextBlock Text="..."
+                       Classes="topMeta" />
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <Grid Grid.Row="1"
+            ColumnDefinitions="*">
+        <Border Classes="consoleTable">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding ConsoleLines}"
+                          Margin="8,4">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid ColumnDefinitions="82,42,150,*"
+                        ColumnSpacing="8"
+                        Margin="0,2">
+                    <TextBlock Text="10:24:32"
+                               Classes="consoleMuted" />
+                    <TextBlock Grid.Column="1"
+                               Text="INF"
+                               Classes="consoleLevel" />
+                    <TextBlock Grid.Column="2"
+                               Text="NexusCentral"
+                               Classes="consoleSource" />
+                    <TextBlock Grid.Column="3"
+                               Text="{Binding}"
+                               Classes="consoleText"
+                               TextTrimming="CharacterEllipsis" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </ScrollViewer>
+        </Border>
+      </Grid>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <WorkspaceRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</WorkspaceRoot>
+    <RuntimeProjectDir>$(WorkspaceRoot)/Runtime</RuntimeProjectDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.10" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.10" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Makaretu.Dns.Multicast" Version="0.27.0" />
+    <PackageReference Include="Zeroconf" Version="3.7.16" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="config\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wrappers\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <BitNetRuntimeFiles Include="$(RuntimeProjectDir)/*" Exclude="$(RuntimeProjectDir)/BitNet/**;$(RuntimeProjectDir)/target/**;$(RuntimeProjectDir)/src/**;$(RuntimeProjectDir)/Cargo.*" />
+  </ItemGroup>
+
+  <Target Name="CopyBitNetRuntimeForBuild"
+          AfterTargets="Build"
+          Condition="'$(DesignTimeBuild)' != 'true'"
+          Inputs="@(BitNetRuntimeFiles)"
+          Outputs="$(OutDir)runtime/bitnet_runtime.py">
+    <MakeDir Directories="$(OutDir)runtime" />
+    <Copy SourceFiles="@(BitNetRuntimeFiles)"
+          DestinationFolder="$(OutDir)runtime"
+          OverwriteReadOnlyFiles="true"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyBitNetRuntimeForPublish"
+          AfterTargets="Publish"
+          Condition="'$(DesignTimeBuild)' != 'true'"
+          Inputs="@(BitNetRuntimeFiles)"
+          Outputs="$(PublishDir)runtime/bitnet_runtime.py">
+    <MakeDir Directories="$(PublishDir)runtime" />
+    <Copy SourceFiles="@(BitNetRuntimeFiles)"
+          DestinationFolder="$(PublishDir)runtime"
+          OverwriteReadOnlyFiles="true"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>

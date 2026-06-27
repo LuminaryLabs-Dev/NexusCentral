@@ -1,0 +1,117 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <LinearGradientBrush x:Key="UiShellBackgroundBrush" StartPoint="0,1" EndPoint="1,0">
+            <GradientStop Color="#07110F" Offset="0"/>
+            <GradientStop Color="#0B1F1C" Offset="0.48"/>
+            <GradientStop Color="#111623" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiPaneGradientBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#10241F" Offset="0"/>
+            <GradientStop Color="#0B1918" Offset="0.55"/>
+            <GradientStop Color="#101420" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiHeaderGradientBrush" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#13251F" Offset="0"/>
+            <GradientStop Color="#10201E" Offset="0.55"/>
+            <GradientStop Color="#151827" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiCardGradientBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#173229" Offset="0"/>
+            <GradientStop Color="#101E1C" Offset="0.62"/>
+            <GradientStop Color="#111824" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiCardSubtleGradientBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#12261F" Offset="0"/>
+            <GradientStop Color="#0D1918" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiCardSelectedGradientBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#1B5A56" Offset="0"/>
+            <GradientStop Color="#214C67" Offset="0.58"/>
+            <GradientStop Color="#263B67" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UiControlGradientBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#11211F" Offset="0"/>
+            <GradientStop Color="#0A1415" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Color x:Key="TokyoBG">#131722</Color>
+        <Color x:Key="TokyoShell">#0d1118</Color>
+        <Color x:Key="TokyoSurface">#171c29</Color>
+        <Color x:Key="TokyoPanel">#1d2331</Color>
+        <Color x:Key="TokyoPanelAlt">#20283a</Color>
+        <Color x:Key="TokyoSecondary">#404861</Color>
+        <Color x:Key="TokyoDivider">#344058</Color>
+        <Color x:Key="TokyoDividerStrong">#4c5b78</Color>
+        <Color x:Key="TokyoAccent">#7aa2f7</Color>
+        <Color x:Key="TokyoAccentHover">#8eb6ff</Color>
+        <Color x:Key="TokyoSelectionFill">#2c4875</Color>
+        <Color x:Key="TokyoFG">#c7d2f4</Color>
+        <Color x:Key="TokyoFGBright">#eef3ff</Color>
+        <Color x:Key="TokyoFGDim">#98a3c7</Color>
+        <Color x:Key="TokyoFGMuted">#7a84a6</Color>
+        <Color x:Key="TokyoInput">#111722</Color>
+        <Color x:Key="TokyoSuccess">#9ece6a</Color>
+        <Color x:Key="TokyoWarning">#e0af68</Color>
+        <Color x:Key="TokyoError">#f7768e</Color>
+
+        <SolidColorBrush x:Key="TokyoBGBrush" Color="{StaticResource TokyoBG}"/>
+        <SolidColorBrush x:Key="TokyoShellBrush" Color="{StaticResource TokyoShell}"/>
+        <SolidColorBrush x:Key="TokyoSurfaceBrush" Color="{StaticResource TokyoSurface}"/>
+        <SolidColorBrush x:Key="TokyoPanelBrush" Color="{StaticResource TokyoPanel}"/>
+        <SolidColorBrush x:Key="TokyoPanelAltBrush" Color="{StaticResource TokyoPanelAlt}"/>
+        <SolidColorBrush x:Key="TokyoSecondaryBrush" Color="{StaticResource TokyoSecondary}"/>
+        <SolidColorBrush x:Key="TokyoDividerBrush" Color="{StaticResource TokyoDivider}"/>
+        <SolidColorBrush x:Key="TokyoDividerStrongBrush" Color="{StaticResource TokyoDividerStrong}"/>
+        <SolidColorBrush x:Key="TokyoAccentBrush" Color="{StaticResource TokyoAccent}"/>
+        <SolidColorBrush x:Key="TokyoAccentHoverBrush" Color="{StaticResource TokyoAccentHover}"/>
+        <SolidColorBrush x:Key="TokyoSelectionFillBrush" Color="{StaticResource TokyoSelectionFill}"/>
+        <SolidColorBrush x:Key="TokyoFGBrush" Color="{StaticResource TokyoFG}"/>
+        <SolidColorBrush x:Key="TokyoFGBrightBrush" Color="{StaticResource TokyoFGBright}"/>
+        <SolidColorBrush x:Key="TokyoFGDimBrush" Color="{StaticResource TokyoFGDim}"/>
+        <SolidColorBrush x:Key="TokyoFGMutedBrush" Color="{StaticResource TokyoFGMuted}"/>
+        <SolidColorBrush x:Key="TokyoInputBrush" Color="{StaticResource TokyoInput}"/>
+        <SolidColorBrush x:Key="TokyoSuccessBrush" Color="{StaticResource TokyoSuccess}"/>
+        <SolidColorBrush x:Key="TokyoWarningBrush" Color="{StaticResource TokyoWarning}"/>
+        <SolidColorBrush x:Key="TokyoErrorBrush" Color="{StaticResource TokyoError}"/>
+        <SolidColorBrush x:Key="TokyoSurfaceHighlightBrush" Color="{StaticResource TokyoPanelAlt}"/>
+        <LinearGradientBrush x:Key="TokyoThinkingRailBrush"
+                             StartPoint="0,0"
+                             EndPoint="0,1">
+            <GradientStop Color="#FF344058"
+                          Offset="0"/>
+            <GradientStop Color="#00344058"
+                          Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ThoughtCardBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#172E4A" Offset="0"/>
+            <GradientStop Color="#101827" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ActionCardBackgroundBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#302616" Offset="0"/>
+            <GradientStop Color="#17130D" Offset="1"/>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="TokyoACCENTBrush" Color="{StaticResource TokyoAccent}"/>
+        <SolidColorBrush x:Key="TokyoDangerBrush" Color="{StaticResource TokyoError}"/>
+        <SolidColorBrush x:Key="TokyoFGBrighterBrush" Color="{StaticResource TokyoFGBright}"/>
+
+        <LinearGradientBrush x:Key="AiRailBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#8BD5FF" Offset="0"/>
+            <GradientStop Color="#007AA2F7" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="UserRailBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#9ECE6A" Offset="0"/>
+            <GradientStop Color="#009ECE6A" Offset="1"/>
+        </LinearGradientBrush>
+    </Styles.Resources>
+</Styles>

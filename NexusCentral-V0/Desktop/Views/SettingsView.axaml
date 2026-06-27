@@ -1,0 +1,93 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:NexusCentral_Avalonia.ViewModels"
+             xmlns:components="using:NexusCentral_Avalonia.Components"
+             x:Class="NexusCentral_Avalonia.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    <UserControl.Styles>
+        <Style Selector="ListBox.settingsNav">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBox.settingsNav > ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBox.settingsNav > ListBoxItem Border.settingsNavItem">
+            <Setter Property="Background" Value="{DynamicResource TokyoPanelBrush}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="ListBox.settingsNav > ListBoxItem:pointerover Border.settingsNavItem">
+            <Setter Property="Background" Value="{DynamicResource TokyoPanelAltBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentHoverBrush}"/>
+        </Style>
+
+        <Style Selector="ListBox.settingsNav > ListBoxItem:selected Border.settingsNavItem">
+            <Setter Property="Background" Value="{DynamicResource TokyoSelectionFillBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource TokyoAccentBrush}"/>
+        </Style>
+
+        <Style Selector="Border.settingsNavItem">
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Padding" Value="10"/>
+        </Style>
+    </UserControl.Styles>
+
+    <components:SplitPaneShell LayoutKey="settings"
+                               SplitterWidth="8"
+                               SurfaceMode="None"
+                               FallbackRatio="0.22">
+        <components:SplitPaneShell.LeftHeaderContent>
+            <StackPanel Spacing="2">
+                <TextBlock Text="Settings"
+                           Classes="pageTitle"/>
+                <TextBlock Text="Domains"
+                           Classes="pageMeta"/>
+            </StackPanel>
+        </components:SplitPaneShell.LeftHeaderContent>
+
+        <components:SplitPaneShell.LeftContent>
+            <ListBox Classes="settingsNav"
+                     ItemsSource="{Binding Domains}"
+                     SelectedItem="{Binding SelectedDomain, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="vm:SettingsDomainViewModel">
+                        <Border Classes="settingsNavItem">
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="{Binding Name}"
+                                           Classes="sectionTitle"/>
+                                <TextBlock Text="{Binding Description}"
+                                           Classes="sectionSummary"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </components:SplitPaneShell.LeftContent>
+
+        <components:SplitPaneShell.RightHeaderContent>
+            <StackPanel Spacing="2">
+                <TextBlock Text="{Binding SelectedDomain.Name, FallbackValue='Settings'}"
+                           Classes="pageTitle"/>
+                <TextBlock Text="{Binding SelectedDomain.Description, FallbackValue='Switch between theme, behavior, and system domains.'}"
+                           Classes="pageMeta"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+        </components:SplitPaneShell.RightHeaderContent>
+
+        <components:SplitPaneShell.RightContent>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="12">
+                <ContentControl Content="{Binding CurrentPage}"/>
+            </ScrollViewer>
+        </components:SplitPaneShell.RightContent>
+    </components:SplitPaneShell>
+</UserControl>
