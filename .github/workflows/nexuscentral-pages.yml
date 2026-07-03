@@ -1,0 +1,142 @@
+name: NexusCentral Pages Downloads
+
+on:
+  push:
+    branches:
+      - "**"
+    paths:
+      - ".github/scripts/**"
+      - ".github/workflows/**"
+      - "global.json"
+      - "updates/**"
+      - "packages/**"
+      - "NexusCentral-V*/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nexuscentral-pages-downloads
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    if: github.ref_name != 'gh-pages'
+    runs-on: ubuntu-latest
+    outputs:
+      version_dirs: ${{ steps.discover.outputs.version_dirs }}
+      targets: ${{ steps.discover.outputs.targets }}
+      dotnet_sdk: ${{ steps.discover.outputs.dotnet_sdk }}
+      configuration: ${{ steps.discover.outputs.configuration }}
+      self_contained: ${{ steps.discover.outputs.self_contained }}
+      artifact_retention_days: ${{ steps.discover.outputs.artifact_retention_days }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Discover version lanes and targets
+        id: discover
+        shell: pwsh
+        run: ./.github/scripts/discover-nexuscentral.ps1
+
+  build:
+    needs: discover
+    if: github.ref_name != 'gh-pages'
+    name: ${{ matrix.version_dir }} ${{ matrix.target.rid }}
+    runs-on: ${{ matrix.target.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version_dir: ${{ fromJson(needs.discover.outputs.version_dirs) }}
+        target: ${{ fromJson(needs.discover.outputs.targets) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ needs.discover.outputs.dotnet_sdk }}
+
+      - name: Publish target
+        shell: pwsh
+        run: >
+          ./.github/scripts/publish-nexuscentral.ps1
+          -VersionDir "${{ matrix.version_dir }}"
+          -Runtime "${{ matrix.target.rid }}"
+          -Configuration "${{ needs.discover.outputs.configuration }}"
+          -SelfContained $${{ needs.discover.outputs.self_contained }}
+
+      - name: Upload Pages download payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-${{ matrix.version_dir }}-${{ matrix.target.rid }}
+          path: |
+            artifacts/archives/*.zip
+            artifacts/manifests/*.size.json
+          if-no-files-found: error
+          retention-days: ${{ needs.discover.outputs.artifact_retention_days }}
+
+  publish-pages:
+    needs:
+      - discover
+      - build
+    if: github.ref_name != 'gh-pages'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          path: source
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: pages-artifacts
+
+      - name: Checkout Pages branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir pages-worktree
+          cd pages-worktree
+          git init
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git fetch --depth=1 origin gh-pages; then
+            git checkout gh-pages
+          else
+            git checkout --orphan gh-pages
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update downloads site
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 source/.github/scripts/update_pages_downloads.py \
+            --site-dir pages-worktree \
+            --artifact-dir pages-artifacts \
+            --branch-name "${GITHUB_REF_NAME}" \
+            --commit-sha "${GITHUB_SHA}" \
+            --run-id "${GITHUB_RUN_ID}" \
+            --run-number "${GITHUB_RUN_NUMBER}" \
+            --repository "${GITHUB_REPOSITORY}" \
+            --workflow-name "${GITHUB_WORKFLOW}"
+
+      - name: Publish Pages branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd pages-worktree
+          git add .
+          if git diff --cached --quiet; then
+            echo "No Pages changes to publish."
+            exit 0
+          fi
+          git commit -m "Update NexusCentral downloads for ${GITHUB_REF_NAME}"
+          git push origin gh-pages

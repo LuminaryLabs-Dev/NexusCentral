@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "models",
+  "displayName": "Models",
+  "version": "0.1.0-dev",
+  "status": "planned",
+  "compatibility": {
+    "appId": "com.nexuscentral.desktop",
+    "minimumAppVersion": "0.1.0-dev"
+  },
+  "source": {
+    "versionDir": "NexusCentral-V1",
+    "path": "Features/Models"
+  },
+  "artifact": {
+    "sha256": null,
+    "sizeBytes": null
+  },
+  "capabilities": [
+    "endpoint-registry",
+    "provider-health",
+    "active-model-selection"
+  ]
+}

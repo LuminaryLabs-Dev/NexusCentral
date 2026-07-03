@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "appId": "com.nexuscentral.desktop",
+  "displayName": "NexusCentral",
+  "productVersion": "0.1.0-dev",
+  "versionDir": "NexusCentral-V1",
+  "architecture": "v3-native",
+  "entryProject": "Desktop/NexusCentral-V3.csproj",
+  "testProject": "Tests/NexusCentral-V3.Tests.csproj",
+  "updateFeeds": {
+    "stable": "../updates/stable.json",
+    "beta": "../updates/beta.json"
+  },
+  "packages": [
+    "../packages/router.manifest.json",
+    "../packages/models.manifest.json",
+    "../packages/agents.manifest.json"
+  ],
+  "releasePolicy": {
+    "publicVersionsComeFrom": "GitHub releases and semver tags",
+    "folderNamesAre": "repo lanes, not product versions",
+    "requiresHashVerification": true,
+    "requiresRollbackPath": true
+  }
+}

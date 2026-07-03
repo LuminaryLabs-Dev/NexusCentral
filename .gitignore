@@ -17,6 +17,9 @@
 **/obj/
 **/dist/
 **/build/
+artifacts/
+pages-artifacts/
+pages-worktree/
 **/.next/
 **/.vite/
 **/target/
@@ -40,3 +43,4 @@ NexusCentral-V0/web-lab-*.png
 # Repo-local private operating memory
 memory.md
 **/memory.md
+!NexusCentral-V1/memory.md

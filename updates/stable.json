@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "channel": "stable",
+  "feedStatus": "bootstrap",
+  "latestAppVersion": "0.1.0-dev",
+  "latestVersionDir": "NexusCentral-V1",
+  "releaseTag": null,
+  "targets": [
+    {
+      "rid": "win-x64",
+      "artifactName": null,
+      "sha256": null,
+      "sizeBytes": null
+    },
+    {
+      "rid": "linux-x64",
+      "artifactName": null,
+      "sha256": null,
+      "sizeBytes": null
+    },
+    {
+      "rid": "osx-x64",
+      "artifactName": null,
+      "sha256": null,
+      "sizeBytes": null
+    },
+    {
+      "rid": "osx-arm64",
+      "artifactName": null,
+      "sha256": null,
+      "sizeBytes": null
+    }
+  ],
+  "packages": [
+    "router",
+    "models",
+    "agents"
+  ]
+}

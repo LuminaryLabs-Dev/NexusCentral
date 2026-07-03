@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "activeVersionDir": "NexusCentral-V1",
+  "configuration": "Release",
+  "dotnetSdk": "10.0.x",
+  "selfContained": true,
+  "artifactRetentionDays": 14,
+  "targets": [
+    {
+      "rid": "win-x64",
+      "runner": "windows-latest",
+      "archiveExtension": "zip"
+    },
+    {
+      "rid": "linux-x64",
+      "runner": "ubuntu-latest",
+      "archiveExtension": "zip"
+    },
+    {
+      "rid": "osx-x64",
+      "runner": "macos-latest",
+      "archiveExtension": "zip"
+    },
+    {
+      "rid": "osx-arm64",
+      "runner": "macos-latest",
+      "archiveExtension": "zip"
+    }
+  ]
+}
