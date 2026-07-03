@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "appId": "com.nexuscentral.desktop",
+  "versionDir": "NexusCentral-V1",
+  "appVersion": "0.1.0-dev",
+  "runtime": "linux-x64",
+  "configuration": "Release",
+  "selfContained": true,
+  "publishedBytes": 112734944,
+  "archiveBytes": 52223457,
+  "archiveSha256": "5b7fd26359ec027deff3077ea92aa613517ba204be3715c9b6a13a1b440a8969",
+  "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip"
+}
