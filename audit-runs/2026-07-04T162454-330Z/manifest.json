@@ -1,0 +1,71 @@
+{
+  "audit": {
+    "findingCount": 6,
+    "highestSeverity": "risk",
+    "ready": true
+  },
+  "generatedAt": "2026-07-04T16:25:41.032Z",
+  "intent": "Audit and brainstorm this repository.",
+  "models": {
+    "audit": {
+      "model": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+      "reason": "configured fallback available",
+      "requested": "agents-a1",
+      "status": "fallback"
+    },
+    "brainstorm": {
+      "model": "qwen/qwen3-next-80b-a3b-instruct",
+      "reason": "configured fallback available",
+      "requested": "qwen3.7-4b",
+      "status": "fallback"
+    }
+  },
+  "paths": {
+    "outputRoot": "audit-runs",
+    "runPath": "audit-runs/2026-07-04T162454-330Z"
+  },
+  "report": {
+    "sectionCount": 7
+  },
+  "scan": {
+    "includedBytes": 339210,
+    "includedFileCount": 160,
+    "limits": {
+      "maxFileBytes": 60000,
+      "maxFiles": 160,
+      "maxTotalBytes": 800000
+    },
+    "skippedByReason": {
+      "maxFileBytes": 0,
+      "maxFiles": 67,
+      "maxTotalBytes": 0,
+      "readError": 0
+    },
+    "skippedFileCount": 67,
+    "truncated": true
+  },
+  "snapshot": {
+    "domains": [
+      "docs",
+      "frontend",
+      "repo-intelligence",
+      "tests",
+      "toolchain"
+    ],
+    "fileCount": 160,
+    "sourceCount": 65,
+    "testCount": 3,
+    "totalLines": 10660
+  },
+  "source": {
+    "branch": "main",
+    "name": "NexusCentral",
+    "owner": "LuminaryLabs-Dev",
+    "repository": "LuminaryLabs-Dev/NexusCentral",
+    "runAttempt": "1",
+    "runId": "28712360873",
+    "sha": "b39d056af469ff72d8bef8b4b5b095eb169526c8"
+  },
+  "timestamp": "2026-07-04T162454-330Z",
+  "version": 1
+}
