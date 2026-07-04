@@ -4,8 +4,8 @@ Public latest build artifacts by branch for `LuminaryLabs-Dev/NexusCentral`.
 
 ## main
 
-- Commit: `01fe67eb46c4`
-- Workflow: https://github.com/LuminaryLabs-Dev/NexusCentral/actions/runs/28683396537
+- Commit: `c84195884fe1`
+- Workflow: https://github.com/LuminaryLabs-Dev/NexusCentral/actions/runs/28709973281
 
 | Download | Target | Lane | Version | Size | Proof |
 | --- | --- | --- | --- | ---: | --- |

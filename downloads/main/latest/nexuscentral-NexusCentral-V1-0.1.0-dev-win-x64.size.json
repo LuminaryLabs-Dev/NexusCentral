@@ -7,7 +7,7 @@
   "configuration": "Release",
   "selfContained": true,
   "publishedBytes": 220204638,
-  "archiveBytes": 81094173,
-  "archiveSha256": "a2bf8a9ed0aa8cf5ed49cea5b6500a52e5dcb61ff7628ddb849cd769eb13597f",
+  "archiveBytes": 81094178,
+  "archiveSha256": "73e8df0dd10ac8225aaca1f505363f60a076e793480d56f250e602518c109d81",
   "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip"
 }

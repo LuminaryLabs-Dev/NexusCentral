@@ -7,7 +7,7 @@
   "configuration": "Release",
   "selfContained": true,
   "publishedBytes": 115622114,
-  "archiveBytes": 54120516,
-  "archiveSha256": "6d139058bd36751d6e7c2c51eabef15a00452319f483862699ae6d825762bc9e",
+  "archiveBytes": 54120521,
+  "archiveSha256": "7282bdd9d3d7767c38adfbcb2cc06031dfb4372d5f240593b9be5884fcc7c503",
   "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip"
 }
