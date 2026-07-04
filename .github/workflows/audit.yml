@@ -1,0 +1,29 @@
+name: Universal Repository Audit
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "audit-runs/**"
+  workflow_dispatch:
+    inputs:
+      intent:
+        description: "Audit intent"
+        required: false
+        default: "Audit and brainstorm this repository."
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    uses: LuminaryLabs-Dev/NexusAgent-WorkflowTesting/.github/workflows/universal-audit.yml@main
+    with:
+      audit_intent: ${{ github.event.inputs.intent || 'Audit and brainstorm this repository.' }}
+      hub_repo: LuminaryLabs-Dev/NexusAgent-WorkflowTesting
+      scan_max_files: 160
+      scan_max_file_bytes: 60000
+      scan_max_total_bytes: 800000
+    secrets:
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      AUDIT_HUB_TOKEN: ${{ secrets.AUDIT_HUB_TOKEN }}
