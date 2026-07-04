@@ -2,7 +2,8 @@ name: Universal Repository Audit
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths-ignore:
       - "audit-runs/**"
   workflow_dispatch:
@@ -17,13 +18,103 @@ permissions:
 
 jobs:
   audit:
-    uses: LuminaryLabs-Dev/NexusAgent-WorkflowTesting/.github/workflows/universal-audit.yml@main
-    with:
-      audit_intent: ${{ github.event.inputs.intent || 'Audit and brainstorm this repository.' }}
-      hub_repo: LuminaryLabs-Dev/NexusAgent-WorkflowTesting
-      scan_max_files: 160
-      scan_max_file_bytes: 60000
-      scan_max_total_bytes: 800000
-    secrets:
-      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-      AUDIT_HUB_TOKEN: ${{ secrets.AUDIT_HUB_TOKEN }}
+    runs-on: ubuntu-latest
+    env:
+      HUB_REPO: LuminaryLabs-Dev/NexusAgent-WorkflowTesting
+      OUTPUT_ROOT: audit-runs
+      SCAN_MAX_FILE_BYTES: 60000
+      SCAN_MAX_FILES: 160
+      SCAN_MAX_TOTAL_BYTES: 800000
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: target
+          token: ${{ secrets.AUDIT_HUB_TOKEN }}
+
+      - name: Checkout audit hub
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.HUB_REPO }}
+          fetch-depth: 0
+          path: hub
+          token: ${{ secrets.AUDIT_HUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: hub/package-lock.json
+
+      - name: Install hub dependencies
+        working-directory: hub
+        run: npm ci
+
+      - name: Run hub audit against source repository
+        working-directory: hub
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_SHA: ${{ github.sha }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NIM_BASE_URL: https://integrate.api.nvidia.com/v1
+          NIM_OUTPUT_ROOT: ${{ env.OUTPUT_ROOT }}
+          NIM_RUN_INTENT: ${{ github.event.inputs.intent || 'Audit and brainstorm this repository.' }}
+          NIM_SCAN_MAX_FILE_BYTES: ${{ env.SCAN_MAX_FILE_BYTES }}
+          NIM_SCAN_MAX_FILES: ${{ env.SCAN_MAX_FILES }}
+          NIM_SCAN_MAX_TOTAL_BYTES: ${{ env.SCAN_MAX_TOTAL_BYTES }}
+          TARGET_REPO_ROOT: ../target
+        run: node scripts/nim-verbose-run.mjs
+
+      - name: Capture run metadata
+        id: run_meta
+        shell: bash
+        run: |
+          run_dir="$(find "target/${OUTPUT_ROOT}" -mindepth 1 -maxdepth 1 -type d | sort | tail -n 1)"
+          if [ -z "$run_dir" ]; then
+            echo "No audit run directory found."
+            exit 1
+          fi
+          timestamp="$(basename "$run_dir")"
+          echo "timestamp=$timestamp" >> "$GITHUB_OUTPUT"
+          echo "run_path=${OUTPUT_ROOT}/$timestamp" >> "$GITHUB_OUTPUT"
+
+      - name: Commit audit run to source repository
+        shell: bash
+        working-directory: target
+        run: |
+          if ! git status --short "${OUTPUT_ROOT}/" | grep .; then
+            echo "No audit artifacts generated."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${OUTPUT_ROOT}/"
+          git commit -m "Add timestamped audit run ${{ steps.run_meta.outputs.timestamp }}"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Dispatch run to audit hub
+        shell: bash
+        env:
+          AUDIT_HUB_TOKEN: ${{ secrets.AUDIT_HUB_TOKEN }}
+        run: |
+          curl --fail-with-body \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${AUDIT_HUB_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${HUB_REPO}/dispatches" \
+            -d @- <<JSON
+          {
+            "event_type": "audit-run-completed",
+            "client_payload": {
+              "source_repo": "${{ github.repository }}",
+              "source_branch": "${{ github.ref_name }}",
+              "source_sha": "${{ github.sha }}",
+              "source_run_path": "${{ steps.run_meta.outputs.run_path }}",
+              "timestamp": "${{ steps.run_meta.outputs.timestamp }}"
+            }
+          }
+          JSON
