@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NexusCentral.V3.Features.Workspaces;
+namespace NexusCentral.V1.Features.Workspaces;
 
 public interface IWorkspaceService
 {

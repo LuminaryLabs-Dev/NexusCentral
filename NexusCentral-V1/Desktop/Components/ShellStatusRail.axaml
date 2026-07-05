@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
-             x:Class="NexusCentral.V3.Desktop.Components.ShellStatusRail"
+             xmlns:vm="using:NexusCentral.V1.Desktop.ViewModels"
+             x:Class="NexusCentral.V1.Desktop.Components.ShellStatusRail"
              x:DataType="vm:MainShellViewModel">
   <Border Classes="statusStack">
     <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
@@ -39,9 +39,9 @@
             <TextBlock Text="{Binding QueueSummaryText}"
                        Classes="statusPaneValue" />
           </StackPanel>
-          <TextBlock Text="0 running"
+          <TextBlock Text="{Binding QueueRunningText}"
                      Classes="statusPaneMeta" />
-          <TextBlock Text="0 queued"
+          <TextBlock Text="{Binding QueueQueuedText}"
                      Classes="statusPaneMeta" />
         </StackPanel>
       </Border>
@@ -60,9 +60,9 @@
             <TextBlock Text="{Binding RouteStatusText}"
                        Classes="statusPaneValue" />
           </StackPanel>
-          <TextBlock Text="Endpoint: inactive"
+          <TextBlock Text="{Binding RouteEndpointStatusText}"
                      Classes="statusPaneMeta" />
-          <TextBlock Text="Health: unavailable"
+          <TextBlock Text="{Binding RouteHealthStatusText}"
                      Classes="statusPaneMeta" />
         </StackPanel>
       </Border>
@@ -81,9 +81,9 @@
             <TextBlock Text="{Binding ModelStatusText}"
                        Classes="statusPaneValue" />
           </StackPanel>
-          <TextBlock Text="Runtime: inactive"
+          <TextBlock Text="{Binding ModelRuntimeStatusText}"
                      Classes="statusPaneMeta" />
-          <TextBlock Text="Context: unavailable"
+          <TextBlock Text="{Binding ModelContextStatusText}"
                      Classes="statusPaneMeta" />
         </StackPanel>
       </Border>

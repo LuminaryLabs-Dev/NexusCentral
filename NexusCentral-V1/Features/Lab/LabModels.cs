@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NexusCentral.V3.Core.Execution;
+using NexusCentral.V1.Core.Execution;
 
-namespace NexusCentral.V3.Features.Lab;
+namespace NexusCentral.V1.Features.Lab;
 
 public enum ChatMessageRole
 {

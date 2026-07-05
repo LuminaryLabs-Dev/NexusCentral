@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 
-namespace NexusCentral.V3.Desktop.Backgrounds;
+namespace NexusCentral.V1.Desktop.Backgrounds;
 
 public sealed class MosaicShaderBackground : Control
 {

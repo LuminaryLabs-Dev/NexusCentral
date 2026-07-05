@@ -1,6 +1,6 @@
 using Avalonia.Media;
 
-namespace NexusCentral.V3.Desktop.Backgrounds;
+namespace NexusCentral.V1.Desktop.Backgrounds;
 
 public sealed record MosaicBackgroundOptions(
     Color BaseTop,

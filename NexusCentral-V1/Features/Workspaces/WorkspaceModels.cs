@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NexusCentral.V3.Features.Workspaces;
+namespace NexusCentral.V1.Features.Workspaces;
 
 public sealed record WorkspaceDefinition(
     string Id,

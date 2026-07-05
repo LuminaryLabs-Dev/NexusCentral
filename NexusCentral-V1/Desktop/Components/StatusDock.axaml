@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
-             x:Class="NexusCentral.V3.Desktop.Components.StatusDock"
+             xmlns:vm="using:NexusCentral.V1.Desktop.ViewModels"
+             x:Class="NexusCentral.V1.Desktop.Components.StatusDock"
              x:DataType="vm:MainShellViewModel">
   <Border Classes="finalStatusDock">
     <Grid RowDefinitions="36,*">

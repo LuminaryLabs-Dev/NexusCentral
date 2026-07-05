@@ -2,17 +2,17 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NexusCentral.V3.Core.Config;
-using NexusCentral.V3.Core.Logging;
-using NexusCentral.V3.Core.State;
-using NexusCentral.V3.Features.Workspaces;
+using NexusCentral.V1.Core.Config;
+using NexusCentral.V1.Core.Logging;
+using NexusCentral.V1.Core.State;
+using NexusCentral.V1.Features.Workspaces;
 using Xunit;
 
-namespace NexusCentral.V3.Tests;
+namespace NexusCentral.V1.Tests;
 
 public sealed class WorkspaceServiceTests : IDisposable
 {
-    private readonly string _root = Path.Combine(Path.GetTempPath(), $"nexuscentral-v3-tests-{Guid.NewGuid():N}");
+    private readonly string _root = Path.Combine(Path.GetTempPath(), $"nexuscentral-v1-tests-{Guid.NewGuid():N}");
 
     [Fact]
     public async Task OpenWorkspaceAsync_OpensValidFolderAndBrowsesTree()

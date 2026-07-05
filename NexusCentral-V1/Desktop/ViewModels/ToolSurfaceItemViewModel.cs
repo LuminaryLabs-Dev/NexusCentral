@@ -1,4 +1,4 @@
-namespace NexusCentral.V3.Desktop.ViewModels;
+namespace NexusCentral.V1.Desktop.ViewModels;
 
 public sealed class ToolSurfaceItemViewModel
 {

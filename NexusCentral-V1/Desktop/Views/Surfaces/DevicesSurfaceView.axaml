@@ -1,8 +1,8 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
-             xmlns:components="using:NexusCentral.V3.Desktop.Components"
-             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.DevicesSurfaceView"
+             xmlns:vm="using:NexusCentral.V1.Desktop.ViewModels"
+             xmlns:components="using:NexusCentral.V1.Desktop.Components"
+             x:Class="NexusCentral.V1.Desktop.Views.Surfaces.DevicesSurfaceView"
              x:DataType="vm:NavigationItemViewModel">
   <Grid RowDefinitions="Auto,*,Auto">
     <Border Grid.Row="0"

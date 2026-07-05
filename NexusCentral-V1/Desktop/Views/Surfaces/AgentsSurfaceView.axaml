@@ -1,151 +1,350 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:vm="using:NexusCentral.V3.Desktop.ViewModels"
-             xmlns:components="using:NexusCentral.V3.Desktop.Components"
-             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.AgentsSurfaceView"
-             x:DataType="vm:NavigationItemViewModel">
-  <Grid RowDefinitions="Auto,*,Auto">
-    <Border Grid.Row="0"
-            Classes="flatToolbar">
-      <StackPanel Orientation="Horizontal"
-                  Spacing="8"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Center">
-        <components:MetricBadge Label="Policy"
-                                Value="{Binding StatusLabel}"
-                                AccentBrush="{DynamicResource StatusOfflineBrush}"
-                                BackgroundBrush="{DynamicResource BadgeGrayBackgroundBrush}" />
-        <Button Classes="primary"
-                IsEnabled="False"
-                Content="{Binding PrimaryActionLabel}" />
-        <Button Classes="secondary"
-                IsEnabled="False"
-                Content="{Binding SecondaryActionLabel}" />
-      </StackPanel>
+             xmlns:harnesses="using:NexusCentral.V1.Features.Harnesses"
+             xmlns:components="using:NexusCentral.V1.Desktop.Components"
+             x:Class="NexusCentral.V1.Desktop.Views.Surfaces.AgentsSurfaceView"
+             x:DataType="harnesses:HarnessImporterViewModel">
+  <Grid ColumnDefinitions="360,*">
+    <Border Classes="flatLane">
+      <Grid RowDefinitions="Auto,Auto,Auto,Auto,*"
+            RowSpacing="10">
+        <StackPanel Spacing="2">
+          <TextBlock Text="Hosted harnesses"
+                     Classes="sectionTitle" />
+          <TextBlock Text="Scan agent folders, import a harness, then choose its enabled capabilities."
+                     Classes="sectionMeta"
+                     TextWrapping="Wrap" />
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Classes="flatBlock">
+          <Grid RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="7">
+            <Grid ColumnDefinitions="*,Auto,Auto"
+                  ColumnSpacing="8">
+              <TextBox Text="{Binding ManifestSearchRoot, Mode=TwoWay}"
+                       PlaceholderText="Agent harness folder" />
+              <Button Grid.Column="1"
+                      Classes="secondary"
+                      Content="Scan"
+                      Command="{Binding DiscoverManifestsCommand}" />
+              <Button Grid.Column="2"
+                      Classes="secondary"
+                      Content="Import"
+                      Command="{Binding ImportSelectedManifestCommand}" />
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Text="{Binding ManifestDiscoveryStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <ListBox Grid.Row="2"
+                     Classes="flatList"
+                     MaxHeight="160"
+                     ItemsSource="{Binding ManifestCandidates}"
+                     SelectedItem="{Binding SelectedManifestCandidate, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="harnesses:HarnessManifestCandidateItemViewModel">
+                  <Border Classes="flatListRow">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding DisplayName}"
+                                 Classes="sectionTitle" />
+                      <TextBlock Text="{Binding DetailText}"
+                                 Classes="caption" />
+                      <TextBlock Text="{Binding StatusMessage}"
+                                 Classes="caption"
+                                 TextWrapping="Wrap" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+        </Border>
+
+        <Expander Grid.Row="2"
+                  Header="Advanced import">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="7"
+                Margin="0,8,0,0">
+            <TextBox Text="{Binding NewHarnessManifestPath, Mode=TwoWay}"
+                     PlaceholderText="Harness manifest path" />
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,Auto"
+                  ColumnSpacing="8">
+              <TextBlock Text="{Binding NewHarnessStatusText}"
+                         Classes="caption"
+                         TextWrapping="Wrap"
+                         VerticalAlignment="Center" />
+              <Button Grid.Column="1"
+                      Classes="secondary"
+                      Content="Import manifest"
+                      Command="{Binding ImportManifestCommand}" />
+            </Grid>
+            <TextBox Grid.Row="2"
+                     Text="{Binding NewHarnessName, Mode=TwoWay}"
+                     PlaceholderText="Harness name" />
+            <TextBox Grid.Row="3"
+                     Text="{Binding NewHarnessRoute, Mode=TwoWay}"
+                     PlaceholderText="Wrapper route" />
+            <TextBox Grid.Row="4"
+                     Text="{Binding NewHarnessCommand, Mode=TwoWay}"
+                     PlaceholderText="Command"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     MinHeight="62" />
+            <Button Grid.Row="5"
+                    Classes="secondary"
+                    Content="Discover Codex CLI"
+                    Command="{Binding DiscoverCodexCliCommand}" />
+            <Button Grid.Row="6"
+                    Classes="secondary"
+                    Content="Attach manual command"
+                    Command="{Binding AttachManualHarnessCommand}" />
+          </Grid>
+        </Expander>
+
+        <Grid Grid.Row="3"
+              ColumnDefinitions="Auto,*,Auto,Auto"
+              ColumnSpacing="8">
+          <TextBlock Text="State"
+                     Classes="sectionMeta"
+                     VerticalAlignment="Center" />
+          <TextBlock Grid.Column="1"
+                     Text="{Binding StatusLabel}"
+                     Classes="sectionTitle"
+                     VerticalAlignment="Center" />
+          <Button Grid.Column="2"
+                  Classes="secondary"
+                  Content="Refresh"
+                  Command="{Binding RefreshCommand}" />
+          <Button Grid.Column="3"
+                  Classes="secondary"
+                  Content="Remove"
+                  Command="{Binding RemoveSelectedHarnessCommand}" />
+        </Grid>
+
+        <ListBox Grid.Row="4"
+                 Classes="flatList"
+                 ItemsSource="{Binding Harnesses}"
+                 SelectedItem="{Binding SelectedHarness, Mode=TwoWay}">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="harnesses:HarnessItemViewModel">
+              <Border Classes="flatListRow">
+                <StackPanel Spacing="2">
+                  <TextBlock Text="{Binding DisplayName}"
+                             Classes="sectionTitle" />
+                  <TextBlock Text="{Binding KindLabel}"
+                             Classes="caption" />
+                  <TextBlock Text="{Binding HealthLabel}"
+                             Classes="caption" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </Grid>
     </Border>
 
-    <Grid Grid.Row="1"
-          ColumnDefinitions="300,*">
-      <Border Classes="flatLane">
-        <Grid RowDefinitions="Auto,*">
-          <TextBlock Text="Harnesses / wrappers"
-                     Classes="sectionTitle" />
-          <StackPanel Grid.Row="1"
-                      Margin="0,8,0,0"
-                      Spacing="0">
-            <Border Classes="flatListRow selected">
-              <StackPanel Spacing="2">
-                <TextBlock Text="Default assistant harness"
-                           Classes="sectionTitle" />
-                <TextBlock Text="Normalized manifest placeholder"
-                           Classes="caption" />
-              </StackPanel>
-            </Border>
-            <Border Classes="flatListRow">
-              <TextBlock Text="Code harness placeholder"
-                         Classes="sectionMeta" />
-            </Border>
-            <Border Classes="flatListRow">
-              <TextBlock Text="Research harness placeholder"
-                         Classes="sectionMeta" />
-            </Border>
+    <Border Grid.Column="1"
+            Classes="flatMainLane">
+      <Grid RowDefinitions="Auto,Auto,Auto,*"
+            RowSpacing="10">
+        <Grid ColumnDefinitions="*,Auto,Auto"
+              ColumnSpacing="8">
+          <StackPanel Spacing="2">
+            <TextBlock Text="Selected harness"
+                       Classes="sectionTitle" />
+            <TextBlock Text="{Binding ActiveHarnessDetail}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
           </StackPanel>
+          <components:MetricBadge Grid.Column="1"
+                                  Label="Harness"
+                                  Value="{Binding ActiveHarnessHealthText}"
+                                  AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                  BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+          <components:MetricBadge Grid.Column="2"
+                                  Label="Wrapper"
+                                  Value="{Binding ActiveHarnessEndpointText}"
+                                  AccentBrush="{DynamicResource StatusActiveBrush}"
+                                  BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
         </Grid>
-      </Border>
 
-      <Border Grid.Column="1"
-              Classes="flatMainLane">
-        <Grid RowDefinitions="Auto,*"
-              RowSpacing="10">
-          <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="2">
-              <TextBlock Text="Selected harness details"
-                         Classes="sectionTitle" />
-              <TextBlock Text="{Binding CapabilitySummary}"
-                         Classes="sectionMeta"
-                         TextWrapping="Wrap" />
+        <Border Grid.Row="1"
+                Classes="flatBlock">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="8">
+            <TextBlock Text="{Binding ActiveHarnessTitle}"
+                       Classes="pageTitle" />
+            <TextBlock Grid.Row="1"
+                       Text="{Binding ActiveHarnessVersionText}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        Spacing="8">
+              <components:MetricBadge Label="Capabilities"
+                                      Value="{Binding ActiveHarnessCapabilityText}"
+                                      AccentBrush="{DynamicResource StatusReadyBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+              <components:MetricBadge Label="Endpoints"
+                                      Value="{Binding ActiveHarnessEndpointText}"
+                                      AccentBrush="{DynamicResource StatusActiveBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
             </StackPanel>
-            <components:MetricBadge Grid.Column="1"
-                                    Label="Tools"
-                                    Value="{Binding ToolSurfaceSummaryText}"
-                                    AccentBrush="{DynamicResource StatusActiveBrush}"
-                                    BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
-          </Grid>
-
-          <Grid Grid.Row="1"
-                ColumnDefinitions="*,320"
-                ColumnSpacing="10">
-            <Border Classes="flatBlock">
-              <StackPanel Spacing="6">
-                <TextBlock Text="Manifest and compatibility"
-                           Classes="sectionTitle" />
-                <TextBlock Text="Wrapper defaults, template compatibility, recent runs, and validation output stay in this Agents-owned workspace."
+            <Expander Grid.Row="3"
+                      Header="Test harness">
+              <Grid RowDefinitions="Auto,Auto"
+                    RowSpacing="7"
+                    Margin="0,8,0,0">
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="8">
+                  <TextBox Text="{Binding HarnessTestPrompt, Mode=TwoWay}"
+                           PlaceholderText="Harness test prompt" />
+                  <Button Grid.Column="1"
+                          Classes="secondary"
+                          Content="Test"
+                          Command="{Binding TestSelectedHarnessCommand}" />
+                </Grid>
+                <TextBlock Grid.Row="1"
+                           Text="{Binding HarnessTestStatusText}"
                            Classes="sectionMeta"
                            TextWrapping="Wrap" />
-              </StackPanel>
-            </Border>
-
-            <Border Grid.Column="1"
-                    Classes="flatLane right">
-              <Grid RowDefinitions="Auto,*">
-                <StackPanel Spacing="2">
-                  <TextBlock Text="Tool surface"
-                             Classes="sectionTitle" />
-                  <TextBlock Text="Allowed contracts only; execution is not implemented in this pass."
-                             Classes="sectionMeta"
-                             TextWrapping="Wrap" />
-                </StackPanel>
-
-                <ScrollViewer Grid.Row="1"
-                              Margin="0,8,0,0"
-                              VerticalScrollBarVisibility="Auto">
-                  <ItemsControl ItemsSource="{Binding Tools}">
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate DataType="vm:ToolSurfaceItemViewModel">
-                        <Border Classes="flatListRow">
-                          <Grid RowDefinitions="Auto,Auto"
-                                RowSpacing="4">
-                            <Grid ColumnDefinitions="*,Auto"
-                                  ColumnSpacing="8">
-                              <TextBlock Text="{Binding Name}"
-                                         Classes="sectionTitle" />
-                              <TextBlock Grid.Column="1"
-                                         Text="{Binding Status}"
-                                         Classes="caption" />
-                            </Grid>
-                            <Grid Grid.Row="1"
-                                  ColumnDefinitions="*,Auto"
-                                  ColumnSpacing="8">
-                              <StackPanel Spacing="1">
-                                <TextBlock Text="{Binding Route}"
-                                           Classes="monoText"
-                                           Foreground="{DynamicResource TextMutedBrush}" />
-                                <TextBlock Text="{Binding Scope}"
-                                           Classes="caption" />
-                              </StackPanel>
-                              <TextBlock Grid.Column="1"
-                                         Text="{Binding Safety}"
-                                         Classes="caption"
-                                         VerticalAlignment="Center" />
-                            </Grid>
-                          </Grid>
-                        </Border>
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                </ScrollViewer>
               </Grid>
-            </Border>
+            </Expander>
+            <Expander Grid.Row="4"
+                      Header="Command">
+              <TextBlock Text="{Binding ActiveHarnessCommandText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap"
+                         Margin="0,8,0,0" />
+            </Expander>
           </Grid>
+        </Border>
 
+        <Expander Grid.Row="2"
+                  Header="Orchestration">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto,*"
+                RowSpacing="8"
+                Margin="0,8,0,0">
+            <TextBlock Text="{Binding OrchestrationSummaryText}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,Auto"
+                  ColumnSpacing="8">
+              <TextBox Text="{Binding OrchestrationSmokePrompt, Mode=TwoWay}"
+                       PlaceholderText="Orchestration smoke prompt" />
+              <Button Grid.Column="1"
+                      Classes="secondary"
+                      Content="Smoke"
+                      Command="{Binding SmokeOrchestrationCommand}" />
+            </Grid>
+            <TextBlock Grid.Row="2"
+                       Text="{Binding OrchestrationSmokeStatusText}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <TextBlock Grid.Row="3"
+                       Text="{Binding LastOrchestrationSmokeText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <ListBox Grid.Row="4"
+                     Classes="flatList"
+                     MaxHeight="170"
+                     ItemsSource="{Binding OrchestrationSteps}">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="harnesses:HarnessOrchestrationStepItemViewModel">
+                  <Border Classes="flatListRow">
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="8">
+                      <TextBlock Text="{Binding OrderText}"
+                                 Classes="navGlyphText"
+                                 VerticalAlignment="Top" />
+                      <StackPanel Grid.Column="1"
+                                  Spacing="2">
+                        <TextBlock Text="{Binding Title}"
+                                   Classes="sectionTitle"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Detail}"
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding StatusText}"
+                                   Classes="caption"
+                                   TextWrapping="Wrap" />
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+        </Expander>
+
+        <Grid Grid.Row="3"
+              ColumnDefinitions="*,*"
+              ColumnSpacing="10">
+          <Border Classes="flatBlock">
+            <Grid RowDefinitions="Auto,*"
+                  RowSpacing="8">
+              <TextBlock Text="Capabilities"
+                         Classes="sectionTitle" />
+              <ListBox Grid.Row="1"
+                       Classes="flatList"
+                       ItemsSource="{Binding Capabilities}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate DataType="harnesses:HarnessCapabilityItemViewModel">
+                    <Border Classes="flatListRow">
+                      <Grid ColumnDefinitions="Auto,*"
+                            ColumnSpacing="8">
+                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                  VerticalAlignment="Top" />
+                        <StackPanel Grid.Column="1"
+                                    Spacing="2">
+                          <TextBlock Text="{Binding Name}"
+                                     Classes="sectionTitle" />
+                          <TextBlock Text="{Binding Description}"
+                                     Classes="sectionMeta"
+                                     TextWrapping="Wrap" />
+                          <TextBlock Text="{Binding SafetyText}"
+                                     Classes="caption" />
+                        </StackPanel>
+                      </Grid>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Grid>
+          </Border>
+
+          <Border Grid.Column="1"
+                  Classes="flatBlock">
+            <Grid RowDefinitions="Auto,*"
+                  RowSpacing="8">
+              <TextBlock Text="Wrapper endpoints"
+                         Classes="sectionTitle" />
+              <ListBox Grid.Row="1"
+                       Classes="flatList"
+                       ItemsSource="{Binding ProposedEndpoints}">
+                <ListBox.ItemTemplate>
+                  <DataTemplate DataType="harnesses:HarnessEndpointItemViewModel">
+                    <Border Classes="flatListRow">
+                      <StackPanel Spacing="2">
+                        <TextBlock Text="{Binding Route}"
+                                   Classes="sectionTitle" />
+                        <TextBlock Text="{Binding Description}"
+                                   Classes="sectionMeta"
+                                   TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding Safety}"
+                                   Classes="caption" />
+                      </StackPanel>
+                    </Border>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </Grid>
+          </Border>
         </Grid>
-      </Border>
-    </Grid>
-
-    <Border Grid.Row="2"
-            Classes="flatStatusStrip">
-      <TextBlock Text="Tool policy placeholder: permissions, auth references, and approval requirements will stay inside Agents or Settings."
-                 Classes="sectionMeta" />
+      </Grid>
     </Border>
   </Grid>
 </UserControl>

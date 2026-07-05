@@ -1,11 +1,12 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using NexusCentral.V3.Desktop.ViewModels;
-using NexusCentral.V3.Desktop.Views;
+using NexusCentral.V1.Desktop.ViewModels;
+using NexusCentral.V1.Desktop.Views;
 
-namespace NexusCentral.V3.Desktop;
+namespace NexusCentral.V1.Desktop;
 
 public partial class App : Application
 {
@@ -19,7 +20,7 @@ public partial class App : Application
         IClassicDesktopStyleApplicationLifetime? desktop = ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
         if (desktop is not null)
         {
-            var services = AppCompositionRoot.CreateDefault();
+            var services = AppCompositionRoot.CreateDefault(ResolveStartupSurface());
             var mainWindow = new MainWindow
             {
                 DataContext = services.Shell
@@ -36,5 +37,13 @@ public partial class App : Application
             window.WindowState = WindowState.Normal;
             window.Activate();
         }
+    }
+
+    private static SurfaceKind? ResolveStartupSurface()
+    {
+        var value = Environment.GetEnvironmentVariable("NEXUSCENTRAL_START_SURFACE");
+        return Enum.TryParse<SurfaceKind>(value, ignoreCase: true, out var parsed)
+            ? parsed
+            : null;
     }
 }

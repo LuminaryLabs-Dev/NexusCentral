@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace NexusCentral.V3.Desktop.ViewModels;
+namespace NexusCentral.V1.Desktop.ViewModels;
 
 public enum SurfaceKind
 {

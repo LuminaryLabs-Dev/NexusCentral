@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="NexusCentral.V3.Desktop.Components.MetricBadge"
+             x:Class="NexusCentral.V1.Desktop.Components.MetricBadge"
              x:Name="Root">
   <Border Classes="metricBadge"
           Background="{Binding BackgroundBrush, ElementName=Root}">

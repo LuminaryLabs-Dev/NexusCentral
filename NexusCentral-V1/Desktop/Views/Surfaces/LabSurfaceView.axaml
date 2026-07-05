@@ -1,12 +1,12 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:lab="using:NexusCentral.V3.Features.Lab"
-             x:Class="NexusCentral.V3.Desktop.Views.Surfaces.LabSurfaceView"
+             xmlns:lab="using:NexusCentral.V1.Features.Lab"
+             x:Class="NexusCentral.V1.Desktop.Views.Surfaces.LabSurfaceView"
              x:DataType="lab:LabViewModel">
   <Grid ColumnDefinitions="276,*"
         Classes="labRoot">
     <Border Classes="labWorkspaceLane">
-      <Grid RowDefinitions="Auto,Auto,*,Auto"
+      <Grid RowDefinitions="Auto,Auto,*,Auto,Auto"
             RowSpacing="10">
         <StackPanel Spacing="3">
           <TextBlock Text="Workspace"
@@ -56,7 +56,95 @@
           </ItemsControl>
         </ScrollViewer>
 
-        <Grid Grid.Row="3"
+        <Expander Grid.Row="3"
+                  Header="Validation plan">
+          <StackPanel Spacing="4"
+                      Margin="0,6,0,0">
+            <TextBlock Text="{Binding ValidationScenarioSummaryText}"
+                       Classes="sectionTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationTopCapabilityText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationFullProjectText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationEndpointText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationRunStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationExecutionStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationJobSummaryText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <ListBox Classes="flatList"
+                     MaxHeight="130"
+                     ItemsSource="{Binding ValidationJobs}"
+                     SelectedItem="{Binding SelectedValidationJob, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate DataType="lab:ValidationJobItemViewModel">
+                  <Border Classes="flatListRow">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding DisplayName}"
+                                 Classes="sectionTitle" />
+                      <TextBlock Text="{Binding DetailText}"
+                                 Classes="caption"
+                                 TextWrapping="Wrap" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding SelectedValidationJobTitle}"
+                       Classes="sectionTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobDetail}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobScoreboardText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobRankingText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobProjectsText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobProgressText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobRunFolderText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobLearningText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding SelectedValidationJobReviewText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <Button Classes="secondary"
+                    Content="Open run folder"
+                    Command="{Binding OpenSelectedValidationRunCommand}" />
+            <Button Classes="secondary"
+                    Content="Review output"
+                    Command="{Binding ReviewSelectedValidationJobCommand}" />
+            <Button Classes="secondary"
+                    Content="Stage run"
+                    Command="{Binding StageValidationRunCommand}" />
+            <Button Classes="secondary"
+                    Content="Run smoke"
+                    Command="{Binding ExecuteValidationSmokeCommand}" />
+            <Button Classes="secondary"
+                    Content="Run all"
+                    Command="{Binding ExecuteValidationAllCommand}" />
+          </StackPanel>
+        </Expander>
+
+        <Grid Grid.Row="4"
               RowDefinitions="Auto,Auto"
               RowSpacing="8">
           <Button Classes="wideAction"
@@ -81,18 +169,38 @@
             DragDrop.AllowDrop="True"
             DragDrop.DragOver="ChatDragOver"
             DragDrop.Drop="ChatDrop">
-      <Grid RowDefinitions="48,*,74">
+      <Grid RowDefinitions="58,*,74">
         <Border Classes="sessionHeader">
-          <Grid ColumnDefinitions="Auto,Auto,*,Auto"
+          <Grid ColumnDefinitions="*,Auto"
                 ColumnSpacing="12">
-            <TextBlock Text="Session"
-                       Classes="sectionMeta"
-                       VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1"
-                       Text="{Binding SessionName}"
-                       Classes="sessionName"
-                       VerticalAlignment="Center" />
-            <StackPanel Grid.Column="3"
+            <StackPanel Spacing="2"
+                        VerticalAlignment="Center">
+              <Grid ColumnDefinitions="Auto,Auto"
+                    ColumnSpacing="10">
+                <TextBlock Text="Session"
+                           Classes="sectionMeta"
+                           VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding SessionName}"
+                           Classes="sessionName"
+                           VerticalAlignment="Center" />
+              </Grid>
+              <Grid ColumnDefinitions="Auto,Auto,Auto"
+                    ColumnSpacing="12">
+                <TextBlock Text="{Binding ActiveHarnessStatusText}"
+                           Classes="caption"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding ActiveHarnessRouteText}"
+                           Classes="caption"
+                           TextTrimming="CharacterEllipsis" />
+                <TextBlock Grid.Column="2"
+                           Text="{Binding ActiveHarnessDetailText}"
+                           Classes="caption"
+                           TextTrimming="CharacterEllipsis" />
+              </Grid>
+            </StackPanel>
+            <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         Spacing="14"
                         VerticalAlignment="Center">

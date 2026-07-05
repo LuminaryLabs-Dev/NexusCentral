@@ -44,7 +44,7 @@ Run Step 01: state and repo normalization.
 Exact target:
 
 - Keep `NexusCentral-V1` as the active lane.
-- Replace stale hard-coded `NexusCentral-V3/state` guidance with latest-active-version wording.
+- Replace stale hard-coded `NexusCentral-V1/state` guidance with latest-active-version wording.
 - Keep generated outputs ignored.
 - Treat `NexusCentral-V0/V1` as repo lanes, not public product versions.
 - Keep public versions in GitHub releases, semver tags, and update manifests.
@@ -56,8 +56,8 @@ Use `do-it` only after the doc normalization pass is accepted or explicitly requ
 
 ## Validation Handoff
 
-- `dotnet build /Users/crimsonwheeler/Documents/GitHub/NexusCentral/NexusCentral-V1/Desktop/NexusCentral-V3.csproj`
-- `dotnet test /Users/crimsonwheeler/Documents/GitHub/NexusCentral/NexusCentral-V1/Tests/NexusCentral-V3.Tests.csproj`
+- `dotnet build /Users/crimsonwheeler/Documents/GitHub/NexusCentral/NexusCentral-V1/Desktop/NexusCentral-V1.csproj`
+- `dotnet test /Users/crimsonwheeler/Documents/GitHub/NexusCentral/NexusCentral-V1/Tests/NexusCentral-V1.Tests.csproj`
 - GitHub Actions build matrix from `.github/workflows/nexuscentral-build.yml`
 - GitHub Release artifact deployment from `.github/workflows/nexuscentral-release.yml`
 - Branch download page deployment from `.github/workflows/nexuscentral-pages.yml`
@@ -65,5 +65,5 @@ Use `do-it` only after the doc normalization pass is accepted or explicitly requ
 
 ## Blockers
 
-- Decide whether to rename `Desktop/NexusCentral-V3.csproj` before release packaging.
+- Decide whether to rename `Desktop/NexusCentral-V1.csproj` before release packaging.
 - Decide first public release version and update channel names.

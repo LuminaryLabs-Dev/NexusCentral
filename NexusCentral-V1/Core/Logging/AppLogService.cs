@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NexusCentral.V3.Core.Logging;
+namespace NexusCentral.V1.Core.Logging;
 
 public interface IAppLogService
 {

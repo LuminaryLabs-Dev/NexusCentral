@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 
-namespace NexusCentral.V3.Features.Lab;
+namespace NexusCentral.V1.Features.Lab;
 
 public static class LabTranscriptFormatter
 {

@@ -2,7 +2,7 @@
 
 ## Product Versioning
 
-- Should the desktop project keep the current `NexusCentral-V3.csproj` name or move to a neutral `NexusCentral.csproj` before release packaging?
+- Should the desktop project keep the current `NexusCentral-V1.csproj` name or move to a neutral `NexusCentral.csproj` before release packaging?
 - Should public update channels start with `stable` and `beta`, or only `stable` until the first release is proven?
 
 ## Update Pipeline

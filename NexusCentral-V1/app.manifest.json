@@ -4,9 +4,9 @@
   "displayName": "NexusCentral",
   "productVersion": "0.1.0-dev",
   "versionDir": "NexusCentral-V1",
-  "architecture": "v3-native",
-  "entryProject": "Desktop/NexusCentral-V3.csproj",
-  "testProject": "Tests/NexusCentral-V3.Tests.csproj",
+  "architecture": "v1-native",
+  "entryProject": "Desktop/NexusCentral-V1.csproj",
+  "testProject": "Tests/NexusCentral-V1.Tests.csproj",
   "updateFeeds": {
     "stable": "../updates/stable.json",
     "beta": "../updates/beta.json"

@@ -2,7 +2,7 @@
   <Style Selector="Button">
     <Setter Property="Background" Value="{DynamicResource PanelAltBrush}" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="Padding" Value="{DynamicResource CompactPadding}" />
     <Setter Property="MinHeight" Value="32" />
     <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
@@ -38,7 +38,7 @@
   <Style Selector="ToggleButton.headerAction">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="Foreground" Value="{DynamicResource TextMutedBrush}" />
     <Setter Property="MinHeight" Value="30" />
     <Setter Property="Padding" Value="10,5" />
@@ -117,7 +117,7 @@
   <Style Selector="Border.navGlyph">
     <Setter Property="Background" Value="{DynamicResource InputBrush}" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="CornerRadius" Value="5" />
     <Setter Property="Padding" Value="5,3" />
     <Setter Property="VerticalAlignment" Value="Center" />
   </Style>
@@ -142,7 +142,7 @@
 
   <Style Selector="Border.metricBadge">
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="Padding" Value="{DynamicResource BadgePadding}" />
   </Style>
 
@@ -186,6 +186,23 @@
   </Style>
 
   <Style Selector="ListBox.rightNav ListBoxItem:selected">
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <Style Selector="ListBox.flatList">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="Padding" Value="0" />
+  </Style>
+
+  <Style Selector="ListBox.flatList ListBoxItem">
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+  </Style>
+
+  <Style Selector="ListBox.flatList ListBoxItem:selected">
     <Setter Property="Background" Value="Transparent" />
   </Style>
 

@@ -61,6 +61,7 @@
     <Setter Property="Background" Value="{DynamicResource SurfaceBrush}" />
     <Setter Property="BorderBrush" Value="{DynamicResource DividerBrush}" />
     <Setter Property="BorderThickness" Value="0,0,1,0" />
+    <Setter Property="CornerRadius" Value="8,0,0,8" />
     <Setter Property="Padding" Value="10" />
   </Style>
 
@@ -91,6 +92,7 @@
   <Style Selector="Border.flatListRow">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="6" />
     <Setter Property="Padding" Value="8,7" />
   </Style>
 
@@ -102,7 +104,7 @@
   <Style Selector="Border.flatBlock">
     <Setter Property="Background" Value="{DynamicResource SubtleCardBackgroundBrush}" />
     <Setter Property="BorderThickness" Value="0" />
-    <Setter Property="CornerRadius" Value="0" />
+    <Setter Property="CornerRadius" Value="8" />
     <Setter Property="Padding" Value="10" />
   </Style>
 

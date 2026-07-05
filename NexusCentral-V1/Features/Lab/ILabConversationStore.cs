@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NexusCentral.V3.Features.Lab;
+namespace NexusCentral.V1.Features.Lab;
 
 public interface ILabConversationStore
 {

@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 
-namespace NexusCentral.V3.Desktop.Components;
+namespace NexusCentral.V1.Desktop.Components;
 
 public partial class MetricBadge : UserControl
 {

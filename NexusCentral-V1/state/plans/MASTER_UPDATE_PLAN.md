@@ -8,7 +8,7 @@ The plan is based on observed state, not assumptions:
 
 - `state/evidence/build-health.md` reports green build and test results.
 - `state/reports/lab-workspaces-audit.md` reports Lab + Workspaces as the only backed product slice.
-- `state/reports/v3-gap-scan.md` reports Router, Models, Agents, Automations, Settings, provider/RPC, and shell status as mostly placeholder or static.
+- `state/reports/v1-gap-scan.md` reports Router, Models, Agents, Automations, Settings, provider/RPC, and shell status as mostly placeholder or static.
 - `state/automation/AUTOMATION_MANIFEST.md` reports stale path wording and missing durable docs.
 
 ## Step Index
@@ -48,4 +48,4 @@ The plan is based on observed state, not assumptions:
 
 Start with `plan_step01_state_and_repo_normalization.md`.
 
-Reason: the repo currently has stale `V3` wording in state docs, untracked version folders, generated `bin/obj` output under the active folder, and missing durable `memory.md`, `goal.md`, `Questions.md`, and `DESIGN_DNA.md` for the active app lane.
+Reason: the repo currently has stale `V1` wording in state docs, untracked version folders, generated `bin/obj` output under the active folder, and missing durable `memory.md`, `goal.md`, `Questions.md`, and `DESIGN_DNA.md` for the active app lane.

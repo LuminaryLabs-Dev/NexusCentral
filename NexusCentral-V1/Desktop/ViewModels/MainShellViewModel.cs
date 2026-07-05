@@ -2,27 +2,47 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using NexusCentral.V3.Core.Execution;
-using NexusCentral.V3.Core.Logging;
-using NexusCentral.V3.Features.Lab;
+using NexusCentral.V1.Features.Harnesses;
+using NexusCentral.V1.Core.Execution;
+using NexusCentral.V1.Core.Logging;
+using NexusCentral.V1.Features.Lab;
+using NexusCentral.V1.Features.Models;
+using NexusCentral.V1.Features.Router;
 
-namespace NexusCentral.V3.Desktop.ViewModels;
+namespace NexusCentral.V1.Desktop.ViewModels;
 
 public partial class MainShellViewModel : ObservableObject
 {
     private readonly LabViewModel _lab;
+    private readonly ModelsViewModel _models;
+    private readonly RouterViewModel _router;
+    private readonly HarnessImporterViewModel _harnesses;
     private readonly IAppLogService _logs;
     private readonly IExecutionEventStream _executionEvents;
 
-    public MainShellViewModel(LabViewModel lab, IAppLogService logs, IExecutionEventStream executionEvents)
+    public MainShellViewModel(
+        LabViewModel lab,
+        ModelsViewModel models,
+        RouterViewModel router,
+        HarnessImporterViewModel harnesses,
+        IAppLogService logs,
+        IExecutionEventStream executionEvents,
+        SurfaceKind? startupSurface = null)
     {
         _lab = lab;
+        _models = models;
+        _router = router;
+        _harnesses = harnesses;
         _logs = logs;
         _executionEvents = executionEvents;
         _lab.PropertyChanged += OnLabPropertyChanged;
+        _models.PropertyChanged += OnModelsPropertyChanged;
+        _router.PropertyChanged += OnRouterPropertyChanged;
+        _harnesses.PropertyChanged += OnHarnessesPropertyChanged;
         _logs.EntryAdded += OnLogEntryAdded;
         _executionEvents.EventPublished += OnExecutionEventPublished;
         Tools =
@@ -61,31 +81,33 @@ public partial class MainShellViewModel : ObservableObject
             new(
                 SurfaceKind.Agents,
                 "Agents",
-                "Planned harnesses, wrappers, templates, and policy for how work is executed.",
+                "Harness importer for wrappers, selected capabilities, and execution policy.",
                 "AG",
-                "Planned",
-                "Read-only planned surface. Wrapper execution and tool permissions are not active in this slice.",
-                "Add harness",
-                "View templates",
-                Tools),
+                "Service",
+                "Service-backed harness registry with attach, select, remove, capability gates, and hosted harness test turns.",
+                "Discover CLI",
+                "Capabilities",
+                surfaceModel: _harnesses),
             new(
                 SurfaceKind.Router,
                 "Router",
                 "Planned request routing across local endpoints, provider endpoints, and trusted NexusCentral queues.",
                 "RT",
-                "Inactive",
-                "Read-only planned surface. Router queues and provider fallback are not active in this slice.",
+                "Service",
+                "Truthful route availability derived from selected model endpoint health and active hosted harness readiness.",
                 "Add router",
-                "Activate"),
+                "Refresh",
+                surfaceModel: _router),
             new(
                 SurfaceKind.Models,
                 "Models",
-                "Planned model download and runtime control.",
+                "Routable model endpoint setup and runtime health checks.",
                 "MO",
-                "Inactive",
-                "Read-only planned surface. Hugging Face downloads and runtime loading are not active in this slice.",
-                "Add model",
-                "Download"),
+                "Service",
+                "Model endpoint registry, selected model status, and LM Studio/OpenAI-compatible probes. No model downloads.",
+                "Add endpoint",
+                "Probe",
+                surfaceModel: _models),
             new(
                 SurfaceKind.Settings,
                 "Settings",
@@ -97,7 +119,9 @@ public partial class MainShellViewModel : ObservableObject
                 "Theme")
         ];
 
-        SelectedSurface = Surfaces[0];
+        SelectedSurface = startupSurface is null
+            ? Surfaces[0]
+            : Surfaces.FirstOrDefault(surface => surface.Kind == startupSurface.Value) ?? Surfaces[0];
         foreach (var entry in _logs.GetEntries())
         {
             AppendConsoleLine(FormatLogEntry(entry));
@@ -123,9 +147,9 @@ public partial class MainShellViewModel : ObservableObject
 
     public string ModeLabel => "Local First";
 
-    public string AgentLabel => "Agent: Orchestrator";
+    public string AgentLabel => _harnesses.ShellStatusText;
 
-    public string VersionLabel => "v3.0.0-alpha.1";
+    public string VersionLabel => "v1.0.0-alpha.1";
 
     public string BranchLabel => "main";
 
@@ -133,15 +157,33 @@ public partial class MainShellViewModel : ObservableObject
 
     public string FooterWorkspaceText => _lab.ActiveWorkspaceName;
 
-    public string ModelStatusText => "Model: inactive";
+    public string ModelStatusText => _models.ShellStatusText;
 
-    public string RouteStatusText => "Route: inactive";
+    public string RouteStatusText => _router.ShellStatusText;
 
-    public string QueueSummaryText => "Queue inactive";
+    public string QueueSummaryText => _router.QueueSummaryText;
+
+    public string QueueRunningText => _router.QueueRunningText;
+
+    public string QueueQueuedText => _router.QueueQueuedText;
+
+    public string RouteEndpointStatusText => _router.EndpointStatusText;
+
+    public string RouteHealthStatusText => _router.HealthStatusText;
+
+    public string ModelRuntimeStatusText => _models.RuntimeStatusText;
+
+    public string ModelContextStatusText => _models.ContextStatusText;
 
     public string ToolSurfaceSummaryText => $"{Tools.Count} tool contracts staged";
 
-    public string ShortSessionId => "SID v3-local";
+    public string HarnessStatusText => _harnesses.ShellStatusText;
+
+    public string SetupReadinessText => BuildSetupReadinessText();
+
+    public string SetupActionText => BuildSetupActionText();
+
+    public string ShortSessionId => "SID v1-local";
 
     public string SessionSummaryText => _lab.SessionName;
 
@@ -149,11 +191,11 @@ public partial class MainShellViewModel : ObservableObject
 
     public ObservableCollection<string> ConsoleLines { get; } =
     [
-        "V3 shell loaded with Lab + Workspaces first-slice services.",
-        "Lab and Workspaces slice is backed by V3-native services.",
+        "V1 shell loaded with Lab + Workspaces first-slice services.",
+        "Lab and Workspaces slice is backed by V1-native services.",
         "RPC infrastructure is hidden from primary navigation.",
         "Router is the visible request path surface.",
-        "No provider, model runtime, automation, or routing behavior is active yet."
+        "Model endpoints, hosted harnesses, router availability, and validation jobs are service-backed."
     ];
 
     partial void OnSelectedSurfaceChanged(NavigationItemViewModel? value)
@@ -170,6 +212,37 @@ public partial class MainShellViewModel : ObservableObject
     private void SelectLab()
     {
         SelectedSurface = Surfaces.First(surface => surface.Kind == SurfaceKind.Lab);
+    }
+
+    [RelayCommand]
+    public async Task ResolveSetupAsync()
+    {
+        if (ModelStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            SelectSurface(SurfaceKind.Models);
+            return;
+        }
+
+        if (HarnessStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            SelectSurface(SurfaceKind.Agents);
+            return;
+        }
+
+        if (RouteStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase)
+            || (HarnessStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase)
+                && !RouteStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase)))
+        {
+            await _router.SelectBestRouteAsync();
+            return;
+        }
+
+        SelectSurface(SurfaceKind.Lab);
+    }
+
+    private void SelectSurface(SurfaceKind kind)
+    {
+        SelectedSurface = Surfaces.First(surface => surface.Kind == kind);
     }
 
     private void OnLabPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -189,6 +262,97 @@ public partial class MainShellViewModel : ObservableObject
         {
             AppendConsoleLine($"lab: {_lab.StatusLabel}");
         }
+    }
+
+    private void OnModelsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(ModelsViewModel.ShellStatusText) or nameof(ModelsViewModel.RuntimeStatusText) or nameof(ModelsViewModel.ContextStatusText))
+        {
+            OnPropertyChanged(nameof(ModelStatusText));
+            OnPropertyChanged(nameof(ModelRuntimeStatusText));
+            OnPropertyChanged(nameof(ModelContextStatusText));
+            OnPropertyChanged(nameof(SetupReadinessText));
+            OnPropertyChanged(nameof(SetupActionText));
+        }
+    }
+
+    private void OnRouterPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(RouterViewModel.ShellStatusText)
+            or nameof(RouterViewModel.QueueSummaryText)
+            or nameof(RouterViewModel.QueueRunningText)
+            or nameof(RouterViewModel.QueueQueuedText)
+            or nameof(RouterViewModel.EndpointStatusText)
+            or nameof(RouterViewModel.HealthStatusText))
+        {
+            OnPropertyChanged(nameof(RouteStatusText));
+            OnPropertyChanged(nameof(QueueSummaryText));
+            OnPropertyChanged(nameof(QueueRunningText));
+            OnPropertyChanged(nameof(QueueQueuedText));
+            OnPropertyChanged(nameof(RouteEndpointStatusText));
+            OnPropertyChanged(nameof(RouteHealthStatusText));
+            OnPropertyChanged(nameof(SetupReadinessText));
+            OnPropertyChanged(nameof(SetupActionText));
+        }
+    }
+
+    private void OnHarnessesPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(HarnessImporterViewModel.ShellStatusText))
+        {
+            OnPropertyChanged(nameof(AgentLabel));
+            OnPropertyChanged(nameof(HarnessStatusText));
+            OnPropertyChanged(nameof(SetupReadinessText));
+            OnPropertyChanged(nameof(SetupActionText));
+        }
+    }
+
+    private string BuildSetupReadinessText()
+    {
+        if (ModelStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Setup: add and probe LM Studio";
+        }
+
+        if (HarnessStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Setup: import hosted harness";
+        }
+
+        if (RouteStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Setup: select best route";
+        }
+
+        if (HarnessStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase)
+            && !RouteStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Setup: select hosted route";
+        }
+
+        return "Ready: hosted route + validation";
+    }
+
+    private string BuildSetupActionText()
+    {
+        if (ModelStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Models";
+        }
+
+        if (HarnessStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
+        {
+            return "Agents";
+        }
+
+        if (RouteStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase)
+            || (HarnessStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase)
+                && !RouteStatusText.Contains("Conversation Harness", System.StringComparison.OrdinalIgnoreCase)))
+        {
+            return "Use best route";
+        }
+
+        return "Lab";
     }
 
     private void OnLogEntryAdded(AppLogEntry entry)

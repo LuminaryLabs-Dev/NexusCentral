@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="NexusCentral.V3.Desktop.App"
-             xmlns:local="using:NexusCentral.V3.Desktop"
+             x:Class="NexusCentral.V1.Desktop.App"
+             xmlns:local="using:NexusCentral.V1.Desktop"
              RequestedThemeVariant="Dark">
   <Application.DataTemplates>
     <local:ViewLocator />
@@ -9,9 +9,9 @@
 
   <Application.Styles>
     <FluentTheme />
-    <StyleInclude Source="avares://NexusCentral-V3/Styles/ThemeTokens.axaml" />
-    <StyleInclude Source="avares://NexusCentral-V3/Styles/Typography.axaml" />
-    <StyleInclude Source="avares://NexusCentral-V3/Styles/Controls.axaml" />
-    <StyleInclude Source="avares://NexusCentral-V3/Styles/Shell.axaml" />
+    <StyleInclude Source="avares://NexusCentral-V1/Styles/ThemeTokens.axaml" />
+    <StyleInclude Source="avares://NexusCentral-V1/Styles/Typography.axaml" />
+    <StyleInclude Source="avares://NexusCentral-V1/Styles/Controls.axaml" />
+    <StyleInclude Source="avares://NexusCentral-V1/Styles/Shell.axaml" />
   </Application.Styles>
 </Application>

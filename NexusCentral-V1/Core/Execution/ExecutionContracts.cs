@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NexusCentral.V3.Core.Execution;
+namespace NexusCentral.V1.Core.Execution;
 
 public enum PrivacyLevel
 {
@@ -33,6 +33,7 @@ public enum TargetKind
 
 public enum ProviderKind
 {
+    OpenAiCompatible,
     OpenAI,
     Claude,
     OpenRouter,

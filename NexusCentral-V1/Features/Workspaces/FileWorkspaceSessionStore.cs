@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using NexusCentral.V3.Core.Config;
-using NexusCentral.V3.Core.State;
+using NexusCentral.V1.Core.Config;
+using NexusCentral.V1.Core.State;
 
-namespace NexusCentral.V3.Features.Workspaces;
+namespace NexusCentral.V1.Features.Workspaces;
 
 public sealed class FileWorkspaceSessionStore : IWorkspaceSessionStore
 {

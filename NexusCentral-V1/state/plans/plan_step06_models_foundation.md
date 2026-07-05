@@ -6,10 +6,10 @@ Add the Models foundation for endpoint records, provider config, and real health
 
 ## State Observes
 
-- Models UI is static.
-- Provider adapter folders exist but only contain `.gitkeep`.
-- Add/import/set-active controls are disabled.
-- Model/provider rows imply support that is not implemented.
+- Models UI now has a live endpoint registry plus a Hugging Face search view.
+- Provider adapter folders now include LM Studio and OpenAI-compatible probe code.
+- Add/import/set-active controls are still limited to the endpoint registry slice.
+- Model/provider rows now reflect real endpoint state instead of pure placeholders.
 - Architecture expects model catalog, provider endpoints, local runtime state, admission, and health.
 
 ## Exact Changes To Plan
@@ -33,13 +33,15 @@ Add the Models foundation for endpoint records, provider config, and real health
 - Implement LM Studio/OpenAI-compatible health probe first.
 - Add endpoint registry persistence.
 - Bind Models UI to endpoint registry.
-- Show Hugging Face download as planned until downloader and storage policy exist.
+- Add a Hugging Face search view for public model discovery.
+- Keep Hugging Face download as planned until downloader and storage policy exist.
 
 ## Hero Controls / User-Facing Impact
 
 - Add endpoint.
 - Probe endpoint health.
 - Select active endpoint/model if healthy.
+- Search Hugging Face models in a dedicated search view.
 
 ## Advanced Controls / Deferred
 
@@ -61,4 +63,5 @@ Add the Models foundation for endpoint records, provider config, and real health
 
 - Models tab is no longer a static mock surface.
 - Endpoint health is real for at least one provider class.
+- Hugging Face search returns real Hub metadata in the Models tab.
 - Provider folders represent actual adapter boundaries or are clearly planned.

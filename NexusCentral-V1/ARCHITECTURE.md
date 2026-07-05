@@ -1,6 +1,6 @@
-# NexusCentral V3 Architecture
+# NexusCentral V1 Architecture
 
-NexusCentral V3 is a rebuild, not a port of NexusCentral V2. V2 is only a behavior reference for product capabilities, workflows, and user expectations.
+NexusCentral V1 is a rebuild, not a port of NexusCentral V2. V2 is only a behavior reference for product capabilities, workflows, and user expectations.
 
 ## Boundaries
 
@@ -12,7 +12,7 @@ NexusCentral V3 is a rebuild, not a port of NexusCentral V2. V2 is only a behavi
 
 ## Current Slice
 
-The first production-capable V3 slice is `Lab + Workspaces`. It is implemented with V3-native contracts and services, not copied V2 service or view-model shapes.
+The first production-capable V1 slice is `Lab + Workspaces`. It is implemented with V1-native contracts and services, not copied V2 service or view-model shapes.
 
 - `Core/Config`, `Core/Logging`, and `Core/State` provide local file-backed foundations.
 - `Core/Execution` provides the minimal event model needed for inline Lab tool steps.
@@ -22,7 +22,7 @@ The first production-capable V3 slice is `Lab + Workspaces`. It is implemented w
 
 ## User Surfaces
 
-The V3 shell exposes these primary surfaces:
+The V1 shell exposes these primary surfaces:
 
 - Lab
 - Automations
@@ -31,18 +31,18 @@ The V3 shell exposes these primary surfaces:
 - Models
 - Settings
 
-V3 intentionally does not expose a standalone Dashboard tab. Shared status belongs in the shell dock; each tab owns its own content.
+V1 intentionally does not expose a standalone Dashboard tab. Shared status belongs in the shell dock; each tab owns its own content.
 
 `Router` is the request-routing surface for local endpoints, provider endpoints, trusted NexusCentral queues, and visible peer/device route availability. `Devices` remains a feature-module boundary, but it is not a primary navigation tab unless explicitly restored. `Web Lab` is not a primary tab; Lab owns the action that opens the Web Lab app.
 
 ## Exclusions
 
-- V2 source files are not copied into V3.
+- V2 source files are not copied into V1.
 - V2 view-model shapes are not ported directly.
 - Generated artifacts, duplicate V2 Web lanes, build outputs, and old temp files are excluded.
 - The old standalone Workflow page is not restored.
 - Web Lab is not restored as a primary tab.
-- Ticketing is not part of the current V3 scope.
+- Ticketing is not part of the current V1 scope.
 - `Integrations/Rpc` is infrastructure only, not a primary navigation surface.
 
 ## Future Runtime Boundary

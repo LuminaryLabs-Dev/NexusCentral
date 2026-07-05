@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 
-namespace NexusCentral.V3.Desktop.Views;
+namespace NexusCentral.V1.Desktop.Views;
 
 public partial class MainWindow : Window
 {

@@ -1,0 +1,512 @@
+{
+  "schemaVersion": 1,
+  "generatedAtUtc": "2026-07-04T02:27:41.775235+00:00",
+  "purpose": "One-go submission bundle for the original idea profile pack, kept inside .agent.",
+  "sourcePack": "/Users/crimsonwheeler/Documents/GitHub/NexusCentral/.agent/use-case-catalog/original-idea-profile-pack.json",
+  "selectionRule": "limit:3",
+  "totalCount": 1200,
+  "selectedCount": 3,
+  "bundleMode": "filtered-batch",
+  "readyForOneGo": true,
+  "summary": {
+    "domainCounts": {
+      "health": 3
+    },
+    "worldCount": 1,
+    "angleCount": 3,
+    "surfaceCounts": {
+      "Lab": 3,
+      "Workspaces": 3,
+      "Router": 1
+    },
+    "firstFive": [
+      "Evidence Loom for After-Hours Dental Lab",
+      "Quiet Queue for After-Hours Dental Lab",
+      "Trust Ledger for After-Hours Dental Lab"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "original-app-0001",
+      "name": "Evidence Loom for After-Hours Dental Lab",
+      "domain": "health",
+      "specificWorld": "after-hours dental lab",
+      "originalAngle": "Evidence Loom",
+      "whyOriginal": "weaves scattered proof into a single inspectable decision trail for after-hours dental lab, using case trays, shade photos, and remake approvals.",
+      "primaryWorkflow": "intake night-shift ceramic crown remakes into a photo proof set while respecting offline-capable constraints",
+      "signatureInteraction": "drag evidence chips into a timeline and watch missing links glow",
+      "buildableSlice": {
+        "firstScreen": "Photo Proof Set workbench",
+        "heroControls": [
+          "Intake",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "starterData": "case trays, shade photos, and remake approvals"
+      },
+      "nexusCentralValidation": {
+        "surfaces": [
+          "Lab",
+          "Workspaces"
+        ],
+        "serviceSeparationFocus": "Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "routerOrAutomationProbe": "Use fake queued jobs first; do not require real long-running execution for catalog validation."
+      },
+      "buildRisk": {
+        "difficulty": "small",
+        "dataSensitivity": "local",
+        "integrationNeed": "local files",
+        "riskNote": "offline-capable workflow may need fixtures before real validation."
+      },
+      "buildPrompt": "Build a small NexusCentral validation app called 'Evidence Loom for After-Hours Dental Lab'. It should help a after-hours dental lab team intake night-shift ceramic crown remakes into a photo proof set while respecting offline-capable constraints. Use a flat first screen centered on photo proof set, with service-owned state and no fake readiness.",
+      "validationTags": [
+        "health",
+        "after-hours-dental-lab",
+        "evidence-loom",
+        "intake",
+        "photo-proof-set",
+        "offline-capable",
+        "local"
+      ],
+      "profileKind": "master-spec",
+      "profileSummary": "Evidence Loom for After-Hours Dental Lab is a small health profile for after-hours dental lab.",
+      "seedPrompt": "# Evidence Loom for After-Hours Dental Lab Master Spec Prompt\n\nBuild Evidence Loom for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Evidence Loom as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: weaves scattered proof into a single inspectable decision trail for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: intake night-shift ceramic crown remakes into a photo proof set while respecting offline-capable constraints\n- Signature interaction: drag evidence chips into a timeline and watch missing links glow\n\n## Required Shape\n- First screen: Photo Proof Set workbench\n- Hero controls: Intake, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: offline-capable workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Evidence Loom as the unique lens.\n- 2. Lock the first screen: Center the UI on Photo Proof Set workbench and keep the visible controls to Intake, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Photo Proof Set workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of offline-capable workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Evidence Loom for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for intake and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order.",
+      "sprintPlan": [
+        {
+          "step": 1,
+          "title": "Frame the world",
+          "outcome": "Write the product brief for after-hours dental lab and keep Evidence Loom as the unique lens.",
+          "doneWhen": "The team can explain why Evidence Loom for After-Hours Dental Lab exists without restating a generic domain template."
+        },
+        {
+          "step": 2,
+          "title": "Lock the first screen",
+          "outcome": "Center the UI on Photo Proof Set workbench and keep the visible controls to Intake, Review, Save state.",
+          "doneWhen": "The first screen is flat, focused, and names the primary action immediately."
+        },
+        {
+          "step": 3,
+          "title": "Define the state model",
+          "outcome": "Write the service-owned records, statuses, and audit events for the Photo Proof Set workflow.",
+          "doneWhen": "State lives in a service or store and not inside a view model or surface shell."
+        },
+        {
+          "step": 4,
+          "title": "Separate commands from display",
+          "outcome": "Map UI commands into service calls using the rule: Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.",
+          "doneWhen": "The UI can redraw, close, or fail without owning the underlying work."
+        },
+        {
+          "step": 5,
+          "title": "Add intake and fixture modes",
+          "outcome": "Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.",
+          "doneWhen": "The idea can be bootstrapped from fixtures or a batch payload in one pass."
+        },
+        {
+          "step": 6,
+          "title": "Tune the hero and advanced controls",
+          "outcome": "Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.",
+          "doneWhen": "The first screen only shows the actions needed to start work."
+        },
+        {
+          "step": 7,
+          "title": "Handle errors and recovery",
+          "outcome": "Write exception, retry, and recovery behavior for the risk of offline-capable workflow may need fixtures before real validation..",
+          "doneWhen": "The profile states what happens when data is missing, stale, or blocked."
+        },
+        {
+          "step": 8,
+          "title": "Map validation surfaces",
+          "outcome": "Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+          "doneWhen": "The build can be checked without pretending long-running execution is already implemented."
+        },
+        {
+          "step": 9,
+          "title": "Draft the seed prompt",
+          "outcome": "Write a master spec prompt that could hand Evidence Loom for After-Hours Dental Lab to a builder in one shot.",
+          "doneWhen": "The prompt carries the brief, constraints, surfaces, and definition of done together."
+        },
+        {
+          "step": 10,
+          "title": "Write acceptance criteria",
+          "outcome": "Turn the build into a testable first-release checklist for intake and the surrounding workflow.",
+          "doneWhen": "A reviewer can tell when the idea is truly finished instead of only scaffolded."
+        },
+        {
+          "step": 11,
+          "title": "Bundle the intake packet",
+          "outcome": "Assemble all fields into a single profile packet so the next pass can submit the full idea at once.",
+          "doneWhen": "The profile can be consumed as one batch record instead of scattered notes."
+        }
+      ],
+      "submissionEnvelope": {
+        "ideaId": "original-app-0001",
+        "ideaName": "Evidence Loom for After-Hours Dental Lab",
+        "specificWorld": "after-hours dental lab",
+        "originalAngle": "Evidence Loom",
+        "primaryWorkflow": "intake night-shift ceramic crown remakes into a photo proof set while respecting offline-capable constraints",
+        "signatureInteraction": "drag evidence chips into a timeline and watch missing links glow",
+        "firstScreen": "Photo Proof Set workbench",
+        "heroControls": [
+          "Intake",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "surfaces": [
+          "Lab",
+          "Workspaces"
+        ],
+        "serviceSeparationFocus": "Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "sprintSteps": 11,
+        "seedPrompt": "# Evidence Loom for After-Hours Dental Lab Master Spec Prompt\n\nBuild Evidence Loom for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Evidence Loom as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: weaves scattered proof into a single inspectable decision trail for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: intake night-shift ceramic crown remakes into a photo proof set while respecting offline-capable constraints\n- Signature interaction: drag evidence chips into a timeline and watch missing links glow\n\n## Required Shape\n- First screen: Photo Proof Set workbench\n- Hero controls: Intake, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: offline-capable workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Evidence Loom as the unique lens.\n- 2. Lock the first screen: Center the UI on Photo Proof Set workbench and keep the visible controls to Intake, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Photo Proof Set workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep photo proof set state in a service; UI submits intake commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of offline-capable workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Evidence Loom for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Evidence Loom for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for intake and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order."
+      },
+      "submissionMode": "batch-one-go",
+      "submissionTags": [
+        "after-hours-dental-lab",
+        "agent-only",
+        "evidence-loom",
+        "health",
+        "intake",
+        "local",
+        "master-spec",
+        "offline-capable",
+        "photo-proof-set",
+        "sprint-pack"
+      ]
+    },
+    {
+      "id": "original-app-0002",
+      "name": "Quiet Queue for After-Hours Dental Lab",
+      "domain": "health",
+      "specificWorld": "after-hours dental lab",
+      "originalAngle": "Quiet Queue",
+      "whyOriginal": "keeps messy work moving without noisy dashboards for after-hours dental lab, using case trays, shade photos, and remake approvals.",
+      "primaryWorkflow": "triage night-shift ceramic crown remakes into a approval packet while respecting approval-gated constraints",
+      "signatureInteraction": "one calm queue that expands only when a decision is needed",
+      "buildableSlice": {
+        "firstScreen": "Approval Packet workbench",
+        "heroControls": [
+          "Triage",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "starterData": "case trays, shade photos, and remake approvals"
+      },
+      "nexusCentralValidation": {
+        "surfaces": [
+          "Lab",
+          "Workspaces",
+          "Router"
+        ],
+        "serviceSeparationFocus": "Keep approval packet state in a service; UI submits triage commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "routerOrAutomationProbe": "Use fake queued jobs first; do not require real long-running execution for catalog validation."
+      },
+      "buildRisk": {
+        "difficulty": "medium",
+        "dataSensitivity": "private",
+        "integrationNeed": "email",
+        "riskNote": "approval-gated workflow may need fixtures before real validation."
+      },
+      "buildPrompt": "Build a medium NexusCentral validation app called 'Quiet Queue for After-Hours Dental Lab'. It should help a after-hours dental lab team triage night-shift ceramic crown remakes into a approval packet while respecting approval-gated constraints. Use a flat first screen centered on approval packet, with service-owned state and no fake readiness.",
+      "validationTags": [
+        "health",
+        "after-hours-dental-lab",
+        "quiet-queue",
+        "triage",
+        "approval-packet",
+        "approval-gated",
+        "private"
+      ],
+      "profileKind": "master-spec",
+      "profileSummary": "Quiet Queue for After-Hours Dental Lab is a medium health profile for after-hours dental lab.",
+      "seedPrompt": "# Quiet Queue for After-Hours Dental Lab Master Spec Prompt\n\nBuild Quiet Queue for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Quiet Queue as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: keeps messy work moving without noisy dashboards for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: triage night-shift ceramic crown remakes into a approval packet while respecting approval-gated constraints\n- Signature interaction: one calm queue that expands only when a decision is needed\n\n## Required Shape\n- First screen: Approval Packet workbench\n- Hero controls: Triage, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep approval packet state in a service; UI submits triage commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces, Router\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: approval-gated workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Quiet Queue as the unique lens.\n- 2. Lock the first screen: Center the UI on Approval Packet workbench and keep the visible controls to Triage, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Approval Packet workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep approval packet state in a service; UI submits triage commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of approval-gated workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces, Router with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Quiet Queue for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for triage and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order.",
+      "sprintPlan": [
+        {
+          "step": 1,
+          "title": "Frame the world",
+          "outcome": "Write the product brief for after-hours dental lab and keep Quiet Queue as the unique lens.",
+          "doneWhen": "The team can explain why Quiet Queue for After-Hours Dental Lab exists without restating a generic domain template."
+        },
+        {
+          "step": 2,
+          "title": "Lock the first screen",
+          "outcome": "Center the UI on Approval Packet workbench and keep the visible controls to Triage, Review, Save state.",
+          "doneWhen": "The first screen is flat, focused, and names the primary action immediately."
+        },
+        {
+          "step": 3,
+          "title": "Define the state model",
+          "outcome": "Write the service-owned records, statuses, and audit events for the Approval Packet workflow.",
+          "doneWhen": "State lives in a service or store and not inside a view model or surface shell."
+        },
+        {
+          "step": 4,
+          "title": "Separate commands from display",
+          "outcome": "Map UI commands into service calls using the rule: Keep approval packet state in a service; UI submits triage commands and subscribes to progress.",
+          "doneWhen": "The UI can redraw, close, or fail without owning the underlying work."
+        },
+        {
+          "step": 5,
+          "title": "Add intake and fixture modes",
+          "outcome": "Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.",
+          "doneWhen": "The idea can be bootstrapped from fixtures or a batch payload in one pass."
+        },
+        {
+          "step": 6,
+          "title": "Tune the hero and advanced controls",
+          "outcome": "Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.",
+          "doneWhen": "The first screen only shows the actions needed to start work."
+        },
+        {
+          "step": 7,
+          "title": "Handle errors and recovery",
+          "outcome": "Write exception, retry, and recovery behavior for the risk of approval-gated workflow may need fixtures before real validation..",
+          "doneWhen": "The profile states what happens when data is missing, stale, or blocked."
+        },
+        {
+          "step": 8,
+          "title": "Map validation surfaces",
+          "outcome": "Cover Lab, Workspaces, Router with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+          "doneWhen": "The build can be checked without pretending long-running execution is already implemented."
+        },
+        {
+          "step": 9,
+          "title": "Draft the seed prompt",
+          "outcome": "Write a master spec prompt that could hand Quiet Queue for After-Hours Dental Lab to a builder in one shot.",
+          "doneWhen": "The prompt carries the brief, constraints, surfaces, and definition of done together."
+        },
+        {
+          "step": 10,
+          "title": "Write acceptance criteria",
+          "outcome": "Turn the build into a testable first-release checklist for triage and the surrounding workflow.",
+          "doneWhen": "A reviewer can tell when the idea is truly finished instead of only scaffolded."
+        },
+        {
+          "step": 11,
+          "title": "Bundle the intake packet",
+          "outcome": "Assemble all fields into a single profile packet so the next pass can submit the full idea at once.",
+          "doneWhen": "The profile can be consumed as one batch record instead of scattered notes."
+        }
+      ],
+      "submissionEnvelope": {
+        "ideaId": "original-app-0002",
+        "ideaName": "Quiet Queue for After-Hours Dental Lab",
+        "specificWorld": "after-hours dental lab",
+        "originalAngle": "Quiet Queue",
+        "primaryWorkflow": "triage night-shift ceramic crown remakes into a approval packet while respecting approval-gated constraints",
+        "signatureInteraction": "one calm queue that expands only when a decision is needed",
+        "firstScreen": "Approval Packet workbench",
+        "heroControls": [
+          "Triage",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "surfaces": [
+          "Lab",
+          "Workspaces",
+          "Router"
+        ],
+        "serviceSeparationFocus": "Keep approval packet state in a service; UI submits triage commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "sprintSteps": 11,
+        "seedPrompt": "# Quiet Queue for After-Hours Dental Lab Master Spec Prompt\n\nBuild Quiet Queue for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Quiet Queue as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: keeps messy work moving without noisy dashboards for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: triage night-shift ceramic crown remakes into a approval packet while respecting approval-gated constraints\n- Signature interaction: one calm queue that expands only when a decision is needed\n\n## Required Shape\n- First screen: Approval Packet workbench\n- Hero controls: Triage, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep approval packet state in a service; UI submits triage commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces, Router\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: approval-gated workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Quiet Queue as the unique lens.\n- 2. Lock the first screen: Center the UI on Approval Packet workbench and keep the visible controls to Triage, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Approval Packet workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep approval packet state in a service; UI submits triage commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of approval-gated workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces, Router with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Quiet Queue for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Quiet Queue for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for triage and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order."
+      },
+      "submissionMode": "batch-one-go",
+      "submissionTags": [
+        "after-hours-dental-lab",
+        "agent-only",
+        "approval-gated",
+        "approval-packet",
+        "health",
+        "master-spec",
+        "private",
+        "quiet-queue",
+        "sprint-pack",
+        "triage"
+      ]
+    },
+    {
+      "id": "original-app-0003",
+      "name": "Trust Ledger for After-Hours Dental Lab",
+      "domain": "health",
+      "specificWorld": "after-hours dental lab",
+      "originalAngle": "Trust Ledger",
+      "whyOriginal": "shows who approved what and why before work moves forward for after-hours dental lab, using case trays, shade photos, and remake approvals.",
+      "primaryWorkflow": "plan night-shift ceramic crown remakes into a route manifest while respecting role-scoped constraints",
+      "signatureInteraction": "approval cards with source snapshots",
+      "buildableSlice": {
+        "firstScreen": "Route Manifest workbench",
+        "heroControls": [
+          "Plan",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "starterData": "case trays, shade photos, and remake approvals"
+      },
+      "nexusCentralValidation": {
+        "surfaces": [
+          "Lab",
+          "Workspaces"
+        ],
+        "serviceSeparationFocus": "Keep route manifest state in a service; UI submits plan commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "routerOrAutomationProbe": "Use fake queued jobs first; do not require real long-running execution for catalog validation."
+      },
+      "buildRisk": {
+        "difficulty": "large",
+        "dataSensitivity": "regulated",
+        "integrationNeed": "REST API",
+        "riskNote": "role-scoped workflow may need fixtures before real validation."
+      },
+      "buildPrompt": "Build a large NexusCentral validation app called 'Trust Ledger for After-Hours Dental Lab'. It should help a after-hours dental lab team plan night-shift ceramic crown remakes into a route manifest while respecting role-scoped constraints. Use a flat first screen centered on route manifest, with service-owned state and no fake readiness.",
+      "validationTags": [
+        "health",
+        "after-hours-dental-lab",
+        "trust-ledger",
+        "plan",
+        "route-manifest",
+        "role-scoped",
+        "regulated"
+      ],
+      "profileKind": "master-spec",
+      "profileSummary": "Trust Ledger for After-Hours Dental Lab is a large health profile for after-hours dental lab.",
+      "seedPrompt": "# Trust Ledger for After-Hours Dental Lab Master Spec Prompt\n\nBuild Trust Ledger for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Trust Ledger as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: shows who approved what and why before work moves forward for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: plan night-shift ceramic crown remakes into a route manifest while respecting role-scoped constraints\n- Signature interaction: approval cards with source snapshots\n\n## Required Shape\n- First screen: Route Manifest workbench\n- Hero controls: Plan, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep route manifest state in a service; UI submits plan commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: role-scoped workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Trust Ledger as the unique lens.\n- 2. Lock the first screen: Center the UI on Route Manifest workbench and keep the visible controls to Plan, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Route Manifest workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep route manifest state in a service; UI submits plan commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of role-scoped workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Trust Ledger for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for plan and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order.",
+      "sprintPlan": [
+        {
+          "step": 1,
+          "title": "Frame the world",
+          "outcome": "Write the product brief for after-hours dental lab and keep Trust Ledger as the unique lens.",
+          "doneWhen": "The team can explain why Trust Ledger for After-Hours Dental Lab exists without restating a generic domain template."
+        },
+        {
+          "step": 2,
+          "title": "Lock the first screen",
+          "outcome": "Center the UI on Route Manifest workbench and keep the visible controls to Plan, Review, Save state.",
+          "doneWhen": "The first screen is flat, focused, and names the primary action immediately."
+        },
+        {
+          "step": 3,
+          "title": "Define the state model",
+          "outcome": "Write the service-owned records, statuses, and audit events for the Route Manifest workflow.",
+          "doneWhen": "State lives in a service or store and not inside a view model or surface shell."
+        },
+        {
+          "step": 4,
+          "title": "Separate commands from display",
+          "outcome": "Map UI commands into service calls using the rule: Keep route manifest state in a service; UI submits plan commands and subscribes to progress.",
+          "doneWhen": "The UI can redraw, close, or fail without owning the underlying work."
+        },
+        {
+          "step": 5,
+          "title": "Add intake and fixture modes",
+          "outcome": "Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.",
+          "doneWhen": "The idea can be bootstrapped from fixtures or a batch payload in one pass."
+        },
+        {
+          "step": 6,
+          "title": "Tune the hero and advanced controls",
+          "outcome": "Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.",
+          "doneWhen": "The first screen only shows the actions needed to start work."
+        },
+        {
+          "step": 7,
+          "title": "Handle errors and recovery",
+          "outcome": "Write exception, retry, and recovery behavior for the risk of role-scoped workflow may need fixtures before real validation..",
+          "doneWhen": "The profile states what happens when data is missing, stale, or blocked."
+        },
+        {
+          "step": 8,
+          "title": "Map validation surfaces",
+          "outcome": "Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+          "doneWhen": "The build can be checked without pretending long-running execution is already implemented."
+        },
+        {
+          "step": 9,
+          "title": "Draft the seed prompt",
+          "outcome": "Write a master spec prompt that could hand Trust Ledger for After-Hours Dental Lab to a builder in one shot.",
+          "doneWhen": "The prompt carries the brief, constraints, surfaces, and definition of done together."
+        },
+        {
+          "step": 10,
+          "title": "Write acceptance criteria",
+          "outcome": "Turn the build into a testable first-release checklist for plan and the surrounding workflow.",
+          "doneWhen": "A reviewer can tell when the idea is truly finished instead of only scaffolded."
+        },
+        {
+          "step": 11,
+          "title": "Bundle the intake packet",
+          "outcome": "Assemble all fields into a single profile packet so the next pass can submit the full idea at once.",
+          "doneWhen": "The profile can be consumed as one batch record instead of scattered notes."
+        }
+      ],
+      "submissionEnvelope": {
+        "ideaId": "original-app-0003",
+        "ideaName": "Trust Ledger for After-Hours Dental Lab",
+        "specificWorld": "after-hours dental lab",
+        "originalAngle": "Trust Ledger",
+        "primaryWorkflow": "plan night-shift ceramic crown remakes into a route manifest while respecting role-scoped constraints",
+        "signatureInteraction": "approval cards with source snapshots",
+        "firstScreen": "Route Manifest workbench",
+        "heroControls": [
+          "Plan",
+          "Review",
+          "Save state"
+        ],
+        "advancedControls": [
+          "Import fixture data",
+          "Export evidence",
+          "Configure approvals"
+        ],
+        "surfaces": [
+          "Lab",
+          "Workspaces"
+        ],
+        "serviceSeparationFocus": "Keep route manifest state in a service; UI submits plan commands and subscribes to progress.",
+        "harnessQuestion": "Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.",
+        "sprintSteps": 11,
+        "seedPrompt": "# Trust Ledger for After-Hours Dental Lab Master Spec Prompt\n\nBuild Trust Ledger for After-Hours Dental Lab as a first-shot NexusCentral concept for after-hours dental lab.\nUse Trust Ledger as the original lens and keep the project distinct from generic health templates.\n\n## Product Brief\n- Why this exists: shows who approved what and why before work moves forward for after-hours dental lab, using case trays, shade photos, and remake approvals.\n- Primary workflow: plan night-shift ceramic crown remakes into a route manifest while respecting role-scoped constraints\n- Signature interaction: approval cards with source snapshots\n\n## Required Shape\n- First screen: Route Manifest workbench\n- Hero controls: Plan, Review, Save state\n- Advanced controls: Import fixture data, Export evidence, Configure approvals\n- Starter data: case trays, shade photos, and remake approvals\n\n## Service Boundary\n- Keep route manifest state in a service; UI submits plan commands and subscribes to progress.\n- Keep the UI thin and let services own state, queues, and progress.\n- Do not make the visible shell responsible for real work.\n\n## NexusCentral Surfaces\n- Validate across: Lab, Workspaces\n- Harness question: Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- Risk note: role-scoped workflow may need fixtures before real validation.\n\n## 11-Part Sprint\n- 1. Frame the world: Write the product brief for after-hours dental lab and keep Trust Ledger as the unique lens.\n- 2. Lock the first screen: Center the UI on Route Manifest workbench and keep the visible controls to Plan, Review, Save state.\n- 3. Define the state model: Write the service-owned records, statuses, and audit events for the Route Manifest workflow.\n- 4. Separate commands from display: Map UI commands into service calls using the rule: Keep route manifest state in a service; UI submits plan commands and subscribes to progress.\n- 5. Add intake and fixture modes: Make import and sample-data flows for case trays, shade photos, and remake approvals so the app can be exercised without live inputs.\n- 6. Tune the hero and advanced controls: Keep the hero controls simple and move Import fixture data, Export evidence, Configure approvals into foldouts or settings.\n- 7. Handle errors and recovery: Write exception, retry, and recovery behavior for the risk of role-scoped workflow may need fixtures before real validation..\n- 8. Map validation surfaces: Cover Lab, Workspaces with a small probe plan and keep the harness question explicit: Ask the Codex CLI read-only harness to review whether 'Trust Ledger for After-Hours Dental Lab' can be built as a thin UI over service-owned state.\n- 9. Draft the seed prompt: Write a master spec prompt that could hand Trust Ledger for After-Hours Dental Lab to a builder in one shot.\n- 10. Write acceptance criteria: Turn the build into a testable first-release checklist for plan and the surrounding workflow.\n- 11. Bundle the intake packet: Assemble all fields into a single profile packet so the next pass can submit the full idea at once.\n\n## Definition of Done\n- The first screen is focused and buildable.\n- The profile has a service-owned state model.\n- The app can be batch-submitted from one packed record.\n- The idea is unique enough that a builder would not confuse it with another catalog item.\n\n## Builder Rule\nBuild the full profile in one pass using the sprint above as the implementation order."
+      },
+      "submissionMode": "batch-one-go",
+      "submissionTags": [
+        "after-hours-dental-lab",
+        "agent-only",
+        "health",
+        "master-spec",
+        "plan",
+        "regulated",
+        "role-scoped",
+        "route-manifest",
+        "sprint-pack",
+        "trust-ledger"
+      ]
+    }
+  ]
+}
