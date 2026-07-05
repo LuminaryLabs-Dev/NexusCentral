@@ -1,0 +1,37 @@
+{
+  "id": "chatcmpl-847cdacb8533e2cf",
+  "object": "chat.completion",
+  "created": 1783274920,
+  "model": "qwen/qwen3-next-80b-a3b-instruct",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "```markdown\n# Project Map\n- **Unity Root Candidate**: `..` (invalid — missing `Assets/`, `ProjectSettings/`, `Packages/manifest.json`)\n- **Core Domain**: `NexusCentral-V0/Desktop/` — contains 146 source files, dominated by Services (42 files), ViewModels (15 files), and config/wrappers\n- **CI/CD**: `.github/workflows/` — 4 YAML pipelines; `.github/scripts/` — one large Python script\n- **Test Surface**: Only 12 test files — negligible coverage against 146 source modules\n- **Modularity Hotspots**: \n  - `Services/` — 18 files > 300 lines, 6 files > 800 lines\n  - `ViewModels/` — 5 files > 400 lines, 1 file (ChatViewModel.cs) at 4665 lines\n  - `config/wrappers/nexusagent.json` — 351 lines (JSON blob)\n- **Missing Unity Artifacts**: No `Assets/`, `ProjectSettings/`, or `Packages/manifest.json` — **not a valid Unity project snapshot**\n\n# Highest Signal Files\n1. **`NexusCentral-V0/Desktop/ViewModels/ChatViewModel.cs` (4665 lines)**  \n   — Largest file in repo; likely central to UI/state logic; high risk for coupling, untestable logic, and maintenance collapse.\n2. **`NexusCentral-V0/Desktop/Services/IntegrationServer.cs` (4592 lines)**  \n   — Likely handles core networking/protocol logic; massive surface area with no tests; critical failure point.\n3. **`NexusCentral-V0/Desktop/Services/WrapperRunService.cs` (1280 lines)**  \n   — Orchestrates wrapper execution; likely integrates with `nexusagent.json` and `nexusglmharness.json`; high dependency surface.\n4. **`NexusCentral-V0/Desktop/config/wrappers/nexusagent.json` (351 lines)**  \n   — De facto configuration API; unstructured JSON blob; no schema validation visible; likely drives runtime behavior.\n5. **`.github/scripts/update_pages_downloads.py` (343 lines)**  \n   — CI automation with high operational impact; single point of failure in release pipeline.\n\n# Big Model Focus\n- **Unity Project Integrity**:  \n  Audit **must** be re-run from a valid Unity root with `Assets/`, `ProjectSettings/`, and `Packages/manifest.json` included. Current snapshot is **invalid** — no Unity assets or package deps are visible. Without this, Unity-specific audits (e.g., asset bundling, scriptable objects, package conflicts) are impossible.\n\n- **ChatViewModel.cs & IntegrationServer.cs**:  \n  These two files alone account for >9k lines of untested, monolithic code. They are the **highest-risk targets** for logic rot, memory leaks, and integration failures. Focus on:  \n  - Extracting state machines and event handlers  \n  - Identifying hidden dependencies (e.g., to `WrapperRunService`, `nexusagent.json`)  \n  - Mapping input→output paths for contract testing\n\n- **nexusagent.json & WrapperRunService**:  \n  These form a **hidden configuration-driven runtime engine**. The JSON is likely parsed into C# objects — audit for:  \n  - Schema drift  \n  - Injection points (e.g., command injection via JSON fields)  \n  - Lack of validation or type safety\n\n- **Test Coverage Gap**:  \n  With 146 source modules and only 12 tests, **no meaningful safety net exists**. Prioritize writing **contract tests** for:  \n  - `ChatViewModel.cs` (UI state transitions)  \n  - `IntegrationServer.cs` (network protocol handling)  \n  - `WrapperRunService.cs` (execution pipeline)  \n  - `AppPathsService.cs` (filesystem access logic)\n\n- **Memory & Intent Decay**:  \n  No `memory.md` exists — decisions, findings, and architectural tradeoffs are lost. **Big model must reconstruct intent** from code patterns, CI workflows, and file naming (e.g., `-it/SKILL.md` suggests intent-driven testing,",
+        "refusal": null,
+        "annotations": null,
+        "audio": null,
+        "function_call": null,
+        "tool_calls": [],
+        "reasoning": null,
+        "reasoning_content": null
+      },
+      "logprobs": null,
+      "finish_reason": "length",
+      "stop_reason": null,
+      "token_ids": null
+    }
+  ],
+  "service_tier": null,
+  "system_fingerprint": null,
+  "usage": {
+    "prompt_tokens": 2655,
+    "total_tokens": 3555,
+    "completion_tokens": 900,
+    "prompt_tokens_details": null
+  },
+  "prompt_logprobs": null,
+  "prompt_token_ids": null,
+  "kv_transfer_params": null
+}

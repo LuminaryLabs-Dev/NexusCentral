@@ -1,0 +1,137 @@
+{
+  "audit": {
+    "findingCount": 9,
+    "highestSeverity": "blocked",
+    "ready": false
+  },
+  "generatedAt": "2026-07-05T18:10:26.250Z",
+  "intent": "Audit and brainstorm this repository.",
+  "models": {
+    "scout": {
+      "model": "qwen/qwen3-next-80b-a3b-instruct",
+      "reason": "configured fallback available",
+      "requested": "qwen3.5-4b",
+      "status": "fallback"
+    },
+    "audit": {
+      "model": "nvidia/llama-3.3-nemotron-super-49b-v1.5",
+      "reason": "configured fallback available",
+      "requested": "agents-a1",
+      "status": "fallback"
+    },
+    "brainstorm": {
+      "model": "qwen/qwen3-next-80b-a3b-instruct",
+      "reason": "configured fallback available",
+      "requested": "qwen3.7-4b",
+      "status": "fallback"
+    }
+  },
+  "paths": {
+    "outputRoot": "audit-runs",
+    "runPath": "audit-runs/2026-07-05T180839-364Z"
+  },
+  "report": {
+    "sectionCount": 8
+  },
+  "scan": {
+    "discoveryTimedOut": false,
+    "elapsedMs": 157,
+    "includedBytes": 2645314,
+    "includedFileCount": 405,
+    "limits": {
+      "maxFileBytes": null,
+      "maxFiles": null,
+      "maxScanMs": 30000,
+      "maxTotalBytes": null,
+      "mode": "time"
+    },
+    "skippedByReason": {
+      "maxFileBytes": 0,
+      "maxFiles": 0,
+      "maxTotalBytes": 0,
+      "readError": 0,
+      "timeBudget": 0
+    },
+    "skippedFileCount": 0,
+    "truncated": false
+  },
+  "snapshot": {
+    "domains": [
+      "docs",
+      "frontend",
+      "repo-intelligence",
+      "tests",
+      "toolchain",
+      "unity",
+      "unity-project",
+      "unity-scripts"
+    ],
+    "fileCount": 405,
+    "project": {
+      "confidence": "medium",
+      "description": "Audit Assets, Packages, ProjectSettings, scenes, prefabs, C# scripts, asmdefs, and Unity Test Framework coverage.",
+      "label": "Unity project",
+      "markers": [
+        "Packages/",
+        "*.cs"
+      ],
+      "relativeRoots": [
+        "Packages"
+      ],
+      "rootPath": ".",
+      "roots": [
+        ".github",
+        "NexusCentral-V0",
+        "NexusCentral-V1",
+        "README.md",
+        "global.json",
+        "packages",
+        "site",
+        "updates"
+      ],
+      "sourceExtensions": [
+        ".cs"
+      ],
+      "testPathHints": [
+        "/editor/tests/",
+        "/playmode/",
+        "/editmode/",
+        "/tests/"
+      ],
+      "type": "unity",
+      "unity": {
+        "assemblyDefinitionCount": 0,
+        "assetCount": 0,
+        "hasAssetsRoot": false,
+        "hasPackagesRoot": true,
+        "hasProjectSettingsRoot": false,
+        "isUnityProject": true,
+        "packageLock": false,
+        "packageManifest": false,
+        "prefabCount": 0,
+        "projectSettingsCount": 0,
+        "projectVersion": false,
+        "relativeRoots": [
+          "Packages"
+        ],
+        "rootPath": ".",
+        "sceneCount": 0,
+        "scriptCount": 146
+      }
+    },
+    "sourceCount": 146,
+    "testCount": 12,
+    "totalLines": 71754
+  },
+  "source": {
+    "branch": "main",
+    "name": "NexusCentral",
+    "owner": "LuminaryLabs-Dev",
+    "repository": "LuminaryLabs-Dev/NexusCentral",
+    "runAttempt": "1",
+    "runId": "28750076582",
+    "sha": "9deaf5176c42ba6a52caf7cfa33352827c45ab2e"
+  },
+  "timestamp": "2026-07-05T180839-364Z",
+  "version": 1
+}
