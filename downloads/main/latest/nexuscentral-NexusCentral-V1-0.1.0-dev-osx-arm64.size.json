@@ -6,8 +6,8 @@
   "runtime": "osx-arm64",
   "configuration": "Release",
   "selfContained": true,
-  "publishedBytes": 122545232,
-  "archiveBytes": 51757445,
-  "archiveSha256": "447aa113243640af1fe34ad7c2a50acbacec6e5f2cbef3b72513bf7002cae345",
+  "publishedBytes": 122990672,
+  "archiveBytes": 51891963,
+  "archiveSha256": "c2bd170c22e2817faa66b46c9e55b90c2f9f3b23c28a390f6add6a742114aa11",
   "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip"
 }

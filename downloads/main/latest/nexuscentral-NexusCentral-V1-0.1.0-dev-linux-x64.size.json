@@ -6,8 +6,8 @@
   "runtime": "linux-x64",
   "configuration": "Release",
   "selfContained": true,
-  "publishedBytes": 112734944,
-  "archiveBytes": 52223462,
-  "archiveSha256": "ab6b90d89569607633b363f13d97dc94b87722620a968da9d6ae28fda6ca9273",
+  "publishedBytes": 113180384,
+  "archiveBytes": 52357976,
+  "archiveSha256": "fcc83f048df61e372efb5015a9036c55607bccc20d248bf5354015473b5280b7",
   "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip"
 }
