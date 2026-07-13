@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "appId": "com.nexuscentral.desktop",
+  "versionDir": "NexusCentral-V1",
+  "appVersion": "0.1.0-dev",
+  "runtime": "osx-arm64",
+  "configuration": "Release",
+  "selfContained": true,
+  "publishedBytes": 122996816,
+  "archiveBytes": 51893358,
+  "archiveSha256": "56047d3229afad006818c0c67293b9d80716507b9a3046102e7b57611c2f11d6",
+  "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip"
+}

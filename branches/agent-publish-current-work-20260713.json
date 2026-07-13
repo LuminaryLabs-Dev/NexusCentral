@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "branchName": "agent/publish-current-work-20260713",
+  "branchSlug": "agent-publish-current-work-20260713",
+  "commitSha": "e6e73ebbfdaba0b5a7282c13e1eb0e503d642792",
+  "runId": "29289877024",
+  "runNumber": "6",
+  "runUrl": "https://github.com/LuminaryLabs-Dev/NexusCentral/actions/runs/29289877024",
+  "workflowName": "NexusCentral Pages Downloads",
+  "generatedAt": "2026-07-13T22:28:56+00:00",
+  "downloads": [
+    {
+      "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+      "archivePath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+      "sizeManifestPath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.size.json",
+      "runtime": "linux-x64",
+      "versionDir": "NexusCentral-V1",
+      "appVersion": "0.1.0-dev",
+      "archiveBytes": 52359371,
+      "archiveSize": "49.9 MB",
+      "archiveSha256": "c04ffd4cbc274179ea9c228a8cd4ce8eac7a440145cc8fe75069ab32f9fe0b2b"
+    },
+    {
+      "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+      "archivePath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+      "sizeManifestPath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.size.json",
+      "runtime": "osx-arm64",
+      "versionDir": "NexusCentral-V1",
+      "appVersion": "0.1.0-dev",
+      "archiveBytes": 51893358,
+      "archiveSize": "49.5 MB",
+      "archiveSha256": "56047d3229afad006818c0c67293b9d80716507b9a3046102e7b57611c2f11d6"
+    },
+    {
+      "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+      "archivePath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+      "sizeManifestPath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.size.json",
+      "runtime": "osx-x64",
+      "versionDir": "NexusCentral-V1",
+      "appVersion": "0.1.0-dev",
+      "archiveBytes": 54256430,
+      "archiveSize": "51.7 MB",
+      "archiveSha256": "068131af525e94daec38ba37766c720bed00ff3fc1278a741723c1459096612e"
+    },
+    {
+      "archiveName": "nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+      "archivePath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+      "sizeManifestPath": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.size.json",
+      "runtime": "win-x64",
+      "versionDir": "NexusCentral-V1",
+      "appVersion": "0.1.0-dev",
+      "archiveBytes": 81230090,
+      "archiveSize": "77.5 MB",
+      "archiveSha256": "8cc864c8a1ef7dae011d47cdd7ffd87b7a32cf2557360c210d84839762706a66"
+    }
+  ]
+}
