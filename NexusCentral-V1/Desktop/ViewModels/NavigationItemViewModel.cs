@@ -7,6 +7,8 @@ namespace NexusCentral.V1.Desktop.ViewModels;
 public enum SurfaceKind
 {
     Lab,
+    Setup,
+    Review,
     Models,
     Agents,
     Automations,

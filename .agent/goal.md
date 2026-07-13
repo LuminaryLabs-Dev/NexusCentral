@@ -1,19 +1,21 @@
 # Goal
 
-Status: complete
+Status: active
 
 ## Purpose
 
-Expand the original app catalog into full agent-only profile packs with unique master spec prompts and 10+ step sprints, stored under `.agent/` instead of app runtime state.
+Build sovereign LAN mesh routing while preserving the completed separation between provider routing and local model lifecycle.
 
 ## Success Criteria
 
-- Complete: Profile pack contains more than 1000 original app concepts.
-- Complete: Each profile keeps a unique ID and unique name.
-- Complete: Each profile includes a specific original focus, not only a generic domain/archetype pairing.
-- Complete: Each profile includes NexusCentral validation metadata.
-- Complete: Each profile includes an 11-step sprint plan.
-- Complete: Each profile includes a seed prompt that functions like a master spec doc.
-- Complete: Batch tooling emits the profile pack in one pass from `.agent/use-case-catalog/`.
-- Complete: A submission-bundle exporter packages the full pack or a filtered subset in one file for handoff.
-- Complete: Old generated catalog artifacts stay out of `NexusCentral-V1/state/use-cases`.
+- Complete: Router configures OpenRouter, OpenAI, Google Gemini, NVIDIA NIM, LM Studio, and custom OpenAI-compatible providers.
+- Complete: Provider API keys use Electron secure storage and are not persisted in Router JSON.
+- Complete: Models has a separate page and service for search, download, load, unload, and local state.
+- Complete: A local LM Studio model can be published as a Router provider profile.
+- Complete: Coding harness execution remains separate from provider and model lifecycle ownership.
+- Complete: Deferred validation instructions exist under `docs/`.
+- Complete: Computers with the same LAN code automatically discover each other without a central controller.
+- Complete: Mesh announcements and requests authenticate persistent node identities without broadcasting the LAN code.
+- Complete: Peer request payloads are encrypted and local action policy denies unapproved work.
+- Complete: Settings can join, disconnect, refresh, and ping discovered mesh peers.
+- Pending: Add explicitly approved remote harness/job actions after workspace transfer, audit, and resource-limit contracts exist.

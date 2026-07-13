@@ -21,6 +21,8 @@ public partial class MainShellViewModel : ObservableObject
     private readonly ModelsViewModel _models;
     private readonly RouterViewModel _router;
     private readonly HarnessImporterViewModel _harnesses;
+    private readonly SetupWorkflowViewModel _setup;
+    private readonly ReviewProofViewModel _review;
     private readonly IAppLogService _logs;
     private readonly IExecutionEventStream _executionEvents;
 
@@ -39,6 +41,8 @@ public partial class MainShellViewModel : ObservableObject
         _harnesses = harnesses;
         _logs = logs;
         _executionEvents = executionEvents;
+        _setup = new SetupWorkflowViewModel(_models, _harnesses, _router);
+        _review = new ReviewProofViewModel(_lab);
         _lab.PropertyChanged += OnLabPropertyChanged;
         _models.PropertyChanged += OnModelsPropertyChanged;
         _router.PropertyChanged += OnRouterPropertyChanged;
@@ -62,52 +66,33 @@ public partial class MainShellViewModel : ObservableObject
             new(
                 SurfaceKind.Lab,
                 "Lab",
-                "Conversation and execution workspace for jobs, files, and live output.",
+                "Ask, attach files, and work inside the selected workspace.",
                 "LB",
                 "Idle",
-                "Backed compact chat, workspace selection, folder tree browsing, chat uploads, and inline tool steps.",
-                "New run",
+                "Backed chat, workspace selection, folder browsing, and hosted assistant turns.",
+                "New chat",
                 "Open workspace",
                 surfaceModel: _lab),
             new(
-                SurfaceKind.Automations,
-                "Automations",
-                "Planned workflow builder shell for ladders, validation, runs, history, and artifacts.",
-                "AU",
-                "Planned",
-                "Read-only planned surface. Automation runner behavior is not active in this slice.",
-                "New automation",
-                "Run selected"),
-            new(
-                SurfaceKind.Agents,
-                "Agents",
-                "Harness importer for wrappers, selected capabilities, and execution policy.",
-                "AG",
+                SurfaceKind.Setup,
+                "Setup",
+                "Connect the local model, assistant, and active route.",
+                "SU",
                 "Service",
-                "Service-backed harness registry with attach, select, remove, capability gates, and hosted harness test turns.",
-                "Discover CLI",
-                "Capabilities",
-                surfaceModel: _harnesses),
+                "Guided setup for local model health, assistant connection, and active route.",
+                "Use best route",
+                "Test connection",
+                surfaceModel: _setup),
             new(
-                SurfaceKind.Router,
-                "Router",
-                "Planned request routing across local endpoints, provider endpoints, and trusted NexusCentral queues.",
-                "RT",
-                "Service",
-                "Truthful route availability derived from selected model endpoint health and active hosted harness readiness.",
-                "Add router",
-                "Refresh",
-                surfaceModel: _router),
-            new(
-                SurfaceKind.Models,
-                "Models",
-                "Routable model endpoint setup and runtime health checks.",
-                "MO",
-                "Service",
-                "Model endpoint registry, selected model status, and LM Studio/OpenAI-compatible probes. No model downloads.",
-                "Add endpoint",
-                "Probe",
-                surfaceModel: _models),
+                SurfaceKind.Review,
+                "Review",
+                "Inspect proof runs, generated project folders, scoreboards, and learning notes.",
+                "RV",
+                "Proof",
+                "Validation runs and generated artifacts stay in this review surface.",
+                "Run smoke",
+                "Open output",
+                surfaceModel: _review),
             new(
                 SurfaceKind.Settings,
                 "Settings",
@@ -119,9 +104,10 @@ public partial class MainShellViewModel : ObservableObject
                 "Theme")
         ];
 
-        SelectedSurface = startupSurface is null
+        var initialSurface = NormalizeStartupSurface(startupSurface);
+        SelectedSurface = initialSurface is null
             ? Surfaces[0]
-            : Surfaces.FirstOrDefault(surface => surface.Kind == startupSurface.Value) ?? Surfaces[0];
+            : Surfaces.FirstOrDefault(surface => surface.Kind == initialSurface.Value) ?? Surfaces[0];
         foreach (var entry in _logs.GetEntries())
         {
             AppendConsoleLine(FormatLogEntry(entry));
@@ -193,9 +179,9 @@ public partial class MainShellViewModel : ObservableObject
     [
         "V1 shell loaded with Lab + Workspaces first-slice services.",
         "Lab and Workspaces slice is backed by V1-native services.",
-        "RPC infrastructure is hidden from primary navigation.",
-        "Router is the visible request path surface.",
-        "Model endpoints, hosted harnesses, router availability, and validation jobs are service-backed."
+        "Setup groups model, assistant, and route readiness.",
+        "Review owns validation runs and generated proof artifacts.",
+        "Architecture surfaces are hidden from primary navigation."
     ];
 
     partial void OnSelectedSurfaceChanged(NavigationItemViewModel? value)
@@ -219,13 +205,13 @@ public partial class MainShellViewModel : ObservableObject
     {
         if (ModelStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
         {
-            SelectSurface(SurfaceKind.Models);
+            SelectSurface(SurfaceKind.Setup);
             return;
         }
 
         if (HarnessStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
         {
-            SelectSurface(SurfaceKind.Agents);
+            SelectSurface(SurfaceKind.Setup);
             return;
         }
 
@@ -242,7 +228,8 @@ public partial class MainShellViewModel : ObservableObject
 
     private void SelectSurface(SurfaceKind kind)
     {
-        SelectedSurface = Surfaces.First(surface => surface.Kind == kind);
+        SelectedSurface = Surfaces.FirstOrDefault(surface => surface.Kind == NormalizeStartupSurface(kind))
+            ?? Surfaces[0];
     }
 
     private void OnLabPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -337,12 +324,12 @@ public partial class MainShellViewModel : ObservableObject
     {
         if (ModelStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
         {
-            return "Models";
+            return "Setup";
         }
 
         if (HarnessStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase))
         {
-            return "Agents";
+            return "Setup";
         }
 
         if (RouteStatusText.Contains("inactive", System.StringComparison.OrdinalIgnoreCase)
@@ -353,6 +340,16 @@ public partial class MainShellViewModel : ObservableObject
         }
 
         return "Lab";
+    }
+
+    private static SurfaceKind? NormalizeStartupSurface(SurfaceKind? kind)
+    {
+        return kind switch
+        {
+            SurfaceKind.Models or SurfaceKind.Agents or SurfaceKind.Router => SurfaceKind.Setup,
+            SurfaceKind.Automations or SurfaceKind.Devices => SurfaceKind.Settings,
+            _ => kind
+        };
     }
 
     private void OnLogEntryAdded(AppLogEntry entry)

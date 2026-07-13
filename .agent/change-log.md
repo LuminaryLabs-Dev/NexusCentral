@@ -15,3 +15,5 @@ Status: active
 - 2026-07-05 06:11:52 America/New_York - Added service-derived harness orchestration steps so Agents can show enabled multi-harness coordination before a real job queue is implemented.
 - 2026-07-05 06:17:23 America/New_York - Added service-owned harness orchestration smoke execution for manual hosted turns and Codex CLI read-only steps, leaving approval-gated work skipped.
 - 2026-07-05 06:22:58 America/New_York - Persisted orchestration smoke history under V1 harness state so the latest smoke result survives UI refresh and restart.
+- 2026-07-09 15:15:52 America/New_York - Recorded the Electron provider Router and separate Models service goal, added feedback packets, and deferred validation into `docs/provider-router-models-validation.md`.
+- 2026-07-09 16:12:00 America/New_York - Added sovereign LAN mesh routing with code-based automatic discovery, persistent signed node identity, encrypted authenticated peer requests, local admission policy, and minimal Settings controls.

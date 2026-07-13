@@ -1,0 +1,12 @@
+Mission: Move NexusCentral V2 from its documented current state to validated completion.
+
+Walk the V2 goal-mode workspace and follow its documentation index as the implementation contract. Then repeat: take the next required action, validate it with real evidence, record meaningful progress, blockers, and reusable lessons, and continue until the goal is complete.
+
+Do not stop after planning or partial progress. Stop only when the goal is validated, a real blocker needs input, or approval is required.
+
+HARD FAILS:
+- Declaring completion without evidence.
+- Skipping documented architecture, migration, security, or validation requirements.
+- Hiding failures or blockers.
+- Duplicating the Electron product instead of migrating the documented architecture.
+- Overwriting existing work, exposing secrets, or taking approval-gated actions without permission.

@@ -1,0 +1,4 @@
+node_modules/
+dist/
+sidecars/rust-proof/target/
+npm-debug.log*

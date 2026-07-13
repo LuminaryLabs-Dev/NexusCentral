@@ -6,7 +6,7 @@
   <Grid ColumnDefinitions="276,*"
         Classes="labRoot">
     <Border Classes="labWorkspaceLane">
-      <Grid RowDefinitions="Auto,Auto,*,Auto,Auto"
+      <Grid RowDefinitions="Auto,Auto,*,Auto"
             RowSpacing="10">
         <StackPanel Spacing="3">
           <TextBlock Text="Workspace"
@@ -56,95 +56,7 @@
           </ItemsControl>
         </ScrollViewer>
 
-        <Expander Grid.Row="3"
-                  Header="Validation plan">
-          <StackPanel Spacing="4"
-                      Margin="0,6,0,0">
-            <TextBlock Text="{Binding ValidationScenarioSummaryText}"
-                       Classes="sectionTitle"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationTopCapabilityText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationFullProjectText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationEndpointText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationRunStatusText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationExecutionStatusText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding ValidationJobSummaryText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <ListBox Classes="flatList"
-                     MaxHeight="130"
-                     ItemsSource="{Binding ValidationJobs}"
-                     SelectedItem="{Binding SelectedValidationJob, Mode=TwoWay}">
-              <ListBox.ItemTemplate>
-                <DataTemplate DataType="lab:ValidationJobItemViewModel">
-                  <Border Classes="flatListRow">
-                    <StackPanel Spacing="2">
-                      <TextBlock Text="{Binding DisplayName}"
-                                 Classes="sectionTitle" />
-                      <TextBlock Text="{Binding DetailText}"
-                                 Classes="caption"
-                                 TextWrapping="Wrap" />
-                    </StackPanel>
-                  </Border>
-                </DataTemplate>
-              </ListBox.ItemTemplate>
-            </ListBox>
-            <TextBlock Text="{Binding SelectedValidationJobTitle}"
-                       Classes="sectionTitle"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobDetail}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobScoreboardText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobRankingText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobProjectsText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobProgressText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobRunFolderText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobLearningText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{Binding SelectedValidationJobReviewText}"
-                       Classes="caption"
-                       TextWrapping="Wrap" />
-            <Button Classes="secondary"
-                    Content="Open run folder"
-                    Command="{Binding OpenSelectedValidationRunCommand}" />
-            <Button Classes="secondary"
-                    Content="Review output"
-                    Command="{Binding ReviewSelectedValidationJobCommand}" />
-            <Button Classes="secondary"
-                    Content="Stage run"
-                    Command="{Binding StageValidationRunCommand}" />
-            <Button Classes="secondary"
-                    Content="Run smoke"
-                    Command="{Binding ExecuteValidationSmokeCommand}" />
-            <Button Classes="secondary"
-                    Content="Run all"
-                    Command="{Binding ExecuteValidationAllCommand}" />
-          </StackPanel>
-        </Expander>
-
-        <Grid Grid.Row="4"
+        <Grid Grid.Row="3"
               RowDefinitions="Auto,Auto"
               RowSpacing="8">
           <Button Classes="wideAction"
@@ -171,8 +83,7 @@
             DragDrop.Drop="ChatDrop">
       <Grid RowDefinitions="58,*,74">
         <Border Classes="sessionHeader">
-          <Grid ColumnDefinitions="*,Auto"
-                ColumnSpacing="12">
+          <Grid ColumnDefinitions="*">
             <StackPanel Spacing="2"
                         VerticalAlignment="Center">
               <Grid ColumnDefinitions="Auto,Auto"
@@ -199,23 +110,6 @@
                            Classes="caption"
                            TextTrimming="CharacterEllipsis" />
               </Grid>
-            </StackPanel>
-            <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        Spacing="14"
-                        VerticalAlignment="Center">
-              <Button Classes="headerAction"
-                      Content="Clear"
-                      IsEnabled="False" />
-              <Button Classes="headerAction"
-                      Content="Save"
-                      IsEnabled="False" />
-              <Button Classes="headerAction"
-                      Content="Filter"
-                      IsEnabled="False" />
-              <Button Classes="headerAction"
-                      Content="..."
-                      IsEnabled="False" />
             </StackPanel>
           </Grid>
         </Border>
@@ -260,28 +154,18 @@
             </ItemsControl>
 
             <Grid Grid.Row="1"
-                  ColumnDefinitions="Auto,Auto,*,Auto,Auto"
+                  ColumnDefinitions="Auto,*,Auto"
                   ColumnSpacing="8">
-              <Button Content="+"
+              <Button Content="Attach"
                       Classes="iconButton"
                       Click="UploadButtonClick"
                       ToolTip.Tip="Upload files through chat." />
-              <Button Grid.Column="1"
-                      Content="Attach"
-                      Classes="iconButton"
-                      Click="UploadButtonClick"
-                      ToolTip.Tip="Upload files through chat." />
-              <TextBox Grid.Column="2"
+              <TextBox Grid.Column="1"
                        Text="{Binding InputText, Mode=TwoWay}"
                        PlaceholderText="Ask anything... (drag files or click + to attach)"
                        AcceptsReturn="True"
                        MinHeight="34" />
-              <ComboBox Grid.Column="3"
-                        IsEnabled="False"
-                        SelectedIndex="0">
-                <ComboBoxItem Content="Select model" />
-              </ComboBox>
-              <Button Grid.Column="4"
+              <Button Grid.Column="2"
                       Classes="primary"
                       Content="Send"
                       Command="{Binding SendMessageCommand}" />

@@ -1,0 +1,9 @@
+{
+  "name": "@nexuscentral/peer-broker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "nexuscentral-peer-broker": "./src/cli.mjs" },
+  "scripts": { "start": "node ./src/cli.mjs", "check": "node --check ./src/peer-broker.mjs && node --check ./src/cli.mjs" },
+  "dependencies": { "express": "4.22.2", "peer": "1.0.2" }
+}

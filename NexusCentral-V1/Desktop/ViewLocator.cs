@@ -16,6 +16,8 @@ public sealed class ViewLocator : IDataTemplate
             return surface.Kind switch
             {
                 SurfaceKind.Lab => new LabSurfaceView { DataContext = surfaceModel },
+                SurfaceKind.Setup => new SetupSurfaceView { DataContext = surfaceModel },
+                SurfaceKind.Review => new ReviewSurfaceView { DataContext = surfaceModel },
                 SurfaceKind.Models => new ModelsSurfaceView { DataContext = surfaceModel },
                 SurfaceKind.Agents => new AgentsSurfaceView { DataContext = surfaceModel },
                 SurfaceKind.Automations => new AutomationsSurfaceView { DataContext = surface },

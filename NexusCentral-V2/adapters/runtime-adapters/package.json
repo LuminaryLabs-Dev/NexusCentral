@@ -1,0 +1,22 @@
+{
+  "name": "@nexuscentral/runtime-adapters",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./index.mjs",
+  "dependencies": {
+    "@nexuscentral/contracts": "*",
+    "@aws-sdk/client-bedrock": "3.1085.0",
+    "@aws-sdk/client-bedrock-runtime": "3.1085.0",
+    "@chainsafe/libp2p-noise": "17.0.0",
+    "@chainsafe/libp2p-yamux": "8.0.1",
+    "@libp2p/identify": "4.1.9",
+    "@libp2p/crypto": "5.1.21",
+    "@libp2p/mdns": "12.0.26",
+    "@libp2p/tcp": "11.0.23",
+    "libp2p": "3.3.5",
+    "peerjs": "1.5.5",
+    "@roamhq/wrtc": "0.10.0",
+    "ws": "8.21.0"
+  }
+}

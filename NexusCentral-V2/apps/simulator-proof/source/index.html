@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusCentral V2 DSK Simulation</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "nexusengine": "./vendor/nexusengine/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <span class="eyebrow">NexusSimulator proof</span>
+          <h1>NexusCentral V2</h1>
+        </div>
+        <strong id="proof-status">Starting simulation</strong>
+      </header>
+
+      <section class="summary" aria-labelledby="summary-title">
+        <div>
+          <span class="eyebrow">V2 service foundation</span>
+          <h2 id="summary-title">Small services, one inspectable graph.</h2>
+          <p>Nineteen NexusEngine ESM Domain Service Kits compose host authority, workspace safety, routing, jobs, inference, proof, and LAN access without owning platform I/O.</p>
+        </div>
+        <div class="metric">
+          <strong id="path-count">0</strong>
+          <span>registered domain paths</span>
+        </div>
+      </section>
+
+      <section class="graph" aria-label="Foundational Domain Service Kits">
+        <article data-kit="central">
+          <span>n:central</span>
+          <strong>Foundation</strong>
+          <small>ready state + graph version</small>
+        </article>
+        <article data-kit="node">
+          <span>n:central:node</span>
+          <strong>Node</strong>
+          <small>public identity + capabilities</small>
+        </article>
+        <article data-kit="audit">
+          <span>n:central:audit</span>
+          <strong>Audit</strong>
+          <small>append-only receipts</small>
+        </article>
+        <article data-kit="policy">
+          <span>n:central:policy</span>
+          <strong>Policy</strong>
+          <small>local deny-by-default authority</small>
+        </article>
+      </section>
+
+      <section class="proof" aria-labelledby="proof-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Deterministic lifecycle</span>
+            <h2 id="proof-title">Policy proof</h2>
+          </div>
+          <button id="replay-proof" type="button">Replay</button>
+        </div>
+        <ol id="proof-steps"></ol>
+      </section>
+
+      <footer>
+        <span>Host I/O: none</span>
+        <span>Snapshot: serializable</span>
+        <span>Reset: deny by default</span>
+      </footer>
+    </main>
+    <script type="module" src="./main.mjs"></script>
+  </body>
+</html>

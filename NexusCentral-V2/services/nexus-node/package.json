@@ -1,0 +1,13 @@
+{
+  "name": "@nexuscentral/nexus-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "nexuscentral-node": "./src/cli.mjs" },
+  "scripts": { "start": "node ./src/cli.mjs", "check": "node --check ./src/nexus-node.mjs && node --check ./src/lan-server.mjs" },
+  "dependencies": {
+    "@nexuscentral/contracts": "*",
+    "@nexuscentral/runtime-adapters": "*",
+    "ws": "8.21.0"
+  }
+}

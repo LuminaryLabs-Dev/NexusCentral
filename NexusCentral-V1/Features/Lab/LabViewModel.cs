@@ -158,7 +158,7 @@ public partial class LabViewModel : ObservableObject
         get
         {
             var harness = _harnesses?.GetSnapshot().ActiveHarness;
-            return harness is null ? "Harness: none" : $"Harness: {harness.Name}";
+            return harness is null ? "Assistant: not connected" : $"Assistant: {harness.Name}";
         }
     }
 
@@ -168,8 +168,8 @@ public partial class LabViewModel : ObservableObject
         {
             var harness = _harnesses?.GetSnapshot().ActiveHarness;
             return harness is null
-                ? "Route: workspace fallback"
-                : $"Route: {harness.Kind} / {ValidationScenarioCatalog.DefaultMaxTokens} max tokens";
+                ? "Connection: workspace only"
+                : $"Connection: local model / {ValidationScenarioCatalog.DefaultMaxTokens} max tokens";
         }
     }
 
@@ -181,10 +181,10 @@ public partial class LabViewModel : ObservableObject
             var harness = snapshot?.ActiveHarness;
             if (harness is null)
             {
-                return "Attach the Conversation Harness in Agents to make Lab turns use the local LM Studio model.";
+                return "Open Setup to connect the local assistant.";
             }
 
-            return $"{harness.Health}; {snapshot!.CapabilitySummaryText}; {snapshot.WrapperSummaryText}";
+            return $"{harness.Health}; ready for hosted chat turns.";
         }
     }
 
