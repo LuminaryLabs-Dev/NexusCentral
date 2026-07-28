@@ -1,0 +1,86 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_lifecycle_review
+  name: Workflow Lifecycle Review
+  status: disabled
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - lifecycle
+    - promotion
+    - cleanup
+summary:
+  purpose: Convert workflow validation evidence into an explicit lifecycle recommendation for active, experimental, disabled, or archived placement.
+  offloads:
+    - repeated manual promotion-versus-deferral decisions for workflow specs
+    - repeated drafting of lifecycle rationale after validation reviews
+    - repeated cleanup planning for workflows that should stay experimental, pause, or retire
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing automation buckets and review notes.
+    - name: candidate_workflows
+      type: list[string]
+      description: Workflow ids being evaluated for lifecycle placement.
+    - name: validation_report_path
+      type: path
+      description: Validation review output used as the main evidence source.
+  optional:
+    - name: decision_mode
+      type: string
+      default: recommend_only
+      description: Keep the workflow non-mutating by default and record recommendations instead of moving files.
+    - name: lifecycle_buckets
+      type: list[string]
+      default:
+        - active
+        - experimental
+        - disabled
+        - archive
+      description: Valid placement targets recognized by the workspace contract.
+reads:
+  required:
+    - docs/conventions/automation-lifecycle.md
+    - docs/conventions/workflow-authoring-contract.md
+    - automations/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-lifecycle-review.md
+      description: Lifecycle recommendation note with bucket decisions, blockers, and rationale.
+  secondary:
+    - path: artifacts/{review_slug}-lifecycle-matrix.md
+      description: Side-by-side comparison of candidate workflows against lifecycle criteria.
+    - path: improvements/proposals/{review_slug}-lifecycle-actions.md
+      description: Follow-up actions needed before any file move or promotion happens.
+steps:
+  - id: load-governing-rules
+    objective: Anchor the review in the documented lifecycle contract before making any recommendation.
+    actions:
+      - Read the lifecycle definitions and minimum readiness rules.
+      - Load the validation report and note unresolved blockers.
+  - id: compare-candidates-to-buckets
+    objective: Evaluate which lifecycle bucket best matches each workflow's current evidence.
+    actions:
+      - Determine whether each candidate is active-ready, still experimental, intentionally disabled, or archive-worthy.
+      - Record the smallest defensible decision instead of forcing promotion.
+  - id: publish-next-actions
+    objective: Make the recommendation actionable without mutating the repository automatically.
+    actions:
+      - State the recommended bucket for each workflow.
+      - Record the exact evidence still needed before a later move can happen.
+validation:
+  checks:
+    - Every lifecycle recommendation cites the evidence it depends on.
+    - The review preserves non-destructive behavior unless a later workflow performs a move explicitly.
+    - Active recommendations are reserved for workflows with clear purpose, validation evidence, and documentation support.
+handoff:
+  upstream:
+    - workflow_validation_review
+  downstream:
+    - workflow_catalog_refresh
+notes:
+  - This workflow is a decision record, not a file-moving automation.
+  - Keep this workflow disabled unless the merged `workflow_review_gate` later needs to be decomposed back into separate evidence and decision stages.

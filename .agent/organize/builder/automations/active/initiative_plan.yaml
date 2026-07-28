@@ -1,0 +1,85 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: initiative_plan
+  name: Initiative Plan
+  status: active
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - planning
+    - decomposition
+    - sequencing
+summary:
+  purpose: Convert a vague initiative into a scoped plan with assumptions, phases, validation, and workflow handoffs.
+  offloads:
+    - repeated plan bootstrapping for new tasks
+    - repeated decomposition of large asks into smaller units
+    - repeated acceptance-criteria drafting before implementation starts
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory where planning artifacts should be stored.
+    - name: initiative_name
+      type: string
+      description: Human-readable name of the task, feature, or investigation.
+    - name: goal_statement
+      type: string
+      description: One- or two-sentence statement of what the initiative is trying to achieve.
+  optional:
+    - name: constraints
+      type: list[string]
+      default: []
+      description: Known limits, such as no runtime changes, no network, or spec-only output.
+    - name: reference_paths
+      type: list[path]
+      default:
+        - docs/
+        - templates/
+        - automations/
+      description: Files or directories to read before outlining work.
+writes:
+  primary:
+    - path: docs/usage/{initiative_slug}-initiative-plan.md
+      description: Main planning brief with assumptions, phases, risks, and validation.
+      template: templates/doc_templates/planning_scaffold.md
+  secondary:
+    - path: artifacts/{initiative_slug}-task-breakdown.md
+      description: Smaller task units extracted from the main plan.
+    - path: improvements/proposals/{initiative_slug}-followups.md
+      description: Deferred work that should not be mixed into the first pass.
+steps:
+  - id: capture-constraints
+    objective: Freeze the real goal and limits before decomposing the work.
+    actions:
+      - Restate the problem, constraints, and non-goals.
+      - Record assumptions that need later confirmation.
+  - id: split-into-phases
+    objective: Break the initiative into reviewable phases and micro-deliverables.
+    actions:
+      - Separate discovery, authoring, validation, and reconciliation work.
+      - Keep phases narrow enough that they can later map to dedicated workflows.
+  - id: define-validation
+    objective: Make success measurable before execution begins.
+    actions:
+      - Write acceptance criteria for outputs, not just effort.
+      - Note what evidence a later reviewer should check.
+  - id: nominate-automation-handoffs
+    objective: Connect the plan to reusable automations where possible.
+    actions:
+      - Name which existing workflows can support each phase.
+      - Identify any remaining gap that still needs a new workflow.
+validation:
+  checks:
+    - The plan includes assumptions, open questions, phases, risks, and validation criteria.
+    - The task breakdown is smaller and more actionable than the goal statement.
+    - Deferred work is captured separately so the main plan stays focused.
+handoff:
+  upstream:
+    - workspace_inventory
+  downstream:
+    - project_setup_brief
+    - docs_reconciliation
+notes:
+  - Use this workflow after exploration and before broad implementation or documentation passes.

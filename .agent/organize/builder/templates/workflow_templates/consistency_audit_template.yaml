@@ -1,0 +1,79 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: consistency_audit_template
+  name: Consistency Audit Template
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - template
+    - consistency
+    - review
+summary:
+  purpose: Starter template for workflows that audit cross-file naming, placeholder, path, or reference consistency and publish a targeted fix queue.
+  offloads:
+    - repeated reinvention of consistency-audit workflow structure
+    - repeated omission of path-by-path evidence and targeted fix outputs in audit-oriented specs
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the assets that should stay consistent.
+    - name: audit_subject
+      type: string
+      description: Human-readable subject of the consistency audit.
+  optional:
+    - name: scan_surfaces
+      type: list[path]
+      default:
+        - automations
+        - docs/usage
+        - docs/examples
+      description: Files or directories that should be scanned for consistency drift.
+    - name: consistency_axes
+      type: list[string]
+      default:
+        - names
+        - paths
+        - references
+      description: Dimensions that the audit should compare across the selected surfaces.
+reads:
+  required:
+    - docs/conventions/
+    - automations/
+writes:
+  primary:
+    - path: docs/usage/{audit_slug}-consistency-audit.md
+      description: Main note describing what is consistent, what drifted, and which fixes matter next.
+  secondary:
+    - path: artifacts/{audit_slug}-consistency-matrix.md
+      description: Supporting matrix of compared surfaces and observed inconsistencies.
+    - path: improvements/proposals/{audit_slug}-consistency-fixes.md
+      description: Narrow fix queue for the inconsistencies that matter most.
+steps:
+  - id: define-baseline
+    objective: Establish the current contract or pattern that the audited assets should follow.
+    actions:
+      - Read the governing conventions and any nearby reviewed examples.
+      - Record the exact consistency axes that matter for this audit.
+  - id: compare-distributed-surfaces
+    objective: Find the places where the chosen pattern stays aligned or drifts apart.
+    actions:
+      - Scan the selected surfaces for matching and conflicting patterns.
+      - Capture path-by-path evidence for the notable drift.
+  - id: queue-small-fixes
+    objective: Recommend the smallest useful corrections instead of broad rewriting.
+    actions:
+      - Publish targeted follow-up fixes with clear scope boundaries.
+      - Separate structural drift from harmless historical variation.
+validation:
+  checks:
+    - The audit cites both the baseline and the scanned surfaces.
+    - Findings are specific enough to review path by path.
+    - The fix queue stays smaller than the audited surface.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Use this template for placeholder, naming, handoff-reference, or similar cross-file consistency reviews.

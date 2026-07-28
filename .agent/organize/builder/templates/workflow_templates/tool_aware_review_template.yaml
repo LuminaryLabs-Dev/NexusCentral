@@ -1,0 +1,85 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: tool_aware_review_template
+  name: Tool Aware Review Template
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - template
+    - tooling
+    - review
+summary:
+  purpose: Starter template for workflows that depend on CLI or extraction tooling and must state what remains manual when the tool layer is missing or incomplete.
+  offloads:
+    - repeated reinvention of tool-aware review structure
+    - repeated hiding of missing-tool assumptions inside otherwise reviewable workflow prose
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow docs and any tool inventory that should support the review.
+    - name: review_subject
+      type: string
+      description: Human-readable subject whose review quality depends on supporting tools.
+  optional:
+    - name: supporting_tool_candidates
+      type: list[string]
+      default:
+        - replace_with_tool_candidate
+      description: Proposed tools or existing tool ids that should improve reliability for this review.
+    - name: tool_roots
+      type: list[path]
+      default:
+        - tools/final_tools
+        - tools/experimental_tools
+        - proposals/tool_proposals
+      description: Tool inventory surfaces that should be checked before promoting the workflow.
+    - name: manual_fallback_mode
+      type: string
+      default: explicit-limitations
+      description: How the workflow should describe the manual fallback when the supporting tool layer is absent.
+reads:
+  required:
+    - docs/conventions/
+  expected:
+    - tools/final_tools/
+    - tools/experimental_tools/
+    - proposals/tool_proposals/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-tool-aware-review.md
+      description: Main review note describing what the workflow can prove today and what still depends on supporting tooling.
+  secondary:
+    - path: artifacts/{review_slug}-tooling-matrix.md
+      description: Supporting matrix of tool-dependent checks, fallback handling, and current coverage.
+    - path: improvements/proposals/{review_slug}-tooling-followups.md
+      description: Narrow follow-up queue for missing tools or tool-surface drift discovered during the review.
+steps:
+  - id: verify-tool-surface
+    objective: Establish which supporting tools actually exist before the workflow claims reliable coverage.
+    actions:
+      - Check the expected tool roots and note missing inventory.
+      - Record which review steps are tool-backed versus manual fallback only.
+  - id: compare-review-coverage
+    objective: Decide how much of the subject can be reviewed reliably with the current tool surface.
+    actions:
+      - Separate reliable tool-backed checks from manual or speculative checks.
+      - Keep missing-tool assumptions visible in the review output.
+  - id: queue-tooling-followups
+    objective: Publish the smallest tooling queue needed to improve later workflow reliability.
+    actions:
+      - Recommend tool additions or tool-surface docs only where they materially improve the review.
+      - Keep workflow authoring separate from tool implementation.
+validation:
+  checks:
+    - The review explicitly distinguishes tool-backed coverage from manual fallback coverage.
+    - Missing tools are named directly instead of hidden inside generic risk language.
+    - The resulting follow-ups stay smaller than building the full tool stack.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Use this template when workflow usefulness depends on extraction, comparison, media, or artifact-inspection tools.

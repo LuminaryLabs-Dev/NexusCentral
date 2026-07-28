@@ -1,0 +1,97 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: tool_surface_contract_audit
+  name: Tool Surface Contract Audit
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - exploration
+    - contracts
+    - observability
+summary:
+  purpose: Audit tool, wrapper, and runtime discovery surfaces across Nexus-adjacent repos so contract drift is visible before integrations break.
+  offloads:
+    - repeated endpoint and manifest comparison across tool-centric repos
+    - repeated wrapper drift analysis between NexusCentral and dependent adapters
+    - repeated documentation of runtime discovery surfaces and health endpoints
+goal_links:
+  project_goals:
+    - nexus_central_enforce_tool_namespace_contracts
+    - nexus_index_agent_stegosaurus_keep_wrapper_contracts_aligned_with_nexuscentral
+    - nexus_universe_keep_control_and_observability_surfaces_coherent
+    - codex_weblink_stabilize_remote_session_bootstrap
+    - nexus_celestial_factory_stabilize_planet_generation_and_rpc_controls
+  business_goals:
+    - tool_surface_contract_and_runtime_observability
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+  optional:
+    - name: tool_roots
+      type: list[path]
+      default:
+        - ../NexusCentral
+        - ../NexusIndexAgent-Stegosaurus
+        - ../NexusUniverse
+        - ../CodexWebLink
+        - ../NexusCelestialFactory
+        - ../NexusTextureFactory
+      description: Repositories with meaningful tool or runtime-discovery surfaces.
+    - name: comparison_axes
+      type: list[string]
+      default:
+        - route-contract
+        - wrapper-schema
+        - runtime-health
+        - discovery-docs
+      description: Surface areas to compare for drift.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/tool_surface_contract_and_runtime_observability.md
+    - goals/workflow_targets/tool_surface_contract_audit.md
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/tool-surface-contract-audit.md
+      description: Main audit note describing contract strengths, drift, and missing documentation.
+  secondary:
+    - path: artifacts/tool-surface-matrix.md
+      description: Path-by-path matrix of routes, manifests, health endpoints, and wrapper outputs.
+    - path: improvements/proposals/tool-surface-followups.md
+      description: Ordered queue for documentation, wrapper, or catalog fixes.
+steps:
+  - id: inventory-contract-surfaces
+    objective: Build the current map of tool routes, wrappers, and runtime discovery points.
+    actions:
+      - Record the visible contracts for each selected repo.
+      - Separate internal runtime endpoints from external wrapper surfaces.
+  - id: compare-drift-risks
+    objective: Identify where the surrounding tool ecosystem can fall out of sync.
+    actions:
+      - Flag mismatched naming, undocumented routes, or opaque wrapper behavior.
+      - Note missing health or discovery cues that make support harder.
+  - id: publish-audit-guidance
+    objective: Leave a targeted review packet instead of a broad rewrite plan.
+    actions:
+      - Rank the highest-risk contract mismatches.
+      - Queue only the narrow fixes or docs refreshes that restore clarity.
+validation:
+  checks:
+    - The audit distinguishes route, wrapper, and observability concerns.
+    - Every follow-up cites a concrete contract surface.
+    - The workflow remains exploratory and documentation-first.
+handoff:
+  upstream:
+    - workspace_inventory
+    - workspace_delta_scan
+  downstream:
+    - workflow_catalog_refresh
+    - workflow_handoff_reconciliation
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when tool-centric repos expand faster than their contract docs stay aligned.

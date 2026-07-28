@@ -1,0 +1,89 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: docs_cleanup_threshold_seed
+  name: Docs Cleanup Threshold Seed
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - documentation
+    - cleanup
+    - thresholds
+summary:
+  purpose: Define reusable keep, merge, move, and archive thresholds so documentation cleanup recommendations are more consistent across future review passes.
+  offloads:
+    - repeated debate about when documentation should be kept, merged, moved, or archived
+    - repeated drafting of cleanup rationale for similar docs, lessons, and proposal files
+    - repeated reconstruction of threshold examples before running documentation reconciliation
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing documentation, lessons, improvements, and workflow guidance.
+  optional:
+    - name: doc_roots
+      type: list[path]
+      default:
+        - docs
+        - lessons
+        - improvements
+      description: Documentation surfaces whose cleanup decisions should share the same threshold language.
+    - name: decision_labels
+      type: list[string]
+      default:
+        - keep
+        - merge
+        - move
+        - archive
+      description: Decision labels that the threshold note should define and illustrate.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - automations/experimental/docs_reconciliation.yaml
+    - docs/usage/reconciliation-report-2026-03-26.md
+    - docs/usage/workflow-gap-seeding-report-2026-03-25.md
+  expected:
+    - docs/
+    - lessons/
+    - improvements/
+    - templates/validation/
+writes:
+  primary:
+    - path: docs/usage/docs-cleanup-thresholds.md
+      description: Reviewable threshold note defining when documentation should be kept, merged, moved, or archived.
+  secondary:
+    - path: templates/validation/docs_cleanup_threshold_checklist.md
+      description: Checklist-style prompt derived from the threshold note for later cleanup reviews.
+    - path: docs/examples/docs-cleanup-threshold-examples.md
+      description: Example cases that show how the threshold labels should be applied without mutating real docs.
+steps:
+  - id: collect-current-ambiguity
+    objective: Capture where current cleanup guidance remains situational or underspecified.
+    actions:
+      - Review the current docs reconciliation workflow and prior reports for unresolved threshold questions.
+      - List the decision points that keep recurring across docs, lessons, and proposal notes.
+  - id: define-thresholds
+    objective: Convert repeated cleanup judgment into a reusable decision guide.
+    actions:
+      - Define each decision label with practical criteria and scope boundaries.
+      - Explain what evidence should be present before recommending each decision.
+  - id: seed-review-assets
+    objective: Make the threshold guidance reusable in later review passes.
+    actions:
+      - Produce a reviewer-facing checklist and a small example set.
+      - Keep the examples illustrative rather than normative for any single file.
+validation:
+  checks:
+    - Each threshold label has criteria that another reviewer could apply consistently.
+    - The checklist and examples stay aligned with the threshold note.
+    - The workflow supports docs reconciliation without turning into a broad rewrite pass.
+handoff:
+  upstream:
+    - docs_reconciliation
+    - workspace_inventory
+  downstream:
+    - workflow_review_gate
+notes:
+  - Use this workflow when documentation cleanup keeps surfacing the same threshold questions.
+  - Keep the output focused on decision guidance and review aids, not direct content edits.

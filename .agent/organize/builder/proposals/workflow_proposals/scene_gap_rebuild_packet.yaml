@@ -1,0 +1,96 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: scene_gap_rebuild_packet
+  name: Scene Gap Rebuild Packet
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - proposal
+    - content
+    - rebuild
+summary:
+  purpose: Convert a documented scene-parity gap into a small rebuild packet once the current parity artifacts have been bundled and reviewed.
+  offloads:
+    - repeated manual translation of scene-gap notes into sprintable rebuild packets
+    - repeated reassembly of parity evidence for each missing scene group
+    - repeated drafting of rebuild priorities from loosely connected issue markers and scene maps
+goal_links:
+  project_goals:
+    - museum_multiverse_keep_scene_gap_evidence_actionable
+    - museum_multiverse_turn_parity_docs_into_sprintable_rebuild_targets
+    - mm_gdoc_expo_demo18_preserve_device_specific_build_knowledge
+  business_goals:
+    - structured_content_parity_and_traceability
+    - release_evidence_and_demo_readiness
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: target_scene_group
+      type: string
+      description: Normalized scene group whose missing counterpart should be converted into a rebuild packet.
+  optional:
+    - name: evidence_bundle_dir
+      type: path
+      default: ""
+      description: Existing bundle from `ncb-media-evidence-packager package` containing the scene map, issue markers, and any screenshots for the selected scene group.
+    - name: supporting_roots
+      type: list[path]
+      default:
+        - ../MuseumMultiverse/Docs/SceneParity
+        - ../MuseumMultiverse/Docs/Issues
+        - ../MM_GDoCExpoDemo18
+      description: Content roots that define the current gap and any baseline evidence.
+reads:
+  required:
+    - goals/project_goals/museum_multiverse.md
+    - goals/project_goals/mm_gdoc_expo_demo18.md
+    - goals/business_goals/structured_content_parity_and_traceability.md
+    - goals/workflow_targets/content_parity_traceability_review.md
+    - tools/experimental_tools/media_evidence_packager.yaml
+    - docs/project_breakdowns/museum_multiverse.md
+    - docs/project_breakdowns/mm_gdoc_expo_demo18.md
+  expected:
+    - ../MuseumMultiverse/Docs/SceneParity/
+    - ../MuseumMultiverse/Docs/Issues/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-{scene_slug}-rebuild-packet.md
+      description: Main rebuild packet describing the scene role, missing counterpart evidence, and recommended rebuild slice.
+  secondary:
+    - path: artifacts/{project_slug}-{scene_slug}-evidence-matrix.md
+      description: Supporting matrix of baseline scenes, current new-project evidence, and unresolved parity questions.
+    - path: improvements/proposals/{project_slug}-{scene_slug}-rebuild-followups.md
+      description: Narrow follow-up queue for extra evidence capture, scene decomposition, or rebuild sequencing.
+steps:
+  - id: confirm-bundled-parity-evidence
+    objective: Start from a stable evidence packet instead of scattered scene files.
+    actions:
+      - Prefer `ncb-media-evidence-packager package` before packet authoring so the scene map, issue markers, and supporting notes are reviewed as one set.
+      - If the evidence remains unbundled, state which artifacts were missing and keep the packet provisional.
+  - id: define-player-facing-role
+    objective: Preserve the old project's scene intent before suggesting rebuild work.
+    actions:
+      - Capture the normalized scene role, ordering, and gating described by the baseline evidence.
+      - Separate confirmed intent from low-confidence assumptions about the new project.
+  - id: publish-rebuild-packet
+    objective: Produce a small rebuild target rather than a broad migration plan.
+    actions:
+      - Describe the minimum rebuild slice, proof needed next, and open parity questions.
+      - Keep follow-ups limited to evidence capture or decomposition that unblocks the next packet.
+validation:
+  checks:
+    - The packet cites the normalized scene group and the exact evidence files behind it.
+    - Rebuild scope stays smaller than a full chapter or project rewrite.
+    - The workflow states when bundled evidence is missing instead of implying stronger confidence.
+handoff:
+  upstream:
+    - content_parity_traceability_review
+  downstream:
+    - workflow_review_gate
+notes:
+  - Keep this workflow in `proposals/workflow_proposals/` until at least one second migration-heavy repo proves the same packet shape.
+  - Use `media_evidence_packager` before authoring whenever parity artifacts are split across `Docs/SceneParity`, `Docs/Issues`, and baseline project notes.

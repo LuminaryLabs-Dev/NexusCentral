@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Swim Museum Deck Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div id="gl-container" aria-hidden="true"></div>
+    <div id="css-container"></div>
+
+    <div id="nav-status" aria-live="polite">
+        <div class="nav-pill">
+            <span class="nav-label">Slide</span>
+            <span class="nav-value"><span id="current-slide-number">01</span> / <span id="total-slide-count">00</span></span>
+        </div>
+        <div class="nav-pill">
+            <span class="nav-label">Loop</span>
+            <span class="nav-value" id="loop-count">+00</span>
+        </div>
+    </div>
+
+    <div id="ui-layer">
+        <div class="scroll-icon">
+            <div class="scroll-wheel"></div>
+        </div>
+        <div class="scroll-text">Scroll to Navigate</div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS3DRenderer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+    <script src="./slides.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

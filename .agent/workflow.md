@@ -13,3 +13,4 @@ Keep broad validation research, catalogs, profile packs, and agent coordination 
 - Export one-go submission bundles from the profile pack when the user wants the largest practical handoff file.
 - Treat the profile pack as the batch submission surface: the sprint plan is the build order and the seed prompt is the master spec.
 - For the Electron provider/models split, implement service ownership first and keep deferred validation steps in `docs/provider-router-models-validation.md` until the user requests execution.
+- Use `.agent/organize/` only as read-only legacy planning provenance; require a separate current review before promoting any imported workflow.

@@ -1,0 +1,79 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: example_usage_seed
+  name: Example Usage Seed
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - examples
+    - onboarding
+    - documentation
+summary:
+  purpose: Create scenario-driven usage notes and examples that show how the current workflow set composes without implying execution-ready behavior.
+  offloads:
+    - repeated drafting of workflow usage examples for reviewers and future authors
+    - repeated explanation of how narrow workflows should sequence together
+    - repeated clarification of docs/usage versus docs/examples responsibilities
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing workflow specs and workflow guidance docs.
+  optional:
+    - name: workflow_roots
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+      description: Workflow directories to reflect in usage examples.
+    - name: example_focus
+      type: string
+      default: composition
+      description: Main angle for the example set, such as composition, review, onboarding, or authoring.
+reads:
+  required:
+    - automations/active/
+    - automations/experimental/
+    - docs/usage/workflow-seeding-overview.md
+    - docs/examples/
+  expected:
+    - templates/doc_templates/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/examples/workflow-authoring-composition.md
+      description: Scenario-based example showing how multiple experimental workflows fit together.
+  secondary:
+    - path: docs/usage/workflow-example-notes.md
+      description: Short note clarifying the intended audience and boundaries for example documents.
+steps:
+  - id: select-scenario
+    objective: Pick one realistic workflow sequence that reflects the current inventory.
+    actions:
+      - Choose a scenario that helps reviewers understand why the workflows stay separate.
+      - Avoid examples that depend on runtime execution details.
+  - id: map-composition
+    objective: Show how workflows hand off to one another through outputs and review decisions.
+    actions:
+      - Name the recommended sequence and the artifacts each stage should produce.
+      - Highlight where reviewers should pause for approval or refinement.
+  - id: capture-usage-boundaries
+    objective: Keep examples helpful without letting them become hidden contract documents.
+    actions:
+      - Put scenario narrative in docs/examples and boundary notes in docs/usage.
+      - Call out any assumptions that still need later confirmation.
+validation:
+  checks:
+    - The example uses current workflow ids and does not invent runtime behavior.
+    - The note keeps docs/examples separate from operational usage guidance.
+    - The sequence emphasizes reusable micro-automations rather than an all-in-one flow.
+handoff:
+  upstream:
+    - workflow_gap_seeding
+    - workflow_review_gate
+  downstream: []
+notes:
+  - Examples should explain intent and composition, not simulate execution.
+  - Update or replace examples when the workflow inventory materially changes.

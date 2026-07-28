@@ -1,0 +1,87 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_template_gap_review
+  name: Workflow Template Gap Review
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - templates
+    - review
+    - workflow-authoring
+summary:
+  purpose: Compare workflow outputs against the current template inventory so missing reusable templates are discovered before authors keep improvising structure.
+  offloads:
+    - repeated manual mapping of workflow outputs to the most relevant existing templates
+    - repeated rediscovery of missing report and checklist templates during workflow authoring
+    - repeated debate about whether a gap needs a new template or just better template reuse
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing workflow specs and template inventories.
+  optional:
+    - name: workflow_roots
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+        - automations/disabled
+      description: Workflow directories whose write targets should be compared against the current template surface.
+    - name: template_roots
+      type: list[path]
+      default:
+        - templates/workflow_templates
+        - templates/project_setup_templates
+        - templates/doc_templates
+        - templates/validation
+      description: Template directories to compare against declared workflow outputs.
+reads:
+  required:
+    - automations/
+    - templates/
+    - docs/conventions/workflow-authoring-contract.md
+    - docs/conventions/mock-workflow-yaml-pattern-guide.md
+  expected:
+    - docs/usage/
+    - docs/examples/
+writes:
+  primary:
+    - path: docs/usage/workflow-template-gap-review.md
+      description: Review note describing where workflow outputs already have template support and where new reusable templates are justified.
+  secondary:
+    - path: artifacts/workflow-template-gap-matrix.md
+      description: Matrix mapping workflow write targets to existing templates, near matches, and uncovered gaps.
+    - path: improvements/proposals/workflow-template-followups.md
+      description: Ordered queue of template-seeding candidates and narrower reuse fixes.
+steps:
+  - id: inventory-output-shapes
+    objective: Capture the current workflow output surface before proposing new template work.
+    actions:
+      - Inventory primary and secondary write targets across the workflow inventory.
+      - Group outputs by repeated shape instead of by file count alone.
+  - id: compare-template-coverage
+    objective: Decide whether each repeated output shape is already supported by an existing template.
+    actions:
+      - Map each repeated output shape to the best current template or mark it as uncovered.
+      - Distinguish true template gaps from cases where a workflow simply omitted a suitable template reference.
+  - id: queue-template-candidates
+    objective: Produce the smallest set of reusable template follow-ups worth seeding next.
+    actions:
+      - Recommend new templates only where multiple workflows would benefit.
+      - Separate template creation candidates from simple workflow cleanup recommendations.
+validation:
+  checks:
+    - Every identified gap cites the workflow id and output path it relates to.
+    - The review distinguishes missing templates from missing template references.
+    - Proposed follow-ups stay smaller than rewriting the workflow inventory.
+handoff:
+  upstream:
+    - workflow_gap_seeding
+    - workspace_delta_scan
+  downstream:
+    - workflow_catalog_refresh
+notes:
+  - Prefer proving repeated output shapes before seeding another template.
+  - Keep this workflow focused on template coverage rather than lifecycle promotion.

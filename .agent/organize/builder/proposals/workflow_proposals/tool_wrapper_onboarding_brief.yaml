@@ -1,0 +1,96 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: tool_wrapper_onboarding_brief
+  name: Tool Wrapper Onboarding Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - tooling
+    - onboarding
+    - contracts
+summary:
+  purpose: Turn tool-surface audit results into a wrapper and operator onboarding brief once the current tool-surface inventory contract is implemented strongly enough to extract routes, schemas, and health surfaces reliably.
+  offloads:
+    - repeated wrapper-onboarding note drafting across tool-centric repos
+    - repeated manual compilation of routes, manifests, wrappers, and operator expectations into one handoff packet
+    - repeated translation of contract-audit output into onboarding guidance after each surface change
+goal_links:
+  project_goals:
+    - nexus_central_enforce_tool_namespace_contracts
+    - nexus_central_keep_runtime_capabilities_discoverable
+    - nexus_index_agent_stegosaurus_keep_wrapper_contracts_aligned_with_nexuscentral
+  business_goals:
+    - tool_surface_contract_and_runtime_observability
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: target_project
+      type: string
+      description: Tool-centric project that needs a wrapper or operator onboarding packet.
+  optional:
+    - name: supporting_tool_candidates
+      type: list[string]
+      default:
+        - tool_surface_snapshotter
+      description: Existing tool contracts that should be implemented or validated before this workflow becomes reliable enough for the live library.
+    - name: likely_tool_roots
+      type: list[path]
+      default:
+        - tools/final_tools
+        - tools/experimental_tools
+        - proposals/tool_proposals
+      description: Tool inventory locations that should be checked before promoting this workflow.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/tool_surface_contract_and_runtime_observability.md
+    - goals/workflow_targets/tool_surface_contract_audit.md
+    - automations/experimental/tool_surface_contract_audit.yaml
+    - docs/project_breakdowns/
+  expected:
+    - tools/final_tools/
+    - tools/experimental_tools/
+    - proposals/tool_proposals/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-tool-wrapper-onboarding-brief.md
+      description: Main onboarding packet explaining routes, wrappers, health cues, operator assumptions, and open contract gaps.
+  secondary:
+    - path: artifacts/{project_slug}-tool-onboarding-catalog.md
+      description: Supporting catalog of routes, schemas, examples, and missing discovery cues gathered for onboarding.
+    - path: improvements/proposals/{project_slug}-tool-wrapper-followups.md
+      description: Narrow follow-up queue for missing tooling, missing docs, or unresolved contract drift that blocks reliable onboarding.
+steps:
+  - id: verify-tooling-preconditions
+    objective: Confirm whether the supporting extraction and diff tooling exists yet.
+    actions:
+      - Check the current tool inventory before treating the workflow as live-library ready.
+      - Record which parts of the onboarding pack would still be manual without the supporting tools.
+  - id: compile-operator-surface
+    objective: Gather the route, wrapper, and health information an operator or wrapper maintainer actually needs.
+    actions:
+      - Reuse contract-audit output where it already exists.
+      - Separate stable discovery cues from areas that still depend on future tooling.
+  - id: draft-onboarding-brief
+    objective: Produce a handoff packet that is useful without claiming stronger tool support than the repo currently proves.
+    actions:
+      - Cite which sections are backed by current audit evidence.
+      - Queue the missing-tool work separately from the onboarding brief itself.
+validation:
+  checks:
+    - The workflow explicitly states which parts depend on future tool support.
+    - Every follow-up names whether the blocker is documentation drift or missing tooling.
+    - The brief stays onboarding-focused instead of duplicating `tool_surface_contract_audit`.
+handoff:
+  upstream:
+    - tool_surface_contract_audit
+    - workflow_goal_coverage_audit
+  downstream:
+    - workflow_review_gate
+notes:
+  - Keep this workflow under `proposals/workflow_proposals/` until `tool_surface_snapshotter` is implemented or validated enough that at least one extraction path is reviewable.
+  - This proposal extends the tool-surface family in the direction suggested by the business goals without pretending the missing tool layer is already present.

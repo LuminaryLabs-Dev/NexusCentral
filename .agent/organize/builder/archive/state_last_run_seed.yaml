@@ -1,0 +1,85 @@
+# Archived on 2026-03-25 because `state_last_run_contract` is the narrower deferred replacement.
+version: 1
+kind: workflow_spec
+metadata:
+  id: state_last_run_seed
+  name: State Last Run Seed
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - setup
+    - state
+    - coordination
+summary:
+  purpose: Define and seed a lightweight last-run marker convention before multiple automations start writing shared state.
+  offloads:
+    - repeated manual bookkeeping of automation run metadata
+    - repeated debate over what belongs in state/last_runs versus docs or artifacts
+    - repeated ad hoc marker formatting once more than one automation begins writing state
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the state and docs directories.
+    - name: automation_name
+      type: string
+      description: Human-readable automation name used to derive a marker file.
+  optional:
+    - name: marker_root
+      type: path
+      default: state/last_runs
+      description: Directory where lightweight run markers should be written.
+    - name: include_fields
+      type: list[string]
+      default:
+        - automation_id
+        - started_at
+        - finished_at
+        - status
+        - outputs
+      description: Small field set to keep markers reviewable and predictable.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - docs/usage/bootstrap-record.md
+    - docs/usage/reconciliation-report-2026-03-25.md
+    - state/last_runs/
+writes:
+  primary:
+    - path: docs/usage/state-last-runs-convention.md
+      description: Convention note defining what belongs in last-run markers and what does not.
+  secondary:
+    - path: state/last_runs/{automation_slug}.yaml
+      description: Seed marker file showing the agreed lightweight shape for one automation.
+    - path: improvements/proposals/state-last-runs-followups.md
+      description: Deferred schema or coordination issues discovered while defining the convention.
+steps:
+  - id: define-minimum-marker-shape
+    objective: Keep run-state recording small enough that multiple automations can share it safely.
+    actions:
+      - List the minimum fields required to understand a last run.
+      - Exclude narrative detail that belongs in docs or artifacts instead.
+  - id: seed-convention-and-example
+    objective: Make the state format discoverable before it spreads ad hoc.
+    actions:
+      - Write a human-readable convention note in docs/usage.
+      - Seed one example marker path using the agreed field set.
+  - id: record-open-state-risks
+    objective: Keep future schema expansion explicit instead of accidental.
+    actions:
+      - Note any unresolved needs such as locking, retention, or multi-step status tracking.
+      - Defer them into a follow-up proposal rather than inflating the first marker shape.
+validation:
+  checks:
+    - The workflow does not introduce new top-level structure.
+    - Marker fields stay lightweight and human-reviewable.
+    - The convention clearly separates docs, artifacts, and state responsibilities.
+handoff:
+  upstream:
+    - workspace_inventory
+  downstream:
+    - workspace_delta_scan
+    - workflow_catalog_refresh
+notes:
+  - Use this workflow before normalizing multiple automation run markers in state/last_runs.

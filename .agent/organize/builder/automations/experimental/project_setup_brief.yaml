@@ -1,0 +1,88 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: project_setup_brief
+  name: Project Setup Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - setup
+    - scaffolding
+    - workspace-onboarding
+summary:
+  purpose: Seed a new project or sub-project with a setup brief, workspace manifest, and immediate follow-up queue.
+  offloads:
+    - repeated setup-note drafting for new initiatives
+    - repeated directory and artifact planning for sub-projects
+    - repeated identification of missing docs and automations at project start
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the project or monorepo.
+    - name: project_name
+      type: string
+      description: Human-readable name for the project being initialized.
+    - name: target_root
+      type: path
+      description: Path inside the workspace where the project will live.
+  optional:
+    - name: project_type
+      type: string
+      default: unspecified
+      description: Broad category such as library, service, app, docs-only, or research.
+    - name: initial_needs
+      type: list[string]
+      default:
+        - docs
+        - artifacts
+        - validation
+      description: High-priority setup concerns to cover in the brief.
+    - name: template_overrides
+      type: list[path]
+      default:
+        - templates/project_setup_templates/project_setup_brief.md
+        - templates/project_setup_templates/workspace_manifest.md
+      description: Reusable setup templates to apply.
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-project-setup-brief.md
+      description: Setup brief describing scope, directories, initial artifacts, and first validation points.
+      template: templates/project_setup_templates/project_setup_brief.md
+    - path: artifacts/{project_slug}-workspace-manifest.md
+      description: Canonical directory and file manifest for the project slice.
+      template: templates/project_setup_templates/workspace_manifest.md
+  secondary:
+    - path: improvements/proposals/{project_slug}-automation-followups.md
+      description: Missing automation or template opportunities discovered during setup.
+steps:
+  - id: gather-project-context
+    objective: Capture what the project is, where it lives, and what it needs first.
+    actions:
+      - Record the project goal, constraints, and intended outputs.
+      - Note which existing workspace conventions already apply.
+  - id: define-structure
+    objective: Write down the minimum directories and documents needed for a clean start.
+    actions:
+      - Produce a workspace manifest instead of creating implementation files.
+      - Distinguish durable outputs, intermediate artifacts, and supporting docs.
+  - id: seed-followups
+    objective: Surface next actions while the setup context is still fresh.
+    actions:
+      - Identify missing validation, documentation, or planning automations.
+      - Capture them as follow-up proposals rather than mixing them into setup.
+validation:
+  checks:
+    - The setup brief names the target root and intended directory contract.
+    - The manifest explains why each major path exists.
+    - Follow-up work is listed separately from the initial setup deliverables.
+handoff:
+  upstream:
+    - workspace_inventory
+    - initiative_plan
+  downstream:
+    - docs_reconciliation
+notes:
+  - This workflow is for setup planning and documentation only; it should not create implementation code.
+  - Keep this workflow experimental until there is stronger guidance for when setup needs its own brief instead of staying inside an initiative plan.

@@ -17,3 +17,6 @@ Status: active
 - 2026-07-05 06:22:58 America/New_York - Persisted orchestration smoke history under V1 harness state so the latest smoke result survives UI refresh and restart.
 - 2026-07-09 15:15:52 America/New_York - Recorded the Electron provider Router and separate Models service goal, added feedback packets, and deferred validation into `docs/provider-router-models-validation.md`.
 - 2026-07-09 16:12:00 America/New_York - Added sovereign LAN mesh routing with code-based automatic discovery, persistent signed node identity, encrypted authenticated peer requests, local admission policy, and minimal Settings controls.
+- 2026-07-24 07:31:20 America/New_York - Imported the sanitized 244-file NexusCentral-Builder snapshot into `.agent/organize/` for destination validation without touching the active V2 worktree.
+- 2026-07-24 07:34:47 America/New_York - Fully validated the imported Builder snapshot, moved the original folder to recoverable Trash, and left Codex project removal as the final manual step.
+- 2026-07-28 12:25:33 America/New_York - Created the three-stage main-integration handoff after classifying the complete dirty tree, verifying prior task ownership, protecting `gh-pages`, and scanning the publication set.

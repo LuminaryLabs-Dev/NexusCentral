@@ -1,0 +1,102 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: content_parity_traceability_review
+  name: Content Parity Traceability Review
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - content
+    - traceability
+summary:
+  purpose: Review scene maps, mirrored docs, and normalized content records so migration and parity gaps stay explicit before rebuild or owner-summary work begins.
+  offloads:
+    - repeated manual comparison of old versus new content inventories
+    - repeated packaging of parity docs, issue markers, and supporting notes into one reviewable trail
+    - repeated translation of content drift into small rebuild or mirror-fix follow-ups
+goal_links:
+  project_goals:
+    - museum_multiverse_reconstruct_scene_parity_against_expo_baseline
+    - museum_multiverse_keep_scene_gap_evidence_actionable
+    - luminary_wiki_preserve_cross_repo_knowledge_traceability
+    - luminary_initiatives_reduce_mirror_drift_across_owner_docs
+  business_goals:
+    - structured_content_parity_and_traceability
+    - portfolio_signal_and_goal_clarity
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: review_subject
+      type: string
+      description: Content migration, mirror set, or parity subject that needs a traceability review.
+  optional:
+    - name: evidence_bundle_dir
+      type: path
+      default: ""
+      description: Existing bundle produced by `ncb-media-evidence-packager package` when parity docs, issue markers, screenshots, and notes should be reviewed together.
+    - name: documentation_roots
+      type: list[path]
+      default:
+        - ../MuseumMultiverse/Docs/SceneParity
+        - ../MuseumMultiverse/Docs/Issues
+        - ../MM_GDoCExpoDemo18
+        - ../LuminaryInitiatives
+        - ../LuminaryWiki
+      description: Highest-signal content roots for parity and traceability review.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/structured_content_parity_and_traceability.md
+    - goals/workflow_targets/content_parity_traceability_review.md
+    - tools/experimental_tools/media_evidence_packager.yaml
+    - docs/project_breakdowns/
+  expected:
+    - ../MuseumMultiverse/Docs/SceneParity/
+    - ../MuseumMultiverse/Docs/Issues/
+    - ../LuminaryInitiatives/
+    - ../LuminaryWiki/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-content-parity-review.md
+      description: Main review note describing source-of-truth files, confirmed parity, and explicit evidence gaps.
+  secondary:
+    - path: artifacts/{review_slug}-content-traceability-matrix.md
+      description: Matrix of canonical sources, mirrors, normalized content groups, and unresolved counterpart gaps.
+    - path: improvements/proposals/{review_slug}-content-parity-followups.md
+      description: Narrow follow-up queue for missing evidence, mirror repair, or rebuild-target clarification.
+steps:
+  - id: verify-evidence-bundle
+    objective: Reuse the current tool layer before drafting a parity narrative.
+    actions:
+      - Prefer `ncb-media-evidence-packager package` on scene-parity docs, issue markers, screenshots, and notes before the review when those artifacts are distributed across repos.
+      - If no bundle exists, keep the review scoped to currently readable docs and call out that the evidence remains only partially packaged.
+  - id: map-canonical-and-mirrored-content
+    objective: Separate canonical sources from mirrors, summaries, and normalized groupings.
+    actions:
+      - Identify which files define the source-of-truth content map.
+      - Record where mirrors or rebuild notes lag behind the canonical content view.
+  - id: publish-gap-focused-review
+    objective: Turn parity and traceability findings into a reviewable note plus a small queue.
+    actions:
+      - Distinguish confirmed parity, low-confidence parity, and missing counterpart evidence.
+      - Keep follow-ups limited to traceability, mirror repair, or rebuild-target clarification.
+validation:
+  checks:
+    - The review cites canonical content sources and any mirrors separately.
+    - Missing evidence is explicit and does not get collapsed into implied parity.
+    - Tool-backed bundle use is named directly when present, and manual fallback limits are visible when absent.
+handoff:
+  upstream:
+    - workspace_delta_scan
+    - goal_reconciliation
+  downstream:
+    - scene_gap_rebuild_packet
+    - portfolio_signal_refresh
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use `media_evidence_packager` before the review when parity evidence is spread across multiple roots.
+  - Keep the workflow documentation-first; it should interpret content evidence, not re-scan or mutate source projects.

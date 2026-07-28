@@ -1,0 +1,99 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workspace_delta_scan
+  name: Workspace Delta Scan
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - exploration
+    - delta-scan
+    - inventory
+summary:
+  purpose: Compare the current workspace against the most recent reviewed baseline so later passes can inspect only meaningful changes.
+  offloads:
+    - repeated full-workspace rescans after small repository edits
+    - repeated comparison of current workflow coverage against prior reviewed reports
+    - repeated discovery of newly added, moved, or still-missing workflow and template assets
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow-authoring workspace.
+  optional:
+    - name: baseline_reports
+      type: list[path]
+      default:
+        - docs/usage/reconciliation-report-2026-03-26.md
+        - docs/usage/workflow-gap-seeding-report-2026-03-25.md
+      description: Previously reviewed reports to compare against before proposing new work.
+    - name: scan_targets
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+        - automations/disabled
+        - tools
+        - proposals
+        - templates/workflow_templates
+        - docs/usage
+        - docs/examples
+      description: Narrow directories to scan when a full exploration pass is unnecessary.
+    - name: change_focus
+      type: list[string]
+      default:
+        - workflow inventory
+        - tool inventory
+        - proposal placement
+        - reusable templates
+        - usage guidance
+        - example coverage
+      description: Themes to emphasize when separating meaningful deltas from noise.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - docs/conventions/workflow-authoring-contract.md
+    - automations/
+    - tools/
+    - proposals/
+    - templates/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/workspace-delta-scan.md
+      description: Human-readable summary of what changed since the last reviewed baseline.
+  secondary:
+    - path: artifacts/workspace-delta-inventory.md
+      description: Raw before-versus-now inventory for changed files, new files, and remaining gaps.
+    - path: improvements/proposals/workspace-delta-followups.md
+      description: Proposed next actions created only for substantive deltas.
+steps:
+  - id: load-reviewed-baseline
+    objective: Reuse recent reviewed state instead of rediscovering it from scratch.
+    actions:
+      - Read the listed baseline reports and note which workflow, template, and doc assets were already known.
+      - Preserve prior lifecycle decisions unless current evidence clearly contradicts them.
+  - id: scan-narrow-surface
+    objective: Inspect only the directories most likely to contain new workflow-authoring changes.
+    actions:
+      - Inventory the configured scan targets.
+      - Flag additions, removals, and naming changes relative to the baseline.
+  - id: isolate-followup-worthy-deltas
+    objective: Distinguish meaningful changes from unchanged background context.
+    actions:
+      - Record only the differences that change workflow coverage, authoring guidance, or review priorities.
+      - Propose follow-up work only when the delta introduces a real new gap or resolves an old one.
+validation:
+  checks:
+    - The report separates unchanged baseline context from newly observed changes.
+    - Every proposed follow-up cites a concrete file, directory, or missing asset.
+    - The scan stays narrower than a full workspace exploration pass.
+handoff:
+  upstream:
+    - workspace_inventory
+  downstream:
+    - goal_reconciliation
+    - workflow_catalog_refresh
+notes:
+  - Use this workflow after the workspace has a reviewed baseline and only incremental changes are expected.

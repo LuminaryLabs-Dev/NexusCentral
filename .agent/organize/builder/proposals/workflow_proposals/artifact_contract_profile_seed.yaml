@@ -1,0 +1,107 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: artifact_contract_profile_seed
+  name: Artifact Contract Profile Seed
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - contracts
+    - tooling
+    - seeding
+summary:
+  purpose: Turn repo-specific export, bundle, and publish promises into a reviewable artifact-contract and evidence-profile brief before validator and packager configs are treated as stable reusable assets.
+  offloads:
+    - repeated manual drafting of artifact contract rules before output validation can happen
+    - repeated invention of evidence classes, sanitization boundaries, and manifest expectations across factory and demo repos
+    - repeated translation of business-facing bundle promises into provisional tool-input profiles
+goal_links:
+  project_goals:
+    - nexus_botany_factory_reduce_packaging_and_blender_conversion_risk
+    - nexus_factory_factory_keep_template_catalogs_valid_and_packagable
+    - project_arrowhead_demo_build_safe_public_demo_payloads
+    - nexus_texture_factory_route_outputs_through_quality_sets_cleanly
+  business_goals:
+    - factory_productization_and_export_quality
+    - release_evidence_and_demo_readiness
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: target_project
+      type: string
+      description: Project whose export bundle, demo payload, or evidence set needs a contract-profile seed.
+  optional:
+    - name: supporting_tools
+      type: list[string]
+      default:
+        - artifact_contract_validator
+        - media_evidence_packager
+      description: Tool contracts whose future config inputs this workflow would help define.
+    - name: profile_sections
+      type: list[string]
+      default:
+        - required-files
+        - naming-patterns
+        - manifest-parity
+        - evidence-classes
+        - sanitization-rules
+      description: Contract or profile sections that should be captured in the seed brief.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/factory_productization_and_export_quality.md
+    - goals/business_goals/release_evidence_and_demo_readiness.md
+    - automations/experimental/factory_export_readiness_review.yaml
+    - automations/experimental/release_evidence_packet_seed.yaml
+    - tools/experimental_tools/artifact_contract_validator.yaml
+    - tools/experimental_tools/media_evidence_packager.yaml
+    - tools/validation/artifact_contract_validator-validation.md
+    - tools/validation/media_evidence_packager-validation.md
+    - docs/project_breakdowns/
+  expected:
+    - docs/examples/
+    - docs/usage/
+    - proposals/tool_proposals/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-artifact-contract-profile-seed.md
+      description: Main brief describing draft contract rules, evidence classes, sanitization boundaries, and unresolved schema questions.
+  secondary:
+    - path: artifacts/{project_slug}-artifact-contract-profile-matrix.md
+      description: Supporting matrix mapping repo promises to validator rules, packager classes, and provisional config sections.
+    - path: improvements/proposals/{project_slug}-artifact-contract-profile-followups.md
+      description: Narrow follow-up queue for schema ambiguity, missing source evidence, or tool-input questions.
+steps:
+  - id: inspect-tool-input-needs
+    objective: Confirm which parts of the bundle contract belong to validation rules versus evidence packaging profiles.
+    actions:
+      - Read the current validator and packager contracts before assuming one profile can cover both tools cleanly.
+      - Record where the tool schemas are clear enough to seed and where they remain provisional.
+  - id: map-business-promises-to-profile-sections
+    objective: Translate repo-specific export or demo promises into reviewable contract sections.
+    actions:
+      - Separate required files and naming rules from evidence classes and sanitization boundaries.
+      - Keep manifest parity and public/private partitioning visible when they matter.
+  - id: publish-seed-brief
+    objective: Produce a reviewable seed brief without pretending to define final executable configs.
+    actions:
+      - Mark which profile sections are stable enough to reuse now.
+      - Queue unresolved tool-input and schema questions separately from the seed brief itself.
+validation:
+  checks:
+    - The brief distinguishes validator-facing rules from packager-facing profile sections.
+    - Provisional schema assumptions are named explicitly instead of implied as stable config.
+    - The workflow stays seeding-focused and does not claim to replace later tool execution or product-specific export code.
+handoff:
+  upstream:
+    - factory_export_readiness_review
+    - release_evidence_packet_seed
+    - demo_refresh_sanitization_brief
+  downstream:
+    - workflow_review_gate
+notes:
+  - Keep this workflow staged under `proposals/workflow_proposals/` until the config schemas for `artifact_contract_validator` and `media_evidence_packager` prove stable across more than one repo family.
+  - This proposal extends the factory and release families upstream into tool-input authoring without duplicating the downstream review workflows.

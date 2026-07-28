@@ -1,0 +1,93 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: request_intake_brief
+  name: Request Intake Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - planning
+    - intake
+    - normalization
+summary:
+  purpose: Normalize a broad incoming request into a short brief with extracted constraints, acceptance signals, and recommended planning handoffs.
+  offloads:
+    - repeated first-pass parsing of long or noisy requests before deeper planning starts
+    - repeated extraction of constraints, assumptions, and non-goals from raw request text
+    - repeated quota-heavy prompt compression before goal reconciliation or initiative planning
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory and supporting planning docs.
+    - name: raw_request
+      type: string
+      description: Original request text, notes, or pasted planning context that still needs normalization.
+  optional:
+    - name: context_paths
+      type: list[path]
+      default:
+        - docs/conventions
+        - docs/usage
+        - goals
+        - proposals
+        - tools
+        - automations/active
+        - automations/experimental
+      description: Workspace paths to consult before recommending the next planning handoff.
+    - name: intake_bias
+      type: string
+      default: prefer_small_next_step
+      description: Default bias when deciding whether the request needs reuse review, planning, or a setup brief next.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - docs/conventions/workflow-authoring-contract.md
+    - automations/active/
+    - automations/experimental/
+  expected:
+    - docs/usage/
+    - docs/examples/
+    - goals/
+    - proposals/
+    - tools/
+writes:
+  primary:
+    - path: docs/usage/{initiative_slug}-request-intake-brief.md
+      description: Main intake brief with request facts, extracted constraints, assumptions, and next-step workflow suggestions.
+  secondary:
+    - path: artifacts/{initiative_slug}-constraint-matrix.md
+      description: Supporting matrix separating explicit request facts from inferred assumptions and open questions.
+    - path: improvements/proposals/{initiative_slug}-intake-followups.md
+      description: Deferred follow-ups for request areas that should not inflate the first planning pass.
+steps:
+  - id: isolate-request-facts
+    objective: Freeze what the request actually says before the planning layer starts inferring structure.
+    actions:
+      - Separate direct request facts from likely assumptions.
+      - Record named constraints, desired outputs, and explicit exclusions.
+  - id: extract-planning-signals
+    objective: Turn the raw request into reusable planning inputs.
+    actions:
+      - Identify acceptance signals, decision points, and missing clarifications.
+      - Summarize the smallest credible next step instead of outlining a full execution plan.
+  - id: recommend-handoffs
+    objective: Point the normalized request at the narrowest existing workflow that should handle it next.
+    actions:
+      - Recommend reuse-oriented, planning-oriented, or setup-oriented handoffs.
+      - Queue only the uncovered remainder as follow-up work.
+validation:
+  checks:
+    - The brief separates request facts from inference.
+    - Extracted constraints and acceptance signals are smaller and clearer than the raw request.
+    - The recommended next step names why it is narrower than the original intake.
+handoff:
+  upstream: []
+  downstream:
+    - goal_reconciliation
+    - initiative_plan
+    - project_setup_brief
+notes:
+  - Use this workflow when a request is broad enough that direct planning would spend quota rediscovering the same structure.
+  - Keep the output normalization-focused rather than turning it into a full initiative plan.

@@ -1,0 +1,116 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workspace_inventory
+  name: Workspace Inventory
+  status: active
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - exploration
+    - inventory
+    - gap-discovery
+summary:
+  purpose: Build a lightweight inventory of the workspace before any planning, cleanup, or setup automation runs.
+  offloads:
+    - repeated directory and file scanning
+    - repeated gap triage before writing new docs or templates
+    - repeated collection of workspace conventions for later automations
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory to inspect.
+  optional:
+    - name: scan_targets
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+        - automations/disabled
+        - tools
+        - proposals
+        - templates/workflow_templates
+        - templates/project_setup_templates
+        - templates/doc_templates
+        - templates/validation
+        - docs
+        - goals
+        - lessons
+        - improvements
+        - archive
+      description: Directories to inventory before proposing new work.
+    - name: focus_areas
+      type: list[string]
+      default:
+        - repeated manual effort
+        - missing workflow coverage
+        - missing tool-family coverage
+        - proposal placement drift
+        - missing templates
+        - stale placeholder structures
+      description: Specific themes to emphasize in the report.
+reads:
+  required:
+    - README.md
+    - docs/bootstrap-summary.md
+    - docs/conventions/workspace-contract.md
+    - docs/usage/bootstrap-record.md
+  expected:
+    - automations/active/
+    - automations/experimental/
+    - automations/disabled/
+    - tools/
+    - proposals/
+    - templates/
+    - docs/
+    - goals/
+    - lessons/
+    - improvements/
+writes:
+  primary:
+    - path: artifacts/workspace_inventory.md
+      description: Raw inventory of scanned directories, files, and notable absences.
+    - path: docs/usage/workspace-inventory-report.md
+      description: Human-readable summary of gaps, repeated work, and recommended next actions.
+      template: templates/doc_templates/workspace_exploration_report.md
+  secondary:
+    - path: improvements/proposals/workflow-gap-candidates.md
+      description: Candidate follow-up automation ideas discovered during exploration.
+steps:
+  - id: confirm-workspace-contract
+    objective: Preserve the existing top-level workspace contract before proposing changes.
+    actions:
+      - Read the root README, bootstrap summary, workspace contract, and bootstrap record.
+      - Record canonical output locations for docs, artifacts, outputs, and state.
+  - id: inventory-coverage
+    objective: Capture what workflow, template, and documentation coverage already exists.
+    actions:
+      - Count existing workflow YAML files.
+      - Count tool-family inventory files and proposal records if they exist.
+      - Count reusable templates by category.
+      - Note placeholder-only directories that still lack concrete assets.
+  - id: find-repeated-manual-work
+    objective: Identify tasks that are costly, repetitive, or likely to consume model quota.
+    actions:
+      - Look for repeated exploration, planning, cleanup, setup, and reconciliation work.
+      - Separate one-time bootstrap work from reusable recurring work.
+  - id: propose-micro-automations
+    objective: Break missing capabilities into narrow, composable workflow units.
+    actions:
+      - Prefer small units with a single report or scaffold output.
+      - Capture workflow dependencies instead of merging everything into one large flow.
+validation:
+  checks:
+    - The report lists every directory that was scanned.
+    - The report distinguishes existing coverage from missing coverage.
+    - Every proposed workflow names a repeated task it is meant to offload.
+    - The result recommends the next workflow to run rather than attempting to solve everything at once.
+handoff:
+  downstream:
+    - initiative_plan
+    - docs_reconciliation
+    - project_setup_brief
+notes:
+  - Do not execute or simulate downstream workflows.
+  - Favor observation and recommendation over mutation during exploration.

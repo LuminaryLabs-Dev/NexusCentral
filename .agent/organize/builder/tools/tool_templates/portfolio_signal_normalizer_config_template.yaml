@@ -1,0 +1,48 @@
+version: 1
+kind: portfolio_signal_normalizer_config
+metadata:
+  id: luminary_portfolio_refresh
+  description: Seed config for normalizing canonical portfolio sources and owner-facing mirrors into structured records plus drift findings.
+portfolio_roots:
+  - root: ../LuminaryInitiatives
+    canonical_sources:
+      - path: docs/executive-summary.md
+        record_type: initiative_summary
+      - path: docs/state-of-the-business.md
+        record_type: business_state
+    mirror_sources:
+      - path: ../LuminaryLabs/README.md
+        mirror_of: docs/executive-summary.md
+      - path: ../LuminaryWiki/README.md
+        mirror_of: docs/state-of-the-business.md
+extraction_rules:
+  headings:
+    initiative_name:
+      - "^# "
+      - "^## "
+  bullet_fields:
+    priority:
+      - "`priority`:"
+    stage:
+      - "`stage`:"
+    forecast:
+      - "`forecast`:"
+  table_markers:
+    ranking_table:
+      - "## Ranked Initiatives"
+required_fields:
+  - initiative_name
+  - priority
+  - stage
+drift_fields:
+  - priority
+  - stage
+  - forecast
+owner_summary:
+  emit: true
+  sections:
+    - highest_priority_signals
+    - mirror_drift
+    - missing_required_fields
+filters:
+  include_archived: false

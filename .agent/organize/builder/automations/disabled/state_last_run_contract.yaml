@@ -1,0 +1,80 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: state_last_run_contract
+  name: State Last Run Contract
+  status: disabled
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - state
+    - coordination
+    - documentation
+summary:
+  purpose: Define a lightweight, mock file contract for shared last-run markers before multiple automations start writing coordination state.
+  offloads:
+    - repeated debate about what belongs in state/last_runs
+    - repeated manual drafting of example state markers for new automations
+    - repeated clarification of coordination-state boundaries versus docs and artifacts
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the state contract and usage docs.
+  optional:
+    - name: state_dir
+      type: path
+      default: state/last_runs
+      description: Coordination-state directory whose file format needs documentation.
+    - name: example_formats
+      type: list[string]
+      default:
+        - yaml
+      description: Mock example formats to include in the contract notes.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - docs/usage/bootstrap-record.md
+    - improvements/proposals/initial-workflow-gap-backlog.md
+  expected:
+    - state/last_runs/
+    - docs/usage/
+    - docs/examples/
+writes:
+  primary:
+    - path: docs/usage/state-last-run-contract.md
+      description: Specification-only note describing the proposed marker shape and guardrails.
+  secondary:
+    - path: docs/examples/state-last-run-marker-example.yaml
+      description: Mock example marker that illustrates the proposed state format without becoming runtime truth.
+steps:
+  - id: review-state-boundaries
+    objective: Confirm what coordination state should and should not contain.
+    actions:
+      - Read the workspace contract, bootstrap record, and gap backlog.
+      - Separate state markers from docs, artifacts, and final outputs.
+  - id: draft-marker-shape
+    objective: Propose a minimal marker format that is easy to review later.
+    actions:
+      - Prefer a small field set that captures workflow id, last run timestamp, status, and summary.
+      - Keep the contract mock and revisable until real writers exist.
+  - id: seed-example
+    objective: Show the intended format without claiming runtime behavior.
+    actions:
+      - Write one mock example marker under docs/examples.
+      - Explain how later systems can revise or replace the example once implementation exists.
+validation:
+  checks:
+    - The contract distinguishes coordination state from durable docs and artifacts.
+    - The example marker is explicitly mock and non-authoritative.
+    - The proposed field set is small enough for later workflows to adopt consistently.
+handoff:
+  upstream:
+    - workflow_gap_seeding
+    - proposal_backlog_triage
+  downstream:
+    - workflow_review_gate
+notes:
+  - Do not write live coordination files under state/last_runs as part of this workflow.
+  - Treat the contract as documentation for later conversion, not as a runtime guarantee.
+  - Keep this workflow disabled until more than one automation actually needs a shared last-run marker format.

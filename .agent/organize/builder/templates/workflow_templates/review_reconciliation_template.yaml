@@ -1,0 +1,74 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: review_reconciliation_template
+  name: Review Reconciliation Template
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - reconciliation
+    - template
+summary:
+  purpose: Starter template for workflows that compare current assets against a governing contract and produce a review note plus targeted follow-ups.
+  offloads:
+    - repeated reinvention of review-oriented workflow structure
+    - repeated omission of evidence, rationale, or next-step sections in reconciliation-style workflows
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the assets under review.
+    - name: review_subject
+      type: string
+      description: Human-readable subject being reviewed or reconciled.
+  optional:
+    - name: governing_paths
+      type: list[path]
+      default:
+        - docs/conventions
+      description: Contracts, rules, or prior reports used as the review baseline.
+    - name: subject_paths
+      type: list[path]
+      default:
+        - automations
+      description: Files or directories being compared against the governing baseline.
+reads:
+  required:
+    - docs/conventions/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-review.md
+      description: Main review note with observations, rationale, and recommendation.
+  secondary:
+    - path: artifacts/{review_slug}-matrix.md
+      description: Supporting matrix or checklist for evidence capture.
+    - path: improvements/proposals/{review_slug}-followups.md
+      description: Deferred fixes and next actions discovered during review.
+steps:
+  - id: load-governing-context
+    objective: Read the minimum rules and prior decisions that define the review standard.
+    actions:
+      - Inventory the governing paths.
+      - Record the criteria that the subject will be compared against.
+  - id: compare-current-state
+    objective: Compare the review subject against the current contract or baseline.
+    actions:
+      - Mark what aligns, what is ambiguous, and what is missing.
+      - Capture evidence in a narrow, reviewable structure.
+  - id: recommend-next-actions
+    objective: Produce a small, composable follow-up plan instead of a broad rewrite.
+    actions:
+      - Summarize the recommendation in the main review note.
+      - Queue targeted follow-ups separately from the primary result.
+validation:
+  checks:
+    - The workflow cites both the governing baseline and the subject being reviewed.
+    - Evidence and recommendations are separated clearly.
+    - Follow-ups stay smaller than the full reviewed surface.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Use this template when authoring future review, validation, lifecycle, or reconciliation workflows.

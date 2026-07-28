@@ -1,0 +1,104 @@
+version: 1
+kind: tool_contract
+metadata:
+  id: tool_id
+  name: Human Readable Tool Name
+  status: experimental
+  maturity: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  proposal_source: proposals/tool_proposals/tool_id.md
+  tags:
+    - cli
+    - replace-with-domain
+summary:
+  purpose: One-sentence description of the repeated structured task this tool supports.
+  business_usefulness: high
+  workflow_support_value: high
+  repeatability: high
+  implementation_clarity: medium
+  why_this_shape: Explain why this deterministic repeated job should be a CLI instead of workflow-only prose.
+goal_links:
+  business_goals:
+    - business_goal_id
+  workflow_targets:
+    - workflow_target_id
+scope:
+  included:
+    - Concrete responsibilities the tool must own.
+  excluded:
+    - Work a downstream workflow or a separate implementation step should still own.
+workflow_relationships:
+  run_before:
+    - workflow_id
+  handoff_artifacts:
+    - output: reports/example-output.json
+      used_by:
+        - workflow_id
+package_assets:
+  template_files:
+    - tools/tool_templates/tool_specific_input_template.yaml
+  validation_note: tools/validation/tool_id-validation.md
+  usage_docs:
+    - docs/examples/tool-package-cli-examples.md
+    - docs/usage/tool-package-call-order.md
+commands:
+  - name: primary_command
+    purpose: One sentence describing the primary command.
+    usage: ncb-tool-id primary_command --config <config.yaml> --output-dir <dir>
+    inputs:
+      required:
+        - name: config
+          type: path
+          description: Primary structured config or contract file for the command.
+        - name: output_dir
+          type: path
+          description: Directory where outputs should be written.
+      optional:
+        - name: example_option
+          type: string
+          default: example
+          description: Optional mode or filter input.
+    outputs:
+      stdout:
+        format: json
+        description: Machine-readable summary of status, counts, and emitted file paths.
+      files:
+        - path: reports/example-output.json
+          description: Canonical machine-readable handoff artifact.
+        - path: reports/example-output.md
+          description: Human-readable companion report.
+    file_behavior:
+      reads:
+        - Configured inputs and source directories.
+      writes:
+        - Output files under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - The command stays read-only against its source inputs.
+        - Every failure or finding cites the exact path, identifier, or rule it refers to.
+    exit_codes:
+      0: success
+      1: domain_failure
+      2: configuration_error
+global_output_contract:
+  notes:
+    - The reports/ subtree should remain stable so downstream workflows can read the outputs without guessing names.
+build_plan:
+  implementation_slices:
+    - id: loader
+      objective: Parse the primary config or contract file into a stable in-memory model.
+    - id: evaluator
+      objective: Execute the deterministic extraction, validation, or normalization pass.
+    - id: emitter
+      objective: Write stable machine-readable and human-readable outputs.
+  validation_sequence:
+    - Run the command against a realistic fixture and confirm the main handoff artifact is complete and stable.
+    - Re-run the same fixture and confirm the outputs are deterministic enough for diff-based review when applicable.
+promotion:
+  current_placement: tools/experimental_tools/
+  ready_for_final_when:
+    - The command surface stays narrow across repeated fixture reviews.
+    - Output file names and schema survive repeated workflow consumption without ad hoc exceptions.

@@ -1,0 +1,141 @@
+version: 1
+kind: tool_contract
+metadata:
+  id: portfolio_signal_normalizer
+  name: Portfolio Signal Normalizer
+  status: experimental
+  maturity: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  proposal_source: proposals/tool_proposals/portfolio_signal_normalizer.md
+  tags:
+    - cli
+    - portfolio
+    - normalization
+summary:
+  purpose: Extract normalized portfolio records and mirror-drift findings from ranked initiative docs, repo summaries, and owner-facing mirror files.
+  business_usefulness: high
+  workflow_support_value: medium
+  repeatability: high
+  implementation_clarity: medium
+  why_this_shape: The repeated work is parsing headings, ledgers, and summary files into structured fields and drift records before a workflow interprets priorities or owner-facing changes.
+goal_links:
+  business_goals:
+    - portfolio_signal_and_goal_clarity
+  workflow_targets:
+    - portfolio_signal_refresh
+scope:
+  included:
+    - Read configured canonical and mirror sources from one or more portfolio roots.
+    - Extract initiative names, rankings, stages, forecast ranges, and source metadata using declarative rules.
+    - Compare canonical and mirror fields to produce mirror-drift findings.
+    - Emit a structured owner-summary seed that later workflows can trim or reframe.
+  excluded:
+    - Ranking initiatives automatically.
+    - Rewriting or mutating source docs.
+    - Deciding archive versus active status without workflow interpretation.
+workflow_relationships:
+  run_before:
+    - portfolio_signal_refresh
+    - proposal_backlog_triage
+  handoff_artifacts:
+    - output: reports/portfolio-signals.json
+      used_by:
+        - portfolio_signal_refresh
+        - proposal_backlog_triage
+    - output: reports/mirror-drift.json
+      used_by:
+        - portfolio_signal_refresh
+    - output: reports/owner-summary-seed.md
+      used_by:
+        - portfolio_signal_refresh
+package_assets:
+  template_files:
+    - tools/tool_templates/portfolio_signal_normalizer_config_template.yaml
+  validation_note: tools/validation/portfolio_signal_normalizer-validation.md
+  usage_docs:
+    - docs/examples/tool-package-cli-examples.md
+    - docs/examples/tool-package-template-examples.md
+    - docs/usage/tool-package-call-order.md
+commands:
+  - name: normalize
+    purpose: Normalize configured portfolio sources into one machine-readable record set plus drift output and a markdown seed.
+    usage: ncb-portfolio-signal-normalizer normalize --config <config.yaml> --output-dir <dir>
+    inputs:
+      required:
+        - name: config
+          type: path
+          description: YAML or JSON file declaring canonical sources, mirror sources, extraction rules, and required output fields.
+        - name: output_dir
+          type: path
+          description: Directory where normalized records and drift output should be written.
+      optional:
+        - name: include_archived
+          type: bool
+          default: false
+          description: Include sources explicitly marked archived when the review needs historical comparison.
+        - name: emit_owner_summary_seed
+          type: bool
+          default: true
+          description: Emit owner-summary-seed.md alongside machine-readable outputs.
+        - name: fail_on_missing_required_field
+          type: bool
+          default: false
+          description: Exit non-zero when a configured required field cannot be extracted from a canonical source.
+    outputs:
+      stdout:
+        format: json
+        description: Normalization status with record counts, missing-field counts, and drift counts.
+      files:
+        - path: reports/portfolio-signals.json
+          description: Normalized initiative records with extracted fields and source traceability.
+        - path: reports/mirror-drift.json
+          description: Canonical versus mirror field mismatches and missing mirror coverage.
+        - path: reports/source-index.json
+          description: Source file inventory showing which config rule produced each record.
+        - path: reports/owner-summary-seed.md
+          description: Deterministic markdown seed listing the strongest current signals and notable drift.
+    file_behavior:
+      reads:
+        - Configured canonical and mirror files across portfolio roots.
+        - Extraction rules declared in the config file.
+      writes:
+        - Output reports under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Every normalized record cites at least one canonical source path.
+        - Drift findings identify both the canonical source and mirror source when both exist.
+        - Missing required fields are reported explicitly instead of silently dropped.
+        - No source files are rewritten.
+    exit_codes:
+      0: success
+      1: normalization_failed
+      2: configuration_error
+global_output_contract:
+  notes:
+    - portfolio-signals.json is the canonical handoff artifact; owner-summary-seed.md is a convenience layer for downstream workflow drafting.
+    - source-index.json must be rich enough to explain where each extracted field originated.
+build_plan:
+  implementation_slices:
+    - id: source-indexer
+      objective: Resolve configured canonical and mirror files into one indexed source set before extraction begins.
+    - id: field-extractor
+      objective: Extract headings, key-value bullets, tables, and metadata into normalized record fragments.
+    - id: record-normalizer
+      objective: Merge record fragments into one stable schema with required-field handling and source traceability.
+    - id: mirror-drift-comparator
+      objective: Compare canonical and mirror records field-by-field and emit explicit drift findings.
+    - id: summary-seed-emitter
+      objective: Produce a deterministic owner-summary seed from normalized records and drift findings without making editorial decisions.
+  validation_sequence:
+    - Normalize a fixture spanning canonical initiative notes and owner-summary mirrors and confirm each record points back to its canonical source.
+    - Normalize a fixture with missing required fields and confirm the gaps appear in stdout and mirror-drift.json rather than silently disappearing.
+    - Normalize the same fixture twice and confirm portfolio-signals.json is stable enough for diff-based review.
+promotion:
+  current_placement: tools/experimental_tools/
+  ready_for_final_when:
+    - Extraction rules prove stable across at least LuminaryInitiatives and one secondary mirror repo.
+    - owner-summary-seed.md remains deterministic enough to support diff-based workflow reviews.
+    - Required-field handling does not need repo-specific exceptions to stay usable.

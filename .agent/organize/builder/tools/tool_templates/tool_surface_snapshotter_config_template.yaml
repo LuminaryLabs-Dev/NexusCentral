@@ -1,0 +1,50 @@
+version: 1
+kind: tool_surface_snapshotter_config
+metadata:
+  id: nexus_tool_surface_roots
+  description: Seed config for cataloging manifests, routes, schemas, wrappers, and discovery cues across tool-heavy repos.
+repo_roots:
+  - path: ../NexusCentral
+    include_patterns:
+      manifests:
+        - "**/*manifest*.json"
+        - "**/*manifest*.yaml"
+      schemas:
+        - "**/*schema*.json"
+        - "**/*schema*.yaml"
+      routes:
+        - "**/*routes*.ts"
+        - "**/*routes*.js"
+      wrappers:
+        - "**/*wrapper*.py"
+        - "**/*wrapper*.ts"
+      docs:
+        - README.md
+        - docs/**/*.md
+    known_route_prefixes:
+      - /api/tools
+      - /health
+    wrapper_filenames:
+      - tool-wrapper.ts
+      - tool-wrapper.py
+  - path: ../NexusIndexAgent-Stegosaurus
+    include_patterns:
+      manifests:
+        - "**/*manifest*.json"
+      schemas:
+        - "**/*schema*.json"
+      routes:
+        - "**/*routes*.py"
+      wrappers:
+        - "**/*wrapper*.py"
+      docs:
+        - README.md
+discovery_preferences:
+  prefer_explicit_contracts: true
+  include_readme_hints: true
+  include_cli_entrypoints: true
+ignore:
+  paths:
+    - "**/.git/**"
+    - "**/node_modules/**"
+    - "**/__pycache__/**"

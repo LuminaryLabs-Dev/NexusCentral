@@ -1,0 +1,107 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_goal_coverage_audit
+  name: Workflow Goal Coverage Audit
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - planning
+    - audit
+    - goal-coverage
+summary:
+  purpose: Audit the current workflow inventory against business goals, workflow targets, and project-goal signals so thin family coverage and missing cross-links become explicit before more seeding happens.
+  offloads:
+    - repeated manual cross-linking between workflow specs and the goals they are supposed to support
+    - repeated review of which business-goal families are only lightly covered by the current workflow set
+    - repeated drafting of goal-grounded gap notes before another workflow-authoring pass
+goal_links:
+  project_goals:
+    - nexus_central_builder_keep_mock_workflow_library_coherent
+    - nexus_central_builder_reuse_cross_project_evidence_for_new_specs
+  business_goals:
+    - portfolio_signal_and_goal_clarity
+    - cross_project_bootstrap_and_workspace_hygiene
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory, goals, and supporting breakdown docs.
+  optional:
+    - name: goal_roots
+      type: list[path]
+      default:
+        - goals/business_goals
+        - goals/project_goals
+        - goals/workflow_targets
+        - docs/project_breakdowns
+      description: Goal and evidence surfaces that should be compared against the current workflow inventory.
+    - name: workflow_roots
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+        - automations/disabled
+      description: Workflow buckets whose current coverage should be compared against the goal set.
+    - name: coverage_lens
+      type: list[string]
+      default:
+        - business-goal support
+        - workflow-target support
+        - repeated manual work
+        - tool-dependency boundaries
+      description: Dimensions used to separate well-covered families from thinly covered ones.
+reads:
+  required:
+    - automations/
+    - goals/
+    - docs/project_breakdowns/
+    - docs/conventions/workflow-authoring-contract.md
+    - docs/conventions/automation-lifecycle.md
+    - docs/usage/reconciliation-report-2026-03-26.md
+  expected:
+    - docs/usage/
+    - docs/examples/
+    - improvements/proposals/
+writes:
+  primary:
+    - path: docs/usage/workflow-goal-coverage-audit.md
+      description: Main audit note describing which goals already have credible workflow support and which families remain thin or weakly linked.
+  secondary:
+    - path: artifacts/workflow-goal-coverage-matrix.md
+      description: Matrix mapping business goals, workflow targets, and project-goal signals to the workflows that currently support them.
+    - path: improvements/proposals/workflow-goal-coverage-followups.md
+      description: Narrow follow-up queue for uncovered goal families, missing goal links, and tool-shaped gaps discovered during the audit.
+steps:
+  - id: inventory-goal-surface
+    objective: Capture the goal and evidence surface before judging workflow coverage.
+    actions:
+      - Inventory business goals, workflow targets, project goals, and project breakdown signals.
+      - Group the goals by repeated workflow family instead of treating every project note as a separate workflow request.
+  - id: map-current-workflow-support
+    objective: Compare the current workflow library against the grouped goal families.
+    actions:
+      - Mark whether each family is covered directly, covered only indirectly, or still thinly covered.
+      - Note where goal links exist in workflow YAML and where the support is only implied by docs.
+  - id: separate-workflow-gaps-from-tool-gaps
+    objective: Keep the next authoring pass honest about what should be solved with workflows versus tooling.
+    actions:
+      - Recommend workflow extensions when the missing work is review, planning, or documentation shaped.
+      - Recommend tool-aware proposals when reliable extraction, comparison, or artifact inspection would do the heavy lifting.
+validation:
+  checks:
+    - Every uncovered family cites the goal, target, or breakdown signal that exposed it.
+    - The audit distinguishes direct workflow support from adjacent or implied support.
+    - Workflow recommendations stay smaller than broad business-goal rewrites.
+    - Tool-shaped gaps are called out explicitly instead of being hidden inside workflow prose.
+handoff:
+  upstream:
+    - workspace_inventory
+    - workspace_delta_scan
+  downstream:
+    - workflow_gap_seeding
+    - workflow_catalog_refresh
+notes:
+  - Use this workflow when the library risks becoming self-referential and needs to be re-anchored to external project and business evidence.
+  - This workflow complements `goal_reconciliation` by auditing the whole library instead of reconciling one incoming request.

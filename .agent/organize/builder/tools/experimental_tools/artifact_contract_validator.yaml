@@ -1,0 +1,195 @@
+version: 1
+kind: tool_contract
+metadata:
+  id: artifact_contract_validator
+  name: Artifact Contract Validator
+  status: experimental
+  maturity: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  proposal_source: proposals/tool_proposals/artifact_contract_validator.md
+  tags:
+    - cli
+    - validation
+    - artifacts
+summary:
+  purpose: Validate an output directory against a declared artifact contract and emit precise missing, unexpected, and mismatched file reports.
+  business_usefulness: high
+  workflow_support_value: high
+  repeatability: highest
+  implementation_clarity: high
+  why_this_shape: The repeated work is inventorying files, comparing them against declarative rules, and emitting machine-readable failures that a workflow can interpret in business terms.
+goal_links:
+  business_goals:
+    - factory_productization_and_export_quality
+    - release_evidence_and_demo_readiness
+  workflow_targets:
+    - factory_export_readiness_review
+    - release_evidence_packet_seed
+scope:
+  included:
+    - Load a JSON or YAML artifact contract.
+    - Inventory a target artifact directory and optional manifest file.
+    - Validate presence rules, count rules, naming patterns, folder layout rules, and public/private partition rules.
+    - Emit JSON and Markdown reports for failures, warnings, and normalized inventory.
+  excluded:
+    - Building or repairing artifacts.
+    - Auto-generating contracts from arbitrary outputs.
+    - Making commercialization decisions on behalf of a workflow.
+workflow_relationships:
+  run_before:
+    - factory_export_readiness_review
+    - release_evidence_packet_seed
+  handoff_artifacts:
+    - output: reports/contract-validation.json
+      used_by:
+        - factory_export_readiness_review
+        - release_evidence_packet_seed
+    - output: reports/contract-validation.md
+      used_by:
+        - factory_export_readiness_review
+        - release_evidence_packet_seed
+    - output: reports/missing-files.json
+      used_by:
+        - factory_export_readiness_review
+        - release_evidence_packet_seed
+    - output: reports/unexpected-files.json
+      used_by:
+        - factory_export_readiness_review
+        - release_evidence_packet_seed
+package_assets:
+  template_files:
+    - tools/tool_templates/artifact_contract_validator_contract_template.yaml
+  validation_note: tools/validation/artifact_contract_validator-validation.md
+  usage_docs:
+    - docs/examples/tool-package-cli-examples.md
+    - docs/examples/tool-package-template-examples.md
+    - docs/usage/tool-package-call-order.md
+commands:
+  - name: validate
+    purpose: Compare an artifact directory against a declared contract and emit machine-readable failures plus a review summary.
+    usage: ncb-artifact-contract-validator validate --contract <contract.yaml> --artifact-dir <dir> --output-dir <dir>
+    inputs:
+      required:
+        - name: contract
+          type: path
+          description: JSON or YAML contract file declaring required files, counts, patterns, folder rules, and optional public/private boundaries.
+        - name: artifact_dir
+          type: path
+          description: Output directory whose contents should satisfy the declared contract.
+        - name: output_dir
+          type: path
+          description: Directory where validation reports will be written.
+      optional:
+        - name: manifest_path
+          type: path
+          default: ""
+          description: Optional manifest file to cross-check against the filesystem inventory.
+        - name: severity_threshold
+          type: string
+          default: error
+          description: Lowest severity that should trigger a non-zero exit code.
+        - name: include_inventory
+          type: bool
+          default: true
+          description: Emit a normalized inventory.json alongside validation reports.
+    outputs:
+      stdout:
+        format: json
+        description: Validation status, failure counts by severity, and paths to the generated reports.
+      files:
+        - path: reports/contract-validation.json
+          description: Canonical machine-readable validation result with rule-by-rule outcomes.
+        - path: reports/contract-validation.md
+          description: Review summary organized by errors, warnings, and passed checks.
+        - path: reports/missing-files.json
+          description: Missing required files and directories with the rule id that expected them.
+        - path: reports/unexpected-files.json
+          description: Files or directories outside the declared contract surface.
+        - path: reports/inventory.json
+          description: Optional normalized inventory of the target directory used during rule evaluation.
+    file_behavior:
+      reads:
+        - Declared contract file.
+        - Target artifact directory.
+        - Optional manifest file.
+      writes:
+        - Output reports under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Every failed rule cites the exact path or pattern that caused the failure.
+        - Manifest parity results are separated from pure filesystem-rule failures.
+        - Public/private partition rules are evaluated independently from file presence checks.
+        - The validated artifact directory is never modified.
+    exit_codes:
+      0: success
+      1: contract_failed
+      2: configuration_error
+  - name: inventory
+    purpose: Produce a normalized inventory without applying contract rules so a reviewer can inspect the raw artifact surface first.
+    usage: ncb-artifact-contract-validator inventory --artifact-dir <dir> --output-dir <dir>
+    inputs:
+      required:
+        - name: artifact_dir
+          type: path
+          description: Output directory to inventory.
+        - name: output_dir
+          type: path
+          description: Directory where inventory output should be written.
+      optional:
+        - name: manifest_path
+          type: path
+          default: ""
+          description: Optional manifest file whose declared paths should be annotated in the inventory output.
+    outputs:
+      stdout:
+        format: json
+        description: File counts, extension counts, and partition summary for the target directory.
+      files:
+        - path: reports/inventory.json
+          description: Normalized artifact listing with relative path, size, type, and manifest annotations.
+    file_behavior:
+      reads:
+        - Target artifact directory.
+        - Optional manifest file.
+      writes:
+        - Inventory report under the provided output directory.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Relative paths are stable and normalized.
+        - Hidden files and ignored patterns are treated consistently with validate.
+    exit_codes:
+      0: success
+      1: inventory_failed
+      2: configuration_error
+global_output_contract:
+  notes:
+    - Validation reports always live under reports/ so a workflow can ingest them without guessing filenames.
+    - inventory.json must use the same path normalization rules as validate.
+build_plan:
+  implementation_slices:
+    - id: contract-schema-loader
+      objective: Parse artifact contract files into a stable rule model covering required files, counts, patterns, and partition rules.
+    - id: inventory-engine
+      objective: Walk the target directory once and produce a reusable normalized inventory.
+    - id: rule-evaluator
+      objective: Evaluate filesystem, manifest, and partition rules against the normalized inventory with explicit severities.
+    - id: report-emitter
+      objective: Emit JSON and Markdown validation outputs plus missing and unexpected file lists.
+    - id: inventory-command
+      objective: Expose the reusable inventory surface for debugging and later workflow seeding.
+  validation_sequence:
+    - Validate a fixture with exact-count and naming-pattern rules and confirm each failure references the offending path or missing pattern.
+    - Validate a fixture with an optional manifest file and confirm manifest-only failures stay distinct from filesystem-only failures.
+    - Validate a fixture with public/private partition rules and confirm misplaced files fail without mutating the directory.
+    - Run inventory on the same fixture and confirm relative paths match the ones referenced in validate outputs.
+promotion:
+  current_placement: tools/experimental_tools/
+  ready_for_final_when:
+    - The contract schema survives at least one factory export fixture and one demo payload fixture.
+    - Rule severities prove stable enough that downstream workflows do not need per-repo interpretation hacks.
+    - inventory.json remains aligned with validate path normalization across repeated reviews.

@@ -1,0 +1,195 @@
+version: 1
+kind: tool_contract
+metadata:
+  id: media_evidence_packager
+  name: Media Evidence Packager
+  status: experimental
+  maturity: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  proposal_source: proposals/tool_proposals/media_evidence_packager.md
+  tags:
+    - cli
+    - evidence
+    - packaging
+summary:
+  purpose: Collect mixed release, demo, and validation artifacts into one deterministic bundle with a manifest and missing-evidence report.
+  business_usefulness: highest
+  workflow_support_value: highest
+  repeatability: highest
+  implementation_clarity: high
+  why_this_shape: The repeated work is filesystem discovery, evidence classification, packaging, and manifest generation that workflows should consume instead of redoing in prose.
+goal_links:
+  business_goals:
+    - release_evidence_and_demo_readiness
+    - human_view_validation_and_regression_evidence
+  workflow_targets:
+    - release_evidence_packet_seed
+    - human_view_evidence_brief
+    - factory_export_readiness_review
+scope:
+  included:
+    - Scan one or more configured evidence roots.
+    - Classify files into named evidence classes such as screenshots, videos, logs, tests, manifests, and notes.
+    - Stage a stable bundle layout with public and private partitions when sanitization rules are present.
+    - Emit manifest and validation reports that downstream workflows can summarize.
+  excluded:
+    - Capturing screenshots, videos, or logs.
+    - Running tests or build pipelines.
+    - Deciding whether a milestone is ready for release.
+workflow_relationships:
+  run_before:
+    - release_evidence_packet_seed
+    - human_view_evidence_brief
+    - factory_export_readiness_review
+  handoff_artifacts:
+    - output: reports/manifest.json
+      used_by:
+        - release_evidence_packet_seed
+        - human_view_evidence_brief
+        - factory_export_readiness_review
+    - output: reports/validation-summary.json
+      used_by:
+        - release_evidence_packet_seed
+        - human_view_evidence_brief
+        - factory_export_readiness_review
+    - output: reports/missing-evidence.json
+      used_by:
+        - release_evidence_packet_seed
+        - human_view_evidence_brief
+        - factory_export_readiness_review
+package_assets:
+  template_files:
+    - tools/tool_templates/media_evidence_packager_config_template.yaml
+  validation_note: tools/validation/media_evidence_packager-validation.md
+  usage_docs:
+    - docs/examples/tool-package-cli-examples.md
+    - docs/examples/tool-package-template-examples.md
+    - docs/usage/tool-package-call-order.md
+commands:
+  - name: package
+    purpose: Build an evidence bundle from configured source roots and emit manifest plus validation artifacts.
+    usage: ncb-media-evidence-packager package --config <config.yaml> --output-dir <dir>
+    inputs:
+      required:
+        - name: config
+          type: path
+          description: YAML or JSON file listing source roots, class rules, required evidence classes, and optional sanitization rules.
+        - name: output_dir
+          type: path
+          description: Destination directory for the staged bundle and reports.
+      optional:
+        - name: copy_mode
+          type: string
+          default: copy
+          description: One of copy, hardlink, or manifest-only for how staged bundle files should be materialized.
+        - name: fail_on_missing_class
+          type: bool
+          default: false
+          description: Exit non-zero when any required evidence class is missing.
+        - name: include_class
+          type: list[string]
+          default: []
+          description: Restrict packaging to a subset of evidence classes defined in the config file.
+    outputs:
+      stdout:
+        format: json
+        description: Summary of bundled files, missing classes, public versus private counts, and overall status.
+      files:
+        - path: reports/manifest.json
+          description: Canonical machine-readable asset manifest including class, hash, size, mtime, source path, and staged path.
+        - path: reports/manifest.md
+          description: Human-readable bundle summary suitable for workflow review.
+        - path: reports/validation-summary.json
+          description: Required-class checks, sanitization checks, and duplicate-path findings.
+        - path: reports/missing-evidence.json
+          description: Missing or underfilled evidence classes plus required thresholds.
+        - path: evidence/public/<class>/*
+          description: Publicly shareable partition of the bundle organized by evidence class.
+        - path: evidence/private/<class>/*
+          description: Optional private-only partition when sanitization rules require separation.
+    file_behavior:
+      reads:
+        - Configured source directories and metadata files.
+        - Optional sanitization rule file referenced by the config.
+      writes:
+        - Output bundle under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Each staged asset appears exactly once in reports/manifest.json.
+        - Every required evidence class is either satisfied or listed in reports/missing-evidence.json.
+        - Public and private partitions stay separate when sanitization rules are provided.
+        - Source files are never mutated.
+    exit_codes:
+      0: success
+      1: missing_required_evidence
+      2: configuration_error
+  - name: validate
+    purpose: Recheck an existing bundle against its manifest and required evidence rules without rebuilding it.
+    usage: ncb-media-evidence-packager validate --bundle-dir <dir>
+    inputs:
+      required:
+        - name: bundle_dir
+          type: path
+          description: Existing bundle root produced by the package command.
+      optional:
+        - name: manifest_path
+          type: path
+          default: reports/manifest.json
+          description: Override the manifest location when revalidating an existing bundle.
+        - name: output_dir
+          type: path
+          default: <bundle_dir>/reports
+          description: Directory where revalidation output should be written.
+    outputs:
+      stdout:
+        format: json
+        description: Revalidation status with missing-file, checksum, and partition mismatch counts.
+      files:
+        - path: reports/revalidation.json
+          description: Machine-readable bundle integrity report.
+    file_behavior:
+      reads:
+        - Existing bundle contents and manifest file.
+      writes:
+        - Revalidation report under the chosen output directory.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Every manifest entry resolves to a staged file.
+        - Hash and size fields still match when requested by the manifest.
+        - No staged file exists outside the declared public or private partitions.
+    exit_codes:
+      0: success
+      1: bundle_integrity_failed
+      2: configuration_error
+global_output_contract:
+  notes:
+    - The stable output tree is reports/ plus evidence/public/ and optional evidence/private/.
+    - Manifest entries should preserve original source paths for traceability but never rewrite the source material.
+build_plan:
+  implementation_slices:
+    - id: config-and-rule-loader
+      objective: Parse source roots, class rules, required thresholds, and optional sanitization rules into one in-memory contract.
+    - id: scanner-and-classifier
+      objective: Walk input roots, assign files to one evidence class, and reject duplicate staging collisions.
+    - id: bundle-stager
+      objective: Materialize the public/private output layout according to copy_mode without mutating inputs.
+    - id: manifest-and-report-emitter
+      objective: Emit manifest.json, manifest.md, validation-summary.json, and missing-evidence.json in one pass.
+    - id: bundle-revalidation
+      objective: Recheck an existing bundle from its manifest so later workflows and CI can trust the package.
+  validation_sequence:
+    - Run package against a fixture containing screenshots, tests, logs, and notes and confirm every staged file appears exactly once in manifest.json.
+    - Run package against a fixture missing one required class and confirm the missing class is reported without corrupting the bundle layout.
+    - Run package with sanitization rules and confirm public/private partitioning matches the rules file.
+    - Run validate against the emitted bundle and confirm revalidation fails after an intentional staged-file deletion.
+promotion:
+  current_placement: tools/experimental_tools/
+  ready_for_final_when:
+    - The config schema survives at least two repo families such as demo evidence and factory validation evidence without field churn.
+    - Public/private partitioning is proven with realistic sanitization fixtures.
+    - Downstream workflows can consume manifest.json and validation-summary.json without needing extra ad hoc fields.
