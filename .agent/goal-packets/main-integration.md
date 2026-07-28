@@ -1,6 +1,6 @@
 # Main Integration Handoff
 
-Status: BLOCKED
+Status: READY_FOR_PUBLICATION
 
 ## Goal
 
@@ -241,10 +241,32 @@ task ledger and change log, and stop without staging.
 
 ## Next Permitted Action
 
-Do not push while the Part 3 deployment-side-effect blocker below remains
-unresolved. Return to Prompt 2 if a workflow change is authorized, or resume
-Prompt 3 only if an automatic deployment-only `gh-pages` update is explicitly
-accepted as compatible with the protected-branch boundary.
+Prompt 3 must use this exact publication sequence:
+
+1. Verify `HEAD` equals
+   `refs/tags/nexuscentral-main-integration-ready-20260728-v2^{commit}` and only
+   the seven documented excluded paths remain.
+2. Fetch and require `origin/main`, the remote source branch, PR base/head,
+   worktree count, and `origin/gh-pages` to match this handoff.
+3. Push `agent/publish-current-work-20260713` without force. The ready commit
+   includes `[skip ci]`, so automatic `push` and `pull_request` workflows must
+   not run.
+4. Verify the remote head equals the ready tag, the PR contains the accepted
+   commit sequence and 409-path diff, no excluded path, no workflow change, and
+   no `gh-pages` ancestry or content.
+5. Mark PR #1 ready for review.
+6. Manually dispatch `nexuscentral-build.yml` on the exact source branch and
+   wait for every job in that run to finish successfully.
+7. Reverify the PR head, mergeability, accepted tree, Build run SHA, and
+   unchanged `origin/main` and `origin/gh-pages`.
+8. Squash-merge through the GitHub merge API using a commit title containing
+   `[skip ci]`. This prevents the resulting `main` push from running the Pages
+   deployment or audit writer after the validated merge.
+9. Delete only the remote source branch, fetch, and verify the merged PR,
+   squash SHA, exact merged tree, deleted remote ref, and unchanged
+   `origin/gh-pages`.
+10. Preserve the local source branch because the seven excluded files make
+    local branch deletion unsafe.
 
 ## Part 2 Preparation Result
 
@@ -280,13 +302,20 @@ accepted as compatible with the protected-branch boundary.
    - Subject: `Record NexusCentral publication gate blocker`
    - Files: three coordination files recording the initially discovered
      Builder EOF gate
+5. `c2d5c47dcdbe669a98103582f08e49ce0a6b15a0`
+   - Subject: `Finalize NexusCentral publication handoff`
+   - Files: four coordination paths, including the versioned whitespace policy
+6. `65df9581f935c701e7ef1b8795657d19968f02b5`
+   - Subject: `Record NexusCentral Pages publication blocker`
+   - Files: three coordination files recording the automatic deployment hazard
 
-The final coordination commit follows these four commits and adds the
-path-specific whitespace policy. Because a commit cannot contain its own SHA,
+The final coordination commit follows these six commits and records the
+manual-build publication route. Because a commit cannot contain its own SHA,
 the authoritative final-commit identity is the local lightweight tag
-`nexuscentral-main-integration-ready-20260728`. Prompt 3 must require that tag
-and `HEAD` to resolve to the same commit before publishing. The tag itself is
-local validation metadata and must not be pushed.
+`nexuscentral-main-integration-ready-20260728-v2`. Prompt 3 must require that
+tag and `HEAD` to resolve to the same commit before publishing. The earlier
+ready tag is superseded. Both tags are local validation metadata and must not
+be pushed.
 
 ### Validation Results
 
@@ -366,7 +395,7 @@ All approved content is committed locally, all required product and human-view
 checks pass, the complete default whitespace check passes, Builder provenance
 remains exact, and only the seven documented excluded paths remain. Prompt 3
 may publish only the commit identified by
-`refs/tags/nexuscentral-main-integration-ready-20260728`.
+`refs/tags/nexuscentral-main-integration-ready-20260728-v2`.
 
 ## Part 3 Preflight Blocker
 
@@ -413,18 +442,26 @@ Canceling or bypassing the Pages workflow would violate the green-check gate.
 Allowing it to finish would violate the unchanged-ref gate. Reverting its output
 would touch `gh-pages`, and force-restoring the ref is expressly forbidden.
 
-### Resolution Required
+### Resolved Publication Control
 
-Choose one policy:
+Live GitHub policy inspection found:
 
-1. Accept the normal automated deployment update as compatible with the
-   boundary, while still proving that no `gh-pages` commit or content enters
-   `main`. Prompt 3 can then publish and verify the new deployment commit
-   independently.
-2. Return to Prompt 2 and authorize a reviewed workflow change that prevents
-   V2/agent-only pushes from publishing V1 download output. This changes a path
-   explicitly excluded by the accepted handoff and therefore cannot be inferred
-   during publication.
+- `main` has no branch-protection rule.
+- The repository has no rulesets.
+- PR #1 has no required status-check contexts.
+- `NexusCentral Build` and `NexusCentral Pages Downloads` both support
+  `workflow_dispatch`.
 
-Option 1 preserves existing CI/CD behavior. Option 2 preserves the exact
-`gh-pages` ref but changes deployment policy.
+GitHub supports commit-message skip instructions for workflows triggered by
+`push` and `pull_request`; those instructions do not suppress a separately
+requested `workflow_dispatch` run. The final coordination commit therefore
+contains `[skip ci]`. Prompt 3 will skip automatic branch deployment, then
+manually run the full Build workflow on the exact published SHA. This does not
+bypass a failed or required check: there are no required contexts, and the
+equivalent build matrix must complete successfully before merge.
+
+The squash commit title must also contain `[skip ci]`. That preserves
+`origin/gh-pages@e09c80b03d87747aafea756cdd634bd01c22664d` and prevents the
+post-merge audit writer from advancing `main` after the accepted squash tree.
+No workflow source, product source, Builder payload, historical evidence, or
+excluded file changes under this control.
