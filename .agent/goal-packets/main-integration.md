@@ -1,6 +1,6 @@
 # Main Integration Handoff
 
-Status: READY_FOR_PREPARATION
+Status: BLOCKED
 
 ## Goal
 
@@ -233,6 +233,120 @@ task ledger and change log, and stop without staging.
 
 ## Next Permitted Action
 
-Prompt 2 may verify this packet, stage the three explicit groups, create local
-commits, and run the required validation. It may not push, update PR #1, change
-branches, rebase, merge, or touch `gh-pages`.
+Return to Prompt 2 after the Builder whitespace policy is explicitly resolved.
+Do not begin Prompt 3, push, update PR #1, change branches, rebase, merge, or
+touch `gh-pages`.
+
+## Part 2 Preparation Result
+
+- Prepared: `2026-07-28T12:39:28-0400 (EDT)`
+- Branch: `agent/publish-current-work-20260713`
+- Original branch HEAD:
+  `e6e73ebbfdaba0b5a7282c13e1eb0e503d642792`
+- Remote source branch remained:
+  `e6e73ebbfdaba0b5a7282c13e1eb0e503d642792`
+- Remote target remained:
+  `origin/main@551c647440a540853a2d0dc1f5291b7080a3a96b`
+- Protected deployment ref remained:
+  `origin/gh-pages@e09c80b03d87747aafea756cdd634bd01c22664d`
+- Registered worktrees remained: `1`
+- No competing owner appeared.
+- The accepted payload fingerprint matched before staging.
+- No push, PR mutation, branch change, rebase, merge, or `gh-pages` mutation was
+  performed.
+
+### Local Commits
+
+1. `a05da3abb19f7c3ad7d79da71dd679d971c60cdc`
+   - Subject: `Complete NexusCentral V2 execution server`
+   - Files: exactly the 23 approved V2 implementation paths
+2. `f0bcaca1ed4d7055df34f34a14c6476677f1efad`
+   - Subject: `Add NexusCentral V2 browser validation evidence`
+   - Files: exactly the six approved July 19 Playwright evidence paths
+3. `6e48356412daa918b35b868afe515c48c4b2d1f0`
+   - Subject: `Preserve NexusCentral agent workspace and Builder provenance`
+   - Files: exactly 255 approved paths: five root coordination files, 247
+     imported Builder paths, and three V2 coordination files
+
+The coordination-only commit containing this Part 2 result follows those three
+logical-group commits. Its SHA must be read from the live branch tip; a commit
+cannot contain its own SHA.
+
+### Validation Results
+
+All product and runtime checks passed from `NexusCentral-V2`:
+
+- `npm run check`: passed, including the 19-domain graph, deny-by-default
+  routing, leases, host routing, ordered streams, safe Codex flags, browser
+  scopes, snapshot round trip, Next.js build, and Electron syntax checks
+- `npm run check:integration`: passed all provider, retry, experiment, repair,
+  approval, recovery, persistence, browser lease, workspace, libp2p, and
+  PeerJS cases
+- `npm run check:scale`: passed with 50 nodes, 1,000 queued jobs, churn
+  convergence, bounded connections, and 76 MB heap use
+- `npm run build`: passed the Next.js static and Electron shell builds
+- `npm run simulate:contracts`: passed `19/19`
+- `npm run simulate:browser`: passed rendering, input, visual-state change,
+  retained trace/video, and zero console errors
+- Fresh Playwright/Human View: passed at `1440x900`, `720x900`, and `390x844`;
+  the Review surface rendered completed runs, artifacts, downloads, and audit
+  receipts with no clipping, horizontal overflow, console errors, or warnings
+- Historical evidence binary review: one intentional 189,171-byte PNG
+- High-confidence secret and personal-path scan of intended publication
+  content: no unexplained findings
+- Builder manifest: all 244 payload paths match and all 244 checksums verify
+- Implementation and historical-evidence range `git diff --check`: passed
+
+### Blocking Whitespace Result
+
+The required default `git diff --check` reports `new blank line at EOF` for six
+checksummed, read-only Builder Markdown files:
+
+- `.agent/organize/builder/docs/examples/tool_and_workflow_composition.md`
+- `.agent/organize/builder/docs/usage/tool-layer-before-workflow-guidance.md`
+- `.agent/organize/builder/proposals/tool_proposals/artifact_contract_validator.md`
+- `.agent/organize/builder/proposals/tool_proposals/media_evidence_packager.md`
+- `.agent/organize/builder/proposals/tool_proposals/portfolio_signal_normalizer.md`
+- `.agent/organize/builder/proposals/tool_proposals/tool_surface_snapshotter.md`
+
+No other whitespace issue exists:
+
+```bash
+git -c core.whitespace='trailing-space,-blank-at-eof' diff --check
+```
+
+passes. The six files were intentionally preserved byte-for-byte because the
+import manifest marks the Builder payload as read-only provenance and its
+244-entry checksum manifest verifies exactly. Rewriting them or suppressing the
+required check was not authorized, so the handoff cannot be set to
+`READY_FOR_PUBLICATION`.
+
+### Remaining Excluded Changes
+
+Fresh Part 2 Playwright evidence remains untracked and excluded:
+
+- `NexusCentral-V2/.playwright-cli/attempt-1-result.json`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-29-928Z.yml`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-48-012Z.yml`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-03-201Z.png`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-16-482Z.yml`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-30-448Z.png`
+- `NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-49-681Z.png`
+
+Ignored validation output remains under:
+
+- `NexusCentral-V2/.simspaces/`
+- `NexusCentral-V2/apps/simulator-proof/dist/`
+- `NexusCentral-V2/apps/web/.next/`
+- `NexusCentral-V2/output/`
+
+### Resolution Required
+
+Prompt 2 needs one explicit policy decision:
+
+1. Preserve the exact Builder provenance and authorize a narrow waiver for
+   these six `blank-at-eof` reports, then record that waiver and revalidate.
+2. Normalize the six files and regenerate the Builder checksum and import
+   validation records, knowingly replacing the byte-for-byte imported snapshot.
+
+Option 1 preserves the stated import contract and is the safer resolution.
