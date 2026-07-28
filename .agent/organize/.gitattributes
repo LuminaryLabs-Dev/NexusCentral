@@ -1,0 +1,7 @@
+# Preserve exact legacy Builder provenance while retaining the other default checks.
+builder/docs/examples/tool_and_workflow_composition.md whitespace=trailing-space,-blank-at-eof,space-before-tab
+builder/docs/usage/tool-layer-before-workflow-guidance.md whitespace=trailing-space,-blank-at-eof,space-before-tab
+builder/proposals/tool_proposals/artifact_contract_validator.md whitespace=trailing-space,-blank-at-eof,space-before-tab
+builder/proposals/tool_proposals/media_evidence_packager.md whitespace=trailing-space,-blank-at-eof,space-before-tab
+builder/proposals/tool_proposals/portfolio_signal_normalizer.md whitespace=trailing-space,-blank-at-eof,space-before-tab
+builder/proposals/tool_proposals/tool_surface_snapshotter.md whitespace=trailing-space,-blank-at-eof,space-before-tab

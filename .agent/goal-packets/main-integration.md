@@ -1,6 +1,6 @@
 # Main Integration Handoff
 
-Status: BLOCKED
+Status: READY_FOR_PUBLICATION
 
 ## Goal
 
@@ -90,15 +90,18 @@ Intent: complete the user-approved execution-server slice: canonical runs,
 artifact persistence, harness execution, provider routing, macOS service
 control, LAN/API coordination, client contracts, checks, and Review UI.
 
-### Root Agent Coordination: 5 Files After Part 1
+### Root Agent Coordination: 6 Files After Part 2
 
 - `.agent/change-log.md`
 - `.agent/start-here.md`
 - `.agent/workflow.md`
 - `.agent/tasks.jsonl`
 - `.agent/goal-packets/main-integration.md`
+- `.agent/organize/.gitattributes`
 
-Intent: preserve the Builder import record and this integration handoff.
+Intent: preserve the Builder import record, this integration handoff, and the
+narrow path-specific whitespace policy required to retain the exact imported
+payload.
 
 ### Imported Builder Provenance: 247 Files On Disk
 
@@ -151,8 +154,9 @@ separately added to this handoff and re-scanned.
 - Do not change V1, the prior Electron app, repository workflows, or product
   implementation during preparation.
 
-No existing visible status entry is excluded. The ignored Builder `.gitkeep`
-is explicitly included.
+At Part 1, no existing visible status entry was excluded. The ignored Builder
+`.gitkeep` was explicitly included. Seven fresh Part 2 Playwright files are
+excluded and listed in the preparation result below.
 
 ## Publication Hazard Scan
 
@@ -167,7 +171,8 @@ is explicitly included.
 - Binary files: one intentional PNG, 189,171 bytes
 - Generic credential assignment: one test fixture,
   `apiKey: "integration-secret"`, in `scripts/integration-check.mjs`
-- Root `git diff --check`: clean
+- Initial tracked-file `git diff --check`: clean; the complete staged import
+  later exposed six provenance-preserved EOF findings resolved below
 - Builder checksum verification: `244/244`
 
 No publication blocker was found.
@@ -178,6 +183,9 @@ No publication blocker was found.
 2. Historical browser evidence: exactly the six listed evidence files.
 3. Agent workspace and Builder provenance: the root and V2 `.agent` files plus
    all 247 imported Builder paths, including the force-added ignored `.gitkeep`.
+4. Final coordination and the six-path Builder whitespace policy:
+   `.agent/goal-packets/main-integration.md`, `.agent/tasks.jsonl`,
+   `.agent/change-log.md`, and `.agent/organize/.gitattributes`.
 
 Prompt 2 may update this handoff, task ledger, and change log before creating
 the final agent-workspace commit. It must not rewrite implementation to make a
@@ -233,9 +241,24 @@ task ledger and change log, and stop without staging.
 
 ## Next Permitted Action
 
-Return to Prompt 2 after the Builder whitespace policy is explicitly resolved.
-Do not begin Prompt 3, push, update PR #1, change branches, rebase, merge, or
-touch `gh-pages`.
+Prompt 3 may begin from the current branch only when:
+
+1. `git rev-parse HEAD` equals
+   `git rev-parse refs/tags/nexuscentral-main-integration-ready-20260728^{commit}`.
+2. Full status contains only the seven excluded Playwright paths below.
+3. The live default branch, remote source branch, PR head/base, worktree count,
+   authentication, and `origin/gh-pages` are reverified.
+4. A non-mutating fetch shows `origin/main` is still
+   `551c647440a540853a2d0dc1f5291b7080a3a96b`. If it changed, return to Prompt 2
+   for revalidation without rebasing or force-pushing.
+5. The branch diff contains the recorded commit groups, the four final
+   coordination paths, no excluded files, and no `gh-pages` content.
+
+Then push `agent/publish-current-work-20260713` without force, verify PR #1,
+mark it ready, wait for every new required check, and squash-merge into the
+live default branch only when the accepted diff and all checks are green.
+Delete the remote source branch after merge. Preserve the local source branch
+because its seven excluded files prevent safe local deletion.
 
 ## Part 2 Preparation Result
 
@@ -267,10 +290,17 @@ touch `gh-pages`.
    - Subject: `Preserve NexusCentral agent workspace and Builder provenance`
    - Files: exactly 255 approved paths: five root coordination files, 247
      imported Builder paths, and three V2 coordination files
+4. `711b6f44668384de22dd58fa2b52751e4679fee2`
+   - Subject: `Record NexusCentral publication gate blocker`
+   - Files: three coordination files recording the initially discovered
+     Builder EOF gate
 
-The coordination-only commit containing this Part 2 result follows those three
-logical-group commits. Its SHA must be read from the live branch tip; a commit
-cannot contain its own SHA.
+The final coordination commit follows these four commits and adds the
+path-specific whitespace policy. Because a commit cannot contain its own SHA,
+the authoritative final-commit identity is the local lightweight tag
+`nexuscentral-main-integration-ready-20260728`. Prompt 3 must require that tag
+and `HEAD` to resolve to the same commit before publishing. The tag itself is
+local validation metadata and must not be pushed.
 
 ### Validation Results
 
@@ -296,11 +326,13 @@ All product and runtime checks passed from `NexusCentral-V2`:
   content: no unexplained findings
 - Builder manifest: all 244 payload paths match and all 244 checksums verify
 - Implementation and historical-evidence range `git diff --check`: passed
+- Complete publication range `git diff --check`: passed with the committed,
+  path-specific Builder policy described below
 
-### Blocking Whitespace Result
+### Resolved Whitespace Policy
 
-The required default `git diff --check` reports `new blank line at EOF` for six
-checksummed, read-only Builder Markdown files:
+The first complete default `git diff --check` reported `new blank line at EOF`
+for six checksummed, read-only Builder Markdown files:
 
 - `.agent/organize/builder/docs/examples/tool_and_workflow_composition.md`
 - `.agent/organize/builder/docs/usage/tool-layer-before-workflow-guidance.md`
@@ -309,17 +341,19 @@ checksummed, read-only Builder Markdown files:
 - `.agent/organize/builder/proposals/tool_proposals/portfolio_signal_normalizer.md`
 - `.agent/organize/builder/proposals/tool_proposals/tool_surface_snapshotter.md`
 
-No other whitespace issue exists:
+Changing those six payload files would have broken the byte-for-byte provenance
+contract. A versioned `.agent/organize/.gitattributes` now assigns only these
+paths:
 
 ```bash
-git -c core.whitespace='trailing-space,-blank-at-eof' diff --check
+whitespace=trailing-space,-blank-at-eof,space-before-tab
 ```
 
-passes. The six files were intentionally preserved byte-for-byte because the
-import manifest marks the Builder payload as read-only provenance and its
-244-entry checksum manifest verifies exactly. Rewriting them or suppressing the
-required check was not authorized, so the handoff cannot be set to
-`READY_FOR_PUBLICATION`.
+This retains checks for trailing spaces and spaces before indentation tabs while
+disabling only `blank-at-eof` for the six historical files. The rule was proven
+against a temporary commit object before staging. The exact full publication
+range now passes the unmodified `git diff --check`, and the Builder manifest
+still verifies `244/244`. No payload byte or checksum changed.
 
 ### Remaining Excluded Changes
 
@@ -340,13 +374,10 @@ Ignored validation output remains under:
 - `NexusCentral-V2/apps/web/.next/`
 - `NexusCentral-V2/output/`
 
-### Resolution Required
+### Publication Gate
 
-Prompt 2 needs one explicit policy decision:
-
-1. Preserve the exact Builder provenance and authorize a narrow waiver for
-   these six `blank-at-eof` reports, then record that waiver and revalidate.
-2. Normalize the six files and regenerate the Builder checksum and import
-   validation records, knowingly replacing the byte-for-byte imported snapshot.
-
-Option 1 preserves the stated import contract and is the safer resolution.
+All approved content is committed locally, all required product and human-view
+checks pass, the complete default whitespace check passes, Builder provenance
+remains exact, and only the seven documented excluded paths remain. Prompt 3
+may publish only the commit identified by
+`refs/tags/nexuscentral-main-integration-ready-20260728`.
