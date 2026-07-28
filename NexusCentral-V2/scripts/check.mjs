@@ -4,7 +4,7 @@ import { join, resolve } from "node:path";
 import { createEngine } from "nexusengine";
 import { createCentralRuntime, getCentralGraphSnapshot } from "../packages/composition/index.mjs";
 import { createCentralPolicyKit } from "../kits/policy-kit/index.mjs";
-import { ProcessHarnessAdapter } from "@nexuscentral/runtime-adapters";
+import { HarnessExecutorRegistry, ProcessHarnessAdapter } from "@nexuscentral/runtime-adapters";
 
 const expectedPaths = [
   "n:central", "n:central:artifacts", "n:central:audit", "n:central:experiments", "n:central:harnesses", "n:central:inference", "n:central:jobs",
@@ -39,6 +39,8 @@ engine.n.centralModelCatalog.register({ id: "qwen", name: "Qwen", format: "gguf"
 engine.n.centralModelRuntime.register({ id: "browser-runtime", kind: "browser-onnx", modelId: "web-model", sessionId: "session-1", fingerprint: "abc", executionProvider: "webgpu", contextLength: 16000, expiresAt: 5000, requestId: "runtime-register" });
 const route = engine.n.centralRouting.select({ requestId: "route-1", contextLength: 16000, candidates: [{ id: "remote", kind: "provider", healthy: true, contextLength: 16000, latencyMs: 50 }, { id: "lm", kind: "provider", healthy: true, local: true, contextLength: 16000, latencyMs: 5 }] });
 assert.equal(route.selected.id, "lm");
+const preferredRoute = engine.n.centralRouting.select({ requestId: "route-preferred", contextLength: 16000, preferredId: "remote", candidates: [{ id: "remote", kind: "provider", healthy: true, contextLength: 16000, latencyMs: 50 }, { id: "lm", kind: "provider", healthy: true, local: true, contextLength: 16000, latencyMs: 5 }] });
+assert.equal(preferredRoute.selected.id, "remote");
 
 const job = engine.n.centralJobs.enqueue({ id: "job-1", idempotencyKey: "idem-1", kind: "inference", payload: {}, createdAt: 1, requestId: "job-enqueue" });
 assert.equal(engine.n.centralJobs.enqueue({ id: "job-duplicate", idempotencyKey: "idem-1", kind: "inference", payload: {}, createdAt: 2, requestId: "job-enqueue-duplicate" }).id, job.id);
@@ -53,11 +55,18 @@ assert.deepEqual(session.scopes, ["view", "inference.contribute"]);
 assert.equal(engine.n.centralHarnesses.getSnapshot().selectedHarnessId, "conversation-harness");
 const codingProfile = engine.n.centralHarnesses.getSnapshot().profiles.find((item) => item.id === "coding-harness");
 const harnessAdapter = new ProcessHarnessAdapter();
+const executorRegistry = new HarnessExecutorRegistry({ processHarness: harnessAdapter });
+assert.deepEqual(executorRegistry.assertProfile(codingProfile, { sandbox: "workspace-write" }), { sandbox: "workspace-write", allowedTools: ["workspace.read", "workspace.write"] });
+assert.throws(() => executorRegistry.assertProfile({ ...codingProfile, tools: ["network.unrestricted"] }, { sandbox: "workspace-write" }), /unsupported tool/);
+assert.equal(executorRegistry.context({ runId: "run-check", scope: { id: "run:run-check" }, sandbox: { kind: "workspace-copy" }, toolPolicy: { allowedTools: ["workspace.read"] } }).runId, "run-check");
 const codexArgs = harnessAdapter.buildCodexArgs(codingProfile, "act", { sandbox: "workspace-write", model: "qwen3.5-4b", oss: true, localProvider: "lmstudio" }, resolve("."), "proof prompt");
 assert.equal(codexArgs.includes("--model") && codexArgs.includes("--oss") && codexArgs.includes("--local-provider"), true);
 assert.equal(codexArgs.some((value) => value.includes("dangerously-bypass")), false);
 assert.throws(() => harnessAdapter.buildCodexArgs(codingProfile, "act", { sandbox: "danger-full-access" }, resolve("."), "bad"), /not allowed/);
 assert.throws(() => harnessAdapter.buildCodexArgs(codingProfile, "act", { sandbox: "workspace-write", localProvider: "lmstudio" }, resolve("."), "bad"), /requires --oss/);
+const gatewayArgs = harnessAdapter.buildCodexArgs(codingProfile, "act", { sandbox: "workspace-write" }, resolve("."), "gateway proof", { gateway: { baseUrl: "http://127.0.0.1:47800/v1", token: "not-in-args" } });
+assert.equal(gatewayArgs.includes("--local-provider") || gatewayArgs.includes("--oss"), false);
+assert.throws(() => harnessAdapter.buildCodexArgs(codingProfile, "act", { sandbox: "workspace-write", oss: true, localProvider: "lmstudio" }, resolve("."), "bad", { gateway: { baseUrl: "http://127.0.0.1:47800/v1" } }), /cannot override/);
 
 for (const [domainPath, apiName] of graph.apis.map((api) => [api.domainPath, api.apiName])) {
   if (!domainPath.startsWith("n:central")) continue;

@@ -9,7 +9,7 @@ export function createCentralExperimentsKit() {
     initialState: { experiments: [] },
     transitions: {
       start(state, payload) {
-        const experiment = { id: String(payload.id), task: String(payload.task), workspaceId: String(payload.workspaceId), sourceRevision: Number(payload.sourceRevision), baselineHash: String(payload.baselineHash), harnessId: String(payload.harnessId), configuration: payload.configuration || {}, status: "running", stage: "prepare", attempt: 1, maxAttempts: Number(payload.maxAttempts || 1), stages: [], validation: null, artifacts: [], diff: null, approval: null, promotion: null, startedAt: Number(payload.startedAt) };
+        const experiment = { id: String(payload.id), task: String(payload.task), workspaceId: String(payload.workspaceId), sourceRevision: Number(payload.sourceRevision), baselineHash: String(payload.baselineHash), harnessId: String(payload.harnessId), configuration: payload.configuration || {}, scope: payload.scope || null, sandbox: payload.sandbox || null, status: "running", stage: "prepare", attempt: 1, maxAttempts: Number(payload.maxAttempts || 1), stages: [], validation: null, artifacts: [], diff: null, approval: null, promotion: null, startedAt: Number(payload.startedAt) };
         state.experiments.push(experiment); return { state, result: experiment };
       },
       stage(state, payload) {
@@ -27,6 +27,9 @@ export function createCentralExperimentsKit() {
       fail(state, payload) {
         const run = required(state, payload.id); run.status = "failed"; run.stage = "failed"; run.error = String(payload.error); run.finishedAt = Number(payload.finishedAt); return { state, result: run };
       },
+      cancel(state, payload) {
+        const run = required(state, payload.id); if (["promoted", "failed", "canceled"].includes(run.status)) return { state, result: run }; run.status = "canceled"; run.stage = "canceled"; run.error = String(payload.error || "Run canceled."); run.finishedAt = Number(payload.finishedAt); return { state, result: run };
+      },
       approve(state, payload) {
         const run = required(state, payload.id); if (run.status !== "review" || !run.diff?.hash) throw new Error("Only a completed experiment with a diff can be approved."); run.approval = { approvedBy: String(payload.approvedBy), approvedAt: Number(payload.approvedAt), sourceRevision: Number(payload.sourceRevision), diffHash: String(payload.diffHash) }; run.status = "approved"; return { state, result: run };
       },
@@ -38,7 +41,7 @@ export function createCentralExperimentsKit() {
         return { state };
       }
     },
-    reset(state, empty) { return { ...empty, experiments: state.experiments.filter((item) => ["review", "approved", "promoted", "failed"].includes(item.status)) }; }
+    reset(state, empty) { return { ...empty, experiments: state.experiments.filter((item) => ["review", "approved", "promoted", "failed", "canceled"].includes(item.status)) }; }
   });
 }
 

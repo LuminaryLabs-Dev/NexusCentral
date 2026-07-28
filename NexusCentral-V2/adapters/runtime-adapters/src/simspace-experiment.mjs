@@ -68,6 +68,12 @@ export class SimSpaceExperimentAdapter {
     return { hash: createHash("sha256").update(patch).digest("hex"), artifact: relative(root, path), files: status, bytes: Buffer.byteLength(patch), empty: !patch };
   }
 
+  cleanup(id) {
+    const { root, workspace } = this.location(id);
+    rmSync(workspace, { recursive: true, force: true });
+    this.event(root, { type: "sandbox.cleaned", sandbox: "workspace-copy" });
+  }
+
   promote({ sourceRoot, experimentRoot, expectedBaselineHash, expectedDiffHash }) {
     if (digestTree(sourceRoot) !== expectedBaselineHash) throw new Error("Source workspace changed after the experiment started.");
     const patchPath = resolve(experimentRoot, "outputs", "changes.patch"); assertInside(experimentRoot, patchPath);

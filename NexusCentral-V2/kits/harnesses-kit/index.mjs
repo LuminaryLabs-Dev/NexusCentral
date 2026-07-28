@@ -2,7 +2,7 @@ import { createStateKit } from "../_shared/create-state-kit.mjs";
 
 const commonOptions = ["model", "profile", "oss", "localProvider", "images", "outputSchema", "strictConfig"];
 const profiles = [
-  { id: "conversation-harness", name: "Conversation", version: "2.0.0", executor: "codex-cli", stages: ["respond"], tools: [], capabilities: ["conversation"], allowedSandboxes: ["read-only"], allowedOptions: commonOptions, defaultSandbox: "read-only", maxAttempts: 1 },
+  { id: "conversation-harness", name: "Conversation", version: "2.0.0", executor: "direct-inference", stages: ["respond"], tools: [], capabilities: ["conversation"], allowedSandboxes: ["read-only"], allowedOptions: ["model"], defaultSandbox: "read-only", maxAttempts: 1 },
   { id: "review-harness", name: "Review only", version: "2.0.0", executor: "codex-cli", stages: ["review"], tools: ["workspace.read"], capabilities: ["review"], allowedSandboxes: ["read-only"], allowedOptions: commonOptions, defaultSandbox: "read-only", maxAttempts: 1 },
   { id: "coding-harness", name: "Coding loop", version: "2.0.0", executor: "codex-cli", stages: ["review", "act", "audit"], tools: ["workspace.read", "workspace.write"], capabilities: ["coding", "review-act-audit"], allowedSandboxes: ["read-only", "workspace-write"], allowedOptions: commonOptions, defaultSandbox: "workspace-write", maxAttempts: 2 },
   { id: "audit-harness", name: "Audit only", version: "2.0.0", executor: "codex-cli", stages: ["audit"], tools: ["workspace.read"], capabilities: ["audit"], allowedSandboxes: ["read-only"], allowedOptions: commonOptions, defaultSandbox: "read-only", maxAttempts: 1 }
@@ -21,7 +21,7 @@ function publicProfile(payload) {
 export function createCentralHarnessesKit() {
   return createStateKit({
     id: "n-central-harnesses-kit", domain: "harnesses", domainPath: "n:central:harnesses", apiName: "centralHarnesses",
-    name: "NexusCentral Harnesses", summary: "Owns safe harness profiles, capabilities, selectable Codex options, and selection.",
+    name: "NexusCentral Harnesses", summary: "Owns safe harness profiles, capabilities, executor selection, and run configuration.",
     requires: ["n:central"], outputs: ["harnesses.changed"], resetPolicy: "select Conversation and clear run overrides",
     initialState: { profiles, selectedHarnessId: "conversation-harness", configurations: {} },
     transitions: {

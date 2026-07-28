@@ -8,3 +8,6 @@ export * from "./src/libp2p-mesh.mjs";
 export * from "./src/peerjs-room.mjs";
 export * from "./src/mesh-transport-coordinator.mjs";
 export * from "./src/simspace-experiment.mjs";
+export * from "./src/artifact-store.mjs";
+export * from "./src/harness-executors.mjs";
+export * from "./src/macos-service.mjs";

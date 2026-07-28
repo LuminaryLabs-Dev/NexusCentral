@@ -3,6 +3,7 @@
 body { margin:0; min-width:320px; min-height:100vh; color:var(--text); background:radial-gradient(circle at 10% 100%,rgba(233,189,100,.14),transparent 31%),linear-gradient(120deg,#041d19,#0a3129 58%,#08251f); }
 button,input,textarea,select { font:inherit; }
 button { color:var(--text); background:transparent; border:1px solid var(--line); border-radius:6px; padding:9px 13px; cursor:pointer; }
+.button-link { color:var(--text); background:transparent; border:1px solid var(--line); border-radius:6px; padding:9px 13px; text-decoration:none; font-weight:700; }
 button:hover,button:focus-visible { border-color:var(--mint); outline:none; }
 button:disabled { opacity:.45; cursor:not-allowed; }
 main { min-height:100vh; padding:0 28px 22px; }

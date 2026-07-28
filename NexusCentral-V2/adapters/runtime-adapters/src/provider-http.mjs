@@ -23,6 +23,11 @@ export class ProviderAdapterRegistry {
   secret(profile) { return profile.secretRef ? this.secretStore.get(profile.secretRef) : ""; }
   probe(profile) { return this.adapter(profile).probe(profile); }
   streamChat(profile, request, onChunk, signal) { return this.adapter(profile).stream(profile, request, onChunk, signal); }
+  openAiChat(profile, request, signal) {
+    const adapter = this.adapter(profile);
+    if (typeof adapter.rawChat !== "function") throw new Error("Selected provider does not support the Codex OpenAI-compatible gateway.");
+    return adapter.rawChat(profile, request, signal);
+  }
   cancel(profile, requestId) { return this.adapter(profile).cancel?.(profile, requestId) || false; }
 }
 
@@ -77,6 +82,15 @@ class OpenAiCompatibleAdapter extends BaseHttpAdapter {
     });
     if (!visibleChunks) throw new Error(reasoningChunks ? "Provider exhausted its response in reasoning tokens without final content." : "Provider completed without visible content.");
     return { visibleChunks, reasoningChunks };
+  }
+
+  async rawChat(profile, request, signal) {
+    let path = profile.inferencePath || this.template(profile).inferencePath;
+    if (profile.kind === "azure-openai" && !path.includes("api-version=")) path += `${path.includes("?") ? "&" : "?"}api-version=2024-10-21`;
+    const body = { ...request, model: profile.modelId || request.model };
+    const response = await this.registry.fetchImpl(`${this.base(profile)}${path}`, { method: "POST", headers: this.headers(profile, true), signal, body: JSON.stringify(body) });
+    if (!response.ok) throw new Error(`Provider returned HTTP ${response.status}: ${(await response.text()).slice(0, 500)}`);
+    return response;
   }
 }
 

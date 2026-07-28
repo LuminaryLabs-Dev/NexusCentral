@@ -1,7 +1,8 @@
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
+import { randomBytes } from "node:crypto";
 import { createServer as createHttpServer } from "node:http";
 import { createServer as createHttpsServer } from "node:https";
-import { extname, isAbsolute, join, normalize, relative, resolve, sep } from "node:path";
+import { basename, extname, isAbsolute, join, normalize, relative, resolve, sep } from "node:path";
 import { WebSocketServer } from "ws";
 import { API_VERSION, commandEnvelope, publicError } from "@nexuscentral/contracts";
 
@@ -32,7 +33,7 @@ function json(response, status, body, headers = {}) {
 export class LanServer {
   constructor({ node, staticRoot, host = "127.0.0.1", port = 47800, tls = null }) {
     this.node = node; this.staticRoot = resolve(staticRoot); this.host = host; this.port = port; this.tls = tls;
-    this.server = null; this.webSockets = new WebSocketServer({ noServer: true }); this.connections = new Map(); this.workerJobs = new Map();
+    this.server = null; this.webSockets = new WebSocketServer({ noServer: true }); this.connections = new Map(); this.workerJobs = new Map(); this.gatewayTokens = new Map();
     this.node.setBrowserDispatcher((sessionId, offer, onChunk, signal) => this.dispatchBrowser(sessionId, offer, onChunk, signal));
   }
 
@@ -52,6 +53,7 @@ export class LanServer {
     });
     this.node.on("event", (event) => this.broadcast(event));
     await new Promise((resolvePromise, reject) => { this.server.once("error", reject); this.server.listen(this.port, this.host, resolvePromise); });
+    this.node.setCodexGateway({ issueAccess: (spec) => this.issueGatewayAccess(spec), revokeAccess: (token) => this.gatewayTokens.delete(token) });
     return this.address();
   }
 
@@ -65,6 +67,15 @@ export class LanServer {
     const origin = request.headers.origin;
     if (origin && new URL(origin).host !== request.headers.host) return json(response, 403, { ok: false, error: { code: "ORIGIN_REJECTED", message: "Cross-origin host commands are not allowed." } });
     if (request.method === "GET" && url.pathname === "/api/v1/capabilities") return json(response, 200, this.node.capabilities());
+    if (request.method === "GET" && url.pathname === "/v1/models") {
+      const access = this.gatewayAccess(request); if (!access) return this.gatewayError(response, 401, "Invalid or expired gateway token.");
+      const profiles = this.node.engine.n.centralProviders.getSnapshot().profiles.filter((item) => item.enabled !== false && item.health === "healthy" && item.modelId);
+      return json(response, 200, { object: "list", data: profiles.map((item) => ({ id: item.modelId, object: "model", owned_by: "nexuscentral" })) });
+    }
+    if (request.method === "POST" && url.pathname === "/v1/chat/completions") {
+      const access = this.gatewayAccess(request); if (!access) return this.gatewayError(response, 401, "Invalid or expired gateway token.");
+      return this.handleGatewayChat(request, response, access);
+    }
     if (request.method === "GET" && url.pathname === "/api/v1/state") {
       const context = this.context(request); this.node.requireScope(context, "view");
       return json(response, 200, { ok: true, data: this.node.publicState(context) });
@@ -87,8 +98,51 @@ export class LanServer {
       const job = this.node.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === id);
       return job ? json(response, 200, { ok: true, data: job }) : json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: "Job not found." } });
     }
+    if (request.method === "GET" && url.pathname.startsWith("/api/v1/artifacts/")) {
+      const context = this.context(request); this.node.requireScope(context, "view");
+      try {
+        const id = decodeURIComponent(url.pathname.slice("/api/v1/artifacts/".length));
+        const file = this.node.artifactFile(id);
+        response.writeHead(200, { "Content-Type": file.mediaType, "Content-Length": file.size, "Content-Disposition": `attachment; filename="${basename(file.path).replaceAll('"', "")}"`, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" });
+        return createReadStream(file.path).pipe(response);
+      } catch (error) { return json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: error.message } }); }
+    }
     return this.serveStatic(url.pathname, response);
   }
+
+  issueGatewayAccess(spec) {
+    for (const [token, access] of this.gatewayTokens) if (access.expiresAt <= Date.now()) this.gatewayTokens.delete(token);
+    const token = randomBytes(32).toString("base64url");
+    const address = this.address();
+    const access = { token, runId: String(spec.runId), allowedTools: [...(spec.allowedTools || [])], expiresAt: Number(spec.expiresAt || Date.now() + 10 * 60_000) };
+    this.gatewayTokens.set(token, access);
+    return { ...access, baseUrl: `${address.protocol}://127.0.0.1:${address.port}/v1`, modelId: "nexuscentral-routed" };
+  }
+
+  gatewayAccess(request) {
+    const token = String(request.headers.authorization || "").replace(/^Bearer\s+/i, "");
+    const access = this.gatewayTokens.get(token);
+    if (!access || access.expiresAt <= Date.now()) { if (token) this.gatewayTokens.delete(token); return null; }
+    return access;
+  }
+
+  async handleGatewayChat(request, response, access) {
+    const body = await readJson(request, 8 * 1024 * 1024);
+    const controller = new AbortController();
+    response.on("close", () => { if (!response.writableEnded) controller.abort(); });
+    try {
+      await this.node.streamCodexGateway(body, access, {
+        onReady: ({ contentType }) => response.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" }),
+        onChunk: (bytes) => new Promise((resolvePromise, reject) => response.write(bytes, (error) => error ? reject(error) : resolvePromise()))
+      }, controller.signal);
+      response.end();
+    } catch (error) {
+      if (!response.headersSent) return this.gatewayError(response, 502, error.message);
+      response.end();
+    }
+  }
+
+  gatewayError(response, status, message) { return json(response, status, { error: { message, type: "nexuscentral_gateway_error" } }); }
 
   serveStatic(pathname, response) {
     const requested = pathname === "/" ? "index.html" : normalize(pathname).replace(/^[/\\]+/, "");
@@ -102,10 +156,13 @@ export class LanServer {
   }
 
   attachSocket(ws, context) {
-    this.connections.set(context.actorId, ws);
+    const sockets = this.connections.get(context.actorId) || new Set(); sockets.add(ws); this.connections.set(context.actorId, sockets);
     ws.send(JSON.stringify({ type: "session.ready", data: { actorId: context.actorId, scopes: context.scopes }, at: Date.now() }));
     ws.on("message", (data) => this.handleWorkerMessage(context, JSON.parse(data.toString())));
-    ws.on("close", () => { this.connections.delete(context.actorId); this.node.engine.n.centralModelRuntime.remove({ sessionId: context.actorId, requestId: `disconnect:${context.actorId}:${Date.now()}` }); this.rejectWorkerJobs(context.actorId, new Error("Browser worker disconnected.")); this.node.persist(); });
+    ws.on("close", () => {
+      sockets.delete(ws); if (sockets.size) return; this.connections.delete(context.actorId);
+      this.node.engine.n.centralModelRuntime.remove({ sessionId: context.actorId, requestId: `disconnect:${context.actorId}:${Date.now()}` }); this.rejectWorkerJobs(context.actorId, new Error("Browser worker disconnected.")); this.node.persist();
+    });
   }
 
   handleWorkerMessage(context, message) {
@@ -118,7 +175,7 @@ export class LanServer {
   }
 
   dispatchBrowser(sessionId, offer, onChunk, signal) {
-    const socket = this.connections.get(sessionId);
+    const socket = [...(this.connections.get(sessionId) || [])].find((item) => item.readyState === item.OPEN);
     if (!socket || socket.readyState !== socket.OPEN) return Promise.reject(new Error("Browser worker is not connected."));
     return new Promise((resolvePromise, reject) => {
       const timeout = setTimeout(() => { this.workerJobs.delete(offer.jobId); reject(new Error("Browser inference timed out.")); }, 5 * 60_000);
@@ -132,6 +189,6 @@ export class LanServer {
     for (const [jobId, active] of this.workerJobs) if (active.sessionId === sessionId) { clearTimeout(active.timeout); this.workerJobs.delete(jobId); active.reject(error); }
   }
 
-  broadcast(event) { const message = JSON.stringify(event); for (const socket of this.connections.values()) if (socket.readyState === socket.OPEN) socket.send(message); }
-  async close() { for (const socket of this.connections.values()) socket.close(); await new Promise((resolvePromise) => this.server?.close(resolvePromise)); }
+  broadcast(event) { const message = JSON.stringify(event); for (const sockets of this.connections.values()) for (const socket of sockets) if (socket.readyState === socket.OPEN) socket.send(message); }
+  async close() { this.node.setCodexGateway(null); this.gatewayTokens.clear(); for (const sockets of this.connections.values()) for (const socket of sockets) socket.close(); await new Promise((resolvePromise) => this.server?.close(resolvePromise)); }
 }

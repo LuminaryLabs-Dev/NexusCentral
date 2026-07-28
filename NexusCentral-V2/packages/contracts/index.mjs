@@ -1,5 +1,6 @@
 export const API_VERSION = 1;
 export const DEFAULT_CONTEXT_LENGTH = 16000;
+export const RUN_STATUSES = Object.freeze(["queued", "running", "approval_required", "completed", "failed", "canceled"]);
 export const PROVIDER_TEMPLATES = Object.freeze({
   openrouter: provider("OpenRouter", "openai-chat", "https://openrouter.ai/api/v1", "bearer"),
   openai: provider("OpenAI", "openai-chat", "https://api.openai.com/v1", "bearer"),
@@ -56,4 +57,22 @@ export function assertEnvelope(value) {
 
 export function publicError(error, code = "INTERNAL_ERROR") {
   return { code, message: error instanceof Error ? error.message : String(error), retryable: false };
+}
+
+export function createRunContext(value) {
+  if (!value?.runId || !value?.scope?.id) throw new Error("Run context requires a run ID and scope.");
+  if (!value.sandbox?.kind || !value.toolPolicy?.allowedTools) throw new Error("Run context requires sandbox and tool policy descriptors.");
+  return Object.freeze({
+    runId: String(value.runId),
+    jobId: String(value.jobId || value.runId),
+    scope: Object.freeze({ ...value.scope }),
+    sandbox: Object.freeze({ ...value.sandbox }),
+    provider: Object.freeze({ ...(value.provider || {}) }),
+    toolPolicy: Object.freeze({ ...value.toolPolicy, allowedTools: Object.freeze([...value.toolPolicy.allowedTools]) }),
+    validation: Object.freeze({ ...(value.validation || {}) }),
+    signal: value.signal,
+    infer: value.infer,
+    onOutput: value.onOutput,
+    artifactWriter: value.artifactWriter
+  });
 }

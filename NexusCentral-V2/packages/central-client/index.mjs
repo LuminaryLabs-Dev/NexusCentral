@@ -30,10 +30,18 @@ export class CentralClient {
   discoverHarnessOptions() { return this.command("harnesses.discover", {}); }
   listHarnesses() { return this.command("harnesses.list", {}); }
   submitInference(payload) { return this.command("inference.submit", payload); }
+  submitRun(payload) { return this.command("runs.submit", payload); }
+  getRun(id) { return this.command("runs.get", { id }); }
+  cancelRun(id) { return this.command("runs.cancel", { id }); }
   cancelJob(id) { return this.command("jobs.cancel", { id }); }
   submitLabRun(payload) { return this.command("lab.submit", payload); }
   approveExperiment(id) { return this.command("experiments.approve", { id }); }
   promoteExperiment(id) { return this.command("experiments.promote", { id }); }
+  listArtifacts(runId = "") { return this.command("artifacts.list", runId ? { runId } : {}); }
+  readArtifact(id) { return this.command("artifacts.read", { id }); }
+  serviceStatus() { return this.command("service.status", {}); }
+  installService() { return this.command("service.install", {}); }
+  uninstallService() { return this.command("service.uninstall", {}); }
   createPairing() { return this.command("lan.create-pairing", {}); }
   grantSessionScope(payload) { return this.command("lan.grant-scope", payload); }
   revokeSession(sessionId) { return this.command("lan.revoke", { sessionId }); }

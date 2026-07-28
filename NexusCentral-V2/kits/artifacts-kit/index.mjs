@@ -8,7 +8,11 @@ export function createCentralArtifactsKit() {
     initialState: { artifacts: [] },
     transitions: {
       record(state, payload) {
-        const artifact = { id: String(payload.id), hash: String(payload.hash), kind: String(payload.kind), jobId: String(payload.jobId || ""), createdAt: Number(payload.createdAt) };
+        const artifact = {
+          id: String(payload.id), hash: String(payload.hash), kind: String(payload.kind), jobId: String(payload.jobId || payload.runId || ""),
+          runId: String(payload.runId || payload.jobId || ""), path: String(payload.path || ""), bytes: Number(payload.bytes || 0),
+          mediaType: String(payload.mediaType || "application/octet-stream"), stage: String(payload.stage || ""), provenance: payload.provenance || {}, createdAt: Number(payload.createdAt)
+        };
         state.artifacts = [...state.artifacts.filter((item) => item.id !== artifact.id), artifact];
         return { state, result: artifact };
       }

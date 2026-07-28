@@ -9,14 +9,14 @@ export function createCentralJobsKit() {
     transitions: {
       enqueue(state, payload) {
         if (state.jobs.some((item) => item.idempotencyKey === payload.idempotencyKey)) return { state, result: state.jobs.find((item) => item.idempotencyKey === payload.idempotencyKey) };
-        const job = { id: String(payload.id), idempotencyKey: String(payload.idempotencyKey), kind: String(payload.kind), status: "queued", payload: payload.payload || {}, attempts: 0, route: null, lease: null, progress: [], result: null, error: null, createdAt: Number(payload.createdAt) };
+        const job = { id: String(payload.id), idempotencyKey: String(payload.idempotencyKey), kind: String(payload.kind), status: "queued", payload: payload.payload || {}, scope: payload.scope || null, attempts: 0, route: null, lease: null, progress: [], result: null, error: null, createdAt: Number(payload.createdAt), updatedAt: Number(payload.createdAt) };
         state.jobs.push(job);
         return { state, result: job };
       },
       claim(state, payload) {
         const job = state.jobs.find((item) => item.id === payload.id);
         if (!job || !["queued", "retry"].includes(job.status)) throw new Error("Job is not claimable.");
-        job.status = "running"; job.attempts += 1; job.route = payload.route; job.lease = { ownerId: String(payload.ownerId), expiresAt: Number(payload.expiresAt) };
+        job.status = "running"; job.attempts += 1; job.route = payload.route; job.lease = { ownerId: String(payload.ownerId), expiresAt: Number(payload.expiresAt) }; job.updatedAt = Number(payload.at || Date.now());
         return { state, result: job };
       },
       progress(state, payload) {
@@ -33,20 +33,26 @@ export function createCentralJobsKit() {
       },
       retry(state, payload) {
         const job = state.jobs.find((item) => item.id === payload.id);
-        if (!job || ["completed", "cancelled"].includes(job.status)) return { state, result: job || null };
-        job.status = "retry"; job.error = String(payload.error || "Route unavailable."); job.lease = null; job.route = null;
+        if (!job || ["completed", "canceled", "cancelled"].includes(job.status)) return { state, result: job || null };
+        job.status = "retry"; job.error = String(payload.error || "Route unavailable."); job.lease = null; job.route = null; job.updatedAt = Number(payload.at || Date.now());
+        return { state, result: job };
+      },
+      requireApproval(state, payload) {
+        const job = state.jobs.find((item) => item.id === payload.id);
+        if (!job || job.status !== "running") throw new Error("Only a running job can require approval.");
+        job.status = "approval_required"; job.result = payload.result || null; job.lease = null; job.updatedAt = Number(payload.at || Date.now());
         return { state, result: job };
       },
       finish(state, payload) {
         const job = state.jobs.find((item) => item.id === payload.id);
         if (!job) throw new Error("Unknown job.");
-        job.status = String(payload.status || "completed"); job.result = payload.result || null; job.error = payload.error || null; job.lease = null;
+        job.status = String(payload.status || "completed"); job.result = payload.result || null; job.error = payload.error || null; job.lease = null; job.updatedAt = Number(payload.at || Date.now());
         return { state, result: job };
       },
       cancel(state, payload) {
         const job = state.jobs.find((item) => item.id === payload.id);
-        if (!job || ["completed", "failed", "cancelled"].includes(job.status)) return { state, result: job || null };
-        job.status = "cancelled"; job.lease = null;
+        if (!job || ["completed", "failed", "canceled", "cancelled"].includes(job.status)) return { state, result: job || null };
+        job.status = "canceled"; job.lease = null; job.updatedAt = Number(payload.at || Date.now());
         return { state, result: job };
       },
       requeueExpired(state, payload) {

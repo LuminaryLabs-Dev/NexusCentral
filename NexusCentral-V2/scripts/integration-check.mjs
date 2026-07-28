@@ -65,6 +65,10 @@ assert.throws(() => node.filesystem.write("proof-workspace", "escape/blocked.txt
 const retryJob = await command(node, "inference.submit", { messages: [{ role: "user", content: "wait for a route" }], contextLength: 16000, maxOutputTokens: 16000 });
 await new Promise((resolvePromise) => setTimeout(resolvePromise, 30));
 assert.equal(node.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === retryJob.id).status, "retry");
+const canceledRun = await command(node, "inference.submit", { messages: [{ role: "user", content: "cancel while waiting" }], contextLength: 16000, maxOutputTokens: 16 });
+await new Promise((resolvePromise) => setTimeout(resolvePromise, 30));
+await command(node, "runs.cancel", { id: canceledRun.id });
+assert.equal((await command(node, "runs.get", { id: canceledRun.id })).status, "canceled");
 const savedProvider = await command(node, "providers.save", { id: "proof-provider", kind: "custom", name: "Proof Provider", baseUrl: "http://provider.test/v1", modelId: "qwen-proof", apiKey: "integration-secret" });
 assert.equal("secretRef" in savedProvider, false);
 await command(node, "providers.test", { id: "proof-provider" });
@@ -86,6 +90,9 @@ for (let attempt = 0; attempt < 100; attempt += 1) {
 assert.equal(completed.status, "completed");
 assert.equal(completed.progress.map((item) => item.content).join(""), "host routed");
 assert.equal(completed.route.id, "proof-provider");
+const canonicalRun = await command(node, "runs.submit", { kind: "inference", messages: [{ role: "user", content: "prove canonical run submission" }], contextLength: 16000, maxOutputTokens: 32 });
+for (let attempt = 0; attempt < 100 && (await command(node, "runs.get", { id: canonicalRun.id })).status !== "completed"; attempt += 1) await new Promise((resolvePromise) => setTimeout(resolvePromise, 10));
+assert.equal((await command(node, "runs.get", { id: canonicalRun.id })).status, "completed");
 const publicState = await command(node, "system.state");
 assert.equal("secretRef" in publicState.providers.profiles[0], false);
 assert.equal(publicState.harnesses.profiles.some((item) => item.id === "coding-harness"), true);
@@ -105,13 +112,38 @@ for (let attempt = 0; attempt < 300; attempt += 1) {
 assert.equal(experimentState.status, "review");
 assert.equal(experimentState.attempt, 2);
 assert.equal(experimentState.validation.passed, true);
+assert.equal(experimentState.scope.id, `run:${experiment.id}`);
+assert.deepEqual(experimentState.sandbox, { id: `simspace:${experiment.id}`, kind: "workspace-copy", mode: "workspace-write", lifecycle: "run-scoped" });
+assert.equal((await command(node, "runs.get", { id: experiment.id })).status, "approval_required");
 assert.equal(existsSync(join(workspace, "feature.txt")), false);
 assert.equal(experimentState.diff.files.some((file) => file.includes("feature.txt")), true);
+for (let attempt = 0; attempt < 100 && existsSync(node.experimentAdapter.location(experiment.id).workspace); attempt += 1) await new Promise((resolvePromise) => setTimeout(resolvePromise, 10));
+assert.equal(existsSync(node.experimentAdapter.location(experiment.id).workspace), false);
+const experimentArtifacts = await command(node, "artifacts.list", { runId: experiment.id });
+assert.equal(experimentArtifacts.some((item) => item.path.endsWith("manifest.json")), true);
+assert.equal(experimentArtifacts.some((item) => item.path.endsWith("changes.patch")), true);
+assert.equal((await command(node, "artifacts.read", { id: experimentArtifacts.find((item) => item.path.endsWith("manifest.json")).id })).encoding, "utf8");
 await command(node, "experiments.approve", { id: experiment.id });
 assert.equal(existsSync(join(workspace, "feature.txt")), false);
 await command(node, "experiments.promote", { id: experiment.id });
 assert.equal(readFileSync(join(workspace, "feature.txt"), "utf8"), "fixed");
 assert.equal(node.engine.n.centralWorkspace.getSnapshot().selected.revision, 1);
+assert.equal((await command(node, "runs.get", { id: experiment.id })).status, "completed");
+const decisionArtifacts = await command(node, "artifacts.list", { runId: experiment.id });
+assert.equal(decisionArtifacts.some((item) => item.path.endsWith("decisions/approval.json")), true);
+assert.equal(decisionArtifacts.some((item) => item.path.endsWith("decisions/promotion.json")), true);
+
+node.engine.n.centralArtifacts.record({ id: "artifact:escape-proof", hash: "", kind: "output", jobId: experiment.id, runId: experiment.id, path: "../seed", bytes: 4, mediaType: "text/plain", createdAt: Date.now(), requestId: "artifact-escape-proof" });
+await assert.rejects(() => command(node, "artifacts.read", { id: "artifact:escape-proof" }), /escapes/);
+
+await command(node, "providers.save", { id: "local-provider", kind: "lm-studio", name: "Local Proof Provider", baseUrl: "http://provider.test/v1", modelId: "qwen-proof" });
+await command(node, "providers.test", { id: "local-provider" });
+node.engine.n.centralModelRuntime.register({ id: "lm-studio:runtime-proof", kind: "lm-studio", modelId: "qwen-proof", contextLength: 16000, status: "ready", requestId: "runtime-provider-id-proof" });
+const runtimeRun = await command(node, "inference.submit", { messages: [{ role: "user", content: "prove runtime provider resolution" }], contextLength: 16000, maxOutputTokens: 32 });
+let runtimeJob;
+for (let attempt = 0; attempt < 100; attempt += 1) { runtimeJob = node.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === runtimeRun.id); if (["completed", "failed"].includes(runtimeJob.status)) break; await new Promise((resolvePromise) => setTimeout(resolvePromise, 10)); }
+assert.equal(runtimeJob.status, "completed");
+assert.equal(runtimeJob.route.id, "lm-studio:runtime-proof");
 
 const pairing = await command(node, "lan.create-pairing");
 const session = await node.execute(commandEnvelope("lan.pair", { code: pairing.code, clientName: "Proof Browser" }), { actorId: "anonymous", scopes: [] });
@@ -125,14 +157,26 @@ node.persist();
 const server = new LanServer({ node, staticRoot: resolve("apps/web/out"), port: 0 });
 const address = await server.start();
 assert.equal((await fetch(`${address.url}/api/v1/capabilities`)).status, 200);
+assert.equal((await command(node, "service.status")).supported, process.platform === "darwin");
 const crossOrigin = await fetch(`${address.url}/api/v1/commands`, { method: "POST", headers: { Origin: "https://malicious.example", "Content-Type": "application/json" }, body: JSON.stringify(commandEnvelope("system.state", {})) });
 assert.equal(crossOrigin.status, 403);
+const gateway = server.issueGatewayAccess({ runId: experiment.id, allowedTools: ["workspace.read"], expiresAt: Date.now() + 60_000 });
+assert.equal((await fetch(`${address.url}/v1/chat/completions`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ model: "nexuscentral-routed", messages: [{ role: "user", content: "unauthorized" }], stream: true }) })).status, 401);
+const gatewayResponse = await fetch(`${address.url}/v1/chat/completions`, { method: "POST", headers: { Authorization: `Bearer ${gateway.token}`, "Content-Type": "application/json" }, body: JSON.stringify({ model: "nexuscentral-routed", messages: [{ role: "user", content: "gateway proof" }], tools: [{ type: "function", function: { name: "workspace_read", parameters: { type: "object" } } }], stream: true }) });
+assert.equal(gatewayResponse.status, 200);
+assert.equal((await gatewayResponse.text()).includes("host "), true);
+const gatewayJob = node.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.kind === "gateway-inference" && item.scope?.parentRunId === experiment.id);
+assert.equal(gatewayJob.status, "completed");
+const gatewayArtifacts = await command(node, "artifacts.list", { runId: experiment.id });
+const downloadable = gatewayArtifacts.find((item) => item.path.endsWith(".stream.sse"));
+assert.ok(downloadable);
+assert.equal((await fetch(`${address.url}/api/v1/artifacts/${encodeURIComponent(downloadable.id)}`)).status, 200);
 await server.close();
 await node.close();
 
 const restored = new NexusNode({ databasePath, secretStore: secrets, fetchImpl });
 assert.equal(restored.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === job.id).status, "completed");
-assert.equal(restored.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === "interrupted-harness").status, "retry");
+assert.equal(restored.engine.n.centralJobs.getSnapshot().jobs.find((item) => item.id === "interrupted-harness").status, "failed");
 assert.equal(restored.engine.n.centralWorkspace.getSnapshot().selected.id, "proof-workspace");
 await restored.close();
 
