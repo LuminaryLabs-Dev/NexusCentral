@@ -1,0 +1,118 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: demo_refresh_sanitization_brief
+  name: Demo Refresh Sanitization Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - release
+    - sanitization
+    - tooling
+summary:
+  purpose: Turn tool-generated evidence and artifact-validation outputs into a reviewable sanitization and publish-readiness brief for stakeholder-facing demos.
+  offloads:
+    - repeated manual demo-refresh planning across public-shareable builds
+    - repeated privacy and sanitization review of demo bundles before a release packet is assembled
+    - repeated drafting of publish-handoff notes when the artifact boundary is hard to inspect manually
+goal_links:
+  project_goals:
+    - project_arrowhead_demo_build_safe_public_demo_payloads
+    - project_arrowhead_demo_keep_demo_refreshes_repeatable
+    - nexus_agent_chat_improve_demo_reliability
+  business_goals:
+    - release_evidence_and_demo_readiness
+    - human_view_validation_and_regression_evidence
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: demo_subject
+      type: string
+      description: Demo, build, or public-shareable artifact set that needs sanitization review.
+  optional:
+    - name: supporting_tools
+      type: list[string]
+      default:
+        - media_evidence_packager
+        - artifact_contract_validator
+      description: Existing tool contracts that should back the sanitization review.
+    - name: tool_report_paths
+      type: list[path]
+      default:
+        - reports/manifest.json
+        - reports/validation-summary.json
+        - reports/missing-evidence.json
+        - reports/contract-validation.json
+        - reports/unexpected-files.json
+      description: Tool outputs that should be interpreted before drafting the sanitization brief.
+    - name: shareability_axes
+      type: list[string]
+      default:
+        - public-safe-assets
+        - private-state-exclusion
+        - runtime-selection
+        - evidence-completeness
+        - publish-handoff-readiness
+      description: Sanitization and publishability dimensions that should be covered.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/release_evidence_and_demo_readiness.md
+    - goals/business_goals/human_view_validation_and_regression_evidence.md
+    - automations/experimental/human_view_evidence_brief.yaml
+    - automations/experimental/release_evidence_packet_seed.yaml
+    - tools/experimental_tools/media_evidence_packager.yaml
+    - tools/experimental_tools/artifact_contract_validator.yaml
+    - tools/validation/media_evidence_packager-validation.md
+    - tools/validation/artifact_contract_validator-validation.md
+    - docs/usage/tool-package-call-order.md
+    - docs/project_breakdowns/
+  expected:
+    - reports/manifest.json
+    - reports/validation-summary.json
+    - reports/missing-evidence.json
+    - reports/contract-validation.json
+    - reports/unexpected-files.json
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-demo-sanitization-brief.md
+      description: Main brief describing public-safe boundaries, sanitization checks, publish blockers, and evidence needed before release sharing.
+  secondary:
+    - path: artifacts/{project_slug}-demo-sanitization-matrix.md
+      description: Supporting matrix of asset classes, sanitization rules, publishability checks, and unresolved gaps.
+    - path: improvements/proposals/{project_slug}-demo-sanitization-followups.md
+      description: Narrow follow-up queue for missing evidence, unresolved payload ambiguity, or publish-handoff blockers.
+steps:
+  - id: load-tool-backed-evidence
+    objective: Reuse package and contract-validation outputs before reasoning about public-shareability.
+    actions:
+      - Read bundle manifests, missing-evidence summaries, and contract-validation findings if they exist.
+      - Separate tool-backed evidence from any remaining manual shareability judgment.
+  - id: map-public-safe-boundaries
+    objective: Capture the asset classes, runtime surfaces, and sanitization boundaries that matter for a safe demo refresh.
+    actions:
+      - Separate public-safe payloads from internal-only state, credentials, or private test artifacts.
+      - Connect the demo boundary review to the later release-evidence packet rather than replacing it.
+  - id: publish-brief-and-followups
+    objective: Produce a narrow sanitization brief plus the smallest blocker queue.
+    actions:
+      - Keep the brief focused on demo refresh and public-shareability.
+      - Record missing evidence or payload-boundary blockers separately from project-specific feature work.
+validation:
+  checks:
+    - The brief distinguishes sanitization boundaries from generic release evidence.
+    - The workflow cites concrete tool outputs when claiming a payload or evidence boundary is understood.
+    - Follow-ups stay smaller than the demo project itself.
+handoff:
+  upstream:
+    - human_view_evidence_brief
+    - release_evidence_packet_seed
+    - validation_infrastructure_readiness_review
+  downstream:
+    - workflow_review_gate
+notes:
+  - This live experimental spec extends the earlier staged proposal now that `media_evidence_packager` and `artifact_contract_validator` exist as real tool contracts.
+  - Keep the workflow interpretive: the tools package and validate, while this workflow explains whether the demo is safe to share.

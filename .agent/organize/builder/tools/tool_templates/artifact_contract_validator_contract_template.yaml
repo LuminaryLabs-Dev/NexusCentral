@@ -1,0 +1,49 @@
+version: 1
+kind: artifact_contract
+metadata:
+  id: sample_export_contract
+  description: Seed contract for validating export bundles, demo payloads, or packaged artifact directories.
+inventory:
+  ignore:
+    - "**/.DS_Store"
+    - "**/Thumbs.db"
+required_paths:
+  - id: manifest
+    path: manifests/export-manifest.json
+    type: file
+    severity: error
+  - id: preview_folder
+    path: previews
+    type: directory
+    severity: error
+pattern_rules:
+  - id: lod_meshes
+    match: assets/**/*_LOD[0-3].fbx
+    min_count: 4
+    severity: error
+  - id: preview_images
+    match: previews/**/*.png
+    min_count: 1
+    severity: warning
+count_rules:
+  - id: manifest_entries
+    match: manifests/*.json
+    exact_count: 1
+    severity: error
+manifest_parity:
+  enabled: true
+  manifest_path: manifests/export-manifest.json
+  path_key: relative_path
+  required: true
+partition_rules:
+  - id: public_payload
+    allowed_patterns:
+      - public/**
+      - manifests/**
+      - previews/**
+    denied_patterns:
+      - private/**
+    severity: error
+allowed_unexpected_patterns:
+  - README.md
+  - docs/**

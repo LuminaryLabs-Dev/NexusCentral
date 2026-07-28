@@ -1,0 +1,101 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: factory_export_readiness_review
+  name: Factory Export Readiness Review
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - export
+    - productization
+summary:
+  purpose: Review procedural factory repos for export, packaging, template, and catalog readiness, then publish a narrow commercialization support queue.
+  offloads:
+    - repeated export-readiness analysis across factory-style repos
+    - repeated packaging and manifest review before productization work
+    - repeated comparison of technical proof versus business-use readiness
+goal_links:
+  project_goals:
+    - nexus_botany_factory_ship_unity_ready_tree_pack_workflow
+    - nexus_aviation_factory_prove_generation_and_screenshot_contracts
+    - nexus_hardware_factory_clarify_exportable_mesh_output_and_validation_contracts
+    - nexus_texture_factory_progress_versions_from_proof_to_commercial_fit
+    - nexus_factory_factory_make_template_recommendations_trustworthy
+    - nexus_world_factory_keep_terrain_model_and_ui_in_sync
+  business_goals:
+    - factory_productization_and_export_quality
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+  optional:
+    - name: factory_roots
+      type: list[path]
+      default:
+        - ../NexusBotanyFactory
+        - ../NexusAviationFactory
+        - ../NexusHardwareFactory
+        - ../NexusTextureFactory
+        - ../NexusFactoryFactory
+        - ../NexusWorldFactory
+      description: Repositories to compare for export and packaging readiness.
+    - name: readiness_axes
+      type: list[string]
+      default:
+        - export-path
+        - packaging
+        - validation-evidence
+        - template-or-manifest-quality
+        - commercial-fit
+      description: Dimensions used to compare productization maturity.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/factory_productization_and_export_quality.md
+    - goals/workflow_targets/factory_export_readiness_review.md
+    - tools/experimental_tools/artifact_contract_validator.yaml
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/factory-export-readiness-review.md
+      description: Cross-factory review note with commercialization and export-readiness recommendations.
+  secondary:
+    - path: artifacts/factory-export-readiness-matrix.md
+      description: Side-by-side matrix of export, packaging, evidence, and catalog readiness.
+    - path: improvements/proposals/factory-export-followups.md
+      description: Ordered follow-up list for the highest-value export and packaging gaps.
+steps:
+  - id: compare-factory-maturity
+    objective: Distinguish technical proof repos from repos approaching commercial workflow usefulness.
+    actions:
+      - Prefer `ncb-artifact-contract-validator inventory` or `validate` before the review when a factory repo already defines an export folder or output contract.
+      - Review each factory against the selected readiness axes.
+      - Note where a repo already has a clear export or packaging contract.
+  - id: isolate-blocking-gaps
+    objective: Pull out the missing support that blocks practical productization.
+    actions:
+      - Flag missing validation evidence, packager docs, template quality controls, or export-review steps.
+      - Separate foundational gaps from later polish work.
+  - id: publish-readiness-guidance
+    objective: Produce a reviewable recommendation set rather than direct implementation tasks.
+    actions:
+      - Rank the most leverage-rich support workflows.
+      - Keep repo-specific recommendations mapped to explicit goals.
+validation:
+  checks:
+    - The report distinguishes technical feasibility from commercially useful workflow readiness.
+    - Every recommendation cites the repo and readiness axis it came from.
+    - Follow-ups remain planning or review oriented.
+handoff:
+  upstream:
+    - workspace_inventory
+    - proposal_backlog_triage
+  downstream:
+    - workflow_gap_seeding
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when multiple factory repos need comparable export and packaging support.
+  - "`artifact_contract_validator` should supply the file-system evidence when an export contract already exists."

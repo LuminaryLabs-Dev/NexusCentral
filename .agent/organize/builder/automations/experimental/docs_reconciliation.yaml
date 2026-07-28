@@ -1,0 +1,79 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: docs_reconciliation
+  name: Documentation Reconciliation
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - documentation
+    - cleanup
+    - reconciliation
+summary:
+  purpose: Reconcile scattered, stale, duplicate, or placeholder documentation into a reviewable cleanup queue.
+  offloads:
+    - repeated documentation inventory work
+    - repeated stale-doc and duplicate-doc triage
+    - repeated decisions about where notes should live in the workspace
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing docs, lessons, and improvements.
+  optional:
+    - name: doc_roots
+      type: list[path]
+      default:
+        - docs
+        - lessons
+        - improvements
+      description: Directories to reconcile.
+    - name: reconciliation_mode
+      type: string
+      default: report_only
+      description: Keep the workflow non-destructive by default.
+reads:
+  required:
+    - README.md
+    - docs/
+    - lessons/
+    - improvements/
+writes:
+  primary:
+    - path: artifacts/docs_inventory.md
+      description: Path-by-path inventory of documentation assets and placeholder files.
+    - path: docs/usage/docs-reconciliation-report.md
+      description: Human-readable cleanup summary with merge, move, and retire recommendations.
+      template: templates/doc_templates/docs_reconciliation_note.md
+  secondary:
+    - path: improvements/proposals/docs-cleanup-actions.md
+      description: Ordered cleanup queue for a later implementation pass.
+steps:
+  - id: map-doc-surface
+    objective: Record where documentation currently lives and what purpose each area serves.
+    actions:
+      - Inventory docs, lessons, and improvements separately.
+      - Flag placeholder files, sparse directories, and overlapping note categories.
+  - id: classify-doc-quality
+    objective: Distinguish stable references from drafts, examples, and stale content.
+    actions:
+      - Mark each notable file as active reference, example, proposal, lesson, or placeholder.
+      - Flag duplicate topics or confusing placement.
+  - id: propose-cleanup-actions
+    objective: Produce a reversible cleanup plan instead of direct edits.
+    actions:
+      - Recommend merge, move, rename, archive, or keep decisions.
+      - Explain the reason and expected benefit for each recommendation.
+validation:
+  checks:
+    - Every cleanup action cites the source path it refers to.
+    - Recommendations remain non-destructive unless a later workflow explicitly performs edits.
+    - The report separates observed problems from proposed fixes.
+handoff:
+  upstream:
+    - workspace_inventory
+    - initiative_plan
+notes:
+  - This workflow should be run after exploration and before any broad documentation rewrite.
+  - Keep this workflow experimental until the workspace has clearer thresholds for when docs should be merged, disabled, or archived.

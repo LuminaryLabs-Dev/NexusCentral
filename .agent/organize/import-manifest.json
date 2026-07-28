@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "importId": "nexuscentral-builder-legacy-2026-07-24",
+  "importedAt": "2026-07-24T07:31:20-04:00",
+  "source": {
+    "label": "NexusCentral-Builder",
+    "originalLocation": "<github-workspace>/NexusCentral-Builder",
+    "wasGitRepository": false,
+    "fileCount": 244
+  },
+  "destination": ".agent/organize/builder",
+  "workflowClassification": "legacy_unvalidated",
+  "contentValidationStatus": "fully_validated",
+  "validatedAt": "2026-07-24T07:33:25-04:00",
+  "readOnlyProvenance": true,
+  "exclusions": [
+    ".DS_Store",
+    "Git metadata",
+    "environment and credential files",
+    "browser profiles and authentication state",
+    "Playwright reports, traces, screenshots, and videos",
+    "macOS extended attributes"
+  ],
+  "stagingValidation": {
+    "fileCount": 244,
+    "symlinks": 0,
+    "personalPathFindings": 0,
+    "credentialFindings": 0,
+    "browserArtifactFindings": 0,
+    "jsonFilesParsed": 0,
+    "yamlFilesParsed": 51,
+    "markdownFilesReviewed": 157,
+    "localLinksChecked": 150,
+    "workspacePlaceholdersSkipped": 29,
+    "brokenLocalLinks": 0,
+    "checksumEntries": 244
+  },
+  "destinationValidation": {
+    "fileCount": 244,
+    "sourceDestinationDifferences": 0,
+    "checksumEntries": 244,
+    "checksumVerifications": 244,
+    "symlinks": 0,
+    "personalPathFindings": 0,
+    "credentialFindings": 0,
+    "browserArtifactFindings": 0,
+    "jsonFilesParsed": 1,
+    "yamlFilesParsed": 51,
+    "markdownFilesReviewed": 158,
+    "localLinksChecked": 153,
+    "workspacePlaceholdersSkipped": 29,
+    "brokenLocalLinks": 0,
+    "gitDiffCheck": "clean",
+    "v2DirtyState": "unchanged",
+    "activeGoal": "unchanged"
+  },
+  "sourceRetirement": {
+    "status": "moved_to_trash",
+    "retiredAt": "2026-07-24T07:34:47-04:00",
+    "originalLocationStatus": "absent",
+    "recoverableLocation": "<user-trash>/NexusCentral-Builder-2026-07-24-imported",
+    "trashFileCount": 244,
+    "trashChecksumVerifications": 244,
+    "destinationTrashDifferences": 0
+  },
+  "notes": [
+    "Imported lifecycle labels remain historical and do not activate workflows.",
+    "One stale archived self-link was corrected before import.",
+    "The NexusCentral-V2 dirty worktree is outside this import and remains untouched."
+  ]
+}

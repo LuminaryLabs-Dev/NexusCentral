@@ -213,7 +213,7 @@ public sealed class LabConversationTests : IDisposable
         var transcript = string.Join("\n", services.Lab.Transcript.Select(item => item.FormattedText));
         var events = services.Execution.GetEvents();
 
-        Assert.Equal("Harness: Conversation Harness", services.Lab.ActiveHarnessStatusText);
+        Assert.Equal("Assistant: Conversation Harness", services.Lab.ActiveHarnessStatusText);
         Assert.Contains("16000 max tokens", services.Lab.ActiveHarnessRouteText);
         Assert.Contains("Harness answer from LFM.", transcript);
         Assert.Contains("Use the configured local model endpoint", runner.LastRequest?.Message);

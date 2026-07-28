@@ -1,0 +1,9 @@
+{
+  "name": "@nexuscentral/electron",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./main.mjs",
+  "scripts": { "start": "electron .", "build": "node ./scripts/build.mjs", "check": "node --check ./main.mjs && node --check ./preload.cjs" },
+  "devDependencies": { "electron": "43.1.0" }
+}

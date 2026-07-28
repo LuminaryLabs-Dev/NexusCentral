@@ -1,0 +1,58 @@
+{
+  "name": "nexuscentral-v2",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "NexusCentral V2 service-operated LAN workbench",
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*",
+    "adapters/*"
+  ],
+  "scripts": {
+    "check": "node ./scripts/check.mjs && npm run check --workspaces --if-present",
+    "check:integration": "node ./scripts/integration-check.mjs",
+    "check:scale": "node ./scripts/mesh-scale-check.mjs",
+    "check:lm-studio": "node ./scripts/live-lm-studio-check.mjs",
+    "check:harness-live": "node ./scripts/live-harness-check.mjs",
+    "dev": "node ./services/nexus-node/src/cli.mjs",
+    "dev:peer-broker": "node ./services/peer-broker/src/cli.mjs",
+    "dev:web": "npm run dev --workspace @nexuscentral/web",
+    "build": "npm run build --workspace @nexuscentral/web && npm run build --workspace @nexuscentral/electron",
+    "migrate:electron": "node ./scripts/migrate-electron.mjs",
+    "package:desktop": "node ./scripts/package-desktop.mjs",
+    "service:install": "node ./scripts/macos-service.mjs install",
+    "service:status": "node ./scripts/macos-service.mjs status",
+    "service:uninstall": "node ./scripts/macos-service.mjs uninstall",
+    "start:electron": "npm run start --workspace @nexuscentral/electron",
+    "prepare:proof": "node ./scripts/prepare-simulator-proof.mjs",
+    "simulate:contracts": "node ./scripts/run-nexus-simulator.mjs contracts",
+    "simulate:browser": "node ./scripts/run-nexus-simulator.mjs browser",
+    "simulate": "npm run check && npm run check:integration && npm run check:scale && npm run simulate:contracts && npm run simulate:browser"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock": "3.1085.0",
+    "@aws-sdk/client-bedrock-runtime": "3.1085.0",
+    "@chainsafe/libp2p-noise": "17.0.0",
+    "@chainsafe/libp2p-yamux": "8.0.1",
+    "@libp2p/identify": "4.1.9",
+    "@libp2p/crypto": "5.1.21",
+    "@libp2p/mdns": "12.0.26",
+    "@libp2p/tcp": "11.0.23",
+    "libp2p": "3.3.5",
+    "peer": "1.0.2",
+    "peerjs": "1.5.5",
+    "@roamhq/wrtc": "0.10.0",
+    "express": "4.22.2",
+    "nexusengine": "github:LuminaryLabs-Dev/NexusEngine#d76d54f862f9c6c6a115471b483dc1afda3f6b4a",
+    "ws": "8.21.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.0.2",
+    "electron": "43.1.0"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

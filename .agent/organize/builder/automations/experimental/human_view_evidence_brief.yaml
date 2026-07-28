@@ -1,0 +1,99 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: human_view_evidence_brief
+  name: Human View Evidence Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - validation
+    - human-view
+    - evidence
+summary:
+  purpose: Turn a repo or milestone into a clear visible-state validation brief covering screenshots, launch checks, parity checks, and before or after proof.
+  offloads:
+    - repeated planning of what a human reviewer should actually see
+    - repeated screenshot and launch-state checklist drafting
+    - repeated conversion of visible regression risk into a reviewable validation brief
+goal_links:
+  project_goals:
+    - human_view_python_support_repeatable_visual_regression_evidence
+    - nexus_botany_factory_validate_lod_and_export_quality_visibly
+    - nexus_agent_chat_validate_persona_and_mesh_flows_visibly
+    - vending_backpack_keep_manager_employee_ui_parity_reviewable
+    - project_arrowhead_2025_capture_release_evidence_for_multi_surface_flows
+  business_goals:
+    - human_view_validation_and_regression_evidence
+    - release_evidence_and_demo_readiness
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: review_subject
+      type: string
+      description: Human-readable feature, milestone, or repo surface needing visible proof.
+  optional:
+    - name: evidence_modes
+      type: list[string]
+      default:
+        - launch-state
+        - screenshots
+        - before-after
+        - parity-check
+        - fallback-observation
+      description: Visible proof modes that should be considered.
+    - name: likely_targets
+      type: list[path]
+      default:
+        - ../human-view-python
+        - ../NexusBotanyFactory
+        - ../NexusAgentChat
+        - ../VendingBackpack
+        - ../ProjectArrowhead-2025
+      description: Common repos that frequently need human-view evidence planning.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/human_view_validation_and_regression_evidence.md
+    - goals/workflow_targets/human_view_evidence_brief.md
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-human-view-brief.md
+      description: Main validation brief describing what should be seen, captured, and compared.
+  secondary:
+    - path: artifacts/{review_slug}-human-view-checklist.md
+      description: Compact checklist for visible-state validation and evidence collection.
+    - path: improvements/proposals/{review_slug}-human-view-followups.md
+      description: Gaps discovered during brief creation, such as missing hooks or unobservable states.
+steps:
+  - id: define-visible-surfaces
+    objective: Name the user-visible moments that matter for the selected review subject.
+    actions:
+      - List launch state, primary interaction flow, error or fallback states, and any parity or comparison needs.
+      - Map each surface to an evidence mode.
+  - id: draft-review-brief
+    objective: Produce a reusable validation brief rather than an ad hoc checklist.
+    actions:
+      - Specify what a reviewer should capture and why it matters.
+      - Keep visible proof distinct from backend or implementation checks.
+  - id: record-observability-gaps
+    objective: Surface what cannot yet be validated cleanly.
+    actions:
+      - Note missing screenshot hooks, opaque state transitions, or parity ambiguity.
+      - Queue only the validation-enabling follow-up work.
+validation:
+  checks:
+    - The brief focuses on what a human should observe, not hidden implementation detail.
+    - The checklist is shorter and more actionable than the brief.
+    - Follow-ups name concrete observability gaps.
+handoff:
+  upstream:
+    - initiative_plan
+  downstream:
+    - release_evidence_packet_seed
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when visible quality matters and the missing piece is proof planning, not test implementation.

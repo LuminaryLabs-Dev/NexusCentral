@@ -1,6 +1,22 @@
 # NexusCentral
 
-NexusCentral is a local desktop control plane built from the active `NexusCentral-V1` app lane.
+NexusCentral is a local control plane. The active stable checkpoint is the Avalonia `NexusCentral-V1` lane. The Electron cutover proof lives in `NexusCentral-Electron`.
+
+## Current Direction
+
+```text
+NexusCentral-V1
+|-- stable Avalonia checkpoint
+|-- workflow contract: Lab / Router / Models / Review / Settings
+
+NexusCentral-Electron
+|-- new web-first desktop shell proof
+|-- Lab coding loop: Review / Act / Audit
+|-- coding harness with workspace-scoped tools
+|-- desktop adapters for local model, harness, workspace, proof review, Rust sidecar
+```
+
+Do not retire `NexusCentral-V1` until the Electron lane proves local model calls, Conversation Harness execution, workspace browsing, validation proof review, Linux packaging, and Rust sidecar execution.
 
 ## Downloads
 

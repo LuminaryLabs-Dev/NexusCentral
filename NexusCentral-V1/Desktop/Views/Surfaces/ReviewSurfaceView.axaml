@@ -1,0 +1,155 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="NexusCentral.V1.Desktop.Views.Surfaces.ReviewSurfaceView"
+             x:CompileBindings="False">
+  <Grid RowDefinitions="Auto,*"
+        DataContext="{Binding Lab}">
+    <Border Classes="flatToolbar">
+      <Grid ColumnDefinitions="*,Auto,Auto,Auto"
+            ColumnSpacing="10">
+        <StackPanel Spacing="2">
+          <TextBlock Text="Proof runs"
+                     Classes="sectionTitle" />
+          <TextBlock Text="{Binding ValidationEndpointText}"
+                     Classes="sectionMeta" />
+        </StackPanel>
+        <Button Grid.Column="1"
+                Classes="secondary"
+                Content="Run smoke"
+                Command="{Binding ExecuteValidationSmokeCommand}" />
+        <Button Grid.Column="2"
+                Classes="secondary"
+                Content="Run all"
+                Command="{Binding ExecuteValidationAllCommand}" />
+        <Button Grid.Column="3"
+                Classes="primary"
+                Content="Review output"
+                Command="{Binding ReviewSelectedValidationJobCommand}" />
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1"
+          ColumnDefinitions="340,*">
+      <Border Classes="flatLane">
+        <Grid RowDefinitions="Auto,Auto,*"
+              RowSpacing="10">
+          <StackPanel Spacing="3">
+            <TextBlock Text="{Binding ValidationScenarioSummaryText}"
+                       Classes="sectionTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationTopCapabilityText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationFullProjectText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+          </StackPanel>
+
+          <StackPanel Grid.Row="1"
+                      Spacing="4">
+            <TextBlock Text="{Binding ValidationRunStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationExecutionStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding ValidationJobSummaryText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <Button Classes="secondary"
+                    Content="Stage run"
+                    Command="{Binding StageValidationRunCommand}" />
+          </StackPanel>
+
+          <ListBox Grid.Row="2"
+                   Classes="flatList"
+                   ItemsSource="{Binding ValidationJobs}"
+                   SelectedItem="{Binding SelectedValidationJob, Mode=TwoWay}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <Border Classes="flatListRow">
+                  <StackPanel Spacing="2">
+                    <TextBlock Text="{Binding DisplayName}"
+                               Classes="sectionTitle" />
+                    <TextBlock Text="{Binding DetailText}"
+                               Classes="caption"
+                               TextWrapping="Wrap" />
+                    <TextBlock Text="{Binding CreatedText}"
+                               Classes="caption" />
+                  </StackPanel>
+                </Border>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+          </ListBox>
+        </Grid>
+      </Border>
+
+      <Border Grid.Column="1"
+              Classes="flatMainLane">
+        <Grid RowDefinitions="Auto,Auto,*"
+              RowSpacing="10">
+          <Grid ColumnDefinitions="*,Auto,Auto"
+                ColumnSpacing="8">
+            <StackPanel Spacing="2">
+              <TextBlock Text="{Binding SelectedValidationJobTitle}"
+                         Classes="pageTitle"
+                         TextWrapping="Wrap" />
+              <TextBlock Text="{Binding SelectedValidationJobDetail}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Classes="secondary"
+                    Content="Open run folder"
+                    Command="{Binding OpenSelectedValidationRunCommand}" />
+            <Button Grid.Column="2"
+                    Classes="primary"
+                    Content="Review output"
+                    Command="{Binding ReviewSelectedValidationJobCommand}" />
+          </Grid>
+
+          <Border Grid.Row="1"
+                  Classes="flatBlock">
+            <TextBlock Text="{Binding SelectedValidationJobReviewText}"
+                       Classes="sectionTitle"
+                       TextWrapping="Wrap" />
+          </Border>
+
+          <Grid Grid.Row="2"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="8">
+            <Border Classes="flatBlock">
+              <TextBlock Text="{Binding SelectedValidationJobScoreboardText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </Border>
+            <Border Grid.Row="1"
+                    Classes="flatBlock">
+              <TextBlock Text="{Binding SelectedValidationJobRankingText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </Border>
+            <Border Grid.Row="2"
+                    Classes="flatBlock">
+              <TextBlock Text="{Binding SelectedValidationJobProjectsText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </Border>
+            <Border Grid.Row="3"
+                    Classes="flatBlock">
+              <TextBlock Text="{Binding SelectedValidationJobLearningText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </Border>
+            <Border Grid.Row="4"
+                    Classes="flatBlock">
+              <TextBlock Text="{Binding SelectedValidationJobRunFolderText}"
+                         Classes="sectionMeta"
+                         TextWrapping="Wrap" />
+            </Border>
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

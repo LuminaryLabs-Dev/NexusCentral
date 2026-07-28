@@ -1,0 +1,181 @@
+version: 1
+kind: tool_contract
+metadata:
+  id: tool_surface_snapshotter
+  name: Tool Surface Snapshotter
+  status: final
+  maturity: final-ready
+  owner: nexus-central
+  implementation_status: specification_only
+  proposal_source: proposals/tool_proposals/tool_surface_snapshotter.md
+  tags:
+    - cli
+    - tools
+    - observability
+summary:
+  purpose: Discover and normalize tool manifests, route declarations, schemas, wrapper descriptors, health cues, and CLI entrypoints into one catalog and drift report surface.
+  business_usefulness: high
+  workflow_support_value: high
+  repeatability: highest
+  implementation_clarity: highest
+  why_this_shape: The repeated work is read-only catalog extraction and normalized diffing, which is narrow enough to define as a stable CLI surface now and feed directly into audit workflows.
+goal_links:
+  business_goals:
+    - tool_surface_contract_and_runtime_observability
+  workflow_targets:
+    - tool_surface_contract_audit
+scope:
+  included:
+    - Discover manifests, route declarations, schema files, wrapper descriptors, health endpoints, and CLI entrypoints across configured repo roots.
+    - Normalize those findings into one tool catalog schema.
+    - Compare a current snapshot against a previous snapshot to highlight drift.
+    - Flag missing descriptions, schemas, health cues, or discovery docs.
+  excluded:
+    - Calling live runtime endpoints.
+    - Mutating repositories or generating wrapper code.
+    - Deciding remediation priority beyond reporting drift and missing signals.
+workflow_relationships:
+  run_before:
+    - tool_surface_contract_audit
+    - workflow_catalog_refresh
+  handoff_artifacts:
+    - output: reports/tool-catalog.json
+      used_by:
+        - tool_surface_contract_audit
+        - workflow_catalog_refresh
+    - output: reports/tool-catalog.md
+      used_by:
+        - tool_surface_contract_audit
+    - output: reports/missing-contract-signals.json
+      used_by:
+        - tool_surface_contract_audit
+        - workflow_catalog_refresh
+    - output: reports/drift-report.json
+      used_by:
+        - tool_surface_contract_audit
+package_assets:
+  template_files:
+    - tools/tool_templates/tool_surface_snapshotter_config_template.yaml
+  validation_note: tools/validation/tool_surface_snapshotter-validation.md
+  usage_docs:
+    - docs/examples/tool-package-cli-examples.md
+    - docs/examples/tool-package-template-examples.md
+    - docs/usage/tool-package-call-order.md
+commands:
+  - name: snapshot
+    purpose: Discover the current tool surface across configured repo roots and emit a normalized catalog plus missing-signal report.
+    usage: ncb-tool-surface-snapshotter snapshot --config <config.yaml> --output-dir <dir>
+    inputs:
+      required:
+        - name: config
+          type: path
+          description: YAML or JSON file listing repo roots, file patterns, known route prefixes, wrapper filenames, and extraction hints.
+        - name: output_dir
+          type: path
+          description: Directory where the catalog and missing-signal reports should be written.
+      optional:
+        - name: include_readme_hints
+          type: bool
+          default: true
+          description: Include README and docs hints when explicit manifests or schemas are absent.
+        - name: previous_snapshot
+          type: path
+          default: ""
+          description: Optional prior tool-catalog.json used to emit a drift report during the same command.
+    outputs:
+      stdout:
+        format: json
+        description: Catalog counts by repo and surface type plus missing-signal summary.
+      files:
+        - path: reports/tool-catalog.json
+          description: Canonical normalized tool surface catalog.
+        - path: reports/tool-catalog.md
+          description: Human-readable audit summary organized by repo and surface type.
+        - path: reports/missing-contract-signals.json
+          description: Missing descriptions, schemas, health cues, or discovery docs by repo and surface.
+        - path: reports/drift-report.json
+          description: Optional diff against a previous snapshot when previous_snapshot is supplied.
+    file_behavior:
+      reads:
+        - Configured repo roots and matching manifest, schema, route, wrapper, and docs files.
+      writes:
+        - Output reports under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Every catalog entry records repo root, discovery source path, surface type, and normalized identifier.
+        - Missing-signal findings cite the repo and specific missing contract cue.
+        - Diff output compares normalized identifiers rather than raw file ordering.
+    exit_codes:
+      0: success
+      1: snapshot_incomplete
+      2: configuration_error
+  - name: diff
+    purpose: Compare two saved snapshot files and emit a focused drift report without rescanning repos.
+    usage: ncb-tool-surface-snapshotter diff --current <tool-catalog.json> --previous <tool-catalog.json> --output-dir <dir>
+    inputs:
+      required:
+        - name: current
+          type: path
+          description: Current tool-catalog.json snapshot.
+        - name: previous
+          type: path
+          description: Previous tool-catalog.json snapshot to compare against.
+        - name: output_dir
+          type: path
+          description: Directory where the drift report should be written.
+      optional:
+        - name: collapse_renames
+          type: bool
+          default: true
+          description: Attempt to classify path-only changes as renames instead of separate add and remove events.
+    outputs:
+      stdout:
+        format: json
+        description: Added, removed, changed, and missing-signal counts.
+      files:
+        - path: reports/drift-report.json
+          description: Machine-readable drift report grouped by repo and surface type.
+        - path: reports/drift-report.md
+          description: Human-readable contract drift summary for review workflows.
+    file_behavior:
+      reads:
+        - Two saved tool-catalog.json snapshots.
+      writes:
+        - Drift reports under the provided output directory only.
+      modifies_inputs: false
+      destructive_actions: none
+    validation:
+      checks:
+        - Added, removed, and changed entries are computed from normalized identifiers.
+        - The same snapshot pair produces stable drift output across repeated runs.
+    exit_codes:
+      0: success
+      1: drift_detected
+      2: configuration_error
+global_output_contract:
+  notes:
+    - tool-catalog.json is the stable handoff contract for downstream workflows.
+    - missing-contract-signals.json and drift-report.json are companion diagnostics, not alternate catalog formats.
+build_plan:
+  implementation_slices:
+    - id: source-discovery
+      objective: Resolve repo roots and known file patterns into one candidate surface list.
+    - id: surface-extraction
+      objective: Extract manifests, routes, wrappers, schemas, health cues, and CLI entrypoints into normalized records.
+    - id: missing-signal-evaluator
+      objective: Flag missing descriptions, schemas, health cues, or discovery docs from the normalized records.
+    - id: snapshot-emitter
+      objective: Emit stable JSON and Markdown catalogs suitable for diff-based audits.
+    - id: snapshot-diff
+      objective: Compare two snapshot files and emit a focused drift report using normalized identifiers.
+  validation_sequence:
+    - Snapshot a repo set containing manifests, README hints, and route declarations and confirm each surface record cites its discovery path.
+    - Snapshot the same repo set twice and confirm tool-catalog.json is stable enough for diff-based review.
+    - Diff two fixture snapshots with one added route, one removed schema, and one renamed wrapper and confirm changes are classified consistently.
+promotion:
+  current_placement: tools/final_tools/
+  ready_for_final_when:
+    - Already placed final because the contract is read-only, narrowly scoped, and backed by a stable workflow target.
+    - Further work should refine extractor coverage without changing the tool's placement or command surface unless a concrete review failure proves the current contract insufficient.

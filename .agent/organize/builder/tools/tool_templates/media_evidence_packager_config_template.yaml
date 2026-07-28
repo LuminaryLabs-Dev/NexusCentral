@@ -1,0 +1,68 @@
+version: 1
+kind: media_evidence_packager_config
+metadata:
+  id: release_evidence_bundle
+  description: Seed config for packaging screenshots, logs, tests, manifests, and notes into one reviewable evidence bundle.
+source_roots:
+  - root: ../ProjectArrowhead-Demo
+    include:
+      - screenshots/**/*.png
+      - logs/**/*.log
+      - test-results/**/*.json
+      - manifests/**/*.json
+      - notes/**/*.md
+    exclude:
+      - "**/.DS_Store"
+      - "**/node_modules/**"
+class_rules:
+  - class: screenshots
+    include:
+      - screenshots/**/*.png
+      - screenshots/**/*.jpg
+    required_min: 3
+    partition: public
+  - class: logs
+    include:
+      - logs/**/*.log
+      - logs/**/*.txt
+    required_min: 1
+    partition: private
+  - class: tests
+    include:
+      - test-results/**/*.json
+      - test-results/**/*.xml
+    required_min: 1
+    partition: public
+  - class: manifests
+    include:
+      - manifests/**/*.json
+      - manifests/**/*.yaml
+    required_min: 1
+    partition: public
+  - class: notes
+    include:
+      - notes/**/*.md
+    required_min: 1
+    partition: public
+required_classes:
+  - screenshots
+  - tests
+  - manifests
+  - notes
+metadata_fields:
+  repo: ProjectArrowhead-Demo
+  milestone: release-candidate
+  reviewer: nexus-central
+  release_id: rc-001
+sanitization:
+  enabled: true
+  default_partition: public
+  rules:
+    - match:
+        - logs/**
+        - "**/*private*"
+      partition: private
+output_layout:
+  reports_root: reports
+  public_root: evidence/public
+  private_root: evidence/private

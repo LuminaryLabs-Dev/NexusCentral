@@ -1,0 +1,82 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: tool_input_seed_template
+  name: Tool Input Seed Template
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - template
+    - tooling
+    - seeding
+summary:
+  purpose: Starter template for workflows that translate repo-specific promises into draft tool-input contracts, profiles, or config guidance without claiming final executable schema stability.
+  offloads:
+    - repeated reinvention of tool-input authoring workflow structure
+    - repeated hiding of provisional tool schema assumptions inside otherwise useful review prose
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the goals, tool contracts, and subject docs that should shape the seed.
+    - name: target_subject
+      type: string
+      description: Human-readable repo, bundle, or export surface whose tool-input profile is being seeded.
+  optional:
+    - name: supporting_tools
+      type: list[string]
+      default:
+        - replace_with_tool_id
+      description: Tool contracts whose future configs or profiles this workflow helps define.
+    - name: profile_sections
+      type: list[string]
+      default:
+        - required-files
+        - evidence-classes
+        - partition-rules
+      description: Contract or profile sections that should be captured in the seed brief.
+reads:
+  required:
+    - goals/
+    - docs/conventions/
+  expected:
+    - tools/final_tools/
+    - tools/experimental_tools/
+    - tools/validation/
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-tool-input-seed.md
+      description: Main brief describing the draft contract or profile shape and the assumptions behind it.
+  secondary:
+    - path: artifacts/{project_slug}-tool-input-matrix.md
+      description: Supporting matrix that maps repo promises to tool-input sections or rule groups.
+    - path: improvements/proposals/{project_slug}-tool-input-followups.md
+      description: Narrow follow-up queue for schema ambiguity, missing source evidence, or reuse blockers.
+steps:
+  - id: inspect-tool-contracts
+    objective: Confirm how much of the future tool input shape is already documented and how much remains provisional.
+    actions:
+      - Read the relevant tool contracts and validation notes first.
+      - Separate stable input expectations from schema areas that still need proof.
+  - id: map-subject-promises-to-input-sections
+    objective: Translate the repo or bundle promises into reviewable tool-input sections.
+    actions:
+      - Group rules, profile sections, or class maps by the tool they would support.
+      - Keep unresolved schema assumptions visible instead of embedding them silently.
+  - id: publish-seed-brief
+    objective: Produce a reusable seed brief without implying the tool inputs are already final.
+    actions:
+      - Record the draft profile shape in docs/usage.
+      - Queue only the smallest follow-ups needed before a real config or contract file should be authored.
+validation:
+  checks:
+    - The workflow distinguishes stable tool-input expectations from provisional schema guesses.
+    - The seed brief cites both the subject promises and the tool contracts it intends to support.
+    - Follow-ups stay narrower than building the full tool or repo workflow.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Use this template when a workflow should seed tool-input guidance instead of directly interpreting tool outputs.

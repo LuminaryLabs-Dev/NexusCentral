@@ -1,0 +1,92 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workspace_hygiene_triage
+  name: Workspace Hygiene Triage
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - cleanup
+    - setup
+    - classification
+summary:
+  purpose: Classify surrounding repositories as active, leverage, archive, empty, or restart-needed so planning and workflow seeding stay grounded in the real estate.
+  offloads:
+    - repeated repo-status classification across a mixed GitHub portfolio
+    - repeated empty-repo and dormant-prototype triage
+    - repeated bootstrap recommendation drafting for repos that need a clearer starting point
+goal_links:
+  project_goals:
+    - luminary_labs_classify_active_work_vs_archive
+    - luminary_assets_dec2025_reduce_asset_archive_ambiguity
+    - nexus_test_project_decide_whether_to_delete_or_seed
+    - horror_corridor_decide_restart_or_archive
+    - flyboys_decide_active_vs_archive_status
+  business_goals:
+    - cross_project_bootstrap_and_workspace_hygiene
+    - portfolio_signal_and_goal_clarity
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: github_root
+      type: path
+      description: Parent GitHub directory containing the surrounding repositories.
+  optional:
+    - name: classification_labels
+      type: list[string]
+      default:
+        - active-product
+        - active-support
+        - leverage-tool
+        - archive-candidate
+        - restart-needed
+        - empty-placeholder
+      description: Allowed status labels for triage.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/cross_project_bootstrap_and_workspace_hygiene.md
+    - goals/workflow_targets/workspace_hygiene_triage.md
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/workspace-hygiene-triage.md
+      description: Main repo-status triage note with recommended labels and rationale.
+  secondary:
+    - path: artifacts/workspace-hygiene-matrix.md
+      description: Repository matrix of status labels, evidence, and recommended next action.
+    - path: improvements/proposals/workspace-hygiene-followups.md
+      description: Ordered queue for archive moves, setup briefs, ownership notes, or status refreshes.
+steps:
+  - id: classify-repo-estate
+    objective: Give every repo a practical status label based on current evidence instead of folder name assumptions.
+    actions:
+      - Compare breakdowns, docs, and visible file surfaces.
+      - Distinguish real active work from placeholders, archives, or leverage tooling.
+  - id: identify-bootstrap-or-archive-needs
+    objective: Pull out the repos that most need clearer next steps.
+    actions:
+      - Flag empty or underdefined repos for seeding, restart, or deletion decisions.
+      - Flag archive-like repos that still influence planning through stale visibility.
+  - id: publish-triage-guidance
+    objective: Produce a small, reviewable status map plus next-step queue.
+    actions:
+      - Record the recommended label and rationale for each low-confidence repo.
+      - Keep follow-ups limited to status clarification and bootstrap support.
+validation:
+  checks:
+    - Every repo status recommendation cites evidence from the breakdown set.
+    - Empty or low-signal repos are called out explicitly rather than ignored.
+    - Follow-up work remains narrower than a broad repo refactor.
+handoff:
+  upstream:
+    - workspace_inventory
+  downstream:
+    - project_setup_brief
+    - proposal_backlog_triage
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when the mixed repo estate itself is creating planning friction.

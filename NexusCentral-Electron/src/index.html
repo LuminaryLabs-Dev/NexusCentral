@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NexusCentral</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="particle-field" aria-hidden="true"></canvas>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <strong>NexusCentral</strong>
+        </div>
+        <nav>
+          <button data-nav="lab">Lab</button>
+          <button data-nav="setup">Router</button>
+          <button data-nav="models">Models</button>
+          <button data-nav="review">Review</button>
+          <button data-nav="settings">Settings</button>
+        </nav>
+      </header>
+
+      <section data-surface="lab" class="surface lab-layout">
+        <aside class="workspace-lane" aria-label="Workspace context">
+          <div class="workspace-lane-head">
+            <strong>Workspace</strong>
+          </div>
+          <div class="button-row workspace-actions">
+            <button id="open-workspace">Open</button>
+            <button id="refresh-workspace" type="button" aria-label="Refresh workspace" title="Refresh workspace">&#8635;</button>
+            <button id="create-sandbox" class="quiet-action" type="button" aria-label="Create sandbox" title="Create sandbox">+</button>
+          </div>
+          <p id="workspace-result" class="muted"></p>
+          <details class="workspace-files" open>
+            <summary>Files <span id="workspace-count">0 items</span></summary>
+            <ul id="workspace-list" class="file-list"></ul>
+          </details>
+          <span id="workspace-path" class="workspace-path">Path: none</span>
+        </aside>
+
+        <section class="panel chat-panel hero-panel">
+          <div id="loop-state" class="loop-state" aria-live="polite" hidden></div>
+          <div id="transcript" class="transcript" aria-live="polite"></div>
+          <div class="composer">
+            <button id="attach-context" type="button" aria-label="Add attachment" title="Add attachment">+</button>
+            <textarea id="prompt-input" rows="1" aria-label="Lab request" placeholder="Describe what to build or change in this workspace..."></textarea>
+            <button id="send-message" class="primary" type="button" aria-label="Send request" title="Send request">&#8593;</button>
+          </div>
+        </section>
+      </section>
+
+      <section data-surface="setup" class="surface" hidden>
+        <section class="panel surface-page setup-panel">
+          <div class="section-head route-header">
+            <div>
+              <h1>Router</h1>
+              <p class="muted">Choose where Lab work runs.</p>
+            </div>
+            <span id="router-state" class="route-state">Checking</span>
+          </div>
+
+          <form id="router-form" class="router-form">
+            <label class="field">
+              <span>Provider</span>
+              <select id="router-provider-type">
+                <option value="openrouter">OpenRouter</option>
+                <option value="openai">OpenAI</option>
+                <option value="google">Google Gemini</option>
+                <option value="nvidia-nim">NVIDIA NIM</option>
+                <option value="lm-studio">LM Studio</option>
+                <option value="custom">OpenAI-compatible</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Base URL</span>
+              <input id="router-base-url" type="url" placeholder="https://provider.example/v1" autocomplete="off" />
+            </label>
+
+            <label class="field">
+              <span>API key <small id="router-key-status">optional</small></span>
+              <input id="router-api-key" type="password" placeholder="Provider API key" autocomplete="new-password" />
+            </label>
+
+            <label class="field">
+              <span>Model</span>
+              <input id="router-model-id" type="text" list="router-model-options" placeholder="Select after testing" autocomplete="off" />
+              <datalist id="router-model-options"></datalist>
+            </label>
+
+            <button id="save-test-router" class="primary" type="submit">Test and save</button>
+            <p id="router-result" class="result" aria-live="polite">No route test run.</p>
+          </form>
+        </section>
+      </section>
+
+      <section data-surface="models" class="surface" hidden>
+        <section class="panel surface-page models-panel">
+          <div class="section-head">
+            <div>
+              <h1>Models</h1>
+              <p class="muted">Download and run local models through LM Studio.</p>
+            </div>
+            <button id="refresh-models" type="button">Refresh</button>
+          </div>
+
+          <form id="model-search-form" class="model-search">
+            <input id="model-search-query" type="search" placeholder="Search GGUF models" autocomplete="off" />
+            <button class="primary" type="submit">Search</button>
+          </form>
+          <p id="models-status" class="result" aria-live="polite">Refresh to inspect local models.</p>
+
+          <div class="models-columns">
+            <section>
+              <h2>Available to download</h2>
+              <div id="model-search-results" class="model-list empty-list">Search for a model.</div>
+            </section>
+            <section>
+              <h2>Local models</h2>
+              <div id="installed-models" class="model-list empty-list">No local models loaded.</div>
+            </section>
+          </div>
+        </section>
+      </section>
+
+      <section data-surface="review" class="surface" hidden>
+        <section class="panel surface-page review-panel">
+          <div class="section-head">
+            <h1>Review</h1>
+            <span class="muted">Proof, output, and notes.</span>
+          </div>
+          <div class="proof-grid">
+            <article>
+              <strong>Recent proof</strong>
+              <p>See the latest run result before trusting output.</p>
+            </article>
+            <article>
+              <strong>Output index</strong>
+              <p>Find generated work without digging through folders.</p>
+            </article>
+            <article>
+              <strong>Notes</strong>
+              <p>Keep follow-ups visible after a proof run.</p>
+            </article>
+          </div>
+          <div class="loop-review" aria-live="polite">
+            <strong>Latest Lab run</strong>
+            <p id="latest-loop-result">No Lab run has been completed yet.</p>
+            <div class="loop-review-stages">
+              <span id="review-stage-status">Review: pending</span>
+              <span id="act-stage-status">Act: pending</span>
+              <span id="audit-stage-status">Audit: pending</span>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section data-surface="settings" class="surface" hidden>
+        <section class="panel surface-page settings-panel">
+          <div class="section-head">
+            <h1>Settings</h1>
+            <span class="muted">Paths and diagnostics.</span>
+          </div>
+          <details class="soft-details" open>
+            <summary>Local paths</summary>
+            <dl class="settings-list">
+              <dt>App root</dt>
+              <dd id="status-root">Loading</dd>
+            </dl>
+          </details>
+          <details class="soft-details" open>
+            <summary>LAN mesh</summary>
+            <p class="muted">Computers using the same LAN code connect automatically.</p>
+            <form id="mesh-form" class="mesh-form">
+              <label class="field">
+                <span>Computer name</span>
+                <input id="mesh-node-name" type="text" maxlength="64" autocomplete="off" />
+              </label>
+              <label class="field">
+                <span>LAN code</span>
+                <input id="mesh-lan-code" type="password" placeholder="Enter or keep the shared code" autocomplete="new-password" />
+              </label>
+              <button class="primary" type="submit">Join mesh</button>
+              <button id="mesh-disconnect" type="button">Disconnect</button>
+              <button id="mesh-refresh" type="button">Refresh</button>
+            </form>
+            <div class="mesh-summary" aria-live="polite">
+              <strong id="mesh-state">Not connected</strong>
+              <span id="mesh-node-id" class="muted"></span>
+            </div>
+            <div id="mesh-peers" class="mesh-peers empty-list">No peers discovered.</div>
+          </details>
+          <details class="soft-details">
+            <summary>Diagnostics</summary>
+            <button id="run-sidecar">Run native check</button>
+            <pre id="sidecar-result" class="result">No native check run.</pre>
+          </details>
+        </section>
+      </section>
+
+    </main>
+
+    <script type="module" src="./renderer.mjs"></script>
+  </body>
+</html>

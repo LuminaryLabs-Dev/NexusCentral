@@ -1,0 +1,86 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: goal_linked_review_template
+  name: Goal Linked Review Template
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - template
+    - goals
+    - review
+summary:
+  purpose: Starter template for workflows that must prove which business goals and project goals they support before they recommend new authoring or review work.
+  offloads:
+    - repeated reinvention of goal-linked review structure
+    - repeated omission of explicit goal support sections in otherwise useful workflow specs
+goal_links:
+  project_goals:
+    - replace_with_project_goal_id
+  business_goals:
+    - replace_with_business_goal_id
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the goals, workflows, and support docs under review.
+    - name: review_subject
+      type: string
+      description: Human-readable subject whose goal alignment is being reviewed.
+  optional:
+    - name: goal_roots
+      type: list[path]
+      default:
+        - goals/business_goals
+        - goals/project_goals
+        - goals/workflow_targets
+      description: Goal surfaces that should ground the review.
+    - name: subject_paths
+      type: list[path]
+      default:
+        - automations
+        - docs/project_breakdowns
+      description: Current assets being compared against the goal surface.
+reads:
+  required:
+    - goals/
+    - docs/conventions/
+  expected:
+    - automations/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-goal-linked-review.md
+      description: Main review note describing what goals are directly supported, indirectly supported, or still uncovered.
+  secondary:
+    - path: artifacts/{review_slug}-goal-coverage-matrix.md
+      description: Supporting matrix of goals, evidence sources, and current support status.
+    - path: improvements/proposals/{review_slug}-goal-followups.md
+      description: Narrow follow-up queue for uncovered goal support or weakly linked workflow families.
+steps:
+  - id: capture-governing-goals
+    objective: Freeze the goal surface before comparing current assets against it.
+    actions:
+      - Inventory the business goals, project goals, and workflow targets that matter for the review subject.
+      - Group overlapping goals into reviewable families when possible.
+  - id: compare-current-support
+    objective: Decide how directly the current assets support the selected goals.
+    actions:
+      - Mark support as direct, indirect, or uncovered.
+      - Note where the support is explicit in YAML versus only implied in docs.
+  - id: queue-goal-grounded-followups
+    objective: Recommend only the next work needed to improve support clarity.
+    actions:
+      - Keep follow-ups smaller than the full goal surface.
+      - Separate workflow-shaped gaps from tool-shaped gaps.
+validation:
+  checks:
+    - The template preserves explicit goal links.
+    - The resulting review can cite the goals and the assets being compared.
+    - Follow-ups stay goal-grounded instead of becoming broad rewrites.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Use this template when a workflow should prove why it exists in the business and project context, not just describe its own mechanics.

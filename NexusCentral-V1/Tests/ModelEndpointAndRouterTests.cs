@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -303,7 +304,7 @@ public sealed class ModelEndpointAndRouterTests : IDisposable
         Assert.Equal("Route: LM Studio LAN", shell.RouteStatusText);
         Assert.Equal("0 waiting", shell.QueueSummaryText);
         Assert.Equal("Setup: import hosted harness", shell.SetupReadinessText);
-        Assert.Equal("Agents", shell.SetupActionText);
+        Assert.Equal("Setup", shell.SetupActionText);
     }
 
     [Fact]
@@ -331,7 +332,8 @@ public sealed class ModelEndpointAndRouterTests : IDisposable
 
         var shell = new MainShellViewModel(lab, models, router, harnesses, logs, execution, SurfaceKind.Models);
 
-        Assert.Equal(SurfaceKind.Models, shell.SelectedSurface?.Kind);
+        Assert.Equal(SurfaceKind.Setup, shell.SelectedSurface?.Kind);
+        Assert.Equal(new[] { SurfaceKind.Lab, SurfaceKind.Setup, SurfaceKind.Review, SurfaceKind.Settings }, shell.Surfaces.Select(surface => surface.Kind).ToArray());
     }
 
     [Fact]
@@ -398,7 +400,7 @@ public sealed class ModelEndpointAndRouterTests : IDisposable
 
         await shell.ResolveSetupAsync();
 
-        Assert.Equal(SurfaceKind.Agents, shell.SelectedSurface?.Kind);
+        Assert.Equal(SurfaceKind.Setup, shell.SelectedSurface?.Kind);
     }
 
     [Fact]

@@ -1,0 +1,99 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: demo_refresh_sanitization_brief
+  name: Demo Refresh Sanitization Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - release
+    - sanitization
+    - tooling
+summary:
+  purpose: Turn a stakeholder demo refresh into a reviewable sanitization and publish-readiness brief once the evidence-packaging and artifact-validation tool contracts are implemented strongly enough to verify payload boundaries, public-safe assets, and release bundle shape reliably.
+  offloads:
+    - repeated manual demo-refresh planning across public-shareable builds
+    - repeated privacy and sanitization review of demo bundles before a release packet is assembled
+    - repeated drafting of publish-handoff notes when the artifact boundary is hard to inspect manually
+goal_links:
+  project_goals:
+    - project_arrowhead_demo_build_safe_public_demo_payloads
+    - project_arrowhead_demo_keep_demo_refreshes_repeatable
+    - nexus_agent_chat_improve_demo_reliability
+  business_goals:
+    - release_evidence_and_demo_readiness
+    - human_view_validation_and_regression_evidence
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: demo_subject
+      type: string
+      description: Demo, build, or public-shareable artifact set that needs sanitization review.
+  optional:
+    - name: supporting_tool_candidates
+      type: list[string]
+      default:
+        - media_evidence_packager
+        - artifact_contract_validator
+      description: Existing tool contracts that should be implemented or validated before this workflow is promoted into the live workflow library.
+    - name: target_repos
+      type: list[path]
+      default:
+        - ../ProjectArrowhead-Demo
+        - ../NexusAgentChat
+        - ../ProjectArrowhead-2025
+      description: Common repos where demo-refresh and public-shareability reviews recur.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/release_evidence_and_demo_readiness.md
+    - automations/experimental/human_view_evidence_brief.yaml
+    - automations/experimental/release_evidence_packet_seed.yaml
+    - docs/project_breakdowns/
+  expected:
+    - tools/final_tools/
+    - tools/experimental_tools/
+    - proposals/tool_proposals/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-demo-sanitization-brief.md
+      description: Main brief describing public-safe boundaries, sanitization checks, publish blockers, and evidence needed before release sharing.
+  secondary:
+    - path: artifacts/{project_slug}-demo-sanitization-matrix.md
+      description: Supporting matrix of asset classes, sanitization rules, publishability checks, and unresolved gaps.
+    - path: improvements/proposals/{project_slug}-demo-sanitization-followups.md
+      description: Narrow follow-up queue for missing inspection tooling, unresolved payload ambiguity, or publish-handoff blockers.
+steps:
+  - id: verify-artifact-review-support
+    objective: Confirm how much of the demo-boundary review can be supported by actual tooling today.
+    actions:
+      - Check for artifact-inspection and sanitization tooling before assuming repeatable review coverage.
+      - Record where manual review is still unavoidable because the tool layer is missing.
+  - id: map-public-safe-boundaries
+    objective: Capture the asset classes, runtime surfaces, and sanitization boundaries that matter for a safe demo refresh.
+    actions:
+      - Separate public-safe payloads from internal-only state, credentials, or private test artifacts.
+      - Connect the demo boundary review to the later release-evidence packet rather than replacing it.
+  - id: publish-brief-and-followups
+    objective: Produce a narrow sanitization brief plus the missing-tool queue that would make later reviews more reliable.
+    actions:
+      - Keep the brief focused on demo refresh and public-shareability.
+      - Record missing inspection tooling separately from project-specific release work.
+validation:
+  checks:
+    - The workflow explicitly states which review steps still depend on future tooling.
+    - The brief distinguishes sanitization boundaries from generic release evidence.
+    - Follow-ups stay smaller than the demo project itself.
+handoff:
+  upstream:
+    - human_view_evidence_brief
+    - release_evidence_packet_seed
+    - workflow_goal_coverage_audit
+  downstream:
+    - workflow_review_gate
+notes:
+  - Keep this workflow staged under `proposals/workflow_proposals/` until `media_evidence_packager` and `artifact_contract_validator` are implemented or validated enough to support repeatable review.
+  - This proposal extends the release-evidence family toward demo-refresh and sanitization work without duplicating `release_evidence_packet_seed`.

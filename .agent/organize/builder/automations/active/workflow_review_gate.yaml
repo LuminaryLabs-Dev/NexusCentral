@@ -1,0 +1,82 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_review_gate
+  name: Workflow Review Gate
+  status: active
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - governance
+    - validation
+    - lifecycle
+summary:
+  purpose: Review workflow candidates against the validation checklist and lifecycle rules, then recommend keep, promote, pause, or retire decisions.
+  offloads:
+    - repeated readiness review for experimental workflow specs
+    - repeated lifecycle-bucket reasoning across similar workflow candidates
+    - repeated documentation of why a workflow should stay experimental or move elsewhere
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory to review.
+  optional:
+    - name: candidate_roots
+      type: list[path]
+      default:
+        - automations/experimental
+        - automations/active
+        - automations/disabled
+      description: Workflow buckets to inspect during review.
+    - name: review_mode
+      type: string
+      default: recommendation_only
+      description: Keep the workflow non-destructive unless a later process explicitly performs moves.
+reads:
+  required:
+    - docs/conventions/automation-lifecycle.md
+    - templates/validation/workflow_validation_checklist.md
+    - automations/README.md
+  expected:
+    - automations/experimental/
+    - automations/active/
+    - automations/disabled/
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/workflow-review-report.md
+      description: Review summary with lifecycle recommendations and unresolved concerns.
+  secondary:
+    - path: improvements/proposals/workflow-promotion-queue.md
+      description: Ordered follow-up list for workflows that need refinement before moving buckets.
+steps:
+  - id: collect-candidates
+    objective: Establish the exact workflow set under review.
+    actions:
+      - Inventory workflow files by lifecycle bucket.
+      - Note missing support docs, duplicated intent, or unclear ownership.
+  - id: evaluate-readiness
+    objective: Compare each candidate against the published validation and lifecycle rules.
+    actions:
+      - Check goal clarity, inputs, outputs, handoffs, and documentation support.
+      - Flag ambiguity that would block promotion into active use.
+  - id: recommend-lifecycle-decisions
+    objective: Produce review-ready decisions without mutating the workflow inventory.
+    actions:
+      - Recommend keep, promote, pause, merge, or retire outcomes for each candidate.
+      - Capture any missing template or usage-note work that blocks approval.
+validation:
+  checks:
+    - Each recommendation cites the workflow path it refers to.
+    - Promotion guidance references the lifecycle rules rather than intuition alone.
+    - The workflow remains recommendation-only and does not move files directly.
+handoff:
+  upstream:
+    - workflow_gap_seeding
+    - workspace_inventory
+  downstream:
+    - example_usage_seed
+notes:
+  - Use this workflow before promoting any experimental workflow into active use.
+  - Keep rationale in docs and queue follow-up work separately instead of editing candidates during review.

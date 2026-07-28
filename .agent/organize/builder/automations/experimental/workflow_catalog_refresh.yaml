@@ -1,0 +1,85 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_catalog_refresh
+  name: Workflow Catalog Refresh
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - documentation
+    - inventory
+    - examples
+summary:
+  purpose: Refresh human-readable workflow inventory, usage guidance, and example composition notes after workflow coverage changes.
+  offloads:
+    - repeated manual updates to inventory and overview docs after workflow authoring passes
+    - repeated drift checks between workflow YAML files and the docs that describe them
+    - repeated example maintenance when the composition story changes
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing workflow specs and their supporting docs.
+  optional:
+    - name: refresh_scope
+      type: list[string]
+      default:
+        - inventory
+        - overview
+        - examples
+      description: Which documentation surfaces to compare and refresh.
+    - name: source_roots
+      type: list[path]
+      default:
+        - automations
+        - docs/usage
+        - docs/examples
+        - templates/workflow_templates
+      description: Paths that should stay aligned when the workflow surface changes.
+reads:
+  required:
+    - automations/README.md
+    - automations/
+    - docs/usage/
+    - docs/examples/
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: docs/usage/workflow-catalog-refresh.md
+      description: Refresh note describing which inventory, overview, or example docs need updates.
+  secondary:
+    - path: docs/examples/{example_slug}-workflow-composition.md
+      description: Revised example composition when the set of credible workflow sequences changes.
+    - path: improvements/proposals/workflow-catalog-followups.md
+      description: Remaining documentation drift or missing examples discovered during the refresh pass.
+steps:
+  - id: inventory-catalog-surface
+    objective: Compare the actual workflow set against the docs that claim to describe it.
+    actions:
+      - Inventory workflow YAML files, workflow templates, usage docs, and example docs.
+      - Note mismatches in counts, names, lifecycle status, or composition guidance.
+  - id: refresh-high-signal-docs
+    objective: Update the smallest set of docs needed to restore alignment.
+    actions:
+      - Prioritize the automation inventory, seeding overview, and example compositions.
+      - Avoid broad rewriting when a small targeted refresh will do.
+  - id: capture-remaining-drift
+    objective: Leave clear follow-up notes for any lower-priority documentation work.
+    actions:
+      - Record what stayed intentionally unchanged.
+      - Queue any missing examples or overview changes that should happen later.
+validation:
+  checks:
+    - Every recommended doc update cites the workflow or template change that triggered it.
+    - The refresh stays focused on workflow inventory and composition guidance.
+    - The result keeps docs/usage distinct from docs/examples.
+handoff:
+  upstream:
+    - workspace_delta_scan
+    - workflow_review_gate
+    - workflow_overlap_reconciliation
+    - workflow_handoff_reconciliation
+  downstream: []
+notes:
+  - Use this workflow after workflow additions, removals, or lifecycle decisions so the docs do not drift.

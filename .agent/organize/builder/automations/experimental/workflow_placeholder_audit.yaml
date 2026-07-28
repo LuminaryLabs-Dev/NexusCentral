@@ -1,0 +1,90 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_placeholder_audit
+  name: Workflow Placeholder Audit
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - consistency
+    - validation
+    - placeholders
+summary:
+  purpose: Audit placeholder tokens, output-path slugs, and naming conventions across workflow specs and supporting docs so mock assets remain consistent and convertible.
+  offloads:
+    - repeated manual checks of placeholder tokens across workflow YAML, examples, and usage notes
+    - repeated cleanup of inconsistent slug and report naming after new seeding passes
+    - repeated review of whether path placeholders still match the documented pattern guide
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing workflow YAML files, usage notes, and examples.
+  optional:
+    - name: scan_surfaces
+      type: list[path]
+      default:
+        - automations
+        - templates/workflow_templates
+        - docs/usage
+        - docs/examples
+      description: Files and directories where placeholders and output-path conventions should stay aligned.
+    - name: approved_placeholders
+      type: list[string]
+      default:
+        - initiative_slug
+        - project_slug
+        - review_slug
+        - workflow_id
+        - example_slug
+      description: Placeholder tokens currently considered valid unless a stronger contract is documented.
+reads:
+  required:
+    - docs/conventions/workspace-contract.md
+    - docs/conventions/mock-workflow-yaml-pattern-guide.md
+    - automations/
+    - docs/usage/
+    - docs/examples/
+  expected:
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: docs/usage/workflow-placeholder-audit.md
+      description: Main audit note describing valid patterns, inconsistent placeholders, and naming drift.
+  secondary:
+    - path: artifacts/workflow-placeholder-matrix.md
+      description: Path-by-path matrix of placeholders, output naming patterns, and where they appear.
+    - path: improvements/proposals/workflow-placeholder-fixes.md
+      description: Targeted fix queue for inconsistent placeholders, slugs, and path names.
+steps:
+  - id: inventory-placeholder-usage
+    objective: Build the current placeholder and slug surface before judging consistency.
+    actions:
+      - Record placeholders used in workflow writes, templates, and supporting docs.
+      - Group identical patterns and outliers separately.
+  - id: compare-against-pattern-guide
+    objective: Decide whether the current placeholder usage matches the documented mock YAML style.
+    actions:
+      - Compare observed tokens and path names against the current authoring guidance.
+      - Distinguish accepted variation from accidental drift.
+  - id: queue-targeted-fixes
+    objective: Produce a focused correction queue without broad rewriting.
+    actions:
+      - Recommend the smallest changes needed to restore consistent naming.
+      - Highlight any token that should become part of the documented default set only after review.
+validation:
+  checks:
+    - Every inconsistency cites the file or workflow it appears in.
+    - The audit distinguishes approved placeholder usage from drift.
+    - Recommended fixes stay targeted and reversible.
+handoff:
+  upstream:
+    - workflow_gap_seeding
+    - workflow_catalog_refresh
+  downstream:
+    - workflow_review_gate
+    - workflow_handoff_reconciliation
+notes:
+  - Use this workflow after new authoring passes introduce additional placeholder paths or naming examples.
+  - Keep it consistency-focused rather than turning it into a general documentation cleanup pass.

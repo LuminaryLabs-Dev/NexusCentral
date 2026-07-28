@@ -1,0 +1,84 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_handoff_reconciliation
+  name: Workflow Handoff Reconciliation
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - handoff
+    - consistency
+summary:
+  purpose: Review workflow ids referenced in handoffs, examples, and usage docs so renamed or retired workflows do not leave stale navigation paths behind.
+  offloads:
+    - repeated checking of upstream and downstream workflow ids after naming changes
+    - repeated search for stale workflow references across docs and examples
+    - repeated drafting of fix lists for broken handoff chains and outdated composition notes
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing workflow specs and human-readable workflow docs.
+  optional:
+    - name: scan_surfaces
+      type: list[path]
+      default:
+        - automations
+        - docs/examples
+        - docs/usage
+        - docs/conventions
+      description: Files and directories where workflow ids should stay aligned.
+    - name: reference_types
+      type: list[string]
+      default:
+        - handoff ids
+        - example sequences
+        - usage notes
+      description: Reference categories to reconcile during the scan.
+reads:
+  required:
+    - automations/
+    - docs/examples/
+    - docs/usage/
+    - docs/conventions/
+  expected:
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: docs/usage/workflow-handoff-reconciliation.md
+      description: Review note describing stale, valid, and ambiguous workflow references across the workspace.
+  secondary:
+    - path: improvements/proposals/workflow-handoff-fixes.md
+      description: Ordered fix queue for stale ids, renamed workflows, and broken example sequences.
+steps:
+  - id: inventory-valid-ids
+    objective: Build the current set of workflow ids before checking references elsewhere.
+    actions:
+      - Record active, experimental, and disabled workflow ids from the automation buckets.
+      - Note recently renamed or newly added workflow ids when the docs still lag behind.
+  - id: scan-references
+    objective: Compare docs and handoff lists against the currently valid workflow ids.
+    actions:
+      - Flag missing ids, old names, and ambiguous references.
+      - Separate broken handoff chains from harmless historical mentions.
+  - id: queue-fixes
+    objective: Publish the smallest set of updates needed to restore navigable workflow references.
+    actions:
+      - Recommend path-by-path fixes for stale ids and sequences.
+      - Identify which docs should be refreshed first because they affect discovery the most.
+validation:
+  checks:
+    - Every stale reference cites the file path and the invalid or ambiguous id.
+    - The report distinguishes broken references from historical context that can remain.
+    - The fix queue stays focused on reference consistency rather than broader content rewrites.
+handoff:
+  upstream:
+    - workspace_delta_scan
+  downstream:
+    - workflow_catalog_refresh
+    - docs_reconciliation
+notes:
+  - Use this workflow after naming changes, promotions, or new workflow batches land.
+  - Prefer targeted reference repairs over broad rewriting of workflow docs.

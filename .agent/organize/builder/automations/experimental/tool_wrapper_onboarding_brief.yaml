@@ -1,0 +1,110 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: tool_wrapper_onboarding_brief
+  name: Tool Wrapper Onboarding Brief
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - tooling
+    - onboarding
+    - contracts
+summary:
+  purpose: Turn tool-surface snapshots and drift reports into a wrapper and operator onboarding brief so tool-centric repos can hand off routes, schemas, health cues, and support expectations without recompiling the same packet manually.
+  offloads:
+    - repeated wrapper-onboarding note drafting across tool-centric repos
+    - repeated manual compilation of routes, manifests, wrappers, and operator expectations into one handoff packet
+    - repeated translation of tool-surface drift into onboarding guidance after each contract change
+goal_links:
+  project_goals:
+    - nexus_central_enforce_tool_namespace_contracts
+    - nexus_central_keep_runtime_capabilities_discoverable
+    - nexus_index_agent_stegosaurus_keep_wrapper_contracts_aligned_with_nexuscentral
+  business_goals:
+    - tool_surface_contract_and_runtime_observability
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: target_project
+      type: string
+      description: Tool-centric project that needs a wrapper or operator onboarding packet.
+  optional:
+    - name: supporting_tools
+      type: list[string]
+      default:
+        - tool_surface_snapshotter
+      description: Existing tool contracts that should back the onboarding brief.
+    - name: tool_report_paths
+      type: list[path]
+      default:
+        - reports/tool-catalog.json
+        - reports/drift-report.json
+        - reports/missing-contract-signals.json
+      description: Snapshot outputs that should be interpreted before drafting the onboarding packet.
+    - name: onboarding_axes
+      type: list[string]
+      default:
+        - route-surface
+        - wrapper-contract
+        - runtime-health
+        - discovery-docs
+        - operator-assumptions
+      description: Onboarding dimensions that should be covered by the brief.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/tool_surface_contract_and_runtime_observability.md
+    - goals/workflow_targets/tool_surface_contract_audit.md
+    - automations/experimental/tool_surface_contract_audit.yaml
+    - tools/final_tools/tool_surface_snapshotter.yaml
+    - tools/validation/tool_surface_snapshotter-validation.md
+    - docs/usage/tool-package-call-order.md
+    - docs/project_breakdowns/
+  expected:
+    - reports/tool-catalog.json
+    - reports/drift-report.json
+    - reports/missing-contract-signals.json
+    - docs/usage/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-tool-wrapper-onboarding-brief.md
+      description: Main onboarding packet explaining routes, wrappers, health cues, operator assumptions, and open contract gaps.
+  secondary:
+    - path: artifacts/{project_slug}-tool-onboarding-catalog.md
+      description: Supporting catalog of routes, schemas, examples, and missing discovery cues gathered for onboarding.
+    - path: improvements/proposals/{project_slug}-tool-wrapper-followups.md
+      description: Narrow follow-up queue for missing docs, snapshot drift, or unresolved onboarding blockers.
+steps:
+  - id: load-tool-backed-contract-evidence
+    objective: Reuse the current snapshot outputs instead of manually recompiling tool surfaces for onboarding.
+    actions:
+      - Read the current tool catalog, drift report, and missing-contract signals if they exist.
+      - Separate tool-backed facts from any remaining manual interpretation.
+  - id: translate-surface-into-onboarding
+    objective: Convert contract evidence into the route, wrapper, and operator guidance a maintainer actually needs.
+    actions:
+      - Group onboarding content by stable route surfaces, wrapper expectations, runtime health cues, and missing discovery docs.
+      - Keep drift findings visible so onboarding does not hide active contract risk.
+  - id: publish-brief-and-followups
+    objective: Produce a reusable onboarding packet plus only the smallest blocker queue.
+    actions:
+      - Cite which sections are backed by snapshot outputs and which remain descriptive only.
+      - Queue narrow docs or contract fixes separately from the onboarding packet.
+validation:
+  checks:
+    - The brief cites concrete tool surfaces or snapshot artifacts rather than generic tool descriptions.
+    - The onboarding packet stays distinct from the broader `tool_surface_contract_audit`.
+    - Follow-ups are limited to contract clarity, discovery, or wrapper drift blockers.
+handoff:
+  upstream:
+    - tool_surface_contract_audit
+    - workspace_delta_scan
+  downstream:
+    - workflow_catalog_refresh
+    - workflow_review_gate
+notes:
+  - This live experimental spec extends the earlier staged proposal now that `tool_surface_snapshotter` exists as a real library tool contract.
+  - Keep the workflow tool-aware and documentation-first; the tool extracts the surface, while this workflow explains how to onboard against it.

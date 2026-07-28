@@ -1,0 +1,86 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: goal_reconciliation
+  name: Goal Reconciliation
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - planning
+    - reconciliation
+    - reuse
+summary:
+  purpose: Compare a new request against the current workflow inventory so planning starts from reuse and narrow gap definition instead of duplicate invention.
+  offloads:
+    - repeated quota-heavy mapping of a new initiative onto existing workflows and templates
+    - repeated duplicate-checking before authoring another workflow candidate
+    - repeated drafting of reuse-versus-seed decisions for broad incoming requests
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory and supporting docs.
+    - name: initiative_name
+      type: string
+      description: Short name of the request or initiative being evaluated.
+    - name: goal_statement
+      type: string
+      description: One- or two-sentence statement of the new request.
+  optional:
+    - name: reference_paths
+      type: list[path]
+      default:
+        - docs/conventions
+        - docs/usage
+        - goals
+        - proposals
+        - tools
+        - automations
+        - templates
+        - docs/examples
+      description: Paths to inspect before deciding whether the request is covered already.
+    - name: reconciliation_bias
+      type: string
+      default: prefer_reuse
+      description: Default decision bias when partial overlap exists.
+writes:
+  primary:
+    - path: docs/usage/{initiative_slug}-goal-reconciliation.md
+      description: Main note explaining what existing workflows can be reused and what remains uncovered.
+  secondary:
+    - path: artifacts/{initiative_slug}-coverage-matrix.md
+      description: Matrix mapping the request to current workflows, templates, and docs.
+    - path: improvements/proposals/{initiative_slug}-workflow-seeds.md
+      description: Narrow workflow or template candidates only for the uncovered remainder.
+steps:
+  - id: restate-request
+    objective: Freeze the request and its boundaries before matching it to existing coverage.
+    actions:
+      - Record the initiative name, goal statement, constraints, and obvious non-goals.
+      - Separate the user request from assumptions introduced during analysis.
+  - id: map-current-coverage
+    objective: Reuse the current workflow and template surface before proposing anything new.
+    actions:
+      - Compare the request against existing workflow specs, templates, usage docs, and examples.
+      - Mark each aspect as covered, partially covered, or uncovered.
+  - id: isolate-net-new-work
+    objective: Keep new authoring small by extracting only the truly missing remainder.
+    actions:
+      - Recommend reuse when a nearby workflow can handle the request with small adaptation.
+      - Draft new micro-automation ideas only for uncovered repeated work.
+validation:
+  checks:
+    - The reconciliation note distinguishes reuse, extension, and net-new workflow candidates.
+    - Every uncovered area names why the current inventory does not already handle it.
+    - Proposed new work is narrower than the original request.
+handoff:
+  upstream:
+    - workspace_inventory
+    - workspace_delta_scan
+  downstream:
+    - initiative_plan
+    - project_setup_brief
+    - workflow_gap_seeding
+notes:
+  - Prefer this workflow when the main risk is duplicate planning or duplicate workflow authoring.

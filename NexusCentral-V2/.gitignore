@@ -1,0 +1,11 @@
+node_modules/
+apps/web/.next/
+apps/web/out/
+.package-stage/
+release/
+.nexuscentral-data*/
+.nexus-simulator/
+.simspaces/
+apps/simulator-proof/dist/
+output/
+simulation/*.nexus-simulator.json

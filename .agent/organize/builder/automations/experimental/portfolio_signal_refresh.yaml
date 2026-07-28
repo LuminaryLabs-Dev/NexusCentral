@@ -1,0 +1,91 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: portfolio_signal_refresh
+  name: Portfolio Signal Refresh
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - planning
+    - portfolio
+    - reconciliation
+summary:
+  purpose: Refresh cross-project portfolio signals, compare them against current owner-facing summaries, and queue targeted mirror-fix work.
+  offloads:
+    - repeated cross-repo goal inference for portfolio ranking
+    - repeated mirror-drift review across portfolio docs and status summaries
+    - repeated active-versus-archive classification work before planning
+goal_links:
+  project_goals:
+    - luminary_initiatives_keep_ranked_portfolio_current
+    - luminary_initiatives_reduce_mirror_drift_across_owner_docs
+    - luminary_labs_classify_active_work_vs_archive
+    - luminary_wiki_preserve_cross_repo_knowledge_traceability
+  business_goals:
+    - portfolio_signal_and_goal_clarity
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace where outputs will be written.
+    - name: github_root
+      type: path
+      description: Parent GitHub directory containing the sibling repositories to compare.
+  optional:
+    - name: portfolio_roots
+      type: list[path]
+      default:
+        - ../LuminaryInitiatives
+        - ../LuminaryLabs
+        - ../LuminaryWiki
+      description: Highest-signal repositories for ranked initiative and mirror state analysis.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/portfolio_signal_and_goal_clarity.md
+    - docs/project_breakdowns/
+  expected:
+    - ../LuminaryInitiatives/
+    - ../LuminaryLabs/
+    - ../LuminaryWiki/
+writes:
+  primary:
+    - path: docs/usage/portfolio-signal-refresh.md
+      description: Reviewable summary of ranked initiatives, signal changes, and mirror drift.
+  secondary:
+    - path: artifacts/portfolio-signal-matrix.md
+      description: Repository-by-repository matrix of portfolio evidence, confidence, and drift risks.
+    - path: improvements/proposals/portfolio-signal-followups.md
+      description: Ordered follow-up queue for mirror repair, archive classification, or owner-summary updates.
+steps:
+  - id: compare-portfolio-sources
+    objective: Reuse the strongest owner-facing and repo-facing signals before summarizing anything.
+    actions:
+      - Read the ranked portfolio and current cross-project breakdowns together.
+      - Separate revenue-facing initiatives from leverage or archive candidates.
+  - id: identify-drift-and-priority
+    objective: Detect where the project estate no longer matches the current owner story.
+    actions:
+      - Flag active repos that are missing from the portfolio narrative.
+      - Flag stale mirrors, ambiguous status, or archive candidates.
+  - id: publish-refresh-note
+    objective: Produce a compact portfolio refresh plus a narrow follow-up queue.
+    actions:
+      - Summarize what remains the priority now.
+      - Queue only the smallest doc or classification fixes needed next.
+validation:
+  checks:
+    - The report cites both portfolio sources and repo-level evidence.
+    - Revenue priorities remain distinct from leverage tooling and archive cleanup.
+    - Follow-up work is narrower than a full portfolio rewrite.
+handoff:
+  upstream:
+    - workspace_inventory
+    - goal_reconciliation
+  downstream:
+    - workflow_catalog_refresh
+    - proposal_backlog_triage
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when portfolio confidence is high but the wider repo estate risks confusing the owner narrative.

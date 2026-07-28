@@ -1,0 +1,100 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: release_evidence_packet_seed
+  name: Release Evidence Packet Seed
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - release
+    - evidence
+summary:
+  purpose: Seed a repeatable release-evidence packet plan for repos that need demos, launch proofs, or stakeholder-ready readiness notes.
+  offloads:
+    - repeated assembly of launch checklists across product repos
+    - repeated invention of evidence packet structure for demos and release candidates
+    - repeated mapping of screenshots, logs, tests, and API checks into one reviewable brief
+goal_links:
+  project_goals:
+    - aethervale_ship_replayable_vertical_slice
+    - project_arrowhead_2025_capture_release_evidence_for_multi_surface_flows
+    - project_arrowhead_demo_build_safe_public_demo_payloads
+    - vending_backpack_reduce_release_and_deployment_friction
+    - nexus_agent_chat_improve_demo_reliability
+  business_goals:
+    - release_evidence_and_demo_readiness
+    - human_view_validation_and_regression_evidence
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+    - name: target_project
+      type: string
+      description: Project name that needs a release-evidence packet.
+  optional:
+    - name: evidence_sources
+      type: list[string]
+      default:
+        - screenshots
+        - tests
+        - logs
+        - api-checks
+        - build-notes
+      description: Candidate evidence classes to map into the packet.
+    - name: target_repos
+      type: list[path]
+      default:
+        - ../AetherVale
+        - ../ProjectArrowhead-2025
+        - ../ProjectArrowhead-Demo
+        - ../VendingBackpack
+        - ../NexusAgentChat
+      description: Common release-evidence project roots.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/release_evidence_and_demo_readiness.md
+    - goals/workflow_targets/release_evidence_packet_seed.md
+    - docs/project_breakdowns/
+writes:
+  primary:
+    - path: docs/usage/{project_slug}-release-evidence-packet.md
+      description: Main packet brief describing what evidence should exist for a release or demo review.
+  secondary:
+    - path: artifacts/{project_slug}-release-evidence-matrix.md
+      description: Evidence-by-surface matrix for screenshots, checks, logs, and gaps.
+    - path: improvements/proposals/{project_slug}-release-evidence-followups.md
+      description: Missing evidence work discovered during the packet-seeding pass.
+steps:
+  - id: map-release-surfaces
+    objective: Identify the user-visible and operational surfaces that must be proven for the target project.
+    actions:
+      - Separate launch flow, primary feature flow, deployment flow, and demo packaging concerns.
+      - Map which evidence classes apply to each surface.
+  - id: seed-packet-structure
+    objective: Produce a reusable packet structure instead of a one-off checklist.
+    actions:
+      - Record required evidence, nice-to-have evidence, and explicit gaps.
+      - Keep demo sanitization or stakeholder-shareability visible when it matters.
+  - id: queue-open-gaps
+    objective: Publish only the follow-up work that blocks a trustworthy release packet.
+    actions:
+      - Note missing screenshots, tests, APIs, or build notes.
+      - Keep follow-ups smaller than the release itself.
+validation:
+  checks:
+    - The packet distinguishes required proof from optional context.
+    - The matrix covers both user-visible and operational release surfaces.
+    - Follow-ups refer to missing evidence, not broad feature work.
+handoff:
+  upstream:
+    - initiative_plan
+    - human_view_evidence_brief
+  downstream:
+    - workflow_review_gate
+notes:
+  - This is a mock workflow definition for later conversion.
+  - Use it when the main pain is proving readiness, not implementing the release work itself.

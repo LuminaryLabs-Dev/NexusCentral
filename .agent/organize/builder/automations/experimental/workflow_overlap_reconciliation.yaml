@@ -1,0 +1,87 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_overlap_reconciliation
+  name: Workflow Overlap Reconciliation
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - review
+    - overlap
+    - reconciliation
+summary:
+  purpose: Compare nearby workflow candidates to identify overlap, duplicate intent, and merge-versus-keep decisions before the catalog grows harder to maintain.
+  offloads:
+    - repeated pairwise comparison of similar workflow specs after multiple seeding passes
+    - repeated debate about whether adjacent workflows should merge, stay separate, or narrow further
+    - repeated drafting of overlap rationale before lifecycle or catalog decisions
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory to compare.
+  optional:
+    - name: workflow_roots
+      type: list[path]
+      default:
+        - automations/active
+        - automations/experimental
+      description: Workflow directories to inspect for overlapping candidates.
+    - name: comparison_axes
+      type: list[string]
+      default:
+        - purpose
+        - outputs
+        - handoffs
+        - validation
+      description: Dimensions used to decide whether two workflows are distinct enough to keep separate.
+reads:
+  required:
+    - automations/
+    - docs/conventions/workspace-contract.md
+    - docs/conventions/workflow-authoring-contract.md
+    - docs/conventions/automation-lifecycle.md
+  expected:
+    - docs/usage/
+    - docs/examples/
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: docs/usage/workflow-overlap-reconciliation.md
+      description: Main note describing which workflows should stay separate, merge, or narrow further.
+  secondary:
+    - path: artifacts/workflow-overlap-matrix.md
+      description: Side-by-side matrix of nearby workflows and the dimensions where they overlap.
+    - path: improvements/proposals/workflow-overlap-followups.md
+      description: Ordered follow-up list for merge reviews, renames, or scope tightening.
+steps:
+  - id: inventory-nearby-workflows
+    objective: Find the workflows most likely to overlap before comparing them in detail.
+    actions:
+      - Group workflows by tags, output style, and review category.
+      - Focus on nearby candidates instead of comparing every file against every other file.
+  - id: compare-boundaries
+    objective: Decide whether each nearby group has a clear reason to stay split.
+    actions:
+      - Compare purpose, primary outputs, validation focus, and handoff role.
+      - Distinguish healthy specialization from accidental duplication.
+  - id: publish-merge-or-keep-guidance
+    objective: Produce a recommendation set that can guide later edits without mutating files now.
+    actions:
+      - Recommend keep, merge-review, rename, or narrow decisions for each overlap cluster.
+      - Record the smallest useful next action for each recommendation.
+validation:
+  checks:
+    - Every overlap finding cites the workflow ids involved.
+    - Recommendations explain why the workflows are distinct or duplicative.
+    - Follow-up actions stay narrower than rewriting the whole catalog.
+handoff:
+  upstream:
+    - workflow_review_gate
+  downstream:
+    - workflow_handoff_reconciliation
+    - workflow_catalog_refresh
+notes:
+  - Use this workflow when multiple recent authoring passes create adjacent review or authoring candidates.
+  - Keep the output recommendation-only until a later pass explicitly edits or retires workflow files.

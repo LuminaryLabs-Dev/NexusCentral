@@ -1,0 +1,85 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_validation_review
+  name: Workflow Validation Review
+  status: disabled
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - validation
+    - review
+    - evidence
+summary:
+  purpose: Review one or more workflow specs against the authoring contract and validation checklist to produce promotion-quality evidence.
+  offloads:
+    - repeated checklist-driven review of experimental workflow specifications
+    - repeated drafting of evidence notes before lifecycle decisions are made
+    - repeated collection of fix recommendations for weak or ambiguous workflow specs
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the workflow inventory.
+    - name: workflow_ids
+      type: list[string]
+      description: Workflow ids to review together in a single validation pass.
+  optional:
+    - name: validation_reference
+      type: path
+      default: templates/validation/workflow_validation_checklist.md
+      description: Checklist used to judge shape, reusability, validation, and documentation quality.
+    - name: supporting_paths
+      type: list[path]
+      default:
+        - docs/conventions/automation-lifecycle.md
+        - docs/conventions/workflow-authoring-contract.md
+        - docs/examples
+      description: Supporting files used to judge whether a workflow is understandable and well placed.
+reads:
+  required:
+    - templates/validation/workflow_validation_checklist.md
+    - docs/conventions/automation-lifecycle.md
+    - docs/conventions/workflow-authoring-contract.md
+    - automations/experimental/
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: docs/usage/{review_slug}-workflow-validation-review.md
+      description: Review note with per-workflow findings, strengths, weaknesses, and readiness level.
+  secondary:
+    - path: artifacts/{review_slug}-validation-matrix.md
+      description: Checklist-style matrix showing which validation expectations each workflow meets.
+    - path: improvements/proposals/{review_slug}-workflow-fixes.md
+      description: Ordered fix list for workflows that are not yet ready for promotion review.
+steps:
+  - id: collect-review-context
+    objective: Read the minimum governing context needed for a defensible review.
+    actions:
+      - Load the named workflows, the authoring contract, the lifecycle rules, and the validation checklist.
+      - Confirm what supporting examples or docs already exist for the workflows under review.
+  - id: score-workflow-shape
+    objective: Check whether each workflow is narrow, explicit, and reusable.
+    actions:
+      - Evaluate ids, purpose, inputs, reads, writes, steps, validation, and handoffs.
+      - Flag ambiguity, overlap, undocumented assumptions, or overly broad scope.
+  - id: record-evidence-and-fixes
+    objective: Produce a review artifact that another reviewer can use without re-reading everything.
+    actions:
+      - Summarize what is strong enough to keep.
+      - Record concrete fixes, missing evidence, and open questions for the weaker areas.
+validation:
+  checks:
+    - Every finding cites the workflow id and the validation expectation it relates to.
+    - The review distinguishes structural quality from promotion readiness.
+    - Fix recommendations are narrower than rewriting the entire workflow set.
+handoff:
+  upstream:
+    - goal_reconciliation
+    - workspace_delta_scan
+  downstream:
+    - workflow_lifecycle_review
+    - workflow_catalog_refresh
+notes:
+  - Use this workflow before promoting, disabling, or archiving any workflow candidate.
+  - Keep this workflow disabled unless the merged `workflow_review_gate` proves too coarse and the evidence phase needs to stand alone again.

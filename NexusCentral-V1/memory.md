@@ -37,10 +37,13 @@
 - Hosted harness output parsing should recover useful content from `assistant`, then `nextBest`, then `raw`; the Conversation Harness can split labeled evidence into `nextBest`.
 - Lab validation job review should expose the selected run folder directly so scoreboards, rankings, progress, and generated sandbox projects are reviewable from one place.
 - Lab validation review should also read `result-index.json` and summarize pass count, full-project count, top capability, watch-list failures, model, and max-token evidence in the UI.
-- The shell footer owns one concise setup readiness line plus one action button derived from model, harness, and router state. The action opens Models/Agents when setup is missing, selects the best route when routing is stale, and returns to Lab when the hosted route is ready.
-- `NEXUSCENTRAL_START_SURFACE=Models` or `Agents` may be used for screenshot QA of setup surfaces; leave it unset for normal Lab-first launch.
+- The shell footer owns one concise setup readiness line plus one action button derived from model, harness, and router state. The action opens Setup when readiness is missing, selects the best route when routing is stale, and returns to Lab when the hosted route is ready.
+- `NEXUSCENTRAL_START_SURFACE=Setup` or `Review` may be used for screenshot QA of workflow surfaces; legacy `Models`, `Agents`, or `Router` values resolve to Setup.
 - Keep hero UI controls limited to backed primary workflow actions.
 - Keep advanced or future actions hidden, disabled with clear inactive state, or moved out of first-screen flow.
+- Primary navigation is workflow-first: `Lab`, `Setup`, `Review`, `Settings`. Models, harnesses, and router details remain service-backed internals composed inside Setup, while validation runs and generated proof artifacts live in Review.
+- The Lab first screen should stay focused on workspace chat, attachments, and Send. Do not put validation controls, disabled future commands, or architecture module controls back into the Lab hero flow.
+- Avalonia V1 is now the stable checkpoint while `NexusCentral-Electron` proves the same workflow contract with web-first UI, desktop adapters, Linux packaging, and Rust sidecar support. Avoid major new Avalonia UI investment unless it protects the checkpoint.
 
 ## Update Pipeline Direction
 

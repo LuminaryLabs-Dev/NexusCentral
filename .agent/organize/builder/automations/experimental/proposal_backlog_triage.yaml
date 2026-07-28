@@ -1,0 +1,84 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: proposal_backlog_triage
+  name: Proposal Backlog Triage
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - backlog
+    - prioritization
+    - workflow-discovery
+summary:
+  purpose: Turn scattered improvement proposals, run notes, and repeated manual chores into a prioritized backlog of micro-automation candidates.
+  offloads:
+    - repeated backlog grooming across proposals, docs, and lessons
+    - repeated splitting of broad improvement ideas into narrow workflow candidates
+    - repeated prioritization of authoring work by leverage and dependency
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing proposals, usage docs, and lessons to triage.
+  optional:
+    - name: proposal_roots
+      type: list[path]
+      default:
+        - improvements/proposals
+        - docs/usage
+        - lessons
+      description: Inputs to scan for repeated chores, deferred work, and authoring opportunities.
+    - name: prioritization_lens
+      type: list[string]
+      default:
+        - repeat frequency
+        - quota cost
+        - composability
+        - documentation impact
+      description: Factors used to rank candidate workflows.
+reads:
+  required:
+    - improvements/proposals/
+    - docs/usage/
+    - lessons/
+  expected:
+    - automations/experimental/
+    - templates/workflow_templates/
+writes:
+  primary:
+    - path: improvements/proposals/micro-automation-backlog.md
+      description: Ordered backlog of workflow candidates with rationale and dependency notes.
+  secondary:
+    - path: docs/usage/proposal-triage-note.md
+      description: Human-readable summary of the backlog pass and why the top candidates matter next.
+steps:
+  - id: gather-source-material
+    objective: Pull together the proposal and lesson surface before ranking anything.
+    actions:
+      - Inventory improvement notes, usage reports, and lessons that mention deferred or repeated work.
+      - Group related items instead of treating each note as a separate workflow candidate.
+  - id: split-into-micro-candidates
+    objective: Convert broad support gaps into narrow reusable workflow ideas.
+    actions:
+      - Prefer candidates with one main report, template, or review artifact.
+      - Keep discovery, authoring, review, and cleanup concerns separated when possible.
+  - id: rank-next-work
+    objective: Produce a backlog that is easy to review and sequence.
+    actions:
+      - Rank by repeat frequency, quota cost, and dependency value.
+      - Note which candidates can unblock or strengthen other workflows.
+validation:
+  checks:
+    - The backlog cites the source proposal, lesson, or usage note for each candidate.
+    - Large ideas are split into smaller workflows when practical.
+    - Ranking explains why the top candidates should be authored first.
+handoff:
+  upstream:
+    - workspace_inventory
+  downstream:
+    - workflow_gap_seeding
+    - initiative_plan
+notes:
+  - Keep this workflow focused on backlog shaping, not actual workflow authoring.
+  - Use it when proposals start accumulating faster than workflows are being drafted.

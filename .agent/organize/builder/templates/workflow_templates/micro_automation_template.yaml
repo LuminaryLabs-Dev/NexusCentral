@@ -1,0 +1,53 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_id
+  name: Human Readable Workflow Name
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - replace-with-category
+summary:
+  purpose: One-sentence description of the repeated task this workflow handles.
+  offloads:
+    - repeated manual effort this workflow removes
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory the workflow operates within.
+  optional:
+    - name: optional_input_name
+      type: string
+      default: example
+      description: Optional tuning input.
+reads:
+  required:
+    - README.md
+writes:
+  primary:
+    - path: docs/usage/example-output.md
+      description: Main human-readable output.
+  secondary:
+    - path: artifacts/example-artifact.md
+      description: Supporting artifact output.
+steps:
+  - id: discover-context
+    objective: Read the minimum context needed to avoid duplicate work.
+    actions:
+      - List the files or directories to inspect.
+  - id: produce-output
+    objective: Create the primary reusable artifact or report.
+    actions:
+      - Describe what is written and why it is reusable.
+validation:
+  checks:
+    - Output is specific enough to review without rerunning the workflow mentally.
+    - The workflow stays narrow and composable.
+handoff:
+  upstream: []
+  downstream: []
+notes:
+  - Keep workflows small, explicit, and easy to validate.
+  - Prefer templates and reports over broad implementation behavior.

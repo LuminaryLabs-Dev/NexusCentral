@@ -1,0 +1,103 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: validation_infrastructure_readiness_review
+  name: Validation Infrastructure Readiness Review
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - validation
+    - readiness
+    - infrastructure
+summary:
+  purpose: Review shared screenshot, launch, overlay, service-health, and evidence-transport surfaces so human-view and release workflows start from dependable validation infrastructure instead of rediscovering the same blockers per project.
+  offloads:
+    - repeated readiness checking across shared human-view and release-evidence helpers
+    - repeated screenshot pipeline and service-health review before project-specific evidence briefs are written
+    - repeated drafting of validation-enabling follow-ups that should be separated from per-project proof plans
+goal_links:
+  project_goals:
+    - human_view_python_keep_shared_validation_infrastructure_ready
+    - human_view_python_support_repeatable_visual_regression_evidence
+    - nexus_agent_chat_validate_persona_and_mesh_flows_visibly
+    - project_arrowhead_2025_capture_release_evidence_for_multi_surface_flows
+  business_goals:
+    - human_view_validation_and_regression_evidence
+    - release_evidence_and_demo_readiness
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root of the Nexus Central Builder workspace.
+  optional:
+    - name: validation_roots
+      type: list[path]
+      default:
+        - ../human-view-python
+        - ../NexusAgentChat
+        - ../ProjectArrowhead-2025
+        - ../VendingBackpack
+        - ../AetherVale
+      description: Common repos and shared services whose validation surfaces should be checked for readiness.
+    - name: readiness_axes
+      type: list[string]
+      default:
+        - launch-bridge
+        - screenshot-pipeline
+        - overlay-or-ui-capture
+        - shared-service-health
+        - evidence-export-shape
+      description: Shared validation surfaces that should be compared for drift or missing support.
+reads:
+  required:
+    - goals/project_goals/
+    - goals/business_goals/human_view_validation_and_regression_evidence.md
+    - goals/business_goals/release_evidence_and_demo_readiness.md
+    - automations/experimental/human_view_evidence_brief.yaml
+    - automations/experimental/release_evidence_packet_seed.yaml
+    - docs/project_breakdowns/
+  expected:
+    - ../human-view-python/
+    - docs/usage/
+    - improvements/proposals/
+writes:
+  primary:
+    - path: docs/usage/validation-infrastructure-readiness-review.md
+      description: Main readiness review describing which shared validation surfaces are trustworthy, drifting, or missing.
+  secondary:
+    - path: artifacts/validation-infrastructure-matrix.md
+      description: Matrix of validation surfaces, current evidence, confidence, and blocking gaps across the selected repos.
+    - path: improvements/proposals/validation-infrastructure-followups.md
+      description: Ordered queue of validation-enabling fixes that should land before project-specific evidence planning expands.
+steps:
+  - id: inventory-shared-validation-surfaces
+    objective: Build the shared validation surface before reviewing any single project workflow.
+    actions:
+      - Record screenshot, launch, overlay, health, and evidence-export surfaces across the selected repos.
+      - Distinguish shared infrastructure from project-specific scenario checklists.
+  - id: classify-readiness-and-drift
+    objective: Determine where the shared validation layer is dependable and where it is still fragile.
+    actions:
+      - Mark each readiness axis as ready, partial, drifting, or missing.
+      - Note where multiple repos depend on the same weak validation helper or missing health surface.
+  - id: publish-enablement-guidance
+    objective: Turn the findings into a small enabling queue for later human-view and release workflows.
+    actions:
+      - Recommend the smallest follow-ups that unblock repeatable validation work.
+      - Keep scenario-specific evidence planning out of this review and hand it off downstream.
+validation:
+  checks:
+    - Every readiness finding cites the repo and readiness axis it refers to.
+    - The review distinguishes shared validation infrastructure from project-specific proof planning.
+    - Follow-ups stay focused on enabling better validation, not broad product work.
+handoff:
+  upstream:
+    - workspace_inventory
+    - workflow_goal_coverage_audit
+  downstream:
+    - human_view_evidence_brief
+    - release_evidence_packet_seed
+notes:
+  - Use this workflow when the repeated pain is missing or drifting validation plumbing rather than uncertainty about what a reviewer should observe.
+  - This workflow extends the human-view and release-evidence family without duplicating `human_view_evidence_brief`.

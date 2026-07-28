@@ -1,0 +1,257 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:components="using:NexusCentral.V1.Desktop.Components"
+             x:Class="NexusCentral.V1.Desktop.Views.Surfaces.SetupSurfaceView"
+             x:CompileBindings="False">
+  <Grid RowDefinitions="Auto,*">
+    <Border Classes="flatToolbar">
+      <Grid ColumnDefinitions="*,Auto,Auto"
+            ColumnSpacing="10">
+        <StackPanel Spacing="2">
+          <TextBlock Text="Setup"
+                     Classes="sectionTitle" />
+          <TextBlock Text="Connect the local model, assistant, and active route before using Lab."
+                     Classes="sectionMeta" />
+        </StackPanel>
+        <Button Grid.Column="1"
+                Classes="secondary"
+                Content="Probe model"
+                Command="{Binding Models.ProbeSelectedEndpointCommand}" />
+        <Button Grid.Column="2"
+                Classes="primary"
+                Content="Use best route"
+                Command="{Binding Router.SelectBestRouteCommand}" />
+      </Grid>
+    </Border>
+
+    <ScrollViewer Grid.Row="1"
+                  VerticalScrollBarVisibility="Auto">
+      <Grid ColumnDefinitions="320,*"
+            RowDefinitions="Auto,Auto,Auto"
+            ColumnSpacing="12"
+            RowSpacing="12"
+            Margin="12">
+        <Border Classes="flatBlock">
+          <StackPanel Spacing="8">
+            <TextBlock Text="1  Local model"
+                       Classes="sectionTitle" />
+            <TextBlock Text="{Binding Models.ShellStatusText}"
+                       Classes="pageTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Models.ActiveEndpointDetail}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal"
+                        Spacing="8">
+              <components:MetricBadge Label="Health"
+                                      Value="{Binding Models.ActiveEndpointHealthText}"
+                                      AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+              <components:MetricBadge Label="Models"
+                                      Value="{Binding Models.ActiveEndpointModelCountText}"
+                                      AccentBrush="{DynamicResource StatusActiveBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1"
+                Classes="flatBlock">
+          <Grid RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="8">
+            <Grid ColumnDefinitions="*,*,*,Auto"
+                  ColumnSpacing="8">
+              <TextBox Text="{Binding Models.NewEndpointName, Mode=TwoWay}"
+                       PlaceholderText="Endpoint name" />
+              <TextBox Grid.Column="1"
+                       Text="{Binding Models.NewEndpointBaseUrl, Mode=TwoWay}"
+                       PlaceholderText="Base URL" />
+              <TextBox Grid.Column="2"
+                       Text="{Binding Models.NewEndpointModelId, Mode=TwoWay}"
+                       PlaceholderText="Model id" />
+              <Button Grid.Column="3"
+                      Classes="primary"
+                      Content="Add"
+                      Command="{Binding Models.AddEndpointCommand}" />
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Text="{Binding Models.NewEndpointStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <ListBox Grid.Row="2"
+                     Classes="flatList"
+                     MaxHeight="150"
+                     ItemsSource="{Binding Models.Endpoints}"
+                     SelectedItem="{Binding Models.SelectedEndpoint, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes="flatListRow">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding DisplayName}"
+                                 Classes="sectionTitle" />
+                      <TextBlock Text="{Binding HealthLabel}"
+                                 Classes="caption" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Classes="flatBlock">
+          <StackPanel Spacing="8">
+            <TextBlock Text="2  Assistant connection"
+                       Classes="sectionTitle" />
+            <TextBlock Text="{Binding Harnesses.ShellStatusText}"
+                       Classes="pageTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Harnesses.ActiveHarnessDetail}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal"
+                        Spacing="8">
+              <components:MetricBadge Label="Connection"
+                                      Value="{Binding Harnesses.ActiveHarnessHealthText}"
+                                      AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+              <components:MetricBadge Label="Capabilities"
+                                      Value="{Binding Harnesses.ActiveHarnessCapabilityText}"
+                                      AccentBrush="{DynamicResource StatusReadyBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeGreenBackgroundBrush}" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Classes="flatBlock">
+          <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                RowSpacing="8">
+            <Grid ColumnDefinitions="*,Auto,Auto"
+                  ColumnSpacing="8">
+              <TextBox Text="{Binding Harnesses.ManifestSearchRoot, Mode=TwoWay}"
+                       PlaceholderText="Agent harness folder" />
+              <Button Grid.Column="1"
+                      Classes="secondary"
+                      Content="Scan"
+                      Command="{Binding Harnesses.DiscoverManifestsCommand}" />
+              <Button Grid.Column="2"
+                      Classes="primary"
+                      Content="Import"
+                      Command="{Binding Harnesses.ImportSelectedManifestCommand}" />
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Text="{Binding Harnesses.ManifestDiscoveryStatusText}"
+                       Classes="caption"
+                       TextWrapping="Wrap" />
+            <ListBox Grid.Row="2"
+                     Classes="flatList"
+                     MaxHeight="130"
+                     ItemsSource="{Binding Harnesses.ManifestCandidates}"
+                     SelectedItem="{Binding Harnesses.SelectedManifestCandidate, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes="flatListRow">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding DisplayName}"
+                                 Classes="sectionTitle" />
+                      <TextBlock Text="{Binding DetailText}"
+                                 Classes="caption" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+            <Expander Grid.Row="3"
+                      Header="Advanced assistant connection">
+              <Grid RowDefinitions="Auto,Auto,Auto"
+                    RowSpacing="7"
+                    Margin="0,8,0,0">
+                <TextBox Text="{Binding Harnesses.NewHarnessManifestPath, Mode=TwoWay}"
+                         PlaceholderText="Harness manifest path" />
+                <TextBlock Grid.Row="1"
+                           Text="{Binding Harnesses.NewHarnessStatusText}"
+                           Classes="caption"
+                           TextWrapping="Wrap" />
+                <Button Grid.Row="2"
+                        Classes="secondary"
+                        Content="Import manifest"
+                        Command="{Binding Harnesses.ImportManifestCommand}" />
+              </Grid>
+            </Expander>
+          </Grid>
+        </Border>
+
+        <Border Grid.Row="2"
+                Classes="flatBlock">
+          <StackPanel Spacing="8">
+            <TextBlock Text="3  Active route"
+                       Classes="sectionTitle" />
+            <TextBlock Text="{Binding Router.ShellStatusText}"
+                       Classes="pageTitle"
+                       TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Router.ActiveRouteDetail}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <StackPanel Orientation="Horizontal"
+                        Spacing="8">
+              <components:MetricBadge Label="Route"
+                                      Value="{Binding Router.ActiveRouteHealthText}"
+                                      AccentBrush="{DynamicResource StatusWaitingBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeAmberBackgroundBrush}" />
+              <components:MetricBadge Label="Queue"
+                                      Value="{Binding Router.ActiveRouteQueueText}"
+                                      AccentBrush="{DynamicResource StatusActiveBrush}"
+                                      BackgroundBrush="{DynamicResource BadgeBlueBackgroundBrush}" />
+            </StackPanel>
+          </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2"
+                Grid.Column="1"
+                Classes="flatBlock">
+          <Grid RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="8">
+            <Grid ColumnDefinitions="*,Auto,Auto"
+                  ColumnSpacing="8">
+              <TextBox Text="{Binding Router.RouteSmokePrompt, Mode=TwoWay}"
+                       PlaceholderText="Test connection prompt" />
+              <Button Grid.Column="1"
+                      Classes="secondary"
+                      Content="Refresh"
+                      Command="{Binding Router.RefreshCommand}" />
+              <Button Grid.Column="2"
+                      Classes="primary"
+                      Content="Test connection"
+                      Command="{Binding Router.SmokeSelectedRouteCommand}" />
+            </Grid>
+            <TextBlock Grid.Row="1"
+                       Text="{Binding Router.RouteSmokeStatusText}"
+                       Classes="sectionMeta"
+                       TextWrapping="Wrap" />
+            <ListBox Grid.Row="2"
+                     Classes="flatList"
+                     MaxHeight="130"
+                     ItemsSource="{Binding Router.Routes}"
+                     SelectedItem="{Binding Router.SelectedRoute, Mode=TwoWay}">
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                  <Border Classes="flatListRow">
+                    <StackPanel Spacing="2">
+                      <TextBlock Text="{Binding DisplayName}"
+                                 Classes="sectionTitle" />
+                      <TextBlock Text="{Binding AvailabilityLabel}"
+                                 Classes="caption" />
+                    </StackPanel>
+                  </Border>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
+            </ListBox>
+          </Grid>
+        </Border>
+      </Grid>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

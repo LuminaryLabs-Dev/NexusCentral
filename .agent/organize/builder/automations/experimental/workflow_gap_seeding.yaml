@@ -1,0 +1,111 @@
+version: 1
+kind: workflow_spec
+metadata:
+  id: workflow_gap_seeding
+  name: Workflow Gap Seeding
+  status: experimental
+  owner: nexus-central
+  implementation_status: specification_only
+  tags:
+    - workflow-authoring
+    - gap-discovery
+    - seeding
+summary:
+  purpose: Review the current workflow surface, identify reusable coverage gaps, and draft mock workflow definitions plus a seeding report.
+  offloads:
+    - repeated workflow inventory review before authoring new specs
+    - repeated naming and structure decisions for new micro-automations
+    - repeated report drafting about workflow gaps and proposed seeds
+inputs:
+  required:
+    - name: workspace_root
+      type: path
+      description: Root directory containing the Nexus Central workflow-authoring workspace.
+  optional:
+    - name: scan_targets
+      type: list[path]
+      default:
+        - automations
+        - tools
+        - proposals
+        - templates
+        - docs
+        - goals
+        - lessons
+        - improvements
+      description: Directories to inspect before proposing new workflow seeds.
+    - name: gap_focus
+      type: list[string]
+      default:
+        - repeated manual work
+        - quota-heavy reasoning tasks
+        - missing workflow coverage
+        - missing usage notes
+      description: Themes to emphasize when selecting new workflow candidates.
+reads:
+  required:
+    - README.md
+    - automations/README.md
+    - tools/README.md
+    - proposals/README.md
+    - docs/conventions/workspace-contract.md
+    - docs/conventions/automation-lifecycle.md
+    - docs/usage/workflow-seeding-overview.md
+    - docs/usage/workflow-seeding-report-2026-03-25.md
+    - templates/workflow_templates/micro_automation_template.yaml
+  expected:
+    - automations/experimental/
+    - goals/workflow_targets/
+    - tools/
+    - proposals/
+    - templates/
+    - docs/examples/
+    - docs/usage/
+    - improvements/proposals/
+writes:
+  primary:
+    - path: docs/usage/workflow-gap-seeding-report.md
+      description: Reviewable report describing patterns, gaps, and new mock workflow candidates.
+      template: templates/doc_templates/workflow_seeding_report.md
+  secondary:
+    - path: automations/experimental/{workflow_id}.yaml
+      description: Draft mock workflow definitions for approved gap candidates.
+    - path: docs/examples/workflow-authoring-composition.md
+      description: Example showing how the seeded authoring and governance workflows fit together.
+steps:
+  - id: inventory-current-workflows
+    objective: Capture the current workflow authoring surface before drafting anything new.
+    actions:
+      - Review existing workflow YAML files, templates, and workflow guidance docs.
+      - Record recurring field names, naming conventions, output patterns, and lifecycle language.
+  - id: identify-reusable-gaps
+    objective: Separate missing reusable workflows from one-off observations.
+    actions:
+      - Compare existing workflow coverage against repeated workspace needs, tool-family gaps, and authoring chores.
+      - Prefer narrow gaps that can be expressed as micro-automations with one main output.
+  - id: seed-mock-candidates
+    objective: Draft convertible workflow specs without assuming runtime behavior.
+    actions:
+      - Reuse the existing workflow template and naming style.
+      - Mark new workflow files as experimental, specification-only, and mock by intent.
+  - id: document-rationale
+    objective: Leave a reviewable trail for later refinement or conversion.
+    actions:
+      - Write a seeding report that cites reviewed files, inferred patterns, gaps, and created specs.
+      - Add a usage example when composition or sequence would otherwise stay implicit.
+validation:
+  checks:
+    - The report names the existing YAML files and docs that were reviewed.
+    - Every newly seeded workflow describes a repeated task it offloads.
+    - New workflow YAML files stay declarative and avoid execution promises.
+    - The created file set distinguishes usage notes from workflow specifications.
+handoff:
+  upstream:
+    - workspace_inventory
+    - proposal_backlog_triage
+  downstream:
+    - workflow_review_gate
+    - example_usage_seed
+notes:
+  - This workflow is for mock workflow authoring and documentation only.
+  - Use experimental placement until later review confirms promotion or revision.
