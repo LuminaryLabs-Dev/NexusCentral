@@ -1,6 +1,6 @@
 # Main Integration Handoff
 
-Status: READY_FOR_PUBLICATION
+Status: BLOCKED
 
 ## Goal
 
@@ -241,24 +241,10 @@ task ledger and change log, and stop without staging.
 
 ## Next Permitted Action
 
-Prompt 3 may begin from the current branch only when:
-
-1. `git rev-parse HEAD` equals
-   `git rev-parse refs/tags/nexuscentral-main-integration-ready-20260728^{commit}`.
-2. Full status contains only the seven excluded Playwright paths below.
-3. The live default branch, remote source branch, PR head/base, worktree count,
-   authentication, and `origin/gh-pages` are reverified.
-4. A non-mutating fetch shows `origin/main` is still
-   `551c647440a540853a2d0dc1f5291b7080a3a96b`. If it changed, return to Prompt 2
-   for revalidation without rebasing or force-pushing.
-5. The branch diff contains the recorded commit groups, the four final
-   coordination paths, no excluded files, and no `gh-pages` content.
-
-Then push `agent/publish-current-work-20260713` without force, verify PR #1,
-mark it ready, wait for every new required check, and squash-merge into the
-live default branch only when the accepted diff and all checks are green.
-Delete the remote source branch after merge. Preserve the local source branch
-because its seven excluded files prevent safe local deletion.
+Do not push while the Part 3 deployment-side-effect blocker below remains
+unresolved. Return to Prompt 2 if a workflow change is authorized, or resume
+Prompt 3 only if an automatic deployment-only `gh-pages` update is explicitly
+accepted as compatible with the protected-branch boundary.
 
 ## Part 2 Preparation Result
 
@@ -381,3 +367,64 @@ checks pass, the complete default whitespace check passes, Builder provenance
 remains exact, and only the seven documented excluded paths remain. Prompt 3
 may publish only the commit identified by
 `refs/tags/nexuscentral-main-integration-ready-20260728`.
+
+## Part 3 Preflight Blocker
+
+- Observed: `2026-07-28T12:50:13-0400 (EDT)`
+- Live default branch: `main`
+- Fetched `origin/main`:
+  `551c647440a540853a2d0dc1f5291b7080a3a96b` (unchanged)
+- Local validated tip and ready tag:
+  `c2d5c47dcdbe669a98103582f08e49ce0a6b15a0`
+- Remote source branch:
+  `e6e73ebbfdaba0b5a7282c13e1eb0e503d642792` (unchanged)
+- Protected deployment branch:
+  `origin/gh-pages@e09c80b03d87747aafea756cdd634bd01c22664d`
+  (unchanged)
+- PR #1 remains open and draft with base `main`, the expected source branch,
+  and remote head `e6e73ebb`.
+- GitHub authentication is valid as `thecrimsondeveloper`.
+- Worktree ownership remains singular and status contains only the seven
+  excluded Playwright files.
+- No push, PR mutation, merge, branch deletion, or `gh-pages` mutation occurred.
+
+### Incompatible Live Gates
+
+The current `.github/workflows/nexuscentral-pages.yml` runs on every branch push
+that changes `NexusCentral-V*/**`. The validated branch contains V2 changes, so
+publishing it will start `NexusCentral Pages Downloads`. Its `publish-pages`
+job calls `.github/scripts/update_pages_downloads.py` with the branch name,
+commit SHA, run ID, and timestamp, commits the resulting site, and pushes
+directly to `gh-pages`.
+
+This is not hypothetical: the current protected ref is commit
+`e09c80b03d87747aafea756cdd634bd01c22664d`, titled
+`Update NexusCentral downloads for agent/publish-current-work-20260713`. Its
+branch record embeds the current remote source SHA `e6e73ebb`. A push of the
+validated tip would replace that record with `c2d5c47` and necessarily advance
+`gh-pages`.
+
+Therefore both of these objective requirements cannot currently be true:
+
+1. Let every new check finish green before merge.
+2. Verify `gh-pages` remains at its accepted unchanged ref.
+
+Canceling or bypassing the Pages workflow would violate the green-check gate.
+Allowing it to finish would violate the unchanged-ref gate. Reverting its output
+would touch `gh-pages`, and force-restoring the ref is expressly forbidden.
+
+### Resolution Required
+
+Choose one policy:
+
+1. Accept the normal automated deployment update as compatible with the
+   boundary, while still proving that no `gh-pages` commit or content enters
+   `main`. Prompt 3 can then publish and verify the new deployment commit
+   independently.
+2. Return to Prompt 2 and authorize a reviewed workflow change that prevents
+   V2/agent-only pushes from publishing V1 download output. This changes a path
+   explicitly excluded by the accepted handoff and therefore cannot be inferred
+   during publication.
+
+Option 1 preserves existing CI/CD behavior. Option 2 preserves the exact
+`gh-pages` ref but changes deployment policy.
