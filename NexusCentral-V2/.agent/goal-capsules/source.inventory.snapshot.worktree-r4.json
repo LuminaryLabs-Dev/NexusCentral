@@ -1,0 +1,58 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 4,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.inventory.snapshot.worktree",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.inventory",
+    "source.inventory.snapshot"
+  ],
+  "owner": "release-source-control",
+  "objective": "Capture modified and untracked paths.",
+  "directDependencies": [],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-matrix.json",
+      "claim": "The prerequisite goal-control domain is promoted and the selected ancestor path is dependency-complete at revision 3."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Git metadata and refs in this repository",
+    "Repository path names and status codes",
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.inventory.snapshot.worktree-r4.json",
+    ".agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+    ".agent/goal-evidence/source-authority/sim-worktree-snapshot-r4.json"
+  ],
+  "exclusions": [
+    "No source-content edits",
+    "No checkout, switch, merge, rebase, cherry-pick, stash, reset, clean, fetch, pull, push, or worktree removal",
+    "No credentials, deployment, publication, or external submission",
+    "No reading or recording file contents outside matrix-control artifacts"
+  ],
+  "acceptanceGate": "Every pending path and status is recorded without mutation.",
+  "oneFixPlan": "Capture every modified and untracked path with its exact Git status, branch, remote, and worktree context.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "read-only-git-status"
+  },
+  "validationCommand": "Compare a fresh porcelain-v2 status set and branch identity with the recorded snapshot.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before any Git or source mutation, on stale revision, or if status cannot be captured exactly.",
+  "versionPacket": null,
+  "featureId": "source.inventory.snapshot.worktree",
+  "candidateSha": null,
+  "checksum": "sha256:87932e01a94c7b01add1fd4037b8a3657b07c0175d4019f70bfb30fbdba79a2c"
+}

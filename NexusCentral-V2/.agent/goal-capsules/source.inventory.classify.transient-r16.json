@@ -1,0 +1,57 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 16,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.inventory.classify.transient",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.inventory",
+    "source.inventory.classify"
+  ],
+  "owner": "release-source-control",
+  "objective": "Identify generated and transient paths without deleting them.",
+  "directDependencies": [
+    "source.inventory.classify.durable"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/durable-path-classification-r12.json",
+      "claim": "Durable candidates are isolated; deferred generated, transient, and unresolved paths are ready for non-mutating classification."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Fresh pending path names and statuses",
+    "Durable classification packet",
+    "Ignore rules and bounded metadata for deferred files"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.inventory.classify.transient-r16.json",
+    ".agent/goal-evidence/source-authority/final-path-classification-r16.json",
+    ".agent/goal-evidence/source-authority/sim-transient-classification-r16.json"
+  ],
+  "exclusions": [
+    "No deletion, reset, clean, move, rename, checkout, or source-content edit",
+    "No raw model output publication",
+    "No secret values copied into classification evidence"
+  ],
+  "acceptanceGate": "Transient classification contains no deletion or reset action.",
+  "oneFixPlan": "Classify generated, transient, unresolved, and late control artifacts with owners and no-action retention.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "non-mutating-transient-classifier"
+  },
+  "validationCommand": "Require complete fresh status coverage and verify every non-durable path has owner, class, reason, and noAction true.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before deletion or when a path cannot be safely classified as unresolved.",
+  "versionPacket": null,
+  "featureId": "source.inventory.classify.transient",
+  "candidateSha": null,
+  "checksum": "sha256:ad67a25fbd016c852bf4cd0cf2e4187aaa682a5ac36c919b7441b40319b890a8"
+}

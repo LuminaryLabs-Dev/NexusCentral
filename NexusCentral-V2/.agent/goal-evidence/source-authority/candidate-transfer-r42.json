@@ -1,0 +1,460 @@
+{
+  "schemaVersion": "nexuscentral.candidate-transfer.v1",
+  "matrixRevision": 42,
+  "nodeId": "source.reconcile.transfer.apply",
+  "capturedAt": "2026-08-08T23:02:00Z",
+  "capsule": {
+    "ref": ".agent/goal-capsules/source.reconcile.transfer.apply-r42.json",
+    "checksum": "sha256:f22da629a087ed301cea3260d7babac735aeda03966d3ae6aec0bdbad1624935"
+  },
+  "approval": {
+    "ref": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+    "requestId": "source-integration-r36",
+    "scopeDigest": "sha256:d2a9e57397cdcce624274da632bb363d631de11847c5cb23bd156b4a9cbc64cf"
+  },
+  "candidate": {
+    "identifier": "candidate-worktree:source-candidate-r36",
+    "branch": "agent/source-candidate-r36",
+    "baseCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "baseTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "committed": false,
+    "pushed": false
+  },
+  "transfer": {
+    "expectedCount": 52,
+    "observedCount": 52,
+    "exactCopyCount": 47,
+    "sanitizedCopyCount": 5,
+    "manifestDigest": "sha256:8129020a9f6a19a214ca8729b59a3bf354357d3337ae81d1461797483eb52528",
+    "manifest": [
+      {
+        "path": "NexusCentral-V2/.agent/change-log.md",
+        "status": " M",
+        "sourceSha256": "sha256:31c536275b77a9a2989e1ceb72feadc8a964fe95c92610410b3fe02cdf2cb7c8",
+        "candidateSha256": "sha256:31c536275b77a9a2989e1ceb72feadc8a964fe95c92610410b3fe02cdf2cb7c8",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/README.md",
+        "status": "??",
+        "sourceSha256": "sha256:408626e9038a2e7c9442fca3a87dbfd3ebe76088a2e1066929f9e23218b9009c",
+        "candidateSha256": "sha256:408626e9038a2e7c9442fca3a87dbfd3ebe76088a2e1066929f9e23218b9009c",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.default.prove-r24.json",
+        "status": "??",
+        "sourceSha256": "sha256:e2b24f55ebd8b29f7d37a5574c070fa78cc749216cfe9a2dc0b02bfdcc92fd15",
+        "candidateSha256": "sha256:e2b24f55ebd8b29f7d37a5574c070fa78cc749216cfe9a2dc0b02bfdcc92fd15",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.default.prove-r33.json",
+        "status": "??",
+        "sourceSha256": "sha256:6b820850af935499298a574d97e9708bab1d8cde914def39be01b6ccbfb3c353",
+        "candidateSha256": "sha256:6b820850af935499298a574d97e9708bab1d8cde914def39be01b6ccbfb3c353",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.pages.prove-r28.json",
+        "status": "??",
+        "sourceSha256": "sha256:80473635f12662daf5bd1134df72362def3c8e41c6692d652ecf73cea5d86b62",
+        "candidateSha256": "sha256:80473635f12662daf5bd1134df72362def3c8e41c6692d652ecf73cea5d86b62",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.durable-r12.json",
+        "status": "??",
+        "sourceSha256": "sha256:c808df90918234bf0a125b859f022a69004707927d3fa514d7e479705ca93b6d",
+        "candidateSha256": "sha256:c808df90918234bf0a125b859f022a69004707927d3fa514d7e479705ca93b6d",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.transient-r16.json",
+        "status": "??",
+        "sourceSha256": "sha256:5db626c70946d609ded49c67901fde0fe83dd88e2bdbcad8f0ad36f3ab577ade",
+        "candidateSha256": "sha256:5db626c70946d609ded49c67901fde0fe83dd88e2bdbcad8f0ad36f3ab577ade",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.branches-r8.json",
+        "status": "??",
+        "sourceSha256": "sha256:d991b20e4de6c67a6051a31270e7ca17bd3603976650bad5adace32e1990a3d9",
+        "candidateSha256": "sha256:d991b20e4de6c67a6051a31270e7ca17bd3603976650bad5adace32e1990a3d9",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.worktree-r4.json",
+        "status": "??",
+        "sourceSha256": "sha256:70c179ca8a1d95f4618bc2fe11bfc76f29833587ea0ca1d692f66f2f8a81a308",
+        "candidateSha256": "sha256:70c179ca8a1d95f4618bc2fe11bfc76f29833587ea0ca1d692f66f2f8a81a308",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.reconcile.equivalence.prove-r20.json",
+        "status": "??",
+        "sourceSha256": "sha256:833d7211ad68c56074510f1c509e8aa3117622edc4bcfa9304ef4bf65e30dd57",
+        "candidateSha256": "sha256:833d7211ad68c56074510f1c509e8aa3117622edc4bcfa9304ef4bf65e30dd57",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/README.md",
+        "status": "??",
+        "sourceSha256": "sha256:97d1d57a2d7023dcea6553f5d9b8ffb47bf2aca2c1d8c71b2524dd861bb16dcd",
+        "candidateSha256": "sha256:97d1d57a2d7023dcea6553f5d9b8ffb47bf2aca2c1d8c71b2524dd861bb16dcd",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-2.json",
+        "status": "??",
+        "sourceSha256": "sha256:15b51897a3f1fabe9f30c05e0f73fc63a055c93f614f36e6306a4ac7ca9d9050",
+        "candidateSha256": "sha256:15b51897a3f1fabe9f30c05e0f73fc63a055c93f614f36e6306a4ac7ca9d9050",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-3.json",
+        "status": "??",
+        "sourceSha256": "sha256:9a7da1a0efd726ed3bbb22db7e2532092808c32131a72378125154e824cb3a5e",
+        "candidateSha256": "sha256:9a7da1a0efd726ed3bbb22db7e2532092808c32131a72378125154e824cb3a5e",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/branch-inventory-r8.json",
+        "status": "??",
+        "sourceSha256": "sha256:6dbf087c4190d7232d807d7f213796d720ea9d557aa5d9c0945f0e68fe853650",
+        "candidateSha256": "sha256:6dbf087c4190d7232d807d7f213796d720ea9d557aa5d9c0945f0e68fe853650",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+        "status": "??",
+        "sourceSha256": "sha256:fdf4b3a937e54302575e74af7562be306d82e295650f2a0e902095af43b09c6f",
+        "candidateSha256": "sha256:fdf4b3a937e54302575e74af7562be306d82e295650f2a0e902095af43b09c6f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r33.json",
+        "status": "??",
+        "sourceSha256": "sha256:66f11299442911652565749c88ed389174ace4ac55a6c75b356a10e804dae755",
+        "candidateSha256": "sha256:66f11299442911652565749c88ed389174ace4ac55a6c75b356a10e804dae755",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/durable-path-classification-r12.json",
+        "status": "??",
+        "sourceSha256": "sha256:e958ec916ec5754a319cd807facc34894a05b9435fb59727560bcb819f2befbb",
+        "candidateSha256": "sha256:e958ec916ec5754a319cd807facc34894a05b9435fb59727560bcb819f2befbb",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/equivalence-report-r20.json",
+        "status": "??",
+        "sourceSha256": "sha256:3e37db69de9f995f7607cc7e0f7ecd7e435f53e2763362f00817942338be3a4f",
+        "candidateSha256": "sha256:3e37db69de9f995f7607cc7e0f7ecd7e435f53e2763362f00817942338be3a4f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/final-path-classification-r16.json",
+        "status": "??",
+        "sourceSha256": "sha256:d1c652d21907b8d9d9d034c34d7e920634918120f97dd06bfca5366bf4a4fae2",
+        "candidateSha256": "sha256:d1c652d21907b8d9d9d034c34d7e920634918120f97dd06bfca5366bf4a4fae2",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+        "status": "??",
+        "sourceSha256": "sha256:d002d288b5a68e3c95fc8a1eaa7043f4e973ec02fc158e5c7a3ae03ce78eb173",
+        "candidateSha256": "sha256:d002d288b5a68e3c95fc8a1eaa7043f4e973ec02fc158e5c7a3ae03ce78eb173",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/pages-policy-r28.json",
+        "status": "??",
+        "sourceSha256": "sha256:7e5163a3d0bc2660f0c2dbc93f25cba538ba3cac73c8de016a3be4720cebcb66",
+        "candidateSha256": "sha256:7e5163a3d0bc2660f0c2dbc93f25cba538ba3cac73c8de016a3be4720cebcb66",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-branch-inventory-r8.json",
+        "status": "??",
+        "sourceSha256": "sha256:7acae2e1651364bc2a75b9451a72c7187f0a1362dbcd87870f70875f02bfe849",
+        "candidateSha256": "sha256:7acae2e1651364bc2a75b9451a72c7187f0a1362dbcd87870f70875f02bfe849",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r24.json",
+        "status": "??",
+        "sourceSha256": "sha256:4462e75ef410a130ad100d78d73f48dd2fc9c56568322d579e8600f897981cfe",
+        "candidateSha256": "sha256:4462e75ef410a130ad100d78d73f48dd2fc9c56568322d579e8600f897981cfe",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r33.json",
+        "status": "??",
+        "sourceSha256": "sha256:a470dd6a819a319e3e04555ce283571894dcb9bd2e5ca33cc8bf777c3464a034",
+        "candidateSha256": "sha256:a470dd6a819a319e3e04555ce283571894dcb9bd2e5ca33cc8bf777c3464a034",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-durable-classification-r12.json",
+        "status": "??",
+        "sourceSha256": "sha256:bfafdce5e604fe5ac465dbfe2ee73434427d359bbfd2092b7dfa6fce392a7555",
+        "candidateSha256": "sha256:bfafdce5e604fe5ac465dbfe2ee73434427d359bbfd2092b7dfa6fce392a7555",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-equivalence-r20.json",
+        "status": "??",
+        "sourceSha256": "sha256:187ad73f6f6fdd051b68d3aec6c72a9147ee9186b36bc0bb79acf4b0ab45ba1a",
+        "candidateSha256": "sha256:187ad73f6f6fdd051b68d3aec6c72a9147ee9186b36bc0bb79acf4b0ab45ba1a",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-pages-policy-r28.json",
+        "status": "??",
+        "sourceSha256": "sha256:5661c16e6dab816a6aa718a351ddc25cdc5c81cbf44c9af5e5e40778c24a320f",
+        "candidateSha256": "sha256:5661c16e6dab816a6aa718a351ddc25cdc5c81cbf44c9af5e5e40778c24a320f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-transient-classification-r16.json",
+        "status": "??",
+        "sourceSha256": "sha256:e9584d009a4ce3ec6ea419ce8d1a604af3f152fa2ecf54782de746d9a9632598",
+        "candidateSha256": "sha256:e9584d009a4ce3ec6ea419ce8d1a604af3f152fa2ecf54782de746d9a9632598",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-worktree-snapshot-r4.json",
+        "status": "??",
+        "sourceSha256": "sha256:e41d8ed9497699d74fb843f08e20b5fc92637ef9b9ebdb5d2cbc41e461872a1a",
+        "candidateSha256": "sha256:e41d8ed9497699d74fb843f08e20b5fc92637ef9b9ebdb5d2cbc41e461872a1a",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "status": "??",
+        "sourceSha256": "sha256:f40cc4e96e696e2c665ae12fe9aa5fdc457f44c198f9a729a9d6e42589a375c1",
+        "candidateSha256": "sha256:48edc3b5ac5d14a8e35bb3bea54e41da03e3969be98acd23d171d979a307d37c",
+        "transfer": "sanitized-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-ledger.jsonl",
+        "status": "??",
+        "sourceSha256": "sha256:0388122dcf278859ba5ef65094698f8d740a4a7c4d1bae882a9828fceadc555a",
+        "candidateSha256": "sha256:0388122dcf278859ba5ef65094698f8d740a4a7c4d1bae882a9828fceadc555a",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-matrix.json",
+        "status": "??",
+        "sourceSha256": "sha256:3f9ce635c47722a7c7467ebb19079f96daebc1a336304d1870850badcef337ed",
+        "candidateSha256": "sha256:3f9ce635c47722a7c7467ebb19079f96daebc1a336304d1870850badcef337ed",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-queue.json",
+        "status": "??",
+        "sourceSha256": "sha256:e070d473ffcbc642afda0b230407fb942801f348923fe555fa8d950421a664d7",
+        "candidateSha256": "sha256:e070d473ffcbc642afda0b230407fb942801f348923fe555fa8d950421a664d7",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/harness-catalog.json",
+        "status": "??",
+        "sourceSha256": "sha256:4a134ab53e067e63285de287c64823be3a1b2c3674887674eb58980ff2292fe4",
+        "candidateSha256": "sha256:4a134ab53e067e63285de287c64823be3a1b2c3674887674eb58980ff2292fe4",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md",
+        "status": " M",
+        "sourceSha256": "sha256:7bc4d28eaa96c08f450a37aee5213f85f173dbb13dee7b29c8e1b0dbec8346a0",
+        "candidateSha256": "sha256:7bc4d28eaa96c08f450a37aee5213f85f173dbb13dee7b29c8e1b0dbec8346a0",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/tasks.jsonl",
+        "status": " M",
+        "sourceSha256": "sha256:99ff1cffa2583d73f1ba47af49e700f7e750779eba8e129d70fa933f39e9a5b0",
+        "candidateSha256": "sha256:99ff1cffa2583d73f1ba47af49e700f7e750779eba8e129d70fa933f39e9a5b0",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "status": " M",
+        "sourceSha256": "sha256:26b2cf3f1563e5632568f4121da42db933eaddc5021630c72c937aafd101949f",
+        "candidateSha256": "sha256:aa6de1892e39c901a538204637ea7878e77297ccd1d757e0ac6865ae27bac481",
+        "transfer": "sanitized-copy"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/styles.css",
+        "status": " M",
+        "sourceSha256": "sha256:d9c4941a0da2f4ca8bd6cbae1353fa3701c4eecc3b058c75845e2467d3ed0f8f",
+        "candidateSha256": "sha256:d9c4941a0da2f4ca8bd6cbae1353fa3701c4eecc3b058c75845e2467d3ed0f8f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/current-validation.md",
+        "status": "??",
+        "sourceSha256": "sha256:d4218c8c18d4b52ee024c1ade8a91fe4e5731a52646c5d3076534e5e069b39b5",
+        "candidateSha256": "sha256:d4218c8c18d4b52ee024c1ade8a91fe4e5731a52646c5d3076534e5e069b39b5",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "status": "??",
+        "sourceSha256": "sha256:ed05640c857977a0331a2991919d0263e1f25922126e46196500b1856c82b0ae",
+        "candidateSha256": "sha256:5b536459df57e7fb0230e005361ee06d87039b42fff3b51aa0b6c8dfe4baa685",
+        "transfer": "sanitized-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/plan.md",
+        "status": "??",
+        "sourceSha256": "sha256:d55dade1de3c1cf0512a2d0b96429a10ec149154cb3b7c4aaeaf16f4882096dd",
+        "candidateSha256": "sha256:d55dade1de3c1cf0512a2d0b96429a10ec149154cb3b7c4aaeaf16f4882096dd",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/proof.md",
+        "status": "??",
+        "sourceSha256": "sha256:6de95bfa003d553c30824c5cc19af44eff101c013eb54753dfc112e5aa43e12f",
+        "candidateSha256": "sha256:6de95bfa003d553c30824c5cc19af44eff101c013eb54753dfc112e5aa43e12f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/screenshots.md",
+        "status": "??",
+        "sourceSha256": "sha256:e5209e132dda19ed939b955a9848238f1935bb5e108d97602cd282e3d2d596e7",
+        "candidateSha256": "sha256:e5209e132dda19ed939b955a9848238f1935bb5e108d97602cd282e3d2d596e7",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/simulations.md",
+        "status": "??",
+        "sourceSha256": "sha256:1085fa4b7a31b85dc47fb7f045f9bf40efd05d1aed54e787ac2a43b4d2f9116f",
+        "candidateSha256": "sha256:1085fa4b7a31b85dc47fb7f045f9bf40efd05d1aed54e787ac2a43b4d2f9116f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/summary.md",
+        "status": "??",
+        "sourceSha256": "sha256:108b42451129adf662e42aa619ca9f55237f899d62f543c0cd30f49504161f87",
+        "candidateSha256": "sha256:108b42451129adf662e42aa619ca9f55237f899d62f543c0cd30f49504161f87",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "status": "??",
+        "sourceSha256": "sha256:742d5cc81901258130dde2b264aa7a39b59e5e16c3f186528127320f3af287f9",
+        "candidateSha256": "sha256:aeda0485381217939fe2e55a293040f679223cd2bdf52e97f1c89117751c9343",
+        "transfer": "sanitized-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "status": "??",
+        "sourceSha256": "sha256:6878d360189a4050b7deb94b9d1bfa17ca513964c61561443c06c1d068ef2e6b",
+        "candidateSha256": "sha256:5c39a4dc0ef4ade95472626da1141c90383cd64ccea81b4174923bd3608d203a",
+        "transfer": "sanitized-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/proof.md",
+        "status": "??",
+        "sourceSha256": "sha256:1f03c2e609ab26caf95e4cd1aa67943217a8f05df8c982d7183fe864c59e5d50",
+        "candidateSha256": "sha256:1f03c2e609ab26caf95e4cd1aa67943217a8f05df8c982d7183fe864c59e5d50",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/screenshots.md",
+        "status": "??",
+        "sourceSha256": "sha256:3307384f7678afaa76150f90a68a82c0e89cb1778801fbd1ddf41c79d8c30cb3",
+        "candidateSha256": "sha256:3307384f7678afaa76150f90a68a82c0e89cb1778801fbd1ddf41c79d8c30cb3",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/summary.md",
+        "status": "??",
+        "sourceSha256": "sha256:5d1e253d1973219f49177d7ae8699b8f596aaa5cc4e1e4d67e299c37d4f8346f",
+        "candidateSha256": "sha256:5d1e253d1973219f49177d7ae8699b8f596aaa5cc4e1e4d67e299c37d4f8346f",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/history/runs.md",
+        "status": "??",
+        "sourceSha256": "sha256:ab20a9ea449ff625037b74cf3ea732521ed04527aaad9fdeb39359cfb4cd365c",
+        "candidateSha256": "sha256:ab20a9ea449ff625037b74cf3ea732521ed04527aaad9fdeb39359cfb4cd365c",
+        "transfer": "exact-copy"
+      },
+      {
+        "path": "NexusCentral-V2/goal.md",
+        "status": " M",
+        "sourceSha256": "sha256:f79265d292234cdb18eec49c8330187510260240d61af173273e80086e1659ea",
+        "candidateSha256": "sha256:f79265d292234cdb18eec49c8330187510260240d61af173273e80086e1659ea",
+        "transfer": "exact-copy"
+      }
+    ]
+  },
+  "sanitization": {
+    "expectedCount": 5,
+    "observedCount": 5,
+    "paths": [
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "result": "sanitized"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "result": "sanitized"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "result": "sanitized"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "signals": [
+          "private-network-address"
+        ],
+        "result": "sanitized"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "result": "sanitized"
+      }
+    ],
+    "privacyFindings": []
+  },
+  "originalSafety": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "indexTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "sourceFilesModifiedByTransfer": false
+  },
+  "checks": {
+    "basePinned": true,
+    "localBranchOnly": true,
+    "pathCountExact": true,
+    "pathSetExact": true,
+    "exactCopyCount": true,
+    "sanitationCount": true,
+    "privacyScan": true,
+    "originalCommitUntouched": true,
+    "originalIndexUntouched": true,
+    "worktreeCount": true
+  },
+  "acceptance": "The candidate contains only approved durable changes.",
+  "decision": "pass",
+  "nextAction": "Validate the candidate tree, scans, and repository checks without committing or pushing.",
+  "contentDigest": "sha256:b7e82af1959b9dec2f86f7f373714bde207e981bd1250aa94c4bf379a185b070"
+}

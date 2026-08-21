@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "matrixRevision": 9,
+  "targetNode": "source.inventory.snapshot.branches",
+  "scenario": "The remote default branch advances after branch inventory capture.",
+  "expectedOutcome": "Reject stale branch evidence and repeat live ls-remote comparison before equivalence or transfer.",
+  "startingState": "Local refs, live remote heads, commit topology, and tree IDs are recorded without fetch.",
+  "injectedEvent": "origin/main changes after capture.",
+  "invariants": [
+    "No local ref is mutated.",
+    "Tree equality and history divergence remain separate facts.",
+    "A missing upstream is recorded rather than repaired automatically.",
+    "Generated gh-pages may have unrelated history and must not be merged into source."
+  ],
+  "firstPass": "The live remote head differs from the inventory and validation fails.",
+  "reviewPass": "A second simulation preserves fail-closed recapture and does not authorize fetch, checkout, or merge.",
+  "reconciledResult": "Re-run remote and local ref comparison immediately before using this evidence.",
+  "stability": "stable",
+  "assumptions": [
+    "The remote permits read-only ls-remote."
+  ],
+  "uncertainty": "Low for current ref identity; future remote writes can stale the packet.",
+  "repairRoute": "Repeat branch inventory at the newest matrix revision.",
+  "simulationProofOnly": true
+}

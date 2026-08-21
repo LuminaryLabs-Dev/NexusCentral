@@ -1,0 +1,73 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 38,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.reconcile.transfer.recheck",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.reconcile",
+    "source.reconcile.transfer"
+  ],
+  "owner": "release-source-control",
+  "objective": "Recheck the live target, approved source paths, exclusions, and original worktree state before creating an isolated candidate.",
+  "directDependencies": [
+    "source.reconcile.equivalence",
+    "source.approval.integration"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+      "claim": "The human operator approved isolated candidate construction for the pinned target, 52 included paths, 94 exclusions, and five sanitation gates."
+    },
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/equivalence-report-r20.json",
+      "claim": "Current committed content and the live remote default are tree-equivalent, so no committed-history transfer is required."
+    }
+  ],
+  "recentFailures": [
+    {
+      "class": "contradictory",
+      "ref": ".agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+      "claim": "The retained stale packet demonstrates why live ref, commit, and tree coherence must be rechecked from one authority."
+    }
+  ],
+  "allowedReads": [
+    "Live remote HEAD symref and advertised default-branch SHA",
+    "Git object addressed directly by the live SHA",
+    "Current original-worktree status and branch identity",
+    "The 52 approved included paths and their recorded hashes",
+    "The 94 excluded path names and retention classifications",
+    "Approved source-authority evidence and matrix-control artifacts"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.reconcile.transfer.recheck-r38.json",
+    ".agent/goal-evidence/source-authority/reconciliation-recheck-r38.json",
+    ".agent/goal-evidence/source-authority/sim-reconciliation-recheck-r38.json"
+  ],
+  "exclusions": [
+    "No source, index, branch, remote, or original-worktree mutation",
+    "No candidate worktree creation during this read-only leaf",
+    "No transfer of any path outside the approved inclusion list",
+    "No deletion, reset, clean, stash, move, overwrite, merge, push, deployment, credential use, or live-provider use"
+  ],
+  "acceptanceGate": "No unreviewed drift overlaps the transfer scope.",
+  "oneFixPlan": "Resolve the live target coherently, compare every approved source hash and exclusion against the revision-36 packet, and stop if any overlapping drift or scope mismatch exists.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "source-authority-recheck"
+  },
+  "validationCommand": "Repeat live target, source hash, inclusion, exclusion, approval, and zero-mutation checks against an independently regenerated observation.",
+  "approvalGate": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json#decision=approved",
+  "cancellationRule": "Stop on remote drift, source hash drift, missing included paths, unclassified overlap, stale matrix revision, or any requested mutation outside this capsule.",
+  "versionPacket": null,
+  "featureId": "source.reconcile.transfer.recheck",
+  "candidateSha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+  "checksum": "sha256:c08d963e2d6118c6a01662fd1dc42440905164ee36369f2727d0352c3d9087fb"
+}

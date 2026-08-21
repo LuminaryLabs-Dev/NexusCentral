@@ -1,0 +1,64 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 20,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.reconcile.equivalence.prove",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.reconcile",
+    "source.reconcile.equivalence"
+  ],
+  "owner": "release-source-control",
+  "objective": "Compare exact trees and unique patches.",
+  "directDependencies": [
+    "source.inventory.classify"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/branch-inventory-r8.json",
+      "claim": "Local and live remote branch topology is recorded without mutating refs."
+    },
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/final-path-classification-r16.json",
+      "claim": "The 133-path source snapshot separates durable candidates from preserved private, generated, and transient paths."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Git refs, objects, commit graphs, trees, diffs, patch IDs, and worktree status",
+    "Live remote heads via git ls-remote without fetch",
+    "Source inventory, branch inventory, and classification packets",
+    "Hashes and bounded metadata for durable candidates and later control artifacts"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.reconcile.equivalence.prove-r20.json",
+    ".agent/goal-evidence/source-authority/equivalence-report-r20.json",
+    ".agent/goal-evidence/source-authority/sim-equivalence-r20.json"
+  ],
+  "exclusions": [
+    "No fetch, checkout, switch, merge, rebase, cherry-pick, reset, clean, stash, add, commit, push, or ref update",
+    "No source, index, branch, remote, worktree, or user-owned artifact mutation",
+    "No transfer, sanitation, publication, or integration decision",
+    "No raw private content copied into evidence"
+  ],
+  "acceptanceGate": "Unique commits and exact tree differences are separately identified.",
+  "oneFixPlan": "Separate commit topology, tree identity, patch equivalence, tracked dirty changes, durable untracked candidates, and late control artifacts in one read-only report.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "bounded-read-only-git-equivalence"
+  },
+  "validationCommand": "Re-read live remote heads and Git objects; independently verify commit sets, tree hashes, patch IDs, changed paths, candidate hashes, exclusions, and zero mutation.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before any command that writes refs, the index, a worktree, remotes, or source content.",
+  "versionPacket": null,
+  "featureId": "source.reconcile.equivalence.prove",
+  "candidateSha": null,
+  "checksum": "sha256:ef314eda51997bd38850d66e0550647b4cad5aae2a55696eefb60a7811057c22"
+}

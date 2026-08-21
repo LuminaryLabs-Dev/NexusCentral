@@ -1,0 +1,63 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 28,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.branches.pages.prove",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.branches",
+    "source.branches.pages"
+  ],
+  "owner": "pages-release",
+  "objective": "Specify merge-free Pages generation and preservation rules.",
+  "directDependencies": [],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".github/workflows/nexuscentral-pages.yml",
+      "claim": "The workflow checks out gh-pages in a separate directory and pushes that branch explicitly."
+    },
+    {
+      "class": "observed",
+      "ref": ".github/scripts/update_pages_downloads.py",
+      "claim": "The updater scopes replacement to one branch download directory and rebuilds indexes from retained records."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Pages workflow and updater source",
+    "Live and local gh-pages refs and tree objects",
+    "Current generated Pages asset manifest",
+    "Temporary fixture outputs outside the repository"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.branches.pages.prove-r28.json",
+    ".agent/goal-evidence/source-authority/pages-policy-r28.json",
+    ".agent/goal-evidence/source-authority/sim-pages-policy-r28.json",
+    "Temporary fixture files under the operating-system temp directory"
+  ],
+  "exclusions": [
+    "No workflow run, push, deploy, branch, ref, index, source, or worktree mutation",
+    "No gh-pages checkout into the source worktree",
+    "No claim that the final shared browser app is already deployed",
+    "No deletion of current repository or Pages assets"
+  ],
+  "acceptanceGate": "The workflow regenerates gh-pages without merging it into source and preserves required download assets.",
+  "oneFixPlan": "Prove separate-history generation, explicit gh-pages targeting, retained asset behavior, and current deployment gaps through static inspection plus an isolated updater fixture.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "read-only-pages-policy"
+  },
+  "validationCommand": "Re-read live Pages refs and workflow commands, rerun the updater fixture, verify retained hashes and expected outputs, and prove zero Git mutation.",
+  "approvalGate": "none-read-only-no-deploy",
+  "cancellationRule": "Stop before any remote write, deployment, ref update, or source-tree cleanup.",
+  "versionPacket": null,
+  "featureId": "source.branches.pages.prove",
+  "candidateSha": null,
+  "checksum": "sha256:eddc2ca01391673810d51358df7d449deda5f688262e58fe7e82b20705ae032c"
+}

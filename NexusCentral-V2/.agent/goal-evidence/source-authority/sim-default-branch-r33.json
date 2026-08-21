@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "scenarioId": "remote-default-live-object-coherence",
+  "matrixRevision": 34,
+  "nodeId": "source.branches.default.prove",
+  "expectedOutcome": "A renamed or divergent local branch cannot contaminate the live ref, commit, and tree approval pin.",
+  "startingState": {
+    "live": {
+      "ref": "refs/heads/main",
+      "commit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d"
+    },
+    "localBranch": {
+      "ref": "refs/heads/main",
+      "commit": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+      "tree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9"
+    }
+  },
+  "injectedEvent": "The local branch remains one commit behind while the remote default advertises a newer SHA.",
+  "invariants": [
+    "The live advertised SHA is the only tree dereference input.",
+    "A stale local branch is recorded but never used for target pinning.",
+    "Local tracking must match live before object inspection.",
+    "Fallback metadata cannot authorize integration without a refreshed SHA."
+  ],
+  "firstPass": {
+    "selectedCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "selectedTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "rejectedLocalCommit": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "rejectedLocalTree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9"
+  },
+  "reviewPass": "Recompute <live-sha>^{tree}, compare local tracking, and assert the stale local tree differs and is unused.",
+  "reconciledResult": "The target coherently pins refs/heads/main, a79c762, and tree 91e9fd2; stale local fd6c6f1 is excluded.",
+  "stability": "stable",
+  "assumptions": [
+    "The live advertised commit exists in the local object database because local tracking matches it."
+  ],
+  "uncertainty": "A remote change after capture invalidates this packet and requires a new live read.",
+  "repairRoute": "Mark stale and recapture; never fall back to a local branch tree.",
+  "simulationProofOnly": true,
+  "contentDigest": "sha256:819a4cc815a98822522858040d4d61e857259138476a30e5294e00a5ac7d8cd9"
+}

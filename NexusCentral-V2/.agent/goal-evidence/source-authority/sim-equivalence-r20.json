@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "scenarioId": "source-equivalence-misleading-history",
+  "matrixRevision": 21,
+  "nodeId": "source.reconcile.equivalence.prove",
+  "expectedOutcome": "Different commit counts do not trigger a branch transfer when exact trees and aggregate patches are identical.",
+  "startingState": {
+    "originMainOnly": 1,
+    "currentHeadOnly": 8,
+    "headTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "originMainTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d"
+  },
+  "injectedEvent": "A reviewer treats eight branch-only commits and one main-only commit as proof of unique committed content.",
+  "invariants": [
+    "Commit topology and tree identity remain separate claims.",
+    "Exact tree equality outranks commit-count intuition for current content.",
+    "Dirty work remains a separate approval-gated candidate set.",
+    "No simulation authorizes integration."
+  ],
+  "firstPass": "Reject commit-count-only reasoning and compare final trees plus aggregate patches.",
+  "reviewPass": "Recheck live remote heads, tree IDs, changed paths, aggregate patch IDs, and dirty work independently.",
+  "reconciledResult": "No committed branch transfer is needed; only dirty durable candidates remain for later approved sanitation and transfer.",
+  "stability": "stable",
+  "assumptions": [
+    "Live remote main and gh-pages heads match local tracking objects during capture."
+  ],
+  "uncertainty": "Individual commit patch IDs differ because one history is squashed; this does not imply a final-tree difference.",
+  "repairRoute": "If remote heads drift or tree hashes differ, mark this evidence stale and recapture without fetching inside this leaf.",
+  "simulationProofOnly": true,
+  "contentDigest": "sha256:29eb129ece1d20581e34be353fdd64893ddf2e107c2444fe738f2a85ebb3b974"
+}

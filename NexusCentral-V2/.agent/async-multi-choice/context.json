@@ -1,0 +1,16 @@
+{
+  "batch_size": 5,
+  "brief": "Streamline NexusCentral-V2 without product edits until a final concise plan receives explicit Yes approval. Keep six single-purpose tabs: Work for Chat/Coding/Research conversations; Router for drag-configured named queue groups; Models for provider/model/runtime inventory and lifecycle; Workflows for schedules, batches, and multi-agent stages; Runs for immutable evidence, artifacts, validation, and approvals; Settings for host access and service controls. Workflow stages declare automatic, approval-gated, or manual authority. Queue groups use FIFO atomic leases across direct endpoints, LAN mesh providers, and PeerJS providers. Each local computer is an independent NexusCentral user/node and owns its local conversations, workflows, runs, context, memory, sandboxes, artifacts, approvals, and credentials; this user state never synchronizes between machines. Only model routing is shared: route requests, model/provider availability, and routing outcomes. LLM and harness output is untrusted. Work memory is per conversation. Workflow execution memory is isolated and may promote validated records into versioned workflow memory. The primary interaction is one technical operator per local node. Questions must be human-readable and grounded in the verified current V2 code: name the relevant file, symbol, domain, command, or visible surface; explain what exists now; define project terms; state what the decision changes; and give each option an immediate consequence and long-term tradeoff. Never ask terse abstract questions. Resolve remaining six-tab UX, routing-only sharing, workflow memory, per-gate approval harnesses and authority, model/runtime operations, local persistence, API boundaries, failure recovery, production scope, and validation without unnecessary complexity. Provisional user directions are manual review after full automatic validation, persistent provider retry, fail-forward workflow stages with a fully human-controlled configurable final gate, live editable workflows with frozen snapshots for runs and schedules, and a purpose-specific harness or LLM structure for each approval gate; reframe and confirm these where architecture consequences remain unclear. The existing product worktree is dirty and must remain untouched during intake.",
+  "created_at": "2026-07-30T20:51:29.472Z",
+  "low_watermark": 5,
+  "max_queue": 10,
+  "model": "gpt-5.6-sol",
+  "reasoning_effort": "high",
+  "revision": 11,
+  "target": "/Users/crimsonwheeler/Documents/GitHub/NexusCentral/NexusCentral-V2",
+  "target_questions": 100,
+  "timeout_seconds": 240,
+  "updated_at": "2026-07-31T18:28:16Z",
+  "version": 1,
+  "workers": 4
+}

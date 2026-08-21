@@ -1,0 +1,57 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 24,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.branches.default.prove",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.branches",
+    "source.branches.default"
+  ],
+  "owner": "release-source-control",
+  "objective": "Verify and record the remote default branch.",
+  "directDependencies": [],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/equivalence-report-r20.json",
+      "claim": "Live origin currently advertises refs/heads/main as HEAD without making that name a permanent assumption."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Live remote HEAD symref and branch heads",
+    "Local origin/HEAD and branch configuration",
+    "Repository workflows and scripts containing branch-name assumptions",
+    "Prior source equivalence evidence"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.branches.default.prove-r24.json",
+    ".agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+    ".agent/goal-evidence/source-authority/sim-default-branch-r24.json"
+  ],
+  "exclusions": [
+    "No ref, branch, index, worktree, workflow, or source mutation",
+    "No fetch, checkout, merge, push, or default-branch change",
+    "No claim that the current name main is permanent",
+    "No unrelated workflow remediation in this leaf"
+  ],
+  "acceptanceGate": "The contract resolves default by remote metadata rather than assuming the name main.",
+  "oneFixPlan": "Define and validate a metadata-driven default-branch resolution contract, record the current resolved ref, and inventory hard-coded exceptions.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "read-only-default-branch-contract"
+  },
+  "validationCommand": "Re-read the live remote symref, test fallback and renamed-default fixtures, scan scoped branch assumptions, and verify zero Git mutation.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before changing any repository or hosting setting.",
+  "versionPacket": null,
+  "featureId": "source.branches.default.prove",
+  "candidateSha": null,
+  "checksum": "sha256:68864056050578d5c4b764123798c1c79206c4c107735d05f94b8b53f353186a"
+}

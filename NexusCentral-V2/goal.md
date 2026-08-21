@@ -2,21 +2,18 @@
 
 Status: active
 
-Mission: Deliver NexusCentral V2 to validated completion by following the V2 documentation as the implementation contract.
+Mission: Deliver one validated NexusCentral application from one source tree, with desktop and web capability profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.
 
-Begin at `docs/00-START-HERE.md`. Follow its reading order, implementation
-sequence, boundaries, and proof gates. Do not replace documented decisions with
-assumptions. Record meaningful progress and blockers in `memory.md`.
+`.agent/goal-matrix.json` is the detailed authority. `goal.md` summarizes it;
+it does not replace node state, evidence, dependencies, or gates.
 
-Current milestone: the cohesive service-operated V2 implementation is runnable
-and its local proof suite passes. Promotion remains blocked by the explicit
-items in `docs/12-IMPLEMENTATION-STATUS.md`.
+Current milestone: revision 3 validates the full planning hierarchy and promotes
+only matrix-control setup. Product behavior, source reconciliation, browser
+inference, harness qualification, deployment, and release remain unproven.
 
-Harness milestone: Codex profiles now run only in recorded SimSpace copies,
-repair is bounded by validation evidence, and source changes require separate
-approval and promotion commands. Browser proof retains screenshots, a
-Playwright trace, and a WebM session recording with the experiment.
+Next leaf: `source.inventory.snapshot.worktree`. It is ready but unclaimed.
+Execution must preserve unrelated dirty work and requires a fresh revision check.
 
-Routing milestone: common cloud and local provider families share normalized
-protocol adapters. PeerJS rooms add remote direct model access without replacing
-the local libp2p mesh or bypassing host policy, jobs, and audit.
+Completion requires direct evidence for every required node, desktop regression
+proof, public-web human-view proof, internal API security proof, live qualified
+model and harness routes, and explicit release approval.

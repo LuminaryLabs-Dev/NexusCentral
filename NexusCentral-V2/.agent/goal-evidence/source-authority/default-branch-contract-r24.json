@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "nexuscentral.default-branch-contract.v1",
+  "matrixRevision": 25,
+  "targetNode": "source.branches.default.prove",
+  "capturedAt": "2026-08-08T21:58:19.882Z",
+  "capsule": ".agent/goal-capsules/source.branches.default.prove-r24.json",
+  "scope": "source-reconciliation-and-release-target-resolution",
+  "contract": {
+    "authorityOrder": [
+      "live remote HEAD symref",
+      "local origin/HEAD fallback marked stale",
+      "block when neither is valid"
+    ],
+    "validRefPattern": "refs/heads/<branch>",
+    "rules": [
+      "Never assume a literal branch name.",
+      "Resolve the remote default before candidate creation and again before integration.",
+      "Pin the resolved full ref, commit SHA, and tree SHA in the approval packet.",
+      "Reject tags, malformed refs, missing metadata, and drift.",
+      "Exclude gh-pages from source integration regardless of default metadata."
+    ],
+    "resolutionFunction": "resolveDefault({liveSymref, localSymref})"
+  },
+  "currentResolution": {
+    "status": "resolved",
+    "source": "live-remote-symref",
+    "ref": "refs/heads/main",
+    "name": "main",
+    "staleFallback": false,
+    "commit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "tree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9",
+    "remoteHeadSha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "localOriginHead": "refs/remotes/origin/main"
+  },
+  "fixtures": [
+    {
+      "id": "renamed-default",
+      "input": {
+        "liveSymref": "refs/heads/trunk",
+        "localSymref": "refs/heads/main"
+      },
+      "expected": {
+        "status": "resolved",
+        "source": "live-remote-symref",
+        "name": "trunk"
+      },
+      "actual": {
+        "status": "resolved",
+        "source": "live-remote-symref",
+        "ref": "refs/heads/trunk",
+        "name": "trunk",
+        "staleFallback": false
+      }
+    },
+    {
+      "id": "offline-fallback",
+      "input": {
+        "liveSymref": null,
+        "localSymref": "refs/heads/develop"
+      },
+      "expected": {
+        "status": "resolved",
+        "source": "local-origin-head-fallback",
+        "name": "develop",
+        "staleFallback": true
+      },
+      "actual": {
+        "status": "resolved",
+        "source": "local-origin-head-fallback",
+        "ref": "refs/heads/develop",
+        "name": "develop",
+        "staleFallback": true
+      }
+    },
+    {
+      "id": "missing-metadata",
+      "input": {
+        "liveSymref": null,
+        "localSymref": null
+      },
+      "expected": {
+        "status": "blocked",
+        "name": null
+      },
+      "actual": {
+        "status": "blocked",
+        "source": null,
+        "ref": null,
+        "name": null,
+        "staleFallback": false
+      }
+    },
+    {
+      "id": "reject-tag",
+      "input": {
+        "liveSymref": "refs/tags/main",
+        "localSymref": null
+      },
+      "expected": {
+        "status": "blocked",
+        "name": null
+      },
+      "actual": {
+        "status": "blocked",
+        "source": null,
+        "ref": null,
+        "name": null,
+        "staleFallback": false
+      }
+    }
+  ],
+  "scopedAssumptionScan": {
+    "roots": [
+      ".github",
+      "NexusCentral-V2/scripts"
+    ],
+    "count": 1,
+    "findings": [
+      {
+        "path": ".github/workflows/universal-audit.yml",
+        "line": 6,
+        "excerpt": "- main",
+        "classification": "nonconforming-workflow-trigger"
+      }
+    ],
+    "nonConformingConsumers": [
+      {
+        "path": ".github/workflows/universal-audit.yml",
+        "line": 6,
+        "excerpt": "- main",
+        "classification": "nonconforming-workflow-trigger"
+      }
+    ],
+    "interpretation": "Hard-coded workflow consumers are implementation gaps; they do not alter this source-reconciliation resolver contract and must be fixed before release parity is claimed."
+  },
+  "conclusion": {
+    "contractResolvesByMetadata": true,
+    "currentDefaultName": "main",
+    "currentNameIsPermanentAssumption": false,
+    "workflowParity": false,
+    "workflowParityReason": "universal-audit.yml currently filters on literal main",
+    "approvalRequiredBeforeDefaultBranchChangeOrIntegration": true
+  },
+  "mutationBaseline": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "refsDigest": "sha256:ce536505049ba2b62671df66fc5dc66c7eb9378f4311f9b3b4bc19b5cca323f8",
+    "indexDigest": "sha256:3cebb246a4ac5c02a22ee6ea53c3909fee724b56e4dd4fa0fe2d2b72ee96e255",
+    "trackedStatusDigest": "sha256:78186c00a74d3266084aa4854028dd262c4d528eb6e7975bfe06c207008dace9",
+    "untrackedPathCount": 131,
+    "untrackedPathDigest": "sha256:3cf33f943ba9d954133a3a018ea35bc1aa6cc02b6c7c6124f2b96fbbadf4ed3e",
+    "operationState": {
+      "merge": false,
+      "rebaseMerge": false,
+      "rebaseApply": false,
+      "cherryPick": false
+    }
+  },
+  "validationBoundary": {
+    "allowedNewPaths": [
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r24.json"
+    ],
+    "expectedUntrackedPathCountAfterWrite": 133,
+    "requiredUnchanged": [
+      "HEAD",
+      "refsDigest",
+      "indexDigest",
+      "trackedStatusDigest",
+      "operationState"
+    ]
+  },
+  "proofLimits": {
+    "runtimeWorkflowProof": false,
+    "globalWorkflowCompliance": false,
+    "repositorySettingChange": false
+  },
+  "contentDigest": "sha256:63b65bc12cb112619a4128b2c6b573778b5f8baf99677138766074f11088b28c"
+}

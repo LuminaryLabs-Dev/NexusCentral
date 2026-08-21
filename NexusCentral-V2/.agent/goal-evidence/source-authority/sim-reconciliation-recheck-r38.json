@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "nexuscentral.source-reconciliation-recheck-simulation.v1",
+  "matrixRevision": 38,
+  "nodeId": "source.reconcile.transfer.recheck",
+  "capturedAt": "2026-08-08T22:53:00Z",
+  "evidenceClass": "weak",
+  "scenarios": [
+    {
+      "id": "remote-target-drift",
+      "injectedCondition": "The live default-branch SHA or tree differs from the approved target.",
+      "expectedResult": "blocked",
+      "repair": "Rebuild source evidence and request approval for a newly pinned scope."
+    },
+    {
+      "id": "immutable-source-drift",
+      "injectedCondition": "Any of the 48 immutable included paths differs from its approved hash.",
+      "expectedResult": "blocked",
+      "repair": "Classify the changed path and obtain a revised approval before transfer."
+    },
+    {
+      "id": "undeclared-transfer-path",
+      "injectedCondition": "A path outside the 52-path inclusion list is proposed for candidate transfer.",
+      "expectedResult": "blocked",
+      "repair": "Keep the path local or request a revised inclusion decision."
+    },
+    {
+      "id": "authorized-control-evidence",
+      "injectedCondition": "A new revision-pinned capsule exists only as local matrix-control evidence.",
+      "expectedResult": "contained",
+      "repair": "Exclude it from candidate transfer and retain it in the original control worktree."
+    }
+  ],
+  "reconciledResult": "Every simulated source or scope drift fails closed; local control evidence remains excluded from transfer.",
+  "runtimeProof": false,
+  "contentDigest": "sha256:ddc27394a28c606db369e1b5e6c2acf6165dd3a1b80fac6ecdefc103abb13e07"
+}

@@ -1,0 +1,299 @@
+{
+  "schemaVersion": "nexuscentral.pages-policy.v1",
+  "matrixRevision": 29,
+  "targetNode": "source.branches.pages.prove",
+  "capturedAt": "2026-08-08T22:04:57.889Z",
+  "capsule": ".agent/goal-capsules/source.branches.pages.prove-r28.json",
+  "remoteAuthority": {
+    "liveMain": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "liveGhPages": "e09c80b03d87747aafea756cdd634bd01c22664d",
+    "localTrackingMatchesLive": true
+  },
+  "historyBoundary": {
+    "main": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "ghPages": "e09c80b03d87747aafea756cdd634bd01c22664d",
+    "mergeBase": null,
+    "unrelatedHistory": true,
+    "sourceImportsPages": false
+  },
+  "workflow": {
+    "path": ".github/workflows/nexuscentral-pages.yml",
+    "digest": "sha256:134e6155012d707915ba63604ae139fec6efb4db4acf5beeae0a776cece3b0fa",
+    "facts": {
+      "sourceCheckoutSeparate": true,
+      "pagesDirectorySeparate": true,
+      "fetchesOnlyPages": true,
+      "checksOutPages": true,
+      "createsOrphanPages": true,
+      "explicitPushTarget": true,
+      "skipsPagesTrigger": true,
+      "containsMerge": false,
+      "containsRebase": false,
+      "containsPull": false,
+      "downloadsUpdater": true
+    },
+    "conclusion": "Source is checked out separately; gh-pages is fetched or orphaned in a separate directory and pushed explicitly without merge, rebase, or pull."
+  },
+  "updater": {
+    "path": ".github/scripts/update_pages_downloads.py",
+    "digest": "sha256:1e461c7251ba1b652c3534765f57c1a9cc43ccdb6506c0aae7749ae44cedbdf2",
+    "facts": {
+      "scopedBranchReplacement": true,
+      "copiesOnlyArchives": true,
+      "retainsOtherBranchRecords": true,
+      "writesDownloadsIndex": true,
+      "writesRootIndex": true,
+      "writesNoJekyll": true
+    },
+    "fixture": {
+      "status": "passed",
+      "preservedHashes": {
+        "mainZip": "sha256:528b72e430e395b44e202c02186b7d1a2e3430c6ee01bb3c91d8d2917ade2856",
+        "mainSize": "sha256:12f44232dd926d764dc06fa2f49c0327bb6c9ec9058dd672897a32778a15fae5",
+        "shell": "sha256:4e22d53b6df88ae736f7e46c081ec29ec43ccdc1e767436e38f679d801da0247"
+      },
+      "afterHashes": {
+        "mainZip": "sha256:528b72e430e395b44e202c02186b7d1a2e3430c6ee01bb3c91d8d2917ade2856",
+        "mainSize": "sha256:12f44232dd926d764dc06fa2f49c0327bb6c9ec9058dd672897a32778a15fae5",
+        "shell": "sha256:4e22d53b6df88ae736f7e46c081ec29ec43ccdc1e767436e38f679d801da0247"
+      },
+      "preservedExact": true,
+      "obsoleteCurrentBranchRemoved": true,
+      "newArchivePresent": true,
+      "newManifestPresent": true,
+      "branchNames": [
+        "feature/test",
+        "main"
+      ],
+      "featureDownloads": [
+        "nexuscentral-feature.zip"
+      ],
+      "generatedFiles": [
+        ".nojekyll",
+        "README.md",
+        "index.html",
+        "downloads/index.json",
+        "branches/feature-test.json"
+      ]
+    }
+  },
+  "currentPagesAssets": {
+    "commit": "e09c80b03d87747aafea756cdd634bd01c22664d",
+    "tree": "827bcf42e8eed45f8c03fc469f81163f64f7e8d2",
+    "count": 22,
+    "manifestDigest": "sha256:f2241e2345c5432acadda2b4b88b44ef60a44faa4cc62aa43421852ffc97ecc6",
+    "assets": [
+      {
+        "path": ".nojekyll",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "941787ce659462a5e9beb3837dc82f71969fd0eb"
+      },
+      {
+        "path": "branches/agent-publish-current-work-20260713.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0e7aecde01f8ed5c8526d9a562908cf173cf5d15"
+      },
+      {
+        "path": "branches/main.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "2d56b44dc29a44c362abd05a4b2163bcb614b47c"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d88e69be50ae854e4d01fd5fc5769bada396bb6d"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "31e21796d500bdccb108e55d28085339452005de"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "5dcdb6330d8ec9cfdcc49de2c89b1a7be4adbcd5"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "6770a5d6b15274e81efb92ed8862d0b583908c6f"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "aed86917187436050b8cd6a35fb7b15223b114ae"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d4c6994a79733daf8efdcbbb9529ed59f1b797ba"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "b42a080b2b4a62f05265f4874fc36d132e9ed87a"
+      },
+      {
+        "path": "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "923c08bb6075471047a3f4ab1be2bb7553d1f780"
+      },
+      {
+        "path": "downloads/index.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "4c48abb7bf3bb7065d882deb9fa481e6be5459a2"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "c7c42d6a14544384c457b482c0219da66bde42af"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "49c4aff420dac197a36b94f2f064813daf293823"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "08b1a90e04f1a2f40f2f4b485088900367c0d9ae"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "0619a2539dfcb0c4326c798690f3d71bd99fa92b"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "3ff112ad099d3262ae0ed6316516b495053a95da"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "cc6e1ba19adf818a33160240c1a934288c2724a5"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.size.json",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "77528c4cc4b145cfe077bd8907fc3870d2e796dc"
+      },
+      {
+        "path": "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "11eb4df829554558cfa5ad81eba77e33e7976b0d"
+      },
+      {
+        "path": "index.html",
+        "mode": "100644",
+        "type": "blob",
+        "objectId": "d9e8ae572f0130034e660173cbf25dbeae1f4ea5"
+      }
+    ],
+    "zipCount": 8,
+    "sizeManifestCount": 8,
+    "branchRecordCount": 2,
+    "generatedOnlyShape": true
+  },
+  "preservationContract": {
+    "replaceOnly": "downloads/<current-branch-slug>/latest when the prior latest lane exists",
+    "retain": [
+      "downloads for other branch slugs",
+      "other branch records",
+      "unrelated existing site files"
+    ],
+    "regenerate": [
+      "current branch record",
+      "downloads/index.json",
+      "index.html",
+      "README.md",
+      ".nojekyll"
+    ],
+    "requiredFutureIntegration": "Compose the shared browser app with retained download assets; the current updater owns index.html and would otherwise overwrite the app shell."
+  },
+  "conclusion": {
+    "mergeFreePagesGeneration": true,
+    "requiredExistingDownloadsPreserved": true,
+    "workflowPublishedDuringProof": false,
+    "finalSharedBrowserAppDeployed": false,
+    "currentLane": "downloads-only",
+    "deploymentApprovalStillRequired": true
+  },
+  "knownGaps": [
+    {
+      "id": "pages.shared-app-shell",
+      "claim": "Current gh-pages is a downloads site, not the final shared NexusCentral browser profile.",
+      "route": "operations.public-web-build-and-pages-deploy"
+    },
+    {
+      "id": "pages.index-ownership",
+      "claim": "The updater rewrites root index.html; final deployment must compose app routing and downloads without clobbering either.",
+      "route": "operations.public-web-build-and-pages-deploy"
+    },
+    {
+      "id": "pages.malformed-lane-cleanup",
+      "claim": "A malformed branch directory missing latest is not removed by the updater; valid generated lanes are replaced correctly.",
+      "route": "operations.pages-hardening"
+    }
+  ],
+  "mutationBaseline": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "refsDigest": "sha256:ce536505049ba2b62671df66fc5dc66c7eb9378f4311f9b3b4bc19b5cca323f8",
+    "indexDigest": "sha256:3cebb246a4ac5c02a22ee6ea53c3909fee724b56e4dd4fa0fe2d2b72ee96e255",
+    "trackedStatusDigest": "sha256:78186c00a74d3266084aa4854028dd262c4d528eb6e7975bfe06c207008dace9",
+    "untrackedPathCount": 134,
+    "untrackedPathDigest": "sha256:aaeb8ec1f8a6e6aed789999e17ac1e9df5f201238ccf593c5faadadea4db7119",
+    "operationState": {
+      "merge": false,
+      "rebaseMerge": false,
+      "rebaseApply": false,
+      "cherryPick": false
+    }
+  },
+  "validationBoundary": {
+    "allowedNewPaths": [
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/pages-policy-r28.json",
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-pages-policy-r28.json"
+    ],
+    "expectedUntrackedPathCountAfterWrite": 136,
+    "requiredUnchanged": [
+      "HEAD",
+      "refsDigest",
+      "indexDigest",
+      "trackedStatusDigest",
+      "operationState"
+    ]
+  },
+  "proofLimits": {
+    "githubActionsRun": false,
+    "remotePush": false,
+    "publicBrowserRuntime": false
+  },
+  "contentDigest": "sha256:ec951f9e52f2ba8644827d1db09261334bcbca867c4d61ae83d150b2e3d21f07"
+}

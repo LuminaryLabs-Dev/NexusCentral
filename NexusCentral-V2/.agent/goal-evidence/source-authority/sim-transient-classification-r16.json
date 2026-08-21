@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "matrixRevision": 17,
+  "targetNode": "source.inventory.classify.transient",
+  "scenario": "A generated or transient file appears unnecessary during source reconciliation.",
+  "expectedOutcome": "Classify and preserve it locally; do not delete, reset, clean, or move it.",
+  "startingState": "Every pending path has an observed status and an owner or unresolved owner.",
+  "injectedEvent": "A cleanup shortcut proposes removing raw browser, lock, or model-output files.",
+  "invariants": [
+    "Classification has no mutation authority.",
+    "Unresolved means preserve, not discard.",
+    "Raw private output cannot enter public source automatically."
+  ],
+  "firstPass": "Reject cleanup and record a noAction classification.",
+  "reviewPass": "The second pass retains the same file and routes future cleanup to explicit approval.",
+  "reconciledResult": "Complete source classification without changing any pending path.",
+  "stability": "stable",
+  "assumptions": [
+    "Generated and transient files can remain in the current worktree safely during planning."
+  ],
+  "uncertainty": "Some raw evidence may later be promoted after sanitation and human review.",
+  "repairRoute": "Reclassify at a new matrix revision; never infer deletion approval.",
+  "simulationProofOnly": true
+}

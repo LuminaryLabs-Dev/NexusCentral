@@ -1,0 +1,64 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 33,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.branches.default.prove",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.branches",
+    "source.branches.default"
+  ],
+  "owner": "release-source-control",
+  "objective": "Repair the metadata-driven default contract by resolving ref, commit, and tree from one live remote authority.",
+  "directDependencies": [],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/equivalence-report-r20.json",
+      "claim": "Live origin/main commit a79c762 resolves to tree 91e9fd2."
+    }
+  ],
+  "recentFailures": [
+    {
+      "class": "contradictory",
+      "ref": ".agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+      "claim": "The stale packet resolved tree fd6c6f1 from local refs/heads/main while pinning live commit a79c762."
+    }
+  ],
+  "allowedReads": [
+    "Live remote HEAD symref and branch SHA",
+    "Git object addressed directly by the live SHA",
+    "Local origin/HEAD only as an explicitly stale fallback",
+    "Workflow and script branch-name assumptions",
+    "Prior contradiction and equivalence packets"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.branches.default.prove-r33.json",
+    ".agent/goal-evidence/source-authority/default-branch-contract-r33.json",
+    ".agent/goal-evidence/source-authority/sim-default-branch-r33.json"
+  ],
+  "exclusions": [
+    "No local branch name may be dereferenced for a live-remote tree pin",
+    "No ref, branch, index, worktree, workflow, or source mutation",
+    "No fetch, checkout, merge, push, or repository-setting change",
+    "No deletion or rewriting of the contradictory revision-24 evidence"
+  ],
+  "acceptanceGate": "The contract resolves default by remote metadata rather than assuming the name main.",
+  "oneFixPlan": "Resolve the live symref, read its advertised SHA, derive the tree from that SHA object, assert commit-tree coherence, and rerun renamed/default/fallback fixtures.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "default-branch-live-object-repair"
+  },
+  "validationCommand": "Re-read live metadata; verify commit^{tree}, local-stale contrast, fixtures, packet digests, and zero Git mutation twice.",
+  "approvalGate": "none-read-only-repair",
+  "cancellationRule": "Stop if live SHA is unavailable locally or differs from local tracking; fetching is forbidden in this leaf.",
+  "versionPacket": null,
+  "featureId": "source.branches.default.prove",
+  "candidateSha": null,
+  "checksum": "sha256:8adaef5583a948349b769cc91ff2eeffbf44a11b50af8f8b2ebfc9a1e8775ddb"
+}

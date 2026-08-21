@@ -1,0 +1,65 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 42,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.reconcile.transfer.apply",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.reconcile",
+    "source.reconcile.transfer"
+  ],
+  "owner": "release-source-control",
+  "objective": "Create one isolated candidate from the pinned live default and transfer only the 52 approved paths after sanitizing the five flagged values.",
+  "directDependencies": [
+    "source.reconcile.transfer.recheck"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+      "claim": "The human operator approved candidate construction but not merge, push, publication, deployment, credentials, live providers, or release."
+    },
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/reconciliation-recheck-r38.json",
+      "claim": "The pinned target, immutable source hashes, mutable-control classification, and exact transfer scope passed repeated validation."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "The pinned target object a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "The exact 52-path inclusion list and five-path sanitation list",
+    "Current approved source files, including declared mutable matrix-control files",
+    "Candidate Git status, diff, and tree metadata"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.reconcile.transfer.apply-r42.json",
+    ".agent/goal-evidence/source-authority/candidate-transfer-r42.json",
+    ".agent/goal-evidence/source-authority/sim-candidate-transfer-r42.json",
+    "candidate-worktree:source-candidate-r36 restricted to the approved candidate diff"
+  ],
+  "exclusions": [
+    "No candidate diff path outside the 52-path inclusion list",
+    "No sanitation outside the five flagged paths",
+    "No mutation of the original worktree outside matrix-control artifacts",
+    "No commit, merge, push, tag, Pages publication, deployment, credential use, live-provider use, cleanup, reset, stash, move, or overwrite"
+  ],
+  "acceptanceGate": "The candidate contains only approved durable changes.",
+  "oneFixPlan": "Re-resolve the live target, create branch agent/source-candidate-r36 in an isolated worktree, copy the exact inclusion list, sanitize only the five flagged values, and reject any candidate diff outside that set.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "isolated-source-transfer"
+  },
+  "validationCommand": "Compare the candidate base, status, diff paths, source hashes, sanitation diff, secret scan, and original-worktree safety against the approved packet.",
+  "approvalGate": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json#decision=approved",
+  "cancellationRule": "Remove only the isolated candidate worktree and branch if target drift, source drift, scope expansion, sanitation drift, or candidate creation fails.",
+  "versionPacket": null,
+  "featureId": "source.reconcile.transfer.apply",
+  "candidateSha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+  "checksum": "sha256:f22da629a087ed301cea3260d7babac735aeda03966d3ae6aec0bdbad1624935"
+}

@@ -1,0 +1,1522 @@
+{
+  "schemaVersion": "nexuscentral.integration-approval-request.v1",
+  "matrixRevision": 36,
+  "targetNode": "source.approval.integration.prove",
+  "createdAt": "2026-08-08T22:16:22.204Z",
+  "requestId": "source-integration-r36",
+  "requestedDecision": "Authorize construction and validation of a clean isolated candidate from the pinned remote default using only the exact included paths after required sanitation.",
+  "authorizationScope": {
+    "authorizedIfApproved": [
+      "Create an isolated worktree from the pinned target SHA.",
+      "Sanitize the five listed paths without changing their intended meaning.",
+      "Transfer only the 52 exact included paths into the isolated candidate.",
+      "Run repository checks and produce a final candidate diff and rollback packet."
+    ],
+    "notAuthorized": [
+      "Merge into the default branch.",
+      "Push any branch or tag.",
+      "Publish gh-pages.",
+      "Deploy or release.",
+      "Use credentials or live providers.",
+      "Delete, reset, clean, stash, move, or overwrite the original dirty worktree."
+    ]
+  },
+  "target": {
+    "remote": "origin",
+    "defaultRef": "refs/heads/main",
+    "sha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "liveVerifiedAt": "2026-08-08T22:16:22.204Z",
+    "coherence": "ref, commit, and tree derive from the same live advertised SHA"
+  },
+  "rollback": {
+    "ref": "refs/heads/main",
+    "sha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "instruction": "Remove the isolated candidate worktree and branch; the remote and original dirty worktree remain unchanged."
+  },
+  "committedHistory": {
+    "transferRequired": false,
+    "currentHead": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "currentHeadTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "reason": "Current HEAD and target default have identical committed trees and aggregate patches."
+  },
+  "included": {
+    "count": 52,
+    "paths": [
+      {
+        "path": "NexusCentral-V2/.agent/change-log.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:31c536275b77a9a2989e1ceb72feadc8a964fe95c92610410b3fe02cdf2cb7c8",
+        "bytes": 2997,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/README.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:408626e9038a2e7c9442fca3a87dbfd3ebe76088a2e1066929f9e23218b9009c",
+        "bytes": 429,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.default.prove-r24.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:e2b24f55ebd8b29f7d37a5574c070fa78cc749216cfe9a2dc0b02bfdcc92fd15",
+        "bytes": 2664,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.default.prove-r33.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:6b820850af935499298a574d97e9708bab1d8cde914def39be01b6ccbfb3c353",
+        "bytes": 3088,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.branches.pages.prove-r28.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:80473635f12662daf5bd1134df72362def3c8e41c6692d652ecf73cea5d86b62",
+        "bytes": 2995,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.durable-r12.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:c808df90918234bf0a125b859f022a69004707927d3fa514d7e479705ca93b6d",
+        "bytes": 2850,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.transient-r16.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:5db626c70946d609ded49c67901fde0fe83dd88e2bdbcad8f0ad36f3ab577ade",
+        "bytes": 2596,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.branches-r8.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:d991b20e4de6c67a6051a31270e7ca17bd3603976650bad5adace32e1990a3d9",
+        "bytes": 2547,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.worktree-r4.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:70c179ca8a1d95f4618bc2fe11bfc76f29833587ea0ca1d692f66f2f8a81a308",
+        "bytes": 2582,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.reconcile.equivalence.prove-r20.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:833d7211ad68c56074510f1c509e8aa3117622edc4bcfa9304ef4bf65e30dd57",
+        "bytes": 3161,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/README.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:97d1d57a2d7023dcea6553f5d9b8ffb47bf2aca2c1d8c71b2524dd861bb16dcd",
+        "bytes": 500,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-2.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:15b51897a3f1fabe9f30c05e0f73fc63a055c93f614f36e6306a4ac7ca9d9050",
+        "bytes": 36095,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-3.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:9a7da1a0efd726ed3bbb22db7e2532092808c32131a72378125154e824cb3a5e",
+        "bytes": 37224,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/branch-inventory-r8.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:6dbf087c4190d7232d807d7f213796d720ea9d557aa5d9c0945f0e68fe853650",
+        "bytes": 9291,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:fdf4b3a937e54302575e74af7562be306d82e295650f2a0e902095af43b09c6f",
+        "bytes": 5484,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r33.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:66f11299442911652565749c88ed389174ace4ac55a6c75b356a10e804dae755",
+        "bytes": 6658,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/durable-path-classification-r12.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:e958ec916ec5754a319cd807facc34894a05b9435fb59727560bcb819f2befbb",
+        "bytes": 51925,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/equivalence-report-r20.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:3e37db69de9f995f7607cc7e0f7ecd7e435f53e2763362f00817942338be3a4f",
+        "bytes": 86021,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/final-path-classification-r16.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:d1c652d21907b8d9d9d034c34d7e920634918120f97dd06bfca5366bf4a4fae2",
+        "bytes": 69721,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+        "source": "approval-control",
+        "exists": false,
+        "currentSha256": null,
+        "bytes": null,
+        "mutableControl": true,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/pages-policy-r28.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:7e5163a3d0bc2660f0c2dbc93f25cba538ba3cac73c8de016a3be4720cebcb66",
+        "bytes": 11030,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-branch-inventory-r8.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:7acae2e1651364bc2a75b9451a72c7187f0a1362dbcd87870f70875f02bfe849",
+        "bytes": 1399,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r24.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:4462e75ef410a130ad100d78d73f48dd2fc9c56568322d579e8600f897981cfe",
+        "bytes": 1531,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r33.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:a470dd6a819a319e3e04555ce283571894dcb9bd2e5ca33cc8bf777c3464a034",
+        "bytes": 2114,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-durable-classification-r12.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:bfafdce5e604fe5ac465dbfe2ee73434427d359bbfd2092b7dfa6fce392a7555",
+        "bytes": 1368,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-equivalence-r20.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:187ad73f6f6fdd051b68d3aec6c72a9147ee9186b36bc0bb79acf4b0ab45ba1a",
+        "bytes": 1835,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-pages-policy-r28.json",
+        "source": "late-validated-control",
+        "exists": true,
+        "currentSha256": "sha256:5661c16e6dab816a6aa718a351ddc25cdc5c81cbf44c9af5e5e40778c24a320f",
+        "bytes": 2876,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-transient-classification-r16.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:e9584d009a4ce3ec6ea419ce8d1a604af3f152fa2ecf54782de746d9a9632598",
+        "bytes": 1342,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-worktree-snapshot-r4.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:e41d8ed9497699d74fb843f08e20b5fc92637ef9b9ebdb5d2cbc41e461872a1a",
+        "bytes": 1319,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:f40cc4e96e696e2c665ae12fe9aa5fdc457f44c198f9a729a9d6e42589a375c1",
+        "bytes": 22721,
+        "mutableControl": false,
+        "requiresSanitization": true,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-ledger.jsonl",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:31bc4301b40d097485d2dd100fae536de9041d306af0db43e18b6d56b4dc40eb",
+        "bytes": 92927,
+        "mutableControl": true,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-matrix.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:9e5fe9ac7d08d012a44ef230c34bb83c9728e696560de13ef5af215206f8ebbc",
+        "bytes": 391349,
+        "mutableControl": true,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-queue.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:68d7dbfd51aadbb650e176fb2198273f554712e4c635b9c82d0fd52a2f346e22",
+        "bytes": 1896,
+        "mutableControl": true,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/harness-catalog.json",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:4a134ab53e067e63285de287c64823be3a1b2c3674887674eb58980ff2292fe4",
+        "bytes": 7031,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:7bc4d28eaa96c08f450a37aee5213f85f173dbb13dee7b29c8e1b0dbec8346a0",
+        "bytes": 14166,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/tasks.jsonl",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:99ff1cffa2583d73f1ba47af49e700f7e750779eba8e129d70fa933f39e9a5b0",
+        "bytes": 5400,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:26b2cf3f1563e5632568f4121da42db933eaddc5021630c72c937aafd101949f",
+        "bytes": 31010,
+        "mutableControl": false,
+        "requiresSanitization": true,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/styles.css",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:d9c4941a0da2f4ca8bd6cbae1353fa3701c4eecc3b058c75845e2467d3ed0f8f",
+        "bytes": 8582,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/current-validation.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:d4218c8c18d4b52ee024c1ade8a91fe4e5731a52646c5d3076534e5e069b39b5",
+        "bytes": 692,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:ed05640c857977a0331a2991919d0263e1f25922126e46196500b1856c82b0ae",
+        "bytes": 2180,
+        "mutableControl": false,
+        "requiresSanitization": true,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/plan.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:d55dade1de3c1cf0512a2d0b96429a10ec149154cb3b7c4aaeaf16f4882096dd",
+        "bytes": 3133,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/proof.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:6de95bfa003d553c30824c5cc19af44eff101c013eb54753dfc112e5aa43e12f",
+        "bytes": 2792,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/screenshots.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:e5209e132dda19ed939b955a9848238f1935bb5e108d97602cd282e3d2d596e7",
+        "bytes": 139,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/simulations.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:1085fa4b7a31b85dc47fb7f045f9bf40efd05d1aed54e787ac2a43b4d2f9116f",
+        "bytes": 3328,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/summary.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:108b42451129adf662e42aa619ca9f55237f899d62f543c0cd30f49504161f87",
+        "bytes": 2327,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:742d5cc81901258130dde2b264aa7a39b59e5e16c3f186528127320f3af287f9",
+        "bytes": 1225,
+        "mutableControl": false,
+        "requiresSanitization": true,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:6878d360189a4050b7deb94b9d1bfa17ca513964c61561443c06c1d068ef2e6b",
+        "bytes": 1071,
+        "mutableControl": false,
+        "requiresSanitization": true,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/proof.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:1f03c2e609ab26caf95e4cd1aa67943217a8f05df8c982d7183fe864c59e5d50",
+        "bytes": 1559,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/screenshots.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:3307384f7678afaa76150f90a68a82c0e89cb1778801fbd1ddf41c79d8c30cb3",
+        "bytes": 1391,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/summary.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:5d1e253d1973219f49177d7ae8699b8f596aaa5cc4e1e4d67e299c37d4f8346f",
+        "bytes": 2464,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/history/runs.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:ab20a9ea449ff625037b74cf3ea732521ed04527aaad9fdeb39359cfb4cd365c",
+        "bytes": 563,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      },
+      {
+        "path": "NexusCentral-V2/goal.md",
+        "source": "classified-durable",
+        "exists": true,
+        "currentSha256": "sha256:f79265d292234cdb18eec49c8330187510260240d61af173273e80086e1659ea",
+        "bytes": 1024,
+        "mutableControl": false,
+        "requiresSanitization": false,
+        "transferState": "pending-human-approval"
+      }
+    ],
+    "contentRule": "Non-control content is pinned by currentSha256; mutable control files are repinned after this approval transition and immediately before transfer."
+  },
+  "sanitization": {
+    "count": 5,
+    "paths": [
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "requiredAction": "Review and remove machine-specific or private values while preserving semantic evidence."
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "requiredAction": "Review and remove machine-specific or private values while preserving semantic evidence."
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "requiredAction": "Review and remove machine-specific or private values while preserving semantic evidence."
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "signals": [
+          "private-network-address"
+        ],
+        "requiredAction": "Review and remove machine-specific or private values while preserving semantic evidence."
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "signals": [
+          "absolute-local-path"
+        ],
+        "requiredAction": "Review and remove machine-specific or private values while preserving semantic evidence."
+      }
+    ],
+    "gate": "No flagged path may enter the candidate until direct post-sanitation scanning passes."
+  },
+  "excluded": {
+    "count": 94,
+    "paths": [
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/architecture.md",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/context.json",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/coverage.md",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/direct-decisions.md",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/events.jsonl",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/generate.lock",
+        "classification": "transient-lock",
+        "owner": "async-multi-choice",
+        "reason": "Runtime lock state is transient and must not enter source.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/pending-clarification.md",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/questions.jsonl",
+        "classification": "unresolved-private-operating-state",
+        "owner": "async-multi-choice",
+        "reason": "Decision-intake operating state may be useful locally but requires sanitization and necessity review before source transfer.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-01-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-01-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-02-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-02-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-03-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-03-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-04-events.jsonl",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-04-result.json",
+        "classification": "generated-raw-model-evidence",
+        "owner": "async-multi-choice",
+        "reason": "Raw worker output is unreviewed generated evidence and may contain private context.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.agent/async-multi-choice/state.lock",
+        "classification": "transient-lock",
+        "owner": "async-multi-choice",
+        "reason": "Runtime lock state is transient and must not enter source.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/attempt-1-result.json",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-29-928Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-48-012Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-03-201Z.png",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-16-482Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-30-448Z.png",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-49-681Z.png",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-38-56-191Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-22-368Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-28-588Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-33-554Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-41-769Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-02-510Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-23-766Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-36-532Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-42-45-230Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-42-54-081Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-43-26-289Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-40-54-281Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-41-40-864Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-42-09-914Z.yml",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      },
+      {
+        "path": "NexusCentral-V2/.playwright-cli/request.json",
+        "classification": "generated-proof",
+        "owner": "playwright",
+        "reason": "Raw browser capture is generated evidence outside the canonical proof tree.",
+        "retention": "local-preserve",
+        "noAction": true
+      }
+    ],
+    "rule": "All excluded paths remain local and untouched; exclusion is not deletion authorization."
+  },
+  "knownGaps": [
+    {
+      "id": "workflow.literal-default",
+      "path": ".github/workflows/universal-audit.yml",
+      "line": 6,
+      "claim": "Hard-coded main trigger remains a release parity gap."
+    },
+    {
+      "id": "pages.shared-app-shell",
+      "claim": "Current gh-pages is a downloads site, not the final shared NexusCentral browser profile.",
+      "route": "operations.public-web-build-and-pages-deploy"
+    },
+    {
+      "id": "pages.index-ownership",
+      "claim": "The updater rewrites root index.html; final deployment must compose app routing and downloads without clobbering either.",
+      "route": "operations.public-web-build-and-pages-deploy"
+    },
+    {
+      "id": "pages.malformed-lane-cleanup",
+      "claim": "A malformed branch directory missing latest is not removed by the updater; valid generated lanes are replaced correctly.",
+      "route": "operations.pages-hardening"
+    }
+  ],
+  "riskControls": [
+    "Re-read live default metadata before worktree creation.",
+    "Require target ref, SHA, and tree to remain coherently pinned.",
+    "Reject any path outside the inclusion list.",
+    "Reject sanitation drift beyond the five flagged paths.",
+    "Compare final candidate against the approved path set and target tree.",
+    "Keep final merge, push, Pages publication, deployment, and release behind separate human approval."
+  ],
+  "evidence": [
+    ".agent/goal-evidence/source-authority/equivalence-report-r20.json",
+    ".agent/goal-evidence/source-authority/default-branch-contract-r33.json",
+    ".agent/goal-evidence/source-authority/pages-policy-r28.json",
+    ".agent/goal-evidence/source-authority/final-path-classification-r16.json",
+    ".agent/goal-evidence/source-authority/default-branch-contract-r24.json"
+  ],
+  "decision": {
+    "status": "approved",
+    "approvedBy": "human-operator",
+    "approvedAt": "2026-08-08T22:46:09Z",
+    "answerFormat": "Y or N",
+    "question": "Authorize clean isolated candidate construction under this exact scope?",
+    "response": "IMPLEMENT PLAN",
+    "approvalBasis": "The user explicitly instructed implementation while reproducing the exact revision-36 candidate scope and later approval boundaries.",
+    "approvedScopeDigest": "sha256:d2a9e57397cdcce624274da632bb363d631de11847c5cb23bd156b4a9cbc64cf"
+  },
+  "defaultBranchIntegration": {
+    "requestRevision": 49,
+    "requestedAt": "2026-08-08T23:27:36Z",
+    "requestedDecision": "Authorize the exact validated candidate for conditional fast-forward integration into the remote default branch.",
+    "candidate": {
+      "identifier": "candidate-worktree:source-candidate-r36",
+      "branch": "agent/source-candidate-r36",
+      "baseCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "baseTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+      "changedPathCount": 52,
+      "manifestRef": ".agent/goal-evidence/source-authority/candidate-transfer-r42.json",
+      "manifestDigest": "sha256:8129020a9f6a19a214ca8729b59a3bf354357d3337ae81d1461797483eb52528",
+      "verificationRef": ".agent/goal-evidence/source-authority/candidate-verification-r46.json",
+      "verificationDigest": "sha256:df2080bca781c73220fb54ac3fab24ecdddf42915fd96f566a8fadad1503161b",
+      "committed": false,
+      "pushed": false
+    },
+    "target": {
+      "remote": "origin",
+      "symbolicRef": "refs/heads/main",
+      "observedCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "observedTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+      "observedAt": "2026-08-08T23:27:36Z",
+      "requiredUpdate": "fast-forward-only"
+    },
+    "controlCheckpoint": {
+      "candidateRevision": 42,
+      "requestRevision": 49,
+      "refreshExactly": [
+        "NexusCentral-V2/.agent/goal-evidence/source-authority/integration-approval-request-r36.json",
+        "NexusCentral-V2/.agent/goal-ledger.jsonl",
+        "NexusCentral-V2/.agent/goal-matrix.json",
+        "NexusCentral-V2/.agent/goal-queue.json"
+      ],
+      "rule": "After the decision is recorded, refresh these four already-approved mutable paths once, freeze all 52 paths, and reject every new path or unrelated change. Later control events remain local until a separate checkpoint."
+    },
+    "authorizedIfApproved": [
+      "Record this decision against the pinned scope digest.",
+      "Refresh only the four listed mutable control paths inside the existing 52-path candidate.",
+      "Recompute all 52 candidate hashes and require the path set to remain exact.",
+      "Rerun check, integration, scale, simulation, build, privacy, secret, and diff validation.",
+      "Create one local commit with message chore: reconcile NexusCentral V2 durable work.",
+      "Re-read the live remote default ref and stop if it differs from the pinned target.",
+      "Push the validated commit to refs/heads/main only as a fast-forward.",
+      "Verify the remote commit and tree after the push."
+    ],
+    "notAuthorized": [
+      "Add or remove any candidate path.",
+      "Force-push, rewrite history, merge gh-pages, or modify the original dirty worktree.",
+      "Apply automatic dependency fixes.",
+      "Publish Pages, deploy, release, use credentials, or invoke live model providers."
+    ],
+    "requiredChecks": [
+      "npm run check",
+      "npm run check:integration",
+      "npm run check:scale",
+      "NEXUS_SIMULATOR_CLI=<local-cli> npm run simulate",
+      "npm run build",
+      "exact 52-path manifest and hash validation",
+      "privacy and secret scan",
+      "git diff --check"
+    ],
+    "routedRisks": [
+      {
+        "id": "security.audit.high",
+        "result": "6 high and 0 critical advisories",
+        "candidateIntroducesDependencyFiles": false,
+        "blocking": "production release",
+        "route": "domain.security"
+      },
+      {
+        "id": "public-web.hostless-api",
+        "result": "The host command endpoint returns 404 without a connected Nexus node.",
+        "blocking": "public-web production",
+        "route": "domain.runtime-profiles"
+      },
+      {
+        "id": "public-web.favicon",
+        "result": "The development page requests a missing favicon.",
+        "blocking": "no",
+        "route": "domain.ui"
+      }
+    ],
+    "rollback": {
+      "beforePush": "Remove only the isolated candidate worktree and local candidate branch.",
+      "afterPush": "Create and validate a normal revert commit after separate approval; never force-push or rewrite shared history."
+    },
+    "evidence": [
+      ".agent/goal-evidence/source-authority/candidate-transfer-r42.json",
+      ".agent/goal-evidence/source-authority/candidate-verification-r46.json",
+      ".agent/goal-evidence/source-authority/sim-candidate-verification-r46.json"
+    ],
+    "decision": {
+      "status": "approval-required",
+      "approvedBy": null,
+      "approvedAt": null,
+      "answerFormat": "Y or N",
+      "question": "Authorize this exact conditional commit and fast-forward push to the remote default branch?",
+      "response": null,
+      "approvedScopeDigest": null
+    },
+    "digestRule": "SHA-256 of compact JSON for defaultBranchIntegration excluding decision and scopeDigest.",
+    "scopeDigest": "sha256:8c555a6801ab0d8ca18dd31612b7d0f554a11b56ef8cafe6e679d0eafabcf05a"
+  },
+  "contentDigest": "sha256:d2a9e57397cdcce624274da632bb363d631de11847c5cb23bd156b4a9cbc64cf"
+}

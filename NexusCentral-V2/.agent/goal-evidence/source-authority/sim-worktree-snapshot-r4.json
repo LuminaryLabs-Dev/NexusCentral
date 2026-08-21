@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "matrixRevision": 5,
+  "targetNode": "source.inventory.snapshot.worktree",
+  "scenario": "A path, status, or branch changes between capture and validation.",
+  "expectedOutcome": "Reject stale evidence and recapture before classification or source reconciliation.",
+  "startingState": "A read-only worktree snapshot is captured under a revision-pinned capsule.",
+  "injectedEvent": "A concurrent writer adds or changes one pending path after capture.",
+  "invariants": [
+    "No source or Git mutation is allowed.",
+    "Every pending path must retain its exact status.",
+    "A stale snapshot cannot promote its parent."
+  ],
+  "firstPass": "A fresh status fingerprint differs, so validation fails closed.",
+  "reviewPass": "Applying the same rule still requires recapture and never widens scope.",
+  "reconciledResult": "Compare immediately before promotion; pass only when branch identity and the full status set match.",
+  "stability": "stable",
+  "assumptions": [
+    "Git porcelain-v2 reports every tracked and untracked path requested by the capsule."
+  ],
+  "uncertainty": "Low; later external writes require the next leaf to recheck.",
+  "repairRoute": "Repeat this atomic snapshot leaf at the newest matrix revision.",
+  "simulationProofOnly": true
+}

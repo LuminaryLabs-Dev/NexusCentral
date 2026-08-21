@@ -1,0 +1,59 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 46,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.reconcile.transfer.verify",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.reconcile",
+    "source.reconcile.transfer"
+  ],
+  "owner": "release-source-control",
+  "objective": "Verify the isolated candidate tree, tracked-file safety, repository checks, build behavior, and human-visible web surface without committing, pushing, or deploying.",
+  "directDependencies": [
+    "source.reconcile.transfer.apply"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/candidate-transfer-r42.json",
+      "claim": "The candidate base and exact 52-path manifest passed repeated transfer validation."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "The complete isolated candidate repository",
+    "Approved source-authority packets and candidate manifest",
+    "Repository package scripts, test configuration, and browser surface"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.reconcile.transfer.verify-r46.json",
+    ".agent/goal-evidence/source-authority/candidate-verification-r46.json",
+    ".agent/goal-evidence/source-authority/sim-candidate-verification-r46.json",
+    "candidate-worktree:source-candidate-r36 ignored dependency, build, test, and browser artifacts only"
+  ],
+  "exclusions": [
+    "No candidate source edit or candidate diff expansion",
+    "No original source edit outside matrix-control artifacts",
+    "No commit, merge, push, tag, Pages publication, deployment, packaging release, credential use, or live-provider use",
+    "No automatic cleanup if a check creates an unexpected tracked or untracked source path"
+  ],
+  "acceptanceGate": "Tree diff, tracked-file scan, and required checks match the approved candidate.",
+  "oneFixPlan": "Install candidate dependencies if needed, rerun exact manifest and secret scans, execute existing check, integration, scale, simulation, and build commands, inspect the web surface, and stop on any scope drift or failed check.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "candidate-release-verifier"
+  },
+  "validationCommand": "Repeat manifest, digest, scan, repository command, build, and human-view checks; compare post-check status to the approved 52-path set.",
+  "approvalGate": "none-local-candidate-validation",
+  "cancellationRule": "Stop on candidate scope drift, secret finding, failed required check, unavailable dependency installation, stale matrix revision, or any request for external action.",
+  "versionPacket": null,
+  "featureId": "source.reconcile.transfer.verify",
+  "candidateSha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+  "checksum": "sha256:cbea33a8aefcc1963054efd51f9786b776b5b6be477f3d308bd981a392841f25"
+}

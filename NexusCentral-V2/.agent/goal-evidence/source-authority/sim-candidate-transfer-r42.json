@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "nexuscentral.candidate-transfer-simulation.v1",
+  "matrixRevision": 42,
+  "nodeId": "source.reconcile.transfer.apply",
+  "capturedAt": "2026-08-08T23:03:58Z",
+  "evidenceClass": "weak",
+  "scenarios": [
+    {
+      "id": "wrong-base",
+      "injectedCondition": "Candidate HEAD differs from the approved target SHA or tree.",
+      "expectedResult": "blocked",
+      "repair": "Remove only the isolated candidate and recreate it from the pinned target."
+    },
+    {
+      "id": "extra-diff-path",
+      "injectedCondition": "Candidate status contains a path outside the 52-path inclusion set.",
+      "expectedResult": "blocked",
+      "repair": "Discard the isolated candidate and repeat the exact-list transfer."
+    },
+    {
+      "id": "sanitation-scope-drift",
+      "injectedCondition": "A sixth file differs from its approved source copy because of sanitation.",
+      "expectedResult": "blocked",
+      "repair": "Restore the candidate from the approved source and restrict sanitation to the five flagged paths."
+    },
+    {
+      "id": "private-value-retained",
+      "injectedCondition": "An absolute user path or private LAN address remains in the candidate transfer set.",
+      "expectedResult": "blocked",
+      "repair": "Sanitize the approved flagged value and rerun the complete transfer scan."
+    },
+    {
+      "id": "original-worktree-mutation",
+      "injectedCondition": "Transfer changes the original worktree index, commit, or source files.",
+      "expectedResult": "blocked",
+      "repair": "Stop and restore only through a user-approved recovery path; never reset or clean automatically."
+    }
+  ],
+  "reconciledResult": "Every simulated base, path, sanitation, privacy, or ownership violation blocks candidate promotion and confines rollback to the isolated candidate.",
+  "runtimeProof": false,
+  "contentDigest": "sha256:38e2d7797226e002ca14c78bd2ff44e2b081d7bcbeafa3027e7a2344ee00c99e"
+}

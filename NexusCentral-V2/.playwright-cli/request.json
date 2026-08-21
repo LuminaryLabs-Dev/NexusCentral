@@ -1,0 +1,12 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Tell me a joke."
+    }
+  ],
+  "modelId": "",
+  "contextLength": 16000,
+  "maxOutputTokens": 128,
+  "harnessId": "conversation-harness"
+}

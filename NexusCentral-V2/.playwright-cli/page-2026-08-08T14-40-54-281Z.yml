@@ -1,0 +1,30 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - strong [ref=e4]: NexusCentral
+      - generic [ref=e5]: shared local workbench
+      - navigation [ref=e6]:
+        - button "Lab" [ref=e7] [cursor=pointer]
+        - button "Router" [ref=e8] [cursor=pointer]
+        - button "Models" [ref=e9] [cursor=pointer]
+        - button "Review" [ref=e10] [cursor=pointer]
+        - button "Settings" [ref=e11] [cursor=pointer]
+    - generic [ref=e12]:
+      - complementary [ref=e13]:
+        - generic [ref=e14]:
+          - heading "Workspaces" [level=2] [ref=e15]
+          - button "Add workspace" [disabled] [ref=e16]: +
+      - article [ref=e17]:
+        - generic [ref=e18]:
+          - generic [ref=e19]: Session
+          - generic [ref=e20]: local-host
+          - generic [ref=e21]: Route setup needed
+        - generic [ref=e23]:
+          - text: HOST-ROUTED WORKSPACE
+          - heading "Build in the Lab." [level=1] [ref=e24]
+          - paragraph [ref=e25]: Ask for a change. Nexus Central routes the work, preserves the workspace, and records the result.
+        - generic [ref=e26]:
+          - button "Add attachment" [ref=e27] [cursor=pointer]: +
+          - textbox "Describe what to build or ask..." [ref=e28]
+          - button "Send" [disabled] [ref=e29]: ↑
+  - alert [ref=e30]

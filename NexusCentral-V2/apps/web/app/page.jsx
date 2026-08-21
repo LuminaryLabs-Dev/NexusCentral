@@ -61,8 +61,12 @@ function PairScreen() {
 function Lab({ client, state, refresh }) {
   const [task, setTask] = useState("");
   const [workspacePath, setWorkspacePath] = useState("");
+  const [workspaceDialogOpen, setWorkspaceDialogOpen] = useState(false);
+  const [workspaceError, setWorkspaceError] = useState("");
+  const [workspaceOpening, setWorkspaceOpening] = useState(false);
   const [busy, setBusy] = useState(false);
   const jobs = state?.jobs?.jobs || [];
+  const workspace = state?.workspace?.selected;
   const canOperate = state?.actor?.scopes?.some((scope) => scope === "admin" || scope === "workspace.operate");
   const send = async () => {
     if (!task.trim()) return;
@@ -75,20 +79,40 @@ function Lab({ client, state, refresh }) {
     finally { setBusy(false); }
   };
   const keyDown = (event) => { if (event.key === "Enter" && !event.shiftKey) { event.preventDefault(); send(); } };
-  const openWorkspace = async () => {
-    const selected = await client.chooseWorkspace();
-    const path = selected || workspacePath;
-    if (path) await client.openWorkspace({ path }).then(refresh);
+  const openWorkspace = async (path) => {
+    if (!path?.trim()) return;
+    setWorkspaceOpening(true);
+    setWorkspaceError("");
+    try {
+      await client.openWorkspace({ path: path.trim() });
+      await refresh();
+      setWorkspacePath("");
+      setWorkspaceDialogOpen(false);
+    } catch (value) {
+      setWorkspaceError(value.message);
+    } finally {
+      setWorkspaceOpening(false);
+    }
+  };
+  const addWorkspace = async () => {
+    if (!canOperate) return;
+    if (typeof window !== "undefined" && window.nexusCentral?.chooseWorkspace) {
+      const selected = await client.chooseWorkspace();
+      if (selected) await openWorkspace(selected);
+      return;
+    }
+    setWorkspaceError("");
+    setWorkspaceDialogOpen(true);
   };
   return <section className="workbench">
-    <aside><div className="section-title"><h2>Workspace</h2><span>{state?.workspace?.selected?.name || "No folder"}</span></div>
-      {canOperate ? <div className="inline"><input value={workspacePath} onChange={(event) => setWorkspacePath(event.target.value)} placeholder="Host folder path" /><button onClick={openWorkspace}>Open</button></div> : <p className="muted">Host approval is required for workspace operations.</p>}
-      <div className="file-empty">Files remain on the host machine.</div>
+    <aside><div className="section-title workspace-heading"><h2>Workspaces</h2><button className="workspace-add" onClick={addWorkspace} disabled={!canOperate} title={canOperate ? "Add workspace" : "Host approval is required"} aria-label="Add workspace">+</button></div>
+      {workspace && <div className="workspace-list"><div className="workspace-item active"><span>{workspace.name}</span></div></div>}
     </aside>
     <article className="conversation"><div className="session-line"><span>Session</span><b>local-host</b><span>{state?.providers?.activeProviderId ? `Route: ${state.providers.activeProviderId}` : "Route setup needed"}</span></div>
       <div className="transcript">{jobs.length ? jobs.slice(-6).map((job) => <div className="message" key={job.id}><span>{job.status}</span><p>{job.payload?.messages?.at(-1)?.content || job.kind}</p>{job.progress?.length > 0 && <p className="answer">{job.progress.map((part) => part.content).join("")}</p>}</div>) : <div className="empty"><small>HOST-ROUTED WORKSPACE</small><h1>Build in the Lab.</h1><p>Ask for a change. Nexus Central routes the work, preserves the workspace, and records the result.</p></div>}</div>
       <div className="composer"><button title="Add attachment" aria-label="Add attachment">+</button><textarea value={task} onChange={(event) => setTask(event.target.value)} onKeyDown={keyDown} placeholder="Describe what to build or ask..." /><button className="send" disabled={busy || !task.trim()} onClick={send} title="Send" aria-label="Send">↑</button></div>
     </article>
+    {workspaceDialogOpen && <div className="workspace-dialog-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && setWorkspaceDialogOpen(false)}><form className="workspace-dialog" role="dialog" aria-modal="true" aria-labelledby="workspace-dialog-title" onSubmit={(event) => { event.preventDefault(); openWorkspace(workspacePath); }}><div><h2 id="workspace-dialog-title">Add workspace</h2><button type="button" onClick={() => setWorkspaceDialogOpen(false)} title="Close" aria-label="Close">x</button></div><label>Host folder path<input autoFocus value={workspacePath} onChange={(event) => setWorkspacePath(event.target.value)} placeholder="/Users/name/Documents/GitHub/project" /></label>{workspaceError && <p className="workspace-error">{workspaceError}</p>}<button className="primary" disabled={workspaceOpening || !workspacePath.trim()}>{workspaceOpening ? "Opening..." : "Open workspace"}</button></form></div>}
   </section>;
 }
 

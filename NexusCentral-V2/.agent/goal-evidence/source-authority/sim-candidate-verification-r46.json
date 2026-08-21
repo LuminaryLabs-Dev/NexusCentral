@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "nexuscentral.candidate-verification-simulation.v1",
+  "matrixRevision": 46,
+  "nodeId": "source.reconcile.transfer.verify",
+  "capturedAt": "2026-08-08T23:15:00Z",
+  "evidenceClass": "weak",
+  "scenarios": [
+    {
+      "id": "simulator-cli-unresolved",
+      "injectedCondition": "The isolated worktree cannot resolve the sibling NexusSimulator CLI through its default relative path.",
+      "expectedResult": "retry-contained",
+      "repair": "Resolve the existing local CLI explicitly through NEXUS_SIMULATOR_CLI and rerun the entire simulation command."
+    },
+    {
+      "id": "required-command-failure",
+      "injectedCondition": "Check, integration, scale, simulation, or build exits nonzero after contained dependency repair.",
+      "expectedResult": "blocked",
+      "repair": "Keep the candidate isolated and route the failure to its owning product domain."
+    },
+    {
+      "id": "post-check-scope-drift",
+      "injectedCondition": "A repository check leaves a candidate source path outside the approved 52-path set.",
+      "expectedResult": "blocked",
+      "repair": "Do not clean automatically; inspect ownership and recreate the isolated candidate if necessary."
+    },
+    {
+      "id": "dependency-audit-failure",
+      "injectedCondition": "Required source checks pass while npm audit reports high-severity advisories.",
+      "expectedResult": "source-pass-release-blocked",
+      "repair": "Route dependency remediation to the security domain and require a passing release audit before production."
+    },
+    {
+      "id": "hostless-web-api",
+      "injectedCondition": "The shared web UI renders but its host command endpoint is unavailable.",
+      "expectedResult": "source-pass-public-web-blocked",
+      "repair": "Implement deterministic runtime-profile selection and browser-local behavior before public-web release."
+    }
+  ],
+  "reconciledResult": "Source transfer may pass only when repository checks and candidate containment pass; dependency and runtime-profile failures remain explicit blockers for their later production gates.",
+  "runtimeProof": false,
+  "contentDigest": "sha256:ea65f23d3585991c5b22cb2712069ec7aa282fa3c2b1199946d0f6924ee6d25d"
+}

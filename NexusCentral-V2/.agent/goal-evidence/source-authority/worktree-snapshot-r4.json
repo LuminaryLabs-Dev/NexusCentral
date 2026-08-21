@@ -1,0 +1,728 @@
+{
+  "schemaVersion": "nexuscentral.source-worktree-snapshot.v1",
+  "matrixRevision": 5,
+  "capsule": ".agent/goal-capsules/source.inventory.snapshot.worktree-r4.json",
+  "targetNode": "source.inventory.snapshot.worktree",
+  "capturedAt": "2026-08-08T21:26:51.510Z",
+  "repository": {
+    "topLevel": "/Users/crimsonwheeler/Documents/GitHub/NexusCentral",
+    "commonGitDir": "/Users/crimsonwheeler/Documents/GitHub/NexusCentral/.git",
+    "bare": false
+  },
+  "branch": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "statusHeaders": {
+      "branch.oid": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+      "branch.head": "agent/publish-current-work-20260713",
+      "branch.upstream": "origin/agent/publish-current-work-20260713"
+    },
+    "current": "agent/publish-current-work-20260713",
+    "originHead": "refs/remotes/origin/main",
+    "localMain": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "originMain": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "originGhPages": "e09c80b03d87747aafea756cdd634bd01c22664d",
+    "mergeBaseHeadOriginMain": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "headIsAncestorOfOriginMain": false,
+    "originMainIsAncestorOfHead": false
+  },
+  "remotes": [
+    {
+      "name": "origin",
+      "url": "https://github.com/LuminaryLabs-Dev/NexusCentral.git"
+    }
+  ],
+  "refs": [
+    {
+      "ref": "refs/heads/agent/publish-current-work-20260713",
+      "objectName": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+      "upstream": "refs/remotes/origin/agent/publish-current-work-20260713",
+      "track": "[gone]"
+    },
+    {
+      "ref": "refs/heads/main",
+      "objectName": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+      "upstream": "refs/remotes/origin/main",
+      "track": "[behind 1]"
+    },
+    {
+      "ref": "refs/remotes/origin/HEAD",
+      "objectName": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "upstream": null,
+      "track": null
+    },
+    {
+      "ref": "refs/remotes/origin/gh-pages",
+      "objectName": "e09c80b03d87747aafea756cdd634bd01c22664d",
+      "upstream": null,
+      "track": null
+    },
+    {
+      "ref": "refs/remotes/origin/main",
+      "objectName": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "upstream": null,
+      "track": null
+    }
+  ],
+  "worktrees": [
+    {
+      "worktree": "/Users/crimsonwheeler/Documents/GitHub/NexusCentral",
+      "HEAD": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+      "branch": "refs/heads/agent/publish-current-work-20260713"
+    }
+  ],
+  "operationState": {
+    "merge": false,
+    "rebaseMerge": false,
+    "rebaseApply": false,
+    "cherryPick": false,
+    "revert": false,
+    "bisect": false
+  },
+  "stashCount": 0,
+  "pending": {
+    "counts": {
+      "tracked": 6,
+      "untracked": 118,
+      "ignored": 0,
+      "unmerged": 0,
+      "renamedOrCopied": 0,
+      "unknown": 0
+    },
+    "entries": [
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/architecture.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/context.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/coverage.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/direct-decisions.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/generate.lock"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/pending-clarification.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/questions.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_194b79580d5b4769/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_1dd36818aa4e4a3e/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_2797fc732f414ab7/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_878bde51c06a449e/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_a16a76a5a93a4236/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_b7d0c58786dd4505/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_c976ee5ca5704b70/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-01-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-01-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-02-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-02-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-03-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-03-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-04-events.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/runs/run_e6708d1c59d44322/worker-04-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/async-multi-choice/state.lock"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/.agent/change-log.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-capsules/README.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.worktree-r4.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-evidence/README.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-2.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-3.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-worktree-snapshot-r4.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-ledger.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-matrix.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/goal-queue.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.agent/harness-catalog.json"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/.agent/tasks.jsonl"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/attempt-1-result.json"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-29-928Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-32-48-012Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-03-201Z.png"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-16-482Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-30-448Z.png"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-28T16-33-49-681Z.png"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-38-56-191Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-22-368Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-28-588Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-33-554Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-39-41-769Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-02-510Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-23-766Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-40-36-532Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-42-45-230Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-42-54-081Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T13-43-26-289Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-40-54-281Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-41-40-864Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-08-08T14-42-09-914Z.yml"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/.playwright-cli/request.json"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/apps/web/app/page.jsx"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/apps/web/app/styles.css"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/current-validation.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/plan.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/proof.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/screenshots.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/simulations.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/summary.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/proof.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/screenshots.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/summary.md"
+      },
+      {
+        "kind": "?",
+        "status": "?",
+        "path": "NexusCentral-V2/docs/validate-it/history/runs.md"
+      },
+      {
+        "kind": "1",
+        "status": ".M",
+        "submodule": "N...",
+        "path": "NexusCentral-V2/goal.md"
+      }
+    ],
+    "fingerprint": "43c9f8d246989808bb3a19e335ffbe94831a8d2a101079ffea979d66c74c3d6d"
+  },
+  "constraints": {
+    "contentRead": false,
+    "sourceMutation": false,
+    "gitMutation": false,
+    "credentialsRecorded": false
+  },
+  "contentDigest": "sha256:8a60b40906b35e01f773bf33e7580421b98724cd1eff71d9132f9b652fd6dce1"
+}

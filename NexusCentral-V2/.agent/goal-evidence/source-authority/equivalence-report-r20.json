@@ -1,0 +1,2602 @@
+{
+  "schemaVersion": "nexuscentral.source-equivalence.v1",
+  "matrixRevision": 21,
+  "targetNode": "source.reconcile.equivalence.prove",
+  "capturedAt": "2026-08-08T21:52:30.455Z",
+  "capsule": ".agent/goal-capsules/source.reconcile.equivalence.prove-r20.json",
+  "remoteAuthority": {
+    "name": "origin",
+    "defaultBranch": "refs/heads/main",
+    "liveHeads": {
+      "HEAD": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "main": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "ghPages": "e09c80b03d87747aafea756cdd634bd01c22664d"
+    },
+    "localTrackingMatchesLive": {
+      "main": true,
+      "ghPages": true
+    },
+    "rawDigest": "sha256:4d1c6987567f2776cc4728de8f96e18f49debc39f1121831d44e946635e14ef2"
+  },
+  "refs": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "currentBranch": "agent/publish-current-work-20260713",
+    "localMain": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "originMain": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "originGhPages": "e09c80b03d87747aafea756cdd634bd01c22664d"
+  },
+  "commitTopology": {
+    "mergeBase": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "originMainOnly": 1,
+    "currentHeadOnly": 8,
+    "currentBranchCommits": [
+      {
+        "sha": "e6e73ebbfdaba0b5a7282c13e1eb0e503d642792",
+        "parents": [
+          "551c647440a540853a2d0dc1f5291b7080a3a96b"
+        ],
+        "authoredAt": "2026-07-13T18:26:14-04:00",
+        "subject": "Publish NexusCentral workflow and V2 workspace",
+        "tree": "f59f44469fbe75b03ece30ec445c05ae85431e8f",
+        "patchId": "0f6faaf9f5611ab65fb0d1067cec4e38ab67045c"
+      },
+      {
+        "sha": "a05da3abb19f7c3ad7d79da71dd679d971c60cdc",
+        "parents": [
+          "e6e73ebbfdaba0b5a7282c13e1eb0e503d642792"
+        ],
+        "authoredAt": "2026-07-28T12:30:03-04:00",
+        "subject": "Complete NexusCentral V2 execution server",
+        "tree": "5f2e4e920195c7c3a22030507d04827d7af08d65",
+        "patchId": "7a767c6ae99da370e6caf98d0187146296474494"
+      },
+      {
+        "sha": "f0bcaca1ed4d7055df34f34a14c6476677f1efad",
+        "parents": [
+          "a05da3abb19f7c3ad7d79da71dd679d971c60cdc"
+        ],
+        "authoredAt": "2026-07-28T12:30:27-04:00",
+        "subject": "Add NexusCentral V2 browser validation evidence",
+        "tree": "5432f437e9fc29814efb3baaf1f56bfbfa6a1672",
+        "patchId": "038bf93e629f75abcf151cd8b44592e5236c9e63"
+      },
+      {
+        "sha": "6e48356412daa918b35b868afe515c48c4b2d1f0",
+        "parents": [
+          "f0bcaca1ed4d7055df34f34a14c6476677f1efad"
+        ],
+        "authoredAt": "2026-07-28T12:38:46-04:00",
+        "subject": "Preserve NexusCentral agent workspace and Builder provenance",
+        "tree": "afeec5714928beb614f808ef572d3e9c2bb41154",
+        "patchId": "2eb647d7854b4da3eb0f99068a2487a6858cd49d"
+      },
+      {
+        "sha": "711b6f44668384de22dd58fa2b52751e4679fee2",
+        "parents": [
+          "6e48356412daa918b35b868afe515c48c4b2d1f0"
+        ],
+        "authoredAt": "2026-07-28T12:41:14-04:00",
+        "subject": "Record NexusCentral publication gate blocker",
+        "tree": "44166140bd177a70c91b8a9d774ee3398b9b16ee",
+        "patchId": "01d1cb5d2a5f70abde9db385aa38c10493f51811"
+      },
+      {
+        "sha": "c2d5c47dcdbe669a98103582f08e49ce0a6b15a0",
+        "parents": [
+          "711b6f44668384de22dd58fa2b52751e4679fee2"
+        ],
+        "authoredAt": "2026-07-28T12:46:35-04:00",
+        "subject": "Finalize NexusCentral publication handoff",
+        "tree": "252e036bf7f49b7fdc82e0dd764990db99c0ea34",
+        "patchId": "1c4e683ef34d9d9966106dfd6ce562fca88fafe3"
+      },
+      {
+        "sha": "65df9581f935c701e7ef1b8795657d19968f02b5",
+        "parents": [
+          "c2d5c47dcdbe669a98103582f08e49ce0a6b15a0"
+        ],
+        "authoredAt": "2026-07-28T12:51:00-04:00",
+        "subject": "Record NexusCentral Pages publication blocker",
+        "tree": "9872e8594d2014e179bcc1c293aacecfa63597df",
+        "patchId": "f54b6ed284f0e07c6bc3afbdf36d941b85e245d1"
+      },
+      {
+        "sha": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+        "parents": [
+          "65df9581f935c701e7ef1b8795657d19968f02b5"
+        ],
+        "authoredAt": "2026-07-28T12:55:11-04:00",
+        "subject": "Finalize NexusCentral manual-build publication [skip ci]",
+        "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+        "patchId": "2e399c25ccf1a02c4a7c998f3ec81a19c6115ddb"
+      }
+    ],
+    "originMainCommits": [
+      {
+        "sha": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+        "parents": [
+          "551c647440a540853a2d0dc1f5291b7080a3a96b"
+        ],
+        "authoredAt": "2026-07-28T12:59:58-04:00",
+        "subject": "Publish NexusCentral workflow and V2 workspace [skip ci]",
+        "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+        "patchId": "196b39ce749028c0336b8b90923d7b2173ac70f3"
+      }
+    ],
+    "individualPatchComparison": {
+      "currentAgainstOriginMain": [
+        {
+          "mark": "+",
+          "sha": "e6e73ebbfdaba0b5a7282c13e1eb0e503d642792"
+        },
+        {
+          "mark": "+",
+          "sha": "a05da3abb19f7c3ad7d79da71dd679d971c60cdc"
+        },
+        {
+          "mark": "+",
+          "sha": "f0bcaca1ed4d7055df34f34a14c6476677f1efad"
+        },
+        {
+          "mark": "+",
+          "sha": "6e48356412daa918b35b868afe515c48c4b2d1f0"
+        },
+        {
+          "mark": "+",
+          "sha": "711b6f44668384de22dd58fa2b52751e4679fee2"
+        },
+        {
+          "mark": "+",
+          "sha": "c2d5c47dcdbe669a98103582f08e49ce0a6b15a0"
+        },
+        {
+          "mark": "+",
+          "sha": "65df9581f935c701e7ef1b8795657d19968f02b5"
+        },
+        {
+          "mark": "+",
+          "sha": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e"
+        }
+      ],
+      "originMainAgainstCurrent": [
+        {
+          "mark": "+",
+          "sha": "a79c762f06b9c3e3987af2a1769a2f3a415920db"
+        }
+      ],
+      "note": "Individual patch IDs reflect commit slicing and do not override exact final-tree identity."
+    }
+  },
+  "treeEquivalence": {
+    "head": {
+      "commit": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+      "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d"
+    },
+    "originMain": {
+      "commit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d"
+    },
+    "identical": true,
+    "changedPaths": [],
+    "conclusion": "Current HEAD and origin/main have different histories but exactly the same committed tree."
+  },
+  "aggregatePatchEquivalence": {
+    "mergeBase": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "headPatchId": "196b39ce749028c0336b8b90923d7b2173ac70f3",
+    "originMainPatchId": "196b39ce749028c0336b8b90923d7b2173ac70f3",
+    "headDiffDigest": "sha256:d8b505df66959bdc0f5158ddeb73dde8a79fc0b46b0749cae90b0ba64b351bbe",
+    "originMainDiffDigest": "sha256:d8b505df66959bdc0f5158ddeb73dde8a79fc0b46b0749cae90b0ba64b351bbe",
+    "identical": true,
+    "conclusion": "Both histories produce the same aggregate change from their common base."
+  },
+  "localMainState": {
+    "commit": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+    "tree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9",
+    "behindOriginMain": "1",
+    "aheadOfOriginMain": "0",
+    "changedPathsToOriginMain": [
+      {
+        "status": "M",
+        "path": ".agent/change-log.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/feedback-packets/provider-model-separation.md"
+      },
+      {
+        "status": "M",
+        "path": ".agent/feedback.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/goal-packets/main-integration.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/goal-packets/provider-router-models-split.md"
+      },
+      {
+        "status": "M",
+        "path": ".agent/goal.md"
+      },
+      {
+        "status": "M",
+        "path": ".agent/intention.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/.gitattributes"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/state_last_run_seed.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/workflow-gap-seeding-followup-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/workspace-bootstrap-verification-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/workspace-normalization-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/archive/workspace-normalization-followup-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/artifacts/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/active/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/active/initiative_plan.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/active/workflow_review_gate.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/active/workspace_inventory.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/disabled/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/disabled/state_last_run_contract.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/disabled/workflow_lifecycle_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/disabled/workflow_validation_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/content_parity_traceability_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/demo_refresh_sanitization_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/docs_cleanup_threshold_seed.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/docs_reconciliation.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/example_usage_seed.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/factory_export_readiness_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/goal_reconciliation.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/human_view_evidence_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/portfolio_signal_refresh.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/project_setup_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/proposal_backlog_triage.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/release_evidence_packet_seed.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/request_intake_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/tool_surface_contract_audit.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/tool_wrapper_onboarding_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/validation_infrastructure_readiness_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_catalog_refresh.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_gap_seeding.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_goal_coverage_audit.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_handoff_reconciliation.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_overlap_reconciliation.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_placeholder_audit.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workflow_template_gap_review.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workspace_delta_scan.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/automations/experimental/workspace_hygiene_triage.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/bootstrap-summary.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/automation-lifecycle.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/library-extension-precedence.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/mock-workflow-yaml-pattern-guide.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/tool-lifecycle.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/workflow-authoring-contract.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/workflow-tool-authoring-pattern-guide.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/workflow-tool-proposal-boundaries.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/conventions/workspace-contract.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/experimental-workflow-composition.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/goal-coverage-and-tool-aware-loop.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/mock-workflow-yaml-patterns.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/review-driven-workflow-loop.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/template-and-consistency-review-loop.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool-aware-promotion-and-contract-seeding-loop.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool-first-release-and-catalog-pipelines.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool-linked-authoring-examples.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool-package-cli-examples.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool-package-template-examples.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/tool_and_workflow_composition.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/workflow-authoring-composition.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/examples/workflow-maintenance-loop.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/aethervale.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/arduino_sanoboxing.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/codex_weblink.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/flyboys.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/horror_corridor.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/human_view_python.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/luminary_assets_dec2025.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/luminary_initiatives.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/luminary_labs.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/luminary_wiki.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/mm_gdoc_expo_demo18.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/museum_multiverse.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_agent.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_agent_chat.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_aviation_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_botany_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_celestial_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_central.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_central_builder.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_engine.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_factory_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_hardware_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_idea_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_index_agent_stegosaurus.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_test_project.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_texture_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_universe.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_web_agent.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/nexus_world_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/project_arrowhead_2025.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/project_arrowhead_demo.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/project_breakdowns/vending_backpack.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/bootstrap-record.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/cross-project-goal-inference-report-2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/reconciliation-report-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/reconciliation-report-2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/tool-build-and-promotion-summary-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/tool-build-and-promotion-summary-2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/tool-gap-priority-2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/tool-layer-before-workflow-guidance.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/tool-package-call-order.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-gap-seeding-report-2026-03-25-goal-tool-coverage.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-gap-seeding-report-2026-03-25-micro-coverage.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-gap-seeding-report-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-gap-seeding-report-2026-03-26-tool-aware-promotions.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-seeding-overview.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workflow-seeding-report-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workspace-contract-normalization-2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/docs/usage/workspace-normalization-2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/cross_project_bootstrap_and_workspace_hygiene.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/factory_productization_and_export_quality.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/human_view_validation_and_regression_evidence.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/portfolio_signal_and_goal_clarity.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/release_evidence_and_demo_readiness.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/structured_content_parity_and_traceability.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/business_goals/tool_surface_contract_and_runtime_observability.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/aethervale.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/arduino_sanoboxing.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/codex_weblink.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/flyboys.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/horror_corridor.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/human_view_python.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/luminary_assets_dec2025.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/luminary_initiatives.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/luminary_labs.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/luminary_wiki.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/mm_gdoc_expo_demo18.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/museum_multiverse.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_agent.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_agent_chat.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_aviation_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_botany_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_celestial_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_central.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_central_builder.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_engine.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_factory_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_hardware_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_idea_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_index_agent_stegosaurus.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_test_project.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_texture_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_universe.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_web_agent.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/nexus_world_factory.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/project_arrowhead_2025.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/project_arrowhead_demo.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/project_goals/vending_backpack.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/content_parity_traceability_review.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/factory_export_readiness_review.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/human_view_evidence_brief.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/portfolio_signal_refresh.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/release_evidence_packet_seed.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/tool_surface_contract_audit.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/goals/workflow_targets/workspace_hygiene_triage.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/improvements/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/improvements/accepted/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/improvements/proposals/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/improvements/proposals/initial-workflow-gap-backlog.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/improvements/rejected/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/anti_patterns/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/anti_patterns/premature-final-output.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/failures/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/patterns/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/patterns/bootstrap-then-reconcile.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/successes/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/lessons/successes/modular-workflow-seeding.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/logs/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/outputs/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/artifact_contract_validator.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/asset_catalog_indexer.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/evidence_signal_extractor.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/media_evidence_packager.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/portfolio_signal_normalizer.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/publish_bundle_validator.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/runtime_health_snapshotter.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/tool_proposal_summary_2026-03-25.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/tool_proposal_summary_2026-03-26.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/tool_proposals/tool_surface_snapshotter.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/workflow_proposals/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/workflow_proposals/artifact_contract_profile_seed.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/workflow_proposals/demo_refresh_sanitization_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/workflow_proposals/scene_gap_rebuild_packet.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/proposals/workflow_proposals/tool_wrapper_onboarding_brief.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/state/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/state/last_runs/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/state/locks/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/doc_templates/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/doc_templates/docs_reconciliation_note.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/doc_templates/planning_scaffold.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/doc_templates/workflow_seeding_report.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/doc_templates/workspace_exploration_report.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/presentation_templates/swim_museum_deck/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/presentation_templates/swim_museum_deck/index.html"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/presentation_templates/swim_museum_deck/script.js"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/presentation_templates/swim_museum_deck/slides.js"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/presentation_templates/swim_museum_deck/styles.css"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/project_setup_templates/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/project_setup_templates/project_setup_brief.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/project_setup_templates/workspace_manifest.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/validation/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/validation/mock_workflow_authoring_checklist.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/validation/tool-proposal-and-tool-linked-workflow-checklist.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/validation/workflow_validation_checklist.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/consistency_audit_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/goal_linked_review_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/micro_automation_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/review_reconciliation_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/tool_aware_review_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/templates/workflow_templates/tool_input_seed_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/README.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/experimental_tools/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/experimental_tools/artifact_contract_validator.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/experimental_tools/media_evidence_packager.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/experimental_tools/portfolio_signal_normalizer.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/final_tools/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/final_tools/tool_surface_snapshotter.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/artifact_contract_validator_contract_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/cli_tool_contract_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/media_evidence_packager_config_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/portfolio_signal_normalizer_config_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/tool_proposal_template.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/tool_surface_snapshotter_config_template.yaml"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/tool_templates/tool_validation_note_template.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/.gitkeep"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/artifact_contract_validator-validation.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/media_evidence_packager-validation.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/portfolio_signal_normalizer-validation.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/tool-authoring-validation-notes.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/builder/tools/validation/tool_surface_snapshotter-validation.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/checksums.sha256"
+      },
+      {
+        "status": "A",
+        "path": ".agent/organize/import-manifest.json"
+      },
+      {
+        "status": "M",
+        "path": ".agent/start-here.md"
+      },
+      {
+        "status": "A",
+        "path": ".agent/tasks.jsonl"
+      },
+      {
+        "status": "M",
+        "path": ".agent/workflow.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/.gitignore"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/ARCHITECTURE.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/README.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/package-lock.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/scripts/build.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/scripts/check.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/sidecars/rust-proof/Cargo.lock"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/sidecars/rust-proof/Cargo.toml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/sidecars/rust-proof/src/main.rs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/domain-kits/identity-kit.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/domain-kits/particle-field-kit.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/domain-kits/surface-copy-kit.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/harnesses/coding-harness.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/index.html"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/main.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/preload.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/renderer.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/services/mesh-routing-service.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/services/models-service.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/services/router-service.js"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/styles.css"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-Electron/src/workflow-contract.js"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Desktop/ViewLocator.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Desktop/ViewModels/MainShellViewModel.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Desktop/ViewModels/NavigationItemViewModel.cs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V1/Desktop/ViewModels/WorkflowSurfaceViewModels.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Desktop/Views/Surfaces/LabSurfaceView.axaml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V1/Desktop/Views/Surfaces/ReviewSurfaceView.axaml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V1/Desktop/Views/Surfaces/ReviewSurfaceView.axaml.cs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V1/Desktop/Views/Surfaces/SetupSurfaceView.axaml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V1/Desktop/Views/Surfaces/SetupSurfaceView.axaml.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Features/Lab/LabViewModel.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Tests/LabConversationTests.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/Tests/ModelEndpointAndRouterTests.cs"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V1/memory.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.agent/change-log.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.agent/goal-mode-prompt.txt"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.agent/start-here.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.agent/tasks.jsonl"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.gitignore"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-13T18-34-53-907Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-13T18-35-07-485Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-13T18-36-11-801Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-13T18-36-28-912Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-29-11-597Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-29-48-080Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-32-40-437Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-33-33-126Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-35-11-836Z.yml"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/.playwright-cli/page-2026-07-19T08-36-36-216Z.png"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/README.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/artifact-store.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/filesystem-workspace.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/harness-executors.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/libp2p-mesh.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/macos-service.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/mesh-transport-coordinator.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/model-lifecycle.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/peerjs-room.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/process-harness.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/provider-http.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/secret-store.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/simspace-experiment.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/adapters/runtime-adapters/src/sqlite-store.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/electron/main.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/electron/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/electron/preload.cjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/electron/scripts/build.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/simulator-proof/source/index.html"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/simulator-proof/source/main.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/simulator-proof/source/styles.css"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/app/layout.jsx"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/app/page.jsx"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/app/styles.css"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/next.config.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/apps/web/workers/onnx-worker.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/00-START-HERE.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/01-PRODUCT-INTENT.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/02-TARGET-ARCHITECTURE.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/03-DOMAIN-SERVICE-KIT-GRAPH.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/04-ADAPTER-HOST-BOUNDARIES.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/05-CENTRAL-CLIENT-AND-UI.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/06-MESH-LAN-WEB-ONNX.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/07-MIGRATION-COPY-MAP.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/08-IMPLEMENTATION-SEQUENCE.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/09-VALIDATION-PROMOTION-GATES.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/10-SECURITY-NONNEGOTIABLES.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/11-SIMULATOR-PROOF.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/12-IMPLEMENTATION-STATUS.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/13-HARNESS-EXPERIMENTS.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/docs/14-PROVIDERS-AND-PEERJS-ROOMS.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/goal.md"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/_shared/create-state-kit.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/artifacts-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/audit-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/central-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/experiments-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/harnesses-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/inference-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/jobs-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/lab-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/lan-access-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/mesh-membership-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/model-catalog-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/model-runtime-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/node-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/policy-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/proof-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/providers-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/routing-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/workspace-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/kits/workspace-transfer-kit/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/package-lock.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/packages/central-client/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/packages/central-client/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/packages/composition/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/packages/contracts/index.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/packages/contracts/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/check.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/integration-check.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/live-harness-check.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/live-lm-studio-check.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/macos-service.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/mesh-scale-check.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/migrate-electron.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/package-desktop.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/prepare-contract-proof.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/prepare-simulator-proof.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/scripts/run-nexus-simulator.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/nexus-node/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/nexus-node/src/cli.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/nexus-node/src/lan-server.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/nexus-node/src/nexus-node.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/nexus-node/src/run-coordinator.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/peer-broker/package.json"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/peer-broker/src/cli.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/services/peer-broker/src/peer-broker.mjs"
+      },
+      {
+        "status": "A",
+        "path": "NexusCentral-V2/simulation/kit-contracts.jsonl"
+      },
+      {
+        "status": "M",
+        "path": "README.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/avalonia-v1-checkpoint.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/lan-mesh-routing.md"
+      },
+      {
+        "status": "A",
+        "path": "docs/provider-router-models-validation.md"
+      },
+      {
+        "status": "A",
+        "path": "nexuscentral-v2-review-desktop.png"
+      },
+      {
+        "status": "A",
+        "path": "nexuscentral-v2-review-recorded.png"
+      },
+      {
+        "status": "A",
+        "path": "nexuscentral-v2-settings-peerjs.png"
+      }
+    ]
+  },
+  "pagesState": {
+    "commit": "e09c80b03d87747aafea756cdd634bd01c22664d",
+    "tree": "827bcf42e8eed45f8c03fc469f81163f64f7e8d2",
+    "mergeBaseWithMain": null,
+    "unrelatedHistory": true,
+    "fileCount": 22,
+    "fileListDigest": "sha256:bee6b881c6328c714f6e0cf142432c3ebd6b2d9ad5bebd087eded3e3925999a9",
+    "sampleFiles": [
+      ".nojekyll",
+      "README.md",
+      "branches/agent-publish-current-work-20260713.json",
+      "branches/main.json",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.size.json",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.size.json",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.size.json",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.size.json",
+      "downloads/agent-publish-current-work-20260713/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+      "downloads/index.json",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.size.json",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-linux-x64.zip",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.size.json",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-arm64.zip",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.size.json",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-osx-x64.zip",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.size.json",
+      "downloads/main/latest/nexuscentral-NexusCentral-V1-0.1.0-dev-win-x64.zip",
+      "index.html"
+    ],
+    "classification": "separate-generated-deployment-history-not-a-source-transfer-input"
+  },
+  "dirtyCandidate": {
+    "base": "origin/main",
+    "trackedDiffDigest": "sha256:3f605b9704764b991052a0f4fb214c1b8904a3eda1b9336e945b78af31f4835c",
+    "trackedChanges": [
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/.agent/change-log.md",
+        "baseBlob": "74f5b38ed03094e994c8253ff16b229535868bbf",
+        "currentSha256": "sha256:31c536275b77a9a2989e1ceb72feadc8a964fe95c92610410b3fe02cdf2cb7c8",
+        "bytes": 2997,
+        "added": "9",
+        "deleted": "0"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md",
+        "baseBlob": "058f9d4611cf3177870d1df3e18c4bc874b45bd7",
+        "currentSha256": "sha256:7bc4d28eaa96c08f450a37aee5213f85f173dbb13dee7b29c8e1b0dbec8346a0",
+        "bytes": 14166,
+        "added": "27",
+        "deleted": "3"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/.agent/tasks.jsonl",
+        "baseBlob": "10e47a8d62636a78df3091e8c9bc26e15c130a3c",
+        "currentSha256": "sha256:99ff1cffa2583d73f1ba47af49e700f7e750779eba8e129d70fa933f39e9a5b0",
+        "bytes": 5400,
+        "added": "7",
+        "deleted": "0"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "baseBlob": "b0726f1489127163be216ec0e95d78c18094b41e",
+        "currentSha256": "sha256:26b2cf3f1563e5632568f4121da42db933eaddc5021630c72c937aafd101949f",
+        "bytes": 31010,
+        "added": "31",
+        "deleted": "7"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/apps/web/app/styles.css",
+        "baseBlob": "2a6c2dc0f830452ec25dfad75167dfd5c1e77195",
+        "currentSha256": "sha256:d9c4941a0da2f4ca8bd6cbae1353fa3701c4eecc3b058c75845e2467d3ed0f8f",
+        "bytes": 8582,
+        "added": "17",
+        "deleted": "2"
+      },
+      {
+        "status": "M",
+        "path": "NexusCentral-V2/goal.md",
+        "baseBlob": "ea82b18a95fab1c7cf9a1540b584f96865002cf3",
+        "currentSha256": "sha256:f79265d292234cdb18eec49c8330187510260240d61af173273e80086e1659ea",
+        "bytes": 1024,
+        "added": "11",
+        "deleted": "14"
+      }
+    ],
+    "classifiedCandidateCount": 39,
+    "classifiedCandidates": [
+      {
+        "path": "NexusCentral-V2/.agent/change-log.md",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:31c536275b77a9a2989e1ceb72feadc8a964fe95c92610410b3fe02cdf2cb7c8",
+        "bytes": 2997,
+        "originMainBlob": "74f5b38ed03094e994c8253ff16b229535868bbf",
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/README.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-execution-capsule",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:408626e9038a2e7c9442fca3a87dbfd3ebe76088a2e1066929f9e23218b9009c",
+        "bytes": 429,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.durable-r12.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-execution-capsule",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:c808df90918234bf0a125b859f022a69004707927d3fa514d7e479705ca93b6d",
+        "bytes": 2850,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.classify.transient-r16.json",
+        "status": "?",
+        "classification": "durable-control",
+        "kind": "late-control",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:5db626c70946d609ded49c67901fde0fe83dd88e2bdbcad8f0ad36f3ab577ade",
+        "bytes": 2596,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.branches-r8.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-execution-capsule",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d991b20e4de6c67a6051a31270e7ca17bd3603976650bad5adace32e1990a3d9",
+        "bytes": 2547,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.inventory.snapshot.worktree-r4.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-execution-capsule",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:70c179ca8a1d95f4618bc2fe11bfc76f29833587ea0ca1d692f66f2f8a81a308",
+        "bytes": 2582,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/README.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:97d1d57a2d7023dcea6553f5d9b8ffb47bf2aca2c1d8c71b2524dd861bb16dcd",
+        "bytes": 500,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-2.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:15b51897a3f1fabe9f30c05e0f73fc63a055c93f614f36e6306a4ac7ca9d9050",
+        "bytes": 36095,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/simulations/revision-3.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:9a7da1a0efd726ed3bbb22db7e2532092808c32131a72378125154e824cb3a5e",
+        "bytes": 37224,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/branch-inventory-r8.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:6dbf087c4190d7232d807d7f213796d720ea9d557aa5d9c0945f0e68fe853650",
+        "bytes": 9291,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/durable-path-classification-r12.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:e958ec916ec5754a319cd807facc34894a05b9435fb59727560bcb819f2befbb",
+        "bytes": 51925,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/final-path-classification-r16.json",
+        "status": "?",
+        "classification": "durable-control",
+        "kind": "late-control",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d1c652d21907b8d9d9d034c34d7e920634918120f97dd06bfca5366bf4a4fae2",
+        "bytes": 69721,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-branch-inventory-r8.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:7acae2e1651364bc2a75b9451a72c7187f0a1362dbcd87870f70875f02bfe849",
+        "bytes": 1399,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-durable-classification-r12.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:bfafdce5e604fe5ac465dbfe2ee73434427d359bbfd2092b7dfa6fce392a7555",
+        "bytes": 1368,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-transient-classification-r16.json",
+        "status": "?",
+        "classification": "durable-control",
+        "kind": "late-control",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:e9584d009a4ce3ec6ea419ce8d1a604af3f152fa2ecf54782de746d9a9632598",
+        "bytes": 1342,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-worktree-snapshot-r4.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:e41d8ed9497699d74fb843f08e20b5fc92637ef9b9ebdb5d2cbc41e461872a1a",
+        "bytes": 1319,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-validation-evidence",
+        "owner": "agent-it",
+        "requiresSanitization": true,
+        "privacySignals": [
+          "absolute-local-path"
+        ],
+        "exists": true,
+        "currentSha256": "sha256:f40cc4e96e696e2c665ae12fe9aa5fdc457f44c198f9a729a9d6e42589a375c1",
+        "bytes": 22721,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-ledger.jsonl",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-authority",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:8b27d6c70bf1babf2aeba2f6fd4fd171c06fdf0daec3b2905740552e8c1d920b",
+        "bytes": 59035,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-matrix.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-authority",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:8e9d9874695351afa069fb82e12e37ce4bf959162a0b1b5470e79dac85e9118b",
+        "bytes": 388771,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-queue.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "goal-derived-projection",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d17837d7c8ade5b05d45b24e8501efded8996a5e6332cfb6309ce47f057b0379",
+        "bytes": 1927,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/harness-catalog.json",
+        "status": "?",
+        "classification": "durable",
+        "kind": "harness-catalog",
+        "owner": "harness-platform",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:4a134ab53e067e63285de287c64823be3a1b2c3674887674eb58980ff2292fe4",
+        "bytes": 7031,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/streamlined-ui-intake.md",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:7bc4d28eaa96c08f450a37aee5213f85f173dbb13dee7b29c8e1b0dbec8346a0",
+        "bytes": 14166,
+        "originMainBlob": "058f9d4611cf3177870d1df3e18c4bc874b45bd7",
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/tasks.jsonl",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "agent-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:99ff1cffa2583d73f1ba47af49e700f7e750779eba8e129d70fa933f39e9a5b0",
+        "bytes": 5400,
+        "originMainBlob": "10e47a8d62636a78df3091e8c9bc26e15c130a3c",
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "web-ui",
+        "requiresSanitization": true,
+        "privacySignals": [
+          "absolute-local-path"
+        ],
+        "exists": true,
+        "currentSha256": "sha256:26b2cf3f1563e5632568f4121da42db933eaddc5021630c72c937aafd101949f",
+        "bytes": 31010,
+        "originMainBlob": "b0726f1489127163be216ec0e95d78c18094b41e",
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/styles.css",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "web-ui",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d9c4941a0da2f4ca8bd6cbae1353fa3701c4eecc3b058c75845e2467d3ed0f8f",
+        "bytes": 8582,
+        "originMainBlob": "2a6c2dc0f830452ec25dfad75167dfd5c1e77195",
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/current-validation.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d4218c8c18d4b52ee024c1ade8a91fe4e5731a52646c5d3076534e5e069b39b5",
+        "bytes": 692,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": true,
+        "privacySignals": [
+          "absolute-local-path"
+        ],
+        "exists": true,
+        "currentSha256": "sha256:ed05640c857977a0331a2991919d0263e1f25922126e46196500b1856c82b0ae",
+        "bytes": 2180,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/plan.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:d55dade1de3c1cf0512a2d0b96429a10ec149154cb3b7c4aaeaf16f4882096dd",
+        "bytes": 3133,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/proof.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:6de95bfa003d553c30824c5cc19af44eff101c013eb54753dfc112e5aa43e12f",
+        "bytes": 2792,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/screenshots.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:e5209e132dda19ed939b955a9848238f1935bb5e108d97602cd282e3d2d596e7",
+        "bytes": 139,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/simulations.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:1085fa4b7a31b85dc47fb7f045f9bf40efd05d1aed54e787ac2a43b4d2f9116f",
+        "bytes": 3328,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/summary.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:108b42451129adf662e42aa619ca9f55237f899d62f543c0cd30f49504161f87",
+        "bytes": 2327,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": true,
+        "privacySignals": [
+          "private-network-address"
+        ],
+        "exists": true,
+        "currentSha256": "sha256:742d5cc81901258130dde2b264aa7a39b59e5e16c3f186528127320f3af287f9",
+        "bytes": 1225,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": true,
+        "privacySignals": [
+          "absolute-local-path"
+        ],
+        "exists": true,
+        "currentSha256": "sha256:6878d360189a4050b7deb94b9d1bfa17ca513964c61561443c06c1d068ef2e6b",
+        "bytes": 1071,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/proof.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:1f03c2e609ab26caf95e4cd1aa67943217a8f05df8c982d7183fe864c59e5d50",
+        "bytes": 1559,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/screenshots.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:3307384f7678afaa76150f90a68a82c0e89cb1778801fbd1ddf41c79d8c30cb3",
+        "bytes": 1391,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/summary.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:5d1e253d1973219f49177d7ae8699b8f596aaa5cc4e1e4d67e299c37d4f8346f",
+        "bytes": 2464,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/history/runs.md",
+        "status": "?",
+        "classification": "durable",
+        "kind": "validation-evidence",
+        "owner": "validate-it",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:ab20a9ea449ff625037b74cf3ea732521ed04527aaad9fdeb39359cfb4cd365c",
+        "bytes": 563,
+        "originMainBlob": null,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/goal.md",
+        "status": ".M",
+        "classification": "durable",
+        "kind": "tracked-owned-change",
+        "owner": "nexuscentral-product",
+        "requiresSanitization": false,
+        "privacySignals": [],
+        "exists": true,
+        "currentSha256": "sha256:f79265d292234cdb18eec49c8330187510260240d61af173273e80086e1659ea",
+        "bytes": 1024,
+        "originMainBlob": "ea82b18a95fab1c7cf9a1540b584f96865002cf3",
+        "transferState": "approval-required"
+      }
+    ],
+    "lateControlArtifacts": [
+      {
+        "path": "NexusCentral-V2/.agent/goal-capsules/source.reconcile.equivalence.prove-r20.json",
+        "kind": "goal-execution-capsule",
+        "exists": true,
+        "currentSha256": "sha256:833d7211ad68c56074510f1c509e8aa3117622edc4bcfa9304ef4bf65e30dd57",
+        "bytes": 3161,
+        "transferState": "approval-required"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/equivalence-report-r20.json",
+        "kind": "goal-validation-evidence",
+        "exists": false,
+        "currentSha256": null,
+        "bytes": null,
+        "transferState": "anticipated-output"
+      },
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-equivalence-r20.json",
+        "kind": "goal-validation-evidence",
+        "exists": false,
+        "currentSha256": null,
+        "bytes": null,
+        "transferState": "anticipated-output"
+      }
+    ],
+    "sanitizationRequired": [
+      {
+        "path": "NexusCentral-V2/.agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+        "signals": [
+          "absolute-local-path"
+        ]
+      },
+      {
+        "path": "NexusCentral-V2/apps/web/app/page.jsx",
+        "signals": [
+          "absolute-local-path"
+        ]
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-goal-matrix-setup/audit.md",
+        "signals": [
+          "absolute-local-path"
+        ]
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/audit.md",
+        "signals": [
+          "private-network-address"
+        ]
+      },
+      {
+        "path": "NexusCentral-V2/docs/validate-it/feature-reports/2026-08-08-one-pass-local/plan.md",
+        "signals": [
+          "absolute-local-path"
+        ]
+      }
+    ],
+    "duplicateContentGroups": [],
+    "excludedCount": 94,
+    "excludedCategories": {
+      "unresolved-private-operating-state": 7,
+      "transient-lock": 2,
+      "generated-raw-model-evidence": 63,
+      "durable": 36,
+      "durable-control": 3,
+      "generated-proof": 22
+    },
+    "policy": "Only reviewed durable candidates may be considered; generated, transient, raw model, Playwright, and unresolved private state remain local."
+  },
+  "transferConclusion": {
+    "committedBranchTransfer": "none-required",
+    "reason": "HEAD and origin/main resolve to the same tree and aggregate patch.",
+    "dirtyTrackedTransfer": "approval-required",
+    "durableUntrackedTransfer": "approval-and-sanitization-required",
+    "defaultBranchIntegration": "explicit-human-approval-required",
+    "ghPagesIntegration": "forbidden-source-input",
+    "safeNextStep": "Validate this report, then prove default and Pages branch policies before requesting any transfer approval."
+  },
+  "mutationBaseline": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "refsDigest": "sha256:ce536505049ba2b62671df66fc5dc66c7eb9378f4311f9b3b4bc19b5cca323f8",
+    "indexDigest": "sha256:3cebb246a4ac5c02a22ee6ea53c3909fee724b56e4dd4fa0fe2d2b72ee96e255",
+    "trackedStatusDigest": "sha256:78186c00a74d3266084aa4854028dd262c4d528eb6e7975bfe06c207008dace9",
+    "trackedDiffDigest": "sha256:3f605b9704764b991052a0f4fb214c1b8904a3eda1b9336e945b78af31f4835c",
+    "trackedDirtyCount": 6,
+    "untrackedPathCount": 128,
+    "untrackedPathDigest": "sha256:18ba2e3c296a0ecfcff4ba58e77a7fc4a7e81eb7e669b70cbb77b3509cf9d094",
+    "operationState": {
+      "merge": false,
+      "cherryPick": false,
+      "revert": false,
+      "bisect": false,
+      "rebaseMerge": false,
+      "rebaseApply": false
+    }
+  },
+  "validationBoundary": {
+    "allowedNewPaths": [
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/equivalence-report-r20.json",
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-equivalence-r20.json"
+    ],
+    "expectedUntrackedPathCountAfterWrite": 130,
+    "requiredUnchanged": [
+      "HEAD",
+      "refsDigest",
+      "indexDigest",
+      "trackedStatusDigest",
+      "trackedDiffDigest",
+      "operationState"
+    ],
+    "runtimeProof": false,
+    "simulationProof": false
+  },
+  "contentDigest": "sha256:cb7c63349f4a12df0bd576a40e29e702ab366d62f67590db01484de9961854aa"
+}

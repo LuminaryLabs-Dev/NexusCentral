@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "scenarioId": "pages-preserve-and-no-merge",
+  "matrixRevision": 29,
+  "nodeId": "source.branches.pages.prove",
+  "expectedOutcome": "Publishing one valid branch lane replaces only that lane while preserving other downloads and never merging gh-pages into source.",
+  "startingState": {
+    "mainDownloads": "present",
+    "featureLatest": "obsolete",
+    "appShellFixture": "present",
+    "histories": "unrelated"
+  },
+  "injectedEvent": "A feature/test artifact set is regenerated while main downloads and an unrelated app asset already exist.",
+  "invariants": [
+    "gh-pages never becomes a source input.",
+    "Other branch downloads retain exact hashes.",
+    "Only the current valid branch lane may be replaced.",
+    "Publishing remains approval-gated."
+  ],
+  "firstPass": {
+    "status": "passed",
+    "preservedHashes": {
+      "mainZip": "sha256:528b72e430e395b44e202c02186b7d1a2e3430c6ee01bb3c91d8d2917ade2856",
+      "mainSize": "sha256:12f44232dd926d764dc06fa2f49c0327bb6c9ec9058dd672897a32778a15fae5",
+      "shell": "sha256:4e22d53b6df88ae736f7e46c081ec29ec43ccdc1e767436e38f679d801da0247"
+    },
+    "afterHashes": {
+      "mainZip": "sha256:528b72e430e395b44e202c02186b7d1a2e3430c6ee01bb3c91d8d2917ade2856",
+      "mainSize": "sha256:12f44232dd926d764dc06fa2f49c0327bb6c9ec9058dd672897a32778a15fae5",
+      "shell": "sha256:4e22d53b6df88ae736f7e46c081ec29ec43ccdc1e767436e38f679d801da0247"
+    },
+    "preservedExact": true,
+    "obsoleteCurrentBranchRemoved": true,
+    "newArchivePresent": true,
+    "newManifestPresent": true,
+    "branchNames": [
+      "feature/test",
+      "main"
+    ],
+    "featureDownloads": [
+      "nexuscentral-feature.zip"
+    ],
+    "generatedFiles": [
+      ".nojekyll",
+      "README.md",
+      "index.html",
+      "downloads/index.json",
+      "branches/feature-test.json"
+    ]
+  },
+  "reviewPass": "Recheck retained hashes, removed obsolete current-lane content, new archive and manifest, index membership, and absence of merge commands.",
+  "reconciledResult": "The isolated updater run preserves main and app fixture bytes, replaces feature/test downloads, and creates indexes without repository or remote mutation.",
+  "stability": "stable",
+  "assumptions": [
+    "Existing generated branch lanes contain the expected latest directory.",
+    "The GitHub Actions checkout and artifact actions provide the paths shown in the workflow."
+  ],
+  "uncertainty": "The final shared browser app is not composed with this downloads lane, and malformed lanes need hardening.",
+  "repairRoute": "Fix composition and lane hardening in an isolated implementation worktree, rerun fixture plus browser validation, and require deployment approval.",
+  "simulationProofOnly": true,
+  "contentDigest": "sha256:53871b66ba710f70ebf7bb07c00e18486f26c00c2d3b9dff093710db1a78592e"
+}

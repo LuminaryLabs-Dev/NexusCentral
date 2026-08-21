@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "scenarioId": "remote-default-renamed",
+  "matrixRevision": 25,
+  "nodeId": "source.branches.default.prove",
+  "expectedOutcome": "A rename from main to trunk resolves trunk from the live HEAD symref without a code or policy change.",
+  "startingState": {
+    "liveSymref": "refs/heads/main",
+    "resolved": "main"
+  },
+  "injectedEvent": "Remote HEAD changes to refs/heads/trunk while local origin/HEAD still points to main.",
+  "invariants": [
+    "Live remote metadata outranks the stale local fallback.",
+    "The resolver never substitutes a literal main value.",
+    "The resolved ref and SHA must be repinned before integration.",
+    "No simulation changes repository settings."
+  ],
+  "firstPass": {
+    "status": "resolved",
+    "source": "live-remote-symref",
+    "ref": "refs/heads/trunk",
+    "name": "trunk",
+    "staleFallback": false
+  },
+  "reviewPass": "Reject stale local main and resolve refs/heads/trunk from live metadata.",
+  "reconciledResult": "trunk is selected; integration still requires a newly pinned approval packet.",
+  "stability": "stable",
+  "assumptions": [
+    "The remote exposes a valid HEAD symref."
+  ],
+  "uncertainty": "A provider that omits HEAD symref requires a stale-marked local fallback or a blocked result.",
+  "repairRoute": "Block and request refreshed metadata; never guess the branch name.",
+  "simulationProofOnly": true,
+  "contentDigest": "sha256:61ddd7eec1e308acc001128f6d08cd828a3d51a57f27f43bd41a16d560404ef0"
+}

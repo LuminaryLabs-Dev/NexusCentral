@@ -1,0 +1,63 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 12,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.inventory.classify.durable",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.inventory",
+    "source.inventory.classify"
+  ],
+  "owner": "release-source-control",
+  "objective": "Identify durable owned changes.",
+  "directDependencies": [
+    "source.inventory.snapshot"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+      "claim": "The complete source-topology dependency is promoted and ready for non-mutating classification."
+    },
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/branch-inventory-r8.json",
+      "claim": "Current branch and remote source authority are recorded."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Pending path names and Git statuses",
+    "Repository ignore rules and tracked diffs",
+    "Bounded metadata and content of candidate durable files for privacy and secret-risk classification",
+    "Source-topology evidence"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.inventory.classify.durable-r12.json",
+    ".agent/goal-evidence/source-authority/durable-path-classification-r12.json",
+    ".agent/goal-evidence/source-authority/sim-durable-classification-r12.json"
+  ],
+  "exclusions": [
+    "No deletion, reset, clean, move, rename, checkout, merge, or source-content edit",
+    "Do not print or copy discovered secret values",
+    "Do not classify raw model output as publishable without sanitization"
+  ],
+  "acceptanceGate": "Every durable candidate has a reason and intended destination.",
+  "oneFixPlan": "Identify each durable candidate, owner, reason, destination, and required sanitization without changing pending work.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "bounded-path-classifier"
+  },
+  "validationCommand": "Compare classification paths to a fresh status set and require owner, reason, destination, and privacy disposition for every durable candidate.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before cleanup, transfer, or any ambiguous destructive classification.",
+  "versionPacket": null,
+  "featureId": "source.inventory.classify.durable",
+  "candidateSha": null,
+  "checksum": "sha256:f8373eb0f726fb1ec76a5d176f0668ac0f1b913ae6c3d01a837cc0f3ace5fd56"
+}

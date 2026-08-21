@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "nexuscentral.default-branch-contract.v2",
+  "matrixRevision": 34,
+  "targetNode": "source.branches.default.prove",
+  "capturedAt": "2026-08-08T22:13:44.800Z",
+  "capsule": ".agent/goal-capsules/source.branches.default.prove-r33.json",
+  "supersedes": ".agent/goal-evidence/source-authority/default-branch-contract-r24.json",
+  "failureRepair": {
+    "priorCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "priorTree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9",
+    "failure": "Tree was dereferenced from refs/heads/main instead of the live advertised SHA.",
+    "retainedAsContradictory": true
+  },
+  "contract": {
+    "authorityOrder": [
+      "live remote HEAD symref plus advertised branch SHA",
+      "matching local tracking object for offline object access",
+      "local origin/HEAD fallback marked unpinned and stale",
+      "block before integration unless ref, commit, and tree are coherently pinned"
+    ],
+    "rules": [
+      "Never assume or dereference a literal local branch name for a live target.",
+      "Resolve live ref and SHA together, then derive tree from <live-sha>^{tree}.",
+      "Require the local tracking object to match the live SHA before object inspection without fetch.",
+      "Treat a local origin/HEAD fallback as unpinned until live SHA is refreshed.",
+      "Repin ref, commit, and tree immediately before candidate construction and integration.",
+      "Exclude gh-pages from source integration."
+    ]
+  },
+  "currentResolution": {
+    "status": "resolved",
+    "source": "live-remote-symref-and-advertised-sha",
+    "ref": "refs/heads/main",
+    "name": "main",
+    "commit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "staleFallback": false,
+    "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "treeExpression": "a79c762f06b9c3e3987af2a1769a2f3a415920db^{tree}",
+    "localTracking": {
+      "ref": "refs/remotes/origin/main",
+      "commit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+      "tree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+      "matchesLive": true
+    },
+    "staleLocalBranchContrast": {
+      "ref": "refs/heads/main",
+      "commit": "551c647440a540853a2d0dc1f5291b7080a3a96b",
+      "tree": "fd6c6f15692ccaec46d4abfe51f74dab4c669ec9",
+      "matchesLive": false,
+      "usedForTarget": false
+    },
+    "objectCoherent": true
+  },
+  "fixtures": [
+    {
+      "id": "renamed-default",
+      "input": {
+        "liveSymref": "refs/heads/trunk",
+        "liveBranches": {
+          "refs/heads/trunk": "1111111111111111111111111111111111111111"
+        },
+        "localSymref": "refs/heads/main"
+      },
+      "expected": {
+        "status": "resolved",
+        "name": "trunk",
+        "commit": "1111111111111111111111111111111111111111",
+        "staleFallback": false
+      },
+      "actual": {
+        "status": "resolved",
+        "source": "live-remote-symref-and-advertised-sha",
+        "ref": "refs/heads/trunk",
+        "name": "trunk",
+        "commit": "1111111111111111111111111111111111111111",
+        "staleFallback": false
+      }
+    },
+    {
+      "id": "live-symref-without-sha",
+      "input": {
+        "liveSymref": "refs/heads/trunk",
+        "liveBranches": {},
+        "localSymref": "refs/heads/main"
+      },
+      "expected": {
+        "status": "resolved-unpinned",
+        "source": "local-origin-head-fallback",
+        "commit": null,
+        "staleFallback": true
+      },
+      "actual": {
+        "status": "resolved-unpinned",
+        "source": "local-origin-head-fallback",
+        "ref": "refs/heads/main",
+        "name": "main",
+        "commit": null,
+        "staleFallback": true
+      }
+    },
+    {
+      "id": "missing-metadata",
+      "input": {
+        "liveSymref": null,
+        "liveBranches": {},
+        "localSymref": null
+      },
+      "expected": {
+        "status": "blocked",
+        "commit": null
+      },
+      "actual": {
+        "status": "blocked",
+        "source": null,
+        "ref": null,
+        "name": null,
+        "commit": null,
+        "staleFallback": false
+      }
+    },
+    {
+      "id": "reject-tag",
+      "input": {
+        "liveSymref": "refs/tags/main",
+        "liveBranches": {
+          "refs/tags/main": "2222222222222222222222222222222222222222"
+        },
+        "localSymref": null
+      },
+      "expected": {
+        "status": "blocked",
+        "commit": null
+      },
+      "actual": {
+        "status": "blocked",
+        "source": null,
+        "ref": null,
+        "name": null,
+        "commit": null,
+        "staleFallback": false
+      }
+    }
+  ],
+  "scopedAssumptionScan": {
+    "findings": [
+      {
+        "path": ".github/workflows/universal-audit.yml",
+        "line": 6,
+        "excerpt": "- main",
+        "classification": "nonconforming-workflow-trigger"
+      }
+    ],
+    "nonConformingConsumers": [
+      {
+        "path": ".github/workflows/universal-audit.yml",
+        "line": 6,
+        "excerpt": "- main",
+        "classification": "nonconforming-workflow-trigger"
+      }
+    ],
+    "workflowParity": false
+  },
+  "conclusion": {
+    "contractResolvesByMetadata": true,
+    "refCommitTreeShareLiveAuthority": true,
+    "currentDefaultName": "main",
+    "currentNameIsPermanentAssumption": false,
+    "priorContradictionRepaired": true,
+    "workflowParity": false,
+    "approvalRequiredBeforeIntegration": true
+  },
+  "mutationBaseline": {
+    "head": "6a2a35eac6a8f043af1cabf514bf28ed58803b4e",
+    "refsDigest": "sha256:ce536505049ba2b62671df66fc5dc66c7eb9378f4311f9b3b4bc19b5cca323f8",
+    "indexDigest": "sha256:3cebb246a4ac5c02a22ee6ea53c3909fee724b56e4dd4fa0fe2d2b72ee96e255",
+    "trackedStatusDigest": "sha256:78186c00a74d3266084aa4854028dd262c4d528eb6e7975bfe06c207008dace9",
+    "untrackedPathCount": 137,
+    "untrackedPathDigest": "sha256:d9b53ff93b6712a213c7ad2ce3b5fbae15daebf8d656afb6f1f363f56661a88d",
+    "operationState": {
+      "merge": false,
+      "rebaseMerge": false,
+      "rebaseApply": false,
+      "cherryPick": false
+    }
+  },
+  "validationBoundary": {
+    "allowedNewPaths": [
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/default-branch-contract-r33.json",
+      "NexusCentral-V2/.agent/goal-evidence/source-authority/sim-default-branch-r33.json"
+    ],
+    "expectedUntrackedPathCountAfterWrite": 139,
+    "requiredUnchanged": [
+      "HEAD",
+      "refsDigest",
+      "indexDigest",
+      "trackedStatusDigest",
+      "operationState"
+    ]
+  },
+  "proofLimits": {
+    "workflowRuntime": false,
+    "repositorySettingChange": false,
+    "integrationApproval": false
+  },
+  "contentDigest": "sha256:44b797ef80c8ce3ead435fece79c69bf9f0eafcdb504b3ec46bc187ab71c1728"
+}

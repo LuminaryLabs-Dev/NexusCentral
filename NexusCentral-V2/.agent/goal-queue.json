@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "2.0",
+  "matrixId": "nexuscentral-v2-one-application",
+  "matrixRevision": 49,
+  "generatedAt": "2026-08-08T23:27:36Z",
+  "source": ".agent/goal-matrix.json",
+  "authority": "derived",
+  "active": [],
+  "ready": [],
+  "blocked": [
+    {
+      "id": "source.approval.default-branch.prove",
+      "parentId": "source.approval.default-branch",
+      "domain": "source-authority",
+      "owner": "human-operator",
+      "status": "approval-required",
+      "outcome": "Record the conditional commit and fast-forward push decision.",
+      "reason": "Default-branch integration is externally visible and must remain human-controlled.",
+      "dependencies": [
+        "source.reconcile.transfer",
+        "source.branches.default",
+        "source.branches.pages"
+      ],
+      "acceptance": "The human decision explicitly accepts or rejects scope digest sha256:8c555a6801ab0d8ca18dd31612b7d0f554a11b56ef8cafe6e679d0eafabcf05a.",
+      "nextAction": "Human must answer Y or N to the exact conditional commit and fast-forward push question.",
+      "expectedRevision": 49,
+      "blocker": "explicit-human-approval",
+      "approvalPacket": ".agent/goal-evidence/source-authority/integration-approval-request-r36.json"
+    }
+  ],
+  "deferred": {
+    "total": 97,
+    "byDomain": {
+      "source-authority": 0,
+      "shared-application": 10,
+      "runtime-profiles": 10,
+      "local-node-state": 5,
+      "security": 6,
+      "models-runtimes": 7,
+      "router-server": 7,
+      "runs-proof": 6,
+      "harness-sandbox": 12,
+      "work": 3,
+      "workflows": 3,
+      "api": 6,
+      "ui": 6,
+      "operations": 9,
+      "release-proof": 7
+    }
+  },
+  "derivation": {
+    "readyRule": "Atomic leaf and ancestor path are ready, direct dependencies are promoted or passed, and no blocker exists.",
+    "claimRule": "Claim exactly one ready leaf against matrix revision 49 before execution.",
+    "staleRule": "Discard and rebuild this projection after any accepted matrix transition."
+  },
+  "note": "The exact 52-path candidate passed source validation. Conditional commit and fast-forward push require explicit approval; Pages publication, deployment, credentials, live providers, and release remain unauthorized."
+}

@@ -1,0 +1,93 @@
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - strong [ref=e4]: NexusCentral
+      - generic [ref=e5]: shared local workbench
+      - navigation [ref=e6]:
+        - button "Lab" [ref=e7] [cursor=pointer]
+        - button "Router" [ref=e8] [cursor=pointer]
+        - button "Models" [ref=e9] [cursor=pointer]
+        - button "Review" [ref=e10] [cursor=pointer]
+        - button "Settings" [active] [ref=e11] [cursor=pointer]
+    - generic [ref=e223]:
+      - generic [ref=e224]:
+        - heading "Settings" [level=1] [ref=e225]
+        - paragraph [ref=e226]: Host access, connected browsers, and contributed compute.
+      - generic [ref=e227]:
+        - generic [ref=e228]:
+          - heading "Always-running server" [level=3] [ref=e229]
+          - paragraph [ref=e230]: Start Nexus Node at login and restart it after failures.
+          - text: Not installed
+        - button "Install" [ref=e232] [cursor=pointer]
+      - generic [ref=e234]:
+        - generic [ref=e235]:
+          - heading "Local LAN mesh" [level=3] [ref=e236]
+          - paragraph [ref=e237]: Discover nearby NexusCentral hosts with the same private code.
+          - text: Not connected
+        - generic [ref=e238]:
+          - textbox "LAN code" [ref=e239]
+          - button "Connect" [disabled] [ref=e240]
+      - generic [ref=e242]:
+        - generic [ref=e243]:
+          - heading "Remote model room" [level=3] [ref=e244]
+          - paragraph [ref=e245]: Reach approved local models through direct PeerJS connections.
+          - text: Not connected
+        - generic [ref=e246]:
+          - textbox "Peer broker URL" [ref=e247]: http://127.0.0.1:47900/peer
+          - generic [ref=e248]:
+            - textbox "Room code" [ref=e249]
+            - button "Connect" [disabled] [ref=e250]
+          - group [ref=e251]:
+            - generic "Network options" [ref=e252] [cursor=pointer]
+      - heading "Connected peers" [level=3] [ref=e254]
+      - paragraph [ref=e255]: No mesh peers discovered.
+      - generic [ref=e257]:
+        - generic [ref=e258]:
+          - generic [ref=e259]:
+            - heading "Assistant connection" [level=3] [ref=e260]
+            - paragraph [ref=e261]: Every coding run happens in a disposable SimSpace before approval.
+            - text: codex-cli 0.144.1
+          - combobox [ref=e262]:
+            - option "Conversation" [selected]
+            - option "Review only"
+            - option "Coding loop"
+            - option "Audit only"
+        - generic [ref=e263]:
+          - generic [ref=e264]:
+            - text: Model
+            - combobox "Model" [ref=e265]
+          - generic [ref=e266]:
+            - text: Codex profile
+            - textbox "Codex profile" [ref=e267]:
+              - /placeholder: Default profile
+          - generic [ref=e268]:
+            - text: Sandbox
+            - combobox "Sandbox" [ref=e269]:
+              - option "read-only" [selected]
+          - generic [ref=e270]:
+            - text: Validation
+            - combobox "Validation" [ref=e271]:
+              - option "No command" [selected]
+              - option "npm run check"
+              - option "npm test"
+              - option "dotnet test"
+          - generic [ref=e272]:
+            - checkbox "Use local Codex provider" [ref=e273]
+            - text: Use local Codex provider
+        - group [ref=e274]:
+          - generic "Advanced proof options" [ref=e275] [cursor=pointer]
+        - button "Save harness options" [ref=e276] [cursor=pointer]
+      - generic [ref=e278]:
+        - generic [ref=e279]:
+          - heading "Nexus Central Web" [level=3] [ref=e280]
+          - paragraph [ref=e281]: Create a short-lived code for a browser on this LAN.
+        - button "Create pairing code" [ref=e282] [cursor=pointer]
+      - generic [ref=e284]:
+        - generic [ref=e285]:
+          - heading "Share browser inference" [level=3] [ref=e286]
+          - paragraph [ref=e287]: The model stays in this browser. The host decides when to route work here.
+          - text: Not sharing compute
+        - generic [ref=e288] [cursor=pointer]: Choose model package
+      - heading "Connected sessions" [level=3] [ref=e290]
+      - paragraph [ref=e291]: No paired browsers.
+  - alert [ref=e34]

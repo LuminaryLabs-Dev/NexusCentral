@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "1.0",
+  "authority": "factual-support-artifact",
+  "matrixId": "nexuscentral-v2-one-application",
+  "matrixRevision": 3,
+  "generatedAt": "2026-08-08T19:02:26.197Z",
+  "adapterAbi": [
+    "discover",
+    "preflight",
+    "prepare",
+    "runStage",
+    "normalizeEvent",
+    "cancel",
+    "collectArtifacts"
+  ],
+  "providerModes": [
+    "nexus-gateway",
+    "browser-local",
+    "provider-native-experimental",
+    "scripted-fixture"
+  ],
+  "installedObservation": {
+    "observedAt": "2026-08-08T17:16:13.443Z",
+    "codex": {
+      "installed": true,
+      "version": "codex-cli 0.144.1"
+    },
+    "claude": {
+      "installed": false
+    },
+    "gemini": {
+      "installed": false
+    },
+    "aider": {
+      "installed": false
+    },
+    "miniSweAgent": {
+      "installed": false
+    },
+    "openHands": {
+      "installed": false
+    }
+  },
+  "harnesses": [
+    {
+      "id": "direct-inference",
+      "source": "NexusCentral",
+      "adapterType": "in-process",
+      "providerMode": "nexus-gateway-or-browser-local",
+      "toolMode": "none",
+      "routingParity": "required",
+      "supportTier": "production-target",
+      "decision": "admit",
+      "gate": "Routed streaming, cancellation, artifact, and model-suitability proof."
+    },
+    {
+      "id": "codex-cli",
+      "source": "NexusCentral existing adapter",
+      "adapterType": "jsonl-subprocess",
+      "providerMode": "nexus-gateway",
+      "toolMode": "native-sandboxed",
+      "routingParity": "implemented-candidate",
+      "supportTier": "production-target",
+      "decision": "admit-after-live-proof",
+      "gate": "SimSpace containment, tool policy, routing, cancellation, validation, and promotion proof.",
+      "evidenceUrl": "https://github.com/openai/codex/blob/main/codex-rs/exec/src/cli.rs"
+    },
+    {
+      "id": "nexusagent-conversation",
+      "source": "NexusAgent/Conversation-Harness",
+      "adapterType": "json-stdio",
+      "providerMode": "nexus-gateway-required",
+      "toolMode": "none",
+      "routingParity": "not-yet-adapted",
+      "supportTier": "internal-candidate",
+      "decision": "admit-after-adapter-proof",
+      "gate": "Replace harness-owned endpoint authority with NexusCentral route input."
+    },
+    {
+      "id": "nexusagent-liquidpro",
+      "source": "NexusAgent/LiquidPro-Harness",
+      "adapterType": "json-cli",
+      "providerMode": "nexus-gateway-required",
+      "toolMode": "none",
+      "routingParity": "not-yet-adapted",
+      "supportTier": "experimental",
+      "decision": "admit-bounded-chains-after-proof",
+      "gate": "NexusCentral owns route, run, artifacts, timeout, and cancellation."
+    },
+    {
+      "id": "nexusagent-a1",
+      "source": "NexusAgent/A1-Harness",
+      "adapterType": "artifact-cli",
+      "providerMode": "nexus-gateway-required",
+      "toolMode": "plan-only-initially",
+      "routingParity": "not-yet-adapted",
+      "supportTier": "experimental",
+      "decision": "hold-to-plan-only",
+      "gate": "Known command registry, bounded turns, no direct mutation, normalized artifacts."
+    },
+    {
+      "id": "aider-cli",
+      "source": "Aider",
+      "adapterType": "message-subprocess",
+      "providerMode": "nexus-gateway",
+      "toolMode": "native-file-edit",
+      "routingParity": "candidate",
+      "supportTier": "experimental",
+      "decision": "admit-after-simspace-and-no-commit-proof",
+      "gate": "Use CLI only, disable auto-commit, contain edits, normalize diff and validation.",
+      "evidenceUrl": "https://aider.chat/docs/scripting.html"
+    },
+    {
+      "id": "mini-swe-agent",
+      "source": "SWE-agent/mini-swe-agent",
+      "adapterType": "python-binding-or-subprocess",
+      "providerMode": "nexus-gateway-via-litellm",
+      "toolMode": "bash-only",
+      "routingParity": "candidate",
+      "supportTier": "experimental",
+      "decision": "admit-after-tool-and-sandbox-proof",
+      "gate": "Bash execution remains inside SimSpace and route calls use NexusCentral.",
+      "evidenceUrl": "https://github.com/swe-agent/mini-swe-agent"
+    },
+    {
+      "id": "claude-code",
+      "source": "Anthropic Claude Code",
+      "adapterType": "stream-json-subprocess",
+      "providerMode": "provider-native-experimental",
+      "toolMode": "native-tools-and-mcp",
+      "routingParity": "unproven",
+      "supportTier": "experimental",
+      "decision": "hold",
+      "gate": "Prove NexusCentral routing and equivalent tool enforcement before production admission.",
+      "evidenceUrl": "https://code.claude.com/docs/en/cli-usage"
+    },
+    {
+      "id": "gemini-cli",
+      "source": "Google Gemini CLI",
+      "adapterType": "stream-json-subprocess",
+      "providerMode": "provider-native-experimental",
+      "toolMode": "native-tools-and-mcp",
+      "routingParity": "unproven",
+      "supportTier": "experimental",
+      "decision": "hold",
+      "gate": "Prove NexusCentral routing and tool-event enforcement before production admission.",
+      "evidenceUrl": "https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/headless.md"
+    },
+    {
+      "id": "openhands-sdk",
+      "source": "OpenHands Software Agent SDK",
+      "adapterType": "sdk-or-agent-server",
+      "providerMode": "nexus-gateway-candidate",
+      "toolMode": "sdk-tools-and-mcp",
+      "routingParity": "candidate",
+      "supportTier": "experimental",
+      "decision": "hold",
+      "gate": "NexusCentral must remain workspace, tool, run, artifact, approval, and cancellation authority.",
+      "evidenceUrl": "https://docs.openhands.dev/sdk/index"
+    },
+    {
+      "id": "scripted-replay",
+      "source": "NexusCentral test fixture",
+      "adapterType": "deterministic-in-process",
+      "providerMode": "scripted-fixture",
+      "toolMode": "scripted",
+      "routingParity": "not-applicable",
+      "supportTier": "test-only",
+      "decision": "required-first",
+      "gate": "Replay lifecycle, tool denial, cancellation, retry, artifact, and failure scenarios."
+    }
+  ],
+  "modelClasses": [
+    {
+      "id": "browser-lfm2-350m",
+      "tasks": [
+        "bounded-chat",
+        "classification",
+        "extraction",
+        "routing",
+        "compact-drafting"
+      ],
+      "deniedTasks": [
+        "repository-coding",
+        "long-horizon-tools",
+        "unbounded-workflows"
+      ],
+      "supportTier": "browser-default-target"
+    },
+    {
+      "id": "local-openai-compatible",
+      "tasks": [
+        "chat",
+        "research-draft",
+        "bounded-harness"
+      ],
+      "deniedTasks": [],
+      "supportTier": "capability-probed"
+    },
+    {
+      "id": "strong-coding-model",
+      "tasks": [
+        "review",
+        "coding",
+        "audit",
+        "tool-use"
+      ],
+      "deniedTasks": [],
+      "supportTier": "route-and-proof-required"
+    },
+    {
+      "id": "scripted-fixture",
+      "tasks": [
+        "contract-proof",
+        "failure-injection"
+      ],
+      "deniedTasks": [
+        "quality-evaluation"
+      ],
+      "supportTier": "test-only"
+    }
+  ]
+}

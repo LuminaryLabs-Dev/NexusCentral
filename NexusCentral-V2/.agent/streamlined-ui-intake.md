@@ -4,8 +4,14 @@ Status: active intake
 
 ## Operating Rules
 
-- Ask one numbered question at a time.
-- Keep questions and choices short while stating the main long-term tradeoff.
+- Ask up to five numbered questions at a time.
+- Map one non-empty answer line to each question; commas within a line are
+  multi-select choices.
+- Record each answer batch atomically and refill the high-reasoning queue in the
+  background toward 100 material questions or genuine saturation.
+- Keep decision cards concise but sufficiently grounded: name the current V2
+  file or subsystem, explain its existing behavior, define technical terms, and
+  state each option's immediate effect and long-term tradeoff.
 - Record decisions and concise design rationale here.
 - When the intended change is clear, produce a bounded implementation plan.
 - Do not edit product code until the user answers yes to the implementation gate.
@@ -200,7 +206,7 @@ approval gates.
 Long term, this keeps the control plane stable while models, endpoints, context
 windows, and harness quality change independently.
 
-## Current Decision: Memory Scope
+## Partially Resolved Decision: Memory Scope
 
 1. Run-only memory.
    - Immediate: strongest isolation and simplest recovery.
@@ -219,3 +225,21 @@ windows, and harness quality change independently.
    - Long term: supports reliable learning without allowing one weak LLM answer to become global truth.
    - Tradeoff: requires explicit provenance, promotion, supersession, and retention rules.
    - Recommendation: best fit for crash-safe context and unreliable workers.
+
+Locked tab rule:
+
+- `Work` / Lab uses one isolated durable memory scope per conversation.
+- A new conversation starts a new scope; prior context is attached explicitly,
+  never silently merged.
+- `Router`, `Models`, and `Settings` persist configuration and audit state, not
+  conversational memory.
+- `Runs` reads immutable execution evidence and does not create new memory.
+
+Workflow memory scope remains open.
+
+Selected workflow rule: option 4.
+
+- Each workflow execution has isolated canonical memory.
+- Validated records may be promoted into versioned workflow memory.
+- Promotion never rewrites the execution record and weak model output remains
+  untrusted unless it passes the configured promotion gate.

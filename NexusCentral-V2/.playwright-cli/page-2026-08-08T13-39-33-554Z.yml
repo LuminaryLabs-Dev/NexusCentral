@@ -1,0 +1,26 @@
+- generic [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - strong [ref=e4]: NexusCentral
+      - generic [ref=e5]: shared local workbench
+      - navigation [ref=e6]:
+        - button "Lab" [ref=e7] [cursor=pointer]
+        - button "Router" [ref=e8] [cursor=pointer]
+        - button "Models" [ref=e9] [cursor=pointer]
+        - button "Review" [active] [ref=e10] [cursor=pointer]
+        - button "Settings" [ref=e11] [cursor=pointer]
+    - generic [ref=e66]:
+      - generic [ref=e67]:
+        - heading "Review" [level=1] [ref=e68]
+        - paragraph [ref=e69]: Inspect disposable runs and promote only approved changes.
+      - heading "Experiments" [level=3] [ref=e70]
+      - paragraph [ref=e71]: No disposable harness runs.
+      - heading "Runs" [level=3] [ref=e73]
+      - paragraph [ref=e74]: No work has run.
+      - heading "Artifacts" [level=3] [ref=e76]
+      - paragraph [ref=e77]: No artifacts recorded.
+      - heading "Proof" [level=3] [ref=e79]
+      - paragraph [ref=e80]: No proof recorded.
+      - heading "Audit receipts" [level=3] [ref=e82]
+      - paragraph [ref=e83]: No command receipts recorded.
+  - alert [ref=e34]

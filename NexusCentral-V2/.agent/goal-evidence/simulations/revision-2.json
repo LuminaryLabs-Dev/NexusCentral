@@ -1,0 +1,684 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "forecast-evidence",
+  "matrixId": "nexuscentral-v2-one-application",
+  "matrixRevision": 2,
+  "generatedAt": "2026-08-08T17:16:13.443Z",
+  "simulationLoop": true,
+  "loopCount": 1,
+  "reviewPass": true,
+  "expectedOutcome": "A realistic, failure-contained matrix whose simulations harden acceptance gates without claiming implementation.",
+  "domainScenarios": [
+    {
+      "scenarioId": "sim-domain-01",
+      "matrixRevision": 2,
+      "nodeId": "domain.goal-control",
+      "expectedOutcome": "Reject the write and preserve the current revision.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A stale writer attempts a transition.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Reject the write and preserve the current revision.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Reject the write and preserve the current revision.",
+      "reconciledResult": "Reject the write and preserve the current revision.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Run DAG and revision validation before every mutation."
+    },
+    {
+      "scenarioId": "sim-domain-02",
+      "matrixRevision": 2,
+      "nodeId": "domain.source-authority",
+      "expectedOutcome": "Compare trees, preserve user work, and require approval before transfer.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "Duplicate commit history and overlapping dirty files are present.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Compare trees, preserve user work, and require approval before transfer.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Compare trees, preserve user work, and require approval before transfer.",
+      "reconciledResult": "Compare trees, preserve user work, and require approval before transfer.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Re-capture worktree state immediately before integration."
+    },
+    {
+      "scenarioId": "sim-domain-03",
+      "matrixRevision": 2,
+      "nodeId": "domain.shared-application",
+      "expectedOutcome": "Fail the browser boundary gate without creating a web fork.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A browser entry imports a host-only module.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Fail the browser boundary gate without creating a web fork.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Fail the browser boundary gate without creating a web fork.",
+      "reconciledResult": "Fail the browser boundary gate without creating a web fork.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Audit transitive browser imports."
+    },
+    {
+      "scenarioId": "sim-domain-04",
+      "matrixRevision": 2,
+      "nodeId": "domain.runtime-profiles",
+      "expectedOutcome": "UI visibility is irrelevant; server authorization decides execution.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A hidden Codex feature is called directly.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "UI visibility is irrelevant; server authorization decides execution.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: UI visibility is irrelevant; server authorization decides execution.",
+      "reconciledResult": "UI visibility is irrelevant; server authorization decides execution.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Test direct API calls against policy."
+    },
+    {
+      "scenarioId": "sim-domain-05",
+      "matrixRevision": 2,
+      "nodeId": "domain.local-node-state",
+      "expectedOutcome": "Recover the latest locally accepted state without Router Server ownership.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "Desktop or browser restarts after accepting work.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Recover the latest locally accepted state without Router Server ownership.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Recover the latest locally accepted state without Router Server ownership.",
+      "reconciledResult": "Recover the latest locally accepted state without Router Server ownership.",
+      "stability": "conditional",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Medium until direct runtime proof exists.",
+      "repairRoute": "Prove SQLite and browser-store recovery independently."
+    },
+    {
+      "scenarioId": "sim-domain-06",
+      "matrixRevision": 2,
+      "nodeId": "domain.security",
+      "expectedOutcome": "Reject before provider, tool, or harness execution.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "An anonymous public caller invokes a privileged command.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Reject before provider, tool, or harness execution.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Reject before provider, tool, or harness execution.",
+      "reconciledResult": "Reject before provider, tool, or harness execution.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Test authentication, origin, quota, and denial receipts."
+    },
+    {
+      "scenarioId": "sim-domain-07",
+      "matrixRevision": 2,
+      "nodeId": "domain.models-runtimes",
+      "expectedOutcome": "Retry initialization with WASM, then return a contained error if generation still fails.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "WebGPU exists but model generation fails.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Retry initialization with WASM, then return a contained error if generation still fails.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Retry initialization with WASM, then return a contained error if generation still fails.",
+      "reconciledResult": "Retry initialization with WASM, then return a contained error if generation still fails.",
+      "stability": "conditional",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Medium until direct runtime proof exists.",
+      "repairRoute": "Use a real browser and pinned model package."
+    },
+    {
+      "scenarioId": "sim-domain-08",
+      "matrixRevision": 2,
+      "nodeId": "domain.router-server",
+      "expectedOutcome": "Record failure and reserve the next eligible route; stop after output or side effects unless idempotent.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "The first route fails before output.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Record failure and reserve the next eligible route; stop after output or side effects unless idempotent.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Record failure and reserve the next eligible route; stop after output or side effects unless idempotent.",
+      "reconciledResult": "Record failure and reserve the next eligible route; stop after output or side effects unless idempotent.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Test pre-output and post-output failure separately."
+    },
+    {
+      "scenarioId": "sim-domain-09",
+      "matrixRevision": 2,
+      "nodeId": "domain.runs-proof",
+      "expectedOutcome": "Restore accepted context, preserve candidate output, and avoid duplicate side effects.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "The process crashes during a streamed run.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Restore accepted context, preserve candidate output, and avoid duplicate side effects.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Restore accepted context, preserve candidate output, and avoid duplicate side effects.",
+      "reconciledResult": "Restore accepted context, preserve candidate output, and avoid duplicate side effects.",
+      "stability": "conditional",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Medium until direct runtime proof exists.",
+      "repairRoute": "Run crash-recovery with persisted attempt receipts."
+    },
+    {
+      "scenarioId": "sim-domain-10",
+      "matrixRevision": 2,
+      "nodeId": "domain.harness-sandbox",
+      "expectedOutcome": "Mark the stage failed, retain streams and diff, cancel tools, and leave matrix mutation to control.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A harness subprocess exits after partial output.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Mark the stage failed, retain streams and diff, cancel tools, and leave matrix mutation to control.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Mark the stage failed, retain streams and diff, cancel tools, and leave matrix mutation to control.",
+      "reconciledResult": "Mark the stage failed, retain streams and diff, cancel tools, and leave matrix mutation to control.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Run deterministic subprocess-failure replay."
+    },
+    {
+      "scenarioId": "sim-domain-11",
+      "matrixRevision": 2,
+      "nodeId": "domain.work",
+      "expectedOutcome": "Keep changes in SimSpace until exact evidence receives human promotion.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A coding harness produces a valid diff.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Keep changes in SimSpace until exact evidence receives human promotion.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Keep changes in SimSpace until exact evidence receives human promotion.",
+      "reconciledResult": "Keep changes in SimSpace until exact evidence receives human promotion.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Verify source hash remains unchanged."
+    },
+    {
+      "scenarioId": "sim-domain-12",
+      "matrixRevision": 2,
+      "nodeId": "domain.workflows",
+      "expectedOutcome": "Follow the configured fallback or revision path while retaining the final human gate.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A middle stage fails in a fail-forward workflow.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Follow the configured fallback or revision path while retaining the final human gate.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Follow the configured fallback or revision path while retaining the final human gate.",
+      "reconciledResult": "Follow the configured fallback or revision path while retaining the final human gate.",
+      "stability": "conditional",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Medium until direct runtime proof exists.",
+      "repairRoute": "Test each stage failure mode and memory admission."
+    },
+    {
+      "scenarioId": "sim-domain-13",
+      "matrixRevision": 2,
+      "nodeId": "domain.api",
+      "expectedOutcome": "Allow public-safe discovery but require scoped authorization and provide no external SLA.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "A custom client discovers an internal endpoint.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Allow public-safe discovery but require scoped authorization and provide no external SLA.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Allow public-safe discovery but require scoped authorization and provide no external SLA.",
+      "reconciledResult": "Allow public-safe discovery but require scoped authorization and provide no external SLA.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Verify metadata, redaction, and direct authorization."
+    },
+    {
+      "scenarioId": "sim-domain-14",
+      "matrixRevision": 2,
+      "nodeId": "domain.ui",
+      "expectedOutcome": "Render browser-safe controls and explain unavailable internal capabilities without crashing.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "The public profile loads without a Nexus Node.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Render browser-safe controls and explain unavailable internal capabilities without crashing.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Render browser-safe controls and explain unavailable internal capabilities without crashing.",
+      "reconciledResult": "Render browser-safe controls and explain unavailable internal capabilities without crashing.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Run public static human-view proof."
+    },
+    {
+      "scenarioId": "sim-domain-15",
+      "matrixRevision": 2,
+      "nodeId": "domain.operations",
+      "expectedOutcome": "Static assets and routes load, downloads remain, and no same-origin API is assumed.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "GitHub Pages serves the app under a repository subpath.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Static assets and routes load, downloads remain, and no same-origin API is assumed.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Static assets and routes load, downloads remain, and no same-origin API is assumed.",
+      "reconciledResult": "Static assets and routes load, downloads remain, and no same-origin API is assumed.",
+      "stability": "conditional",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Medium until direct runtime proof exists.",
+      "repairRoute": "Validate the composed artifact and deployed URL."
+    },
+    {
+      "scenarioId": "sim-domain-16",
+      "matrixRevision": 2,
+      "nodeId": "domain.release-proof",
+      "expectedOutcome": "Deny release promotion and retain the exact missing owner and next proof.",
+      "startingState": "The domain is planned and no implementation proof is assumed.",
+      "injectedEvent": "One required live or human-view proof is missing.",
+      "invariants": [
+        "The matrix remains the only goal-state authority.",
+        "User state and secrets stay with their owning node.",
+        "A simulation cannot promote implementation."
+      ],
+      "firstPass": "Deny release promotion and retain the exact missing owner and next proof.",
+      "reviewPass": "Reapplying the same constraints preserves the outcome: Deny release promotion and retain the exact missing owner and next proof.",
+      "reconciledResult": "Deny release promotion and retain the exact missing owner and next proof.",
+      "stability": "stable",
+      "assumptions": [
+        "The documented ownership and profile boundaries are enforced by future implementation."
+      ],
+      "uncertainty": "Low for architecture behavior; runtime remains unproven.",
+      "repairRoute": "Run final evidence reconciliation."
+    }
+  ],
+  "harnessScenarios": [
+    {
+      "scenarioId": "sim-harness-01",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "scripted-replay",
+      "modelClass": "scripted-fixture",
+      "task": "contract-proof",
+      "expectedOutcome": "admit-test-only",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt contract-proof using scripted-replay with scripted-fixture.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-test-only",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-test-only.",
+      "reconciledResult": "admit-test-only",
+      "stability": "stable",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Low for the admission rule.",
+      "repairRoute": "Implement deterministic event fixtures first."
+    },
+    {
+      "scenarioId": "sim-harness-02",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "direct-inference",
+      "modelClass": "browser-lfm2-350m",
+      "task": "bounded-chat",
+      "expectedOutcome": "admit-after-browser-proof",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt bounded-chat using direct-inference with browser-lfm2-350m.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-after-browser-proof",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-after-browser-proof.",
+      "reconciledResult": "admit-after-browser-proof",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Prove text generation, streaming, cancellation, and suitability."
+    },
+    {
+      "scenarioId": "sim-harness-03",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "codex-cli",
+      "modelClass": "strong-coding-model",
+      "task": "coding",
+      "expectedOutcome": "admit-after-live-proof",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt coding using codex-cli with strong-coding-model.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-after-live-proof",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-after-live-proof.",
+      "reconciledResult": "admit-after-live-proof",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Prove loopback routing, SimSpace, tools, validation, and artifacts."
+    },
+    {
+      "scenarioId": "sim-harness-04",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "codex-cli",
+      "modelClass": "browser-lfm2-350m",
+      "task": "coding",
+      "expectedOutcome": "reject-capability",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt coding using codex-cli with browser-lfm2-350m.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "reject-capability",
+      "reviewPass": "The authority and suitability checks preserve decision: reject-capability.",
+      "reconciledResult": "reject-capability",
+      "stability": "stable",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Low for the admission rule.",
+      "repairRoute": "Route coding to a model advertising coding and tool capability."
+    },
+    {
+      "scenarioId": "sim-harness-05",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "nexusagent-conversation",
+      "modelClass": "local-openai-compatible",
+      "task": "chat",
+      "expectedOutcome": "admit-after-adapter-proof",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt chat using nexusagent-conversation with local-openai-compatible.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-after-adapter-proof",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-after-adapter-proof.",
+      "reconciledResult": "admit-after-adapter-proof",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Inject a NexusCentral route instead of a harness-owned endpoint."
+    },
+    {
+      "scenarioId": "sim-harness-06",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "nexusagent-liquidpro",
+      "modelClass": "browser-lfm2-350m",
+      "task": "bounded-chain",
+      "expectedOutcome": "admit-experimental",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt bounded-chain using nexusagent-liquidpro with browser-lfm2-350m.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-experimental",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-experimental.",
+      "reconciledResult": "admit-experimental",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Keep chains tool-free and NexusCentral-owned for state and artifacts."
+    },
+    {
+      "scenarioId": "sim-harness-07",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "nexusagent-a1",
+      "modelClass": "local-openai-compatible",
+      "task": "planning",
+      "expectedOutcome": "hold-to-plan-only",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt planning using nexusagent-a1 with local-openai-compatible.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "hold-to-plan-only",
+      "reviewPass": "The authority and suitability checks preserve decision: hold-to-plan-only.",
+      "reconciledResult": "hold-to-plan-only",
+      "stability": "stable",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Low for the admission rule.",
+      "repairRoute": "Prove bounded command registry and prohibit direct mutation."
+    },
+    {
+      "scenarioId": "sim-harness-08",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "aider-cli",
+      "modelClass": "strong-coding-model",
+      "task": "editing",
+      "expectedOutcome": "admit-experimental",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt editing using aider-cli with strong-coding-model.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-experimental",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-experimental.",
+      "reconciledResult": "admit-experimental",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Disable commits and contain all edits in SimSpace."
+    },
+    {
+      "scenarioId": "sim-harness-09",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "mini-swe-agent",
+      "modelClass": "strong-coding-model",
+      "task": "bash-coding",
+      "expectedOutcome": "admit-experimental",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt bash-coding using mini-swe-agent with strong-coding-model.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "admit-experimental",
+      "reviewPass": "The authority and suitability checks preserve decision: admit-experimental.",
+      "reconciledResult": "admit-experimental",
+      "stability": "conditional",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Contain bash and route LiteLLM through NexusCentral."
+    },
+    {
+      "scenarioId": "sim-harness-10",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "claude-code",
+      "modelClass": "provider-native",
+      "task": "coding-tools",
+      "expectedOutcome": "hold",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt coding-tools using claude-code with provider-native.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "hold",
+      "reviewPass": "The authority and suitability checks preserve decision: hold.",
+      "reconciledResult": "hold",
+      "stability": "speculative",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Prove router parity and tool enforcement before admission."
+    },
+    {
+      "scenarioId": "sim-harness-11",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "gemini-cli",
+      "modelClass": "provider-native",
+      "task": "coding-tools",
+      "expectedOutcome": "hold",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt coding-tools using gemini-cli with provider-native.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "hold",
+      "reviewPass": "The authority and suitability checks preserve decision: hold.",
+      "reconciledResult": "hold",
+      "stability": "speculative",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Prove router parity and normalized tool events before admission."
+    },
+    {
+      "scenarioId": "sim-harness-12",
+      "matrixRevision": 2,
+      "nodeId": "harness.catalog.external",
+      "harnessId": "openhands-sdk",
+      "modelClass": "strong-coding-model",
+      "task": "full-agent",
+      "expectedOutcome": "hold",
+      "startingState": "The adapter is not production-promoted unless explicitly stated.",
+      "injectedEvent": "Attempt full-agent using openhands-sdk with strong-coding-model.",
+      "invariants": [
+        "NexusCentral owns runs, routing, sandbox, tools, artifacts, approval, and cancellation.",
+        "Model availability does not imply task suitability.",
+        "Provider-native routing is experimental until parity is proven."
+      ],
+      "firstPass": "hold",
+      "reviewPass": "The authority and suitability checks preserve decision: hold.",
+      "reconciledResult": "hold",
+      "stability": "speculative",
+      "assumptions": [
+        "The researched interface remains available in the tested harness version."
+      ],
+      "uncertainty": "Medium to high until the adapter and installed version are tested.",
+      "repairRoute": "Resolve duplicate workspace and tool authority before integration."
+    }
+  ],
+  "reconciliation": {
+    "stableCount": 14,
+    "conditionalCount": 11,
+    "speculativeCount": 3,
+    "repairsAppliedToMatrix": [
+      "Added atomic-action leaves and stale-revision authority.",
+      "Separated public reachability, visibility, authorization, and support.",
+      "Made static Pages independent from same-origin Nexus Node APIs.",
+      "Restricted LFM2-350M from programming-heavy harnesses.",
+      "Required pre-output versus post-output fallback boundaries.",
+      "Kept requester context authoritative across provider failure.",
+      "Held provider-native harnesses until routing and tool-policy parity.",
+      "Kept OpenHands-like SDKs from owning duplicate workspace state.",
+      "Required deterministic replay before live harness proof."
+    ],
+    "decision": "candidate-ready-for-structural-validation"
+  }
+}

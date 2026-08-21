@@ -1,0 +1,56 @@
+{
+  "capsuleVersion": "1.0",
+  "matrixRevision": 8,
+  "mission": "Deliver one validated NexusCentral application from one source tree, with desktop and web runtime profiles, local-owned user state, routing-only shared model capacity, internal application APIs, and evidence-gated harness execution.",
+  "targetNode": "source.inventory.snapshot.branches",
+  "ancestorPath": [
+    "mission.nexuscentral.local-first",
+    "domain.source-authority",
+    "source.inventory",
+    "source.inventory.snapshot"
+  ],
+  "owner": "release-source-control",
+  "objective": "Capture local and remote branch heads and trees.",
+  "directDependencies": [
+    "source.inventory.snapshot.worktree"
+  ],
+  "acceptedEvidence": [
+    {
+      "class": "observed",
+      "ref": ".agent/goal-evidence/source-authority/worktree-snapshot-r4.json",
+      "claim": "The required worktree-snapshot dependency passed at matrix revision 7."
+    }
+  ],
+  "recentFailures": [],
+  "allowedReads": [
+    "Git refs, commit parent IDs, tree IDs, tracking configuration, worktree metadata, and public remote heads",
+    "Prior source-authority snapshot and matrix-control artifacts"
+  ],
+  "allowedWrites": [
+    ".agent/goal-matrix.json",
+    ".agent/goal-queue.json",
+    ".agent/goal-ledger.jsonl",
+    ".agent/goal-capsules/source.inventory.snapshot.branches-r8.json",
+    ".agent/goal-evidence/source-authority/branch-inventory-r8.json",
+    ".agent/goal-evidence/source-authority/sim-branch-inventory-r8.json"
+  ],
+  "exclusions": [
+    "No checkout, switch, fetch, pull, merge, rebase, cherry-pick, stash, reset, clean, push, or branch mutation",
+    "No source-content edits or blob reads",
+    "No credentials, deployment, publication, or external submission"
+  ],
+  "acceptanceGate": "Default branch, tracking state, commit graph, and tree equality are recorded.",
+  "oneFixPlan": "Record default branch, local and remote tracking state, commit topology, divergence, and tree equality.",
+  "route": {
+    "orchestrator": "nexus-goal-matrix-control-it",
+    "route": "nexus-goal-route-it",
+    "specialist": "read-only-git-ref-inspection"
+  },
+  "validationCommand": "Repeat ref, tree, and ls-remote observations and reject any mismatch.",
+  "approvalGate": "none-read-only",
+  "cancellationRule": "Stop before any Git mutation, on remote/auth failure, or when matrix state is stale.",
+  "versionPacket": null,
+  "featureId": "source.inventory.snapshot.branches",
+  "candidateSha": null,
+  "checksum": "sha256:9fafdcb2622061f45bcf58390139b548951a99f9f95feccea27ca0c1a27f8119"
+}

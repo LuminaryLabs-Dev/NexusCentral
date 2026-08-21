@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "nexuscentral.candidate-verification.v1",
+  "matrixRevision": 46,
+  "nodeId": "source.reconcile.transfer.verify",
+  "capturedAt": "2026-08-08T23:16:36.900Z",
+  "capsule": {
+    "ref": ".agent/goal-capsules/source.reconcile.transfer.verify-r46.json",
+    "checksum": "sha256:cbea33a8aefcc1963054efd51f9786b776b5b6be477f3d308bd981a392841f25"
+  },
+  "candidate": {
+    "identifier": "candidate-worktree:source-candidate-r36",
+    "branch": "agent/source-candidate-r36",
+    "baseCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "baseTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "manifestRef": ".agent/goal-evidence/source-authority/candidate-transfer-r42.json",
+    "manifestDigest": "sha256:8129020a9f6a19a214ca8729b59a3bf354357d3337ae81d1461797483eb52528",
+    "changedPathCount": 52,
+    "committed": false,
+    "pushed": false
+  },
+  "commands": [
+    {
+      "command": "npm ci",
+      "result": "pass",
+      "detail": "371 packages installed in the isolated candidate."
+    },
+    {
+      "command": "npm run check",
+      "result": "pass",
+      "detail": "Core graph checks and all workspace checks passed; the web static build completed."
+    },
+    {
+      "command": "npm run check:integration",
+      "result": "pass",
+      "detail": "Routing, approvals, recovery, sessions, workspace restore, libp2p, and PeerJS integration checks passed."
+    },
+    {
+      "command": "npm run check:scale",
+      "result": "pass",
+      "detail": "50 simulated nodes, 1,000 queued jobs, churn convergence, and deny-by-default checks passed."
+    },
+    {
+      "command": "npm run simulate",
+      "result": "fail-repaired",
+      "detail": "Initial run could not resolve the sibling NexusSimulator CLI from the isolated path."
+    },
+    {
+      "command": "NEXUS_SIMULATOR_CLI=<local-cli> npm run simulate",
+      "result": "pass",
+      "detail": "19/19 kit contracts and browser interaction proof passed with no simulator console errors."
+    },
+    {
+      "command": "npm run build",
+      "result": "pass",
+      "detail": "Shared web production build and Electron shell build passed."
+    },
+    {
+      "command": "tracked and candidate file secret scan",
+      "result": "pass",
+      "detail": "981 files scanned, six binary files skipped, and no key or token patterns found."
+    },
+    {
+      "command": "npm audit --audit-level=moderate",
+      "result": "fail",
+      "detail": "6 high-severity vulnerabilities remain and require a dedicated security dependency update."
+    }
+  ],
+  "humanView": {
+    "result": "partial-source-pass",
+    "desktop": {
+      "viewport": "1342x681",
+      "rendered": true
+    },
+    "mobile": {
+      "viewport": "390x844",
+      "rendered": true
+    },
+    "workflow": [
+      "Join workspace surface rendered",
+      "Device and pairing inputs were accessible",
+      "Join control enabled after valid-looking local input",
+      "No join request was submitted"
+    ],
+    "screenshots": [
+      "playwright-mcp:nexuscentral-source-candidate-r36-desktop.png",
+      "playwright-mcp:nexuscentral-source-candidate-r36-mobile.png"
+    ],
+    "console": {
+      "appErrors": [
+        "favicon.ico returned 404",
+        "Host command endpoint returned 404 without a connected Nexus node"
+      ],
+      "externalWarnings": "Browser-extension warnings observed and excluded from app ownership"
+    },
+    "routing": "Hostless API behavior routes to runtime-profile and public-web implementation; it does not invalidate source transfer."
+  },
+  "checks": {
+    "candidateBase": true,
+    "candidateScope": true,
+    "candidateManifest": true,
+    "diffCheck": true,
+    "remoteBranchAbsent": true,
+    "originalIndexSafe": true
+  },
+  "independentValidation": {
+    "capturedAt": "2026-08-08T23:19:38Z",
+    "result": "pass-with-routed-risk",
+    "commandResults": [
+      {
+        "id": "check",
+        "exitCode": 0,
+        "stdoutDigest": "sha256:3d5c0d5da3a85e0c2e41bb2c11015c67697e18395cf921b7aa879f0bcca58f3e"
+      },
+      {
+        "id": "integration",
+        "exitCode": 0,
+        "stdoutDigest": "sha256:cf0c1247a606ef0bd91af39443350eb54a71b2b6db548bae224e1b607eba8b29"
+      },
+      {
+        "id": "scale",
+        "exitCode": 0,
+        "stdoutDigest": "sha256:b31e4ced69ecf87af9e644fc382060f6afe9b2f450b7f74e35f1346fcc51dd83"
+      },
+      {
+        "id": "simulate",
+        "exitCode": 0,
+        "stdoutDigest": "sha256:296984d1c65f3d0b945b7d071f008aecd6cffcce8c8f40664e417db2befcc376"
+      },
+      {
+        "id": "build",
+        "exitCode": 0,
+        "stdoutDigest": "sha256:7ed1697ccef70d8efc105e43293f62d1bd3048350e799ccae632528289c7da8e"
+      }
+    ],
+    "candidatePathCount": 52,
+    "secretScanScope": "NexusCentral-V2 tracked and non-ignored candidate files",
+    "secretScanFileCount": 154,
+    "secretFindings": 0,
+    "audit": {
+      "exitCode": 1,
+      "high": 6,
+      "critical": 0,
+      "classification": "release-blocking routed risk"
+    },
+    "postCheckScopeExact": true,
+    "candidateBasePinned": true,
+    "remoteCandidateBranchAbsent": true
+  },
+  "risks": [
+    {
+      "id": "security.audit.high",
+      "owner": "domain.security",
+      "blocking": "release",
+      "detail": "npm audit reports 6 high-severity vulnerabilities; no automatic fix was applied."
+    },
+    {
+      "id": "public-web.hostless-api",
+      "owner": "domain.runtime-profiles",
+      "blocking": "public-web-production",
+      "detail": "The current default web entry probes a host command endpoint and receives 404 when no Nexus node is present."
+    },
+    {
+      "id": "public-web.favicon",
+      "owner": "domain.ui",
+      "blocking": "no",
+      "detail": "The development page requests a missing favicon."
+    }
+  ],
+  "rollback": {
+    "baseCommit": "a79c762f06b9c3e3987af2a1769a2f3a415920db",
+    "baseTree": "91e9fd28af33c5abb9180e30f9d3c0d2f84a104d",
+    "instruction": "Remove only candidate-worktree:source-candidate-r36 and local branch agent/source-candidate-r36. The original worktree and remote remain unchanged."
+  },
+  "approvalBoundary": {
+    "candidateValidation": "authorized",
+    "merge": "not-authorized",
+    "push": "not-authorized",
+    "publish": "not-authorized",
+    "deploy": "not-authorized",
+    "credentials": "not-authorized",
+    "liveProviders": "not-authorized",
+    "release": "not-authorized"
+  },
+  "acceptance": "Tree diff, tracked-file scan, and required checks match the approved candidate.",
+  "decision": "pass-with-routed-risks",
+  "nextAction": "Repeat the complete candidate verification, then prepare the exact merge-approval packet.",
+  "contentDigest": "sha256:df2080bca781c73220fb54ac3fab24ecdddf42915fd96f566a8fadad1503161b"
+}

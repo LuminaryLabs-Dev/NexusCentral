@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "nexuscentral.goal-simulation.v1",
+  "matrixRevision": 13,
+  "targetNode": "source.inventory.classify.durable",
+  "scenario": "A raw agent or browser artifact appears useful but contains private paths, model output, or credentials.",
+  "expectedOutcome": "Keep it unresolved or require sanitization; never transfer it automatically.",
+  "startingState": "Every pending path has an observed status and provisional owner.",
+  "injectedEvent": "A candidate contains a privacy or secret-risk signal.",
+  "invariants": [
+    "No file is deleted or moved.",
+    "Secret values are never copied into evidence.",
+    "Durability does not imply publication safety."
+  ],
+  "firstPass": "The candidate is retained locally and marked requiresSanitization or unresolved.",
+  "reviewPass": "Repeating classification preserves the file and still requires a separate sanitation gate.",
+  "reconciledResult": "Only owned, necessary, sanitized candidates may enter the future source transfer set.",
+  "stability": "stable",
+  "assumptions": [
+    "Path and bounded-content signals are conservative and may produce false positives."
+  ],
+  "uncertainty": "Raw model and browser artifacts still require the next classification leaf.",
+  "repairRoute": "Route ambiguous files to transient/unresolved classification without mutation.",
+  "simulationProofOnly": true
+}
