@@ -32,6 +32,9 @@
   darwin arm64, win32 x64, and linux x64;
 - packaged-node smoke validation that starts the embedded Nexus Node through the
   Electron executable and probes `/api/v1/capabilities`;
+- branch-based ESM runtime selection through `updates/update-registry.json`,
+  frozen semantic-version refs, a development `main` channel, Electron Settings
+  selection, bootstrap compatibility gates, and persisted active runtime state;
 - OS credential storage through macOS Keychain, Linux Secret Service, and
   Windows DPAPI CurrentUser encrypted blobs;
 - content-hashed SimSpace copies, Codex JSONL, validation logs, NexusSimulator
@@ -79,7 +82,10 @@ This section describes the executable gate. A target is only promoted to the Pro
   command surface.
 - Native V2 package smoke must pass on all four configured CI targets before
   cross-platform launch proof is considered complete.
-- Signing, installers, upgrade, and rollback remain pending.
+- The branch-based ESM runtime switcher is implemented but still requires native
+  packaged-device proof on each supported target.
+- Signing, native installers, full Electron/bootstrap automatic updates, and
+  end-to-end upgrade/rollback proof remain pending.
 - LAN TLS uses a generated development certificate unless an operator provides
   trusted certificate paths.
 - The 50-node result is an in-memory domain simulation, not 50 physical machines

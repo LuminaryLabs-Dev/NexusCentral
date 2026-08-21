@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "recommended": "0.1.0",
+  "channels": {
+    "stable": "0.1.0",
+    "preview": null,
+    "main": "main"
+  },
+  "versions": [
+    {
+      "version": "0.1.0",
+      "ref": "0.1.0",
+      "status": "stable",
+      "availability": "public",
+      "installable": true,
+      "recommended": true,
+      "runtime": {
+        "type": "esm",
+        "root": "NexusCentral-V2"
+      },
+      "platforms": [
+        "macos-arm64",
+        "macos-x64",
+        "windows-x64",
+        "linux-x64"
+      ],
+      "minimumBootstrap": "0.1.0"
+    },
+    {
+      "version": "main",
+      "ref": "main",
+      "status": "development",
+      "availability": "internal",
+      "installable": true,
+      "recommended": false,
+      "runtime": {
+        "type": "esm",
+        "root": "NexusCentral-V2"
+      },
+      "platforms": [
+        "macos-arm64",
+        "macos-x64",
+        "windows-x64",
+        "linux-x64"
+      ],
+      "minimumBootstrap": "0.1.0"
+    }
+  ]
+}

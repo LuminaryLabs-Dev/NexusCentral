@@ -6,11 +6,13 @@ on:
     paths:
       - "NexusCentral-V2/**"
       - "updates/nexuscentral-v2-targets.json"
+      - "updates/update-registry.json"
       - ".github/workflows/nexuscentral-v2-build.yml"
   pull_request:
     paths:
       - "NexusCentral-V2/**"
       - "updates/nexuscentral-v2-targets.json"
+      - "updates/update-registry.json"
       - ".github/workflows/nexuscentral-v2-build.yml"
   workflow_dispatch:
   workflow_call:

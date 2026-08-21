@@ -79,6 +79,30 @@ for (const [domainPath, apiName] of graph.apis.map((api) => [api.domainPath, api
 
 assert.throws(() => createEngine({ kits: [createCentralPolicyKit()] }), /requires missing token/);
 
+const updateRegistry = JSON.parse(readFileSync(resolve("../updates/update-registry.json"), "utf8"));
+assert.equal(updateRegistry.schemaVersion, 1);
+assert.equal(typeof updateRegistry.recommended, "string");
+assert.equal(Array.isArray(updateRegistry.versions), true);
+const versionRefs = new Set(updateRegistry.versions.map((entry) => entry.ref));
+assert.equal(versionRefs.size, updateRegistry.versions.length);
+assert.equal(versionRefs.has(updateRegistry.recommended), true);
+for (const ref of Object.values(updateRegistry.channels).filter(Boolean)) assert.equal(versionRefs.has(ref), true, `channel ref ${ref} must be registered`);
+for (const entry of updateRegistry.versions) {
+  assert.equal(entry.version, entry.ref);
+  assert.match(entry.ref, /^(main|\d+\.\d+\.\d+)$/);
+  assert.equal(["stable", "preview", "development", "retired"].includes(entry.status), true);
+  assert.equal(["public", "internal"].includes(entry.availability), true);
+  assert.equal(typeof entry.installable, "boolean");
+  assert.equal(entry.runtime?.type, "esm");
+  assert.equal(entry.runtime?.root, "NexusCentral-V2");
+  assert.equal(Array.isArray(entry.platforms) && entry.platforms.length > 0, true);
+  assert.match(entry.minimumBootstrap, /^\d+\.\d+\.\d+$/);
+}
+const recommendedVersion = updateRegistry.versions.find((entry) => entry.version === updateRegistry.recommended);
+assert.equal(recommendedVersion?.status, "stable");
+assert.equal(recommendedVersion?.availability, "public");
+assert.equal(recommendedVersion?.installable, true);
+
 const forbiddenImports = ["electron", "node:fs", "node:dgram", "node:http", "node:https", "node:child_process", "onnxruntime-node", "onnxruntime-web"];
 function sources(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => entry.isDirectory() ? sources(join(directory, entry.name)) : entry.name.endsWith(".mjs") ? [join(directory, entry.name)] : []);
@@ -88,4 +112,4 @@ for (const sourcePath of sources(resolve("kits"))) {
   for (const forbidden of forbiddenImports) assert.equal(source.includes(forbidden), false, `${sourcePath} imports forbidden host module ${forbidden}`);
 }
 
-console.log(JSON.stringify({ status: "passed", graphPaths: expectedPaths, domainCount: expectedPaths.length, denyByDefault: true, writerLease: true, hostRouting: true, orderedStreams: true, safeCodexFlags: true, browserSessionScopes: true, snapshotRoundTrip: true, forbiddenHostImports: false }, null, 2));
+console.log(JSON.stringify({ status: "passed", graphPaths: expectedPaths, domainCount: expectedPaths.length, denyByDefault: true, writerLease: true, hostRouting: true, orderedStreams: true, safeCodexFlags: true, browserSessionScopes: true, snapshotRoundTrip: true, versionRegistry: true, forbiddenHostImports: false }, null, 2));

@@ -142,6 +142,8 @@ function Settings({ client, state, refresh }) {
   const admin = state?.actor?.scopes?.includes("admin");
   return <Surface title="Settings" intro="Host access, connected browsers, and contributed compute.">
     {admin && <>
+      <VersionSettings />
+      <div className="divider" />
       <ServiceSettings client={client} service={state?.service} refresh={refresh} />
       <div className="divider" />
       <MeshSettings client={client} mesh={state?.peers} policy={state?.policy} refresh={refresh} />
@@ -155,6 +157,27 @@ function Settings({ client, state, refresh }) {
     <BrowserCompute client={client} refresh={refresh} />
     {admin && <><div className="divider" /><h3>Connected sessions</h3>{(state?.sessions?.sessions || []).length ? <div className="rows">{state.sessions.sessions.map((session) => <div className="row" key={session.id}><div><b>{session.clientName}</b><span>{session.scopes.join(" · ")}</span></div><button onClick={() => client.revokeSession(session.id).then(refresh)}>Revoke</button></div>)}</div> : <p className="muted">No paired browsers.</p>}</>}
   </Surface>;
+}
+
+function VersionSettings() {
+  const [catalog, setCatalog] = useState(null);
+  const [selected, setSelected] = useState("");
+  const [status, setStatus] = useState("");
+  const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    if (!window.nexusCentral?.getVersions) return;
+    window.nexusCentral.getVersions().then((value) => { setCatalog(value); setSelected(value.active || value.recommended); }).catch((error) => setStatus(error.message));
+  }, []);
+  if (typeof window === "undefined" || !window.nexusCentral?.getVersions) return null;
+  const entry = catalog?.versions?.find((item) => item.version === selected);
+  const install = async () => {
+    if (!entry) return;
+    setBusy(true);
+    setStatus(`${selected === "main" ? "Refreshing" : "Installing"} ${selected}...`);
+    try { await window.nexusCentral.installVersion(selected); setStatus("Restarting NexusCentral..."); }
+    catch (error) { setStatus(error.message); setBusy(false); }
+  };
+  return <div className="settings-row"><div><h3>NexusCentral version</h3><p>Install a registered ESM runtime from a frozen version branch or follow latest main.</p><span className="muted">{status || (catalog ? `Running ${catalog.active} · ${catalog.channel}` : "Loading registered versions...")}</span></div><div className="compact-action"><select className="compact-select" value={selected} onChange={(event) => setSelected(event.target.value)}>{(catalog?.versions || []).map((item) => <option key={item.version} value={item.version} disabled={!item.installable}>{item.version === "main" ? "Latest Main" : item.version} — {item.status}{item.recommended ? " · Recommended" : ""}</option>)}</select><button className="primary" disabled={busy || !catalog?.canInstall || !entry?.installable || (selected === catalog?.active && selected !== "main")} onClick={install}>{selected === "main" && selected === catalog?.active ? "Refresh" : "Install"}</button></div></div>;
 }
 
 function ServiceSettings({ client, service, refresh }) {

@@ -37,6 +37,23 @@ npm run smoke:packaged -- <platform> <arch>
 
 The package script rejects unknown platform/architecture values and no longer infers the requested artifact solely from the build host's `process.arch`.
 
+## Runtime Version Registry
+
+`updates/update-registry.json` is the desktop runtime authority. Electron reads that registry instead of enumerating arbitrary Git branches.
+
+The version contract follows NexusEngine's version-branch pattern:
+
+```text
+main   -> moving development runtime
+0.1.0  -> frozen usable runtime
+```
+
+Only refs present in the registry are offered by the desktop app. Version selection uses the human-readable branch ref directly; commit hashes are not part of the user-facing runtime contract.
+
+A registered runtime must declare `type: esm`, `root: NexusCentral-V2`, supported desktop targets, and the minimum compatible Electron bootstrap version. The Electron bootstrap downloads the selected branch archive and installs only the versioned ESM runtime surfaces (`adapters`, `kits`, `packages`, and `services`). It continues to use the packaged native dependencies and static web output, so a runtime that requires new native dependencies or a new desktop/web bootstrap must raise `minimumBootstrap` instead of mutating those bundled surfaces.
+
+The active selection is stored under Electron user data as `current.json` with the active version and channel. Stable versions remain frozen after publication. The `main` channel is development-only and refreshes its ESM runtime from the moving `main` branch when NexusCentral starts.
+
 ## Native Promotion Gate
 
 `.github/workflows/nexuscentral-v2-build.yml` is the V2 build gate. It must:
@@ -73,7 +90,7 @@ The previous Avalonia V1 release workflow is manual-only and is retained strictl
 
 ## Current Distribution Boundary
 
-Portable ZIP builds are the first deployment format. Signing, notarization, platform installers, and automatic updates remain later promotion gates. They must not block installing and validating unsigned prerelease packages on controlled test devices.
+Portable ZIP builds remain the first distribution format for the Electron bootstrap. Branch-based ESM runtime selection and refresh are now implemented inside the packaged desktop app. Signing, notarization, native installers, and automatic replacement of the Electron/bootstrap bundle remain later promotion gates.
 
 Before a public stable release, additionally require:
 
