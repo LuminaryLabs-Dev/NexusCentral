@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "activeVersionDir": "NexusCentral-V2",
+  "nodeVersion": "24",
+  "artifactRetentionDays": 14,
+  "targets": [
+    { "id": "win-x64", "runner": "windows-latest", "platform": "win32", "arch": "x64" },
+    { "id": "linux-x64", "runner": "ubuntu-latest", "platform": "linux", "arch": "x64" },
+    { "id": "macos-x64", "runner": "macos-15-intel", "platform": "darwin", "arch": "x64" },
+    { "id": "macos-arm64", "runner": "macos-15", "platform": "darwin", "arch": "arm64" }
+  ]
+}

@@ -1,41 +1,75 @@
 # NexusCentral
 
-NexusCentral is a local control plane. The active stable checkpoint is the Avalonia `NexusCentral-V1` lane. The Electron cutover proof lives in `NexusCentral-Electron`.
+NexusCentral V2 is the canonical active implementation on `main`. It is a local-first AI control plane built around a durable headless Nexus Node, a shared Next.js interface, and a thin Electron desktop shell that packages the Node runtime with the app.
 
-## Current Direction
-
-```text
-NexusCentral-V1
-|-- stable Avalonia checkpoint
-|-- workflow contract: Lab / Router / Models / Review / Settings
-
-NexusCentral-Electron
-|-- new web-first desktop shell proof
-|-- Lab coding loop: Review / Act / Audit
-|-- coding harness with workspace-scoped tools
-|-- desktop adapters for local model, harness, workspace, proof review, Rust sidecar
-```
-
-Do not retire `NexusCentral-V1` until the Electron lane proves local model calls, Conversation Harness execution, workspace browsing, validation proof review, Linux packaging, and Rust sidecar execution.
-
-## Downloads
-
-Public branch downloads are published by GitHub Actions to GitHub Pages:
-
-- Downloads page: https://luminarylabs-dev.github.io/NexusCentral/
-- Download index JSON: https://luminarylabs-dev.github.io/NexusCentral/downloads/index.json
-
-Each pushed branch keeps its latest successful build outputs under:
+## Active Product
 
 ```text
-downloads/<branch>/latest/
+NexusCentral-V2
+|-- Nexus Node          durable local service and source of truth
+|-- Next.js Web         shared desktop/LAN browser interface
+|-- Electron            packaged desktop host
+|-- CentralClient       direct / IPC / HTTP + WebSocket boundary
+|-- SQLite WAL          local state, jobs, events, recovery
+|-- Router + Models     local/cloud provider and model lifecycle
+|-- Harnesses           bounded coding/review execution
+|-- libp2p + PeerJS     trusted LAN and remote model routing
+`-- Packaging           macOS, Windows, Linux targets
 ```
 
-## Build And Release Automation
+Run locally with Node.js 24 or newer:
 
-- Branch build artifacts: `.github/workflows/nexuscentral-pages.yml`
-- CI artifacts: `.github/workflows/nexuscentral-build.yml`
-- GitHub Release artifacts: `.github/workflows/nexuscentral-release.yml`
-- Target matrix: `updates/release-targets.json`
+```bash
+cd NexusCentral-V2
+npm ci
+npm run build
+npm run dev
+```
 
-GitHub Pages must be configured to deploy from the `gh-pages` branch at `/`.
+Open `http://127.0.0.1:47800`, or launch the Electron shell with:
+
+```bash
+npm run start:electron
+```
+
+## Desktop Packaging
+
+V2 desktop packaging takes an explicit Electron platform and architecture:
+
+```bash
+npm run package:desktop -- darwin arm64
+npm run package:desktop -- darwin x64
+npm run package:desktop -- win32 x64
+npm run package:desktop -- linux x64
+```
+
+The packaged Electron executable starts the embedded Nexus Node when required. Users do not need a separate Node.js installation for the packaged app.
+
+Cross-platform targets and native CI are defined in `updates/nexuscentral-v2-targets.json` and `.github/workflows/nexuscentral-v2-build.yml`. Tagged V2 releases are handled by `.github/workflows/nexuscentral-v2-release.yml`.
+
+## Repository Lanes
+
+- `NexusCentral-V2/` — active product and deployment target.
+- `NexusCentral-V1/` — stable Avalonia rollback/reference lane; no new product development.
+- `NexusCentral-Electron/` — earlier Electron proof retained for feature/reference comparison.
+- `NexusCentral-V0/` — historical implementation reference.
+- `gh-pages` branch — generated download-site output only; never an application-development branch.
+
+Legacy V1 build/release configuration remains available for rollback validation but does not own V2 releases.
+
+## Validation
+
+From `NexusCentral-V2`:
+
+```bash
+npm run check
+npm run check:integration
+npm run check:scale
+npm run build
+npm run simulate:contracts
+npm run simulate:browser
+```
+
+Native CI additionally packages each supported desktop target, starts the embedded Nexus Node from the packaged Electron executable, probes `/api/v1/capabilities`, and validates Windows DPAPI secret storage on Windows.
+
+See `NexusCentral-V2/docs/00-START-HERE.md`, `12-IMPLEMENTATION-STATUS.md`, and `15-DESKTOP-DEPLOYMENT.md` for the current implementation contract and remaining promotion gates.

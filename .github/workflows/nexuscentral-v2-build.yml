@@ -1,0 +1,137 @@
+name: NexusCentral V2 Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "NexusCentral-V2/**"
+      - "updates/nexuscentral-v2-targets.json"
+      - ".github/workflows/nexuscentral-v2-build.yml"
+  pull_request:
+    paths:
+      - "NexusCentral-V2/**"
+      - "updates/nexuscentral-v2-targets.json"
+      - ".github/workflows/nexuscentral-v2-build.yml"
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  targets:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      node_version: ${{ steps.matrix.outputs.node_version }}
+      retention_days: ${{ steps.matrix.outputs.retention_days }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const config = JSON.parse(fs.readFileSync('updates/nexuscentral-v2-targets.json', 'utf8'));
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `matrix=${JSON.stringify({ include: config.targets })}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `node_version=${config.nodeVersion}\n`);
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `retention_days=${config.artifactRetentionDays}\n`);
+          NODE
+
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: NexusCentral-V2/package-lock.json
+      - name: Install
+        working-directory: NexusCentral-V2
+        run: npm ci
+      - name: Static and domain checks
+        working-directory: NexusCentral-V2
+        run: npm run check
+      - name: Integration checks
+        working-directory: NexusCentral-V2
+        run: npm run check:integration
+      - name: Scale checks
+        working-directory: NexusCentral-V2
+        run: npm run check:scale
+      - name: Build shared web and Electron assets
+        working-directory: NexusCentral-V2
+        run: npm run build
+      - name: Contract simulator
+        working-directory: NexusCentral-V2
+        run: npm run simulate:contracts
+      - name: Browser simulator
+        working-directory: NexusCentral-V2
+        run: npm run simulate:browser
+      - name: Dependency audit (high severity gate)
+        working-directory: NexusCentral-V2
+        run: npm audit --audit-level=high
+
+  package:
+    needs: [targets, validate]
+    name: ${{ matrix.id }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.targets.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ needs.targets.outputs.node_version }}
+          cache: npm
+          cache-dependency-path: NexusCentral-V2/package-lock.json
+      - name: Install
+        working-directory: NexusCentral-V2
+        run: npm ci
+      - name: Build
+        working-directory: NexusCentral-V2
+        run: npm run build
+      - name: Package Electron + embedded Nexus Node
+        working-directory: NexusCentral-V2
+        run: npm run package:desktop -- ${{ matrix.platform }} ${{ matrix.arch }}
+      - name: Smoke packaged Nexus Node
+        working-directory: NexusCentral-V2
+        run: npm run smoke:packaged -- ${{ matrix.platform }} ${{ matrix.arch }}
+      - name: Validate Windows DPAPI secret storage
+        if: runner.os == 'Windows'
+        working-directory: NexusCentral-V2
+        run: npm run check:secret-store
+      - name: Archive macOS bundle
+        if: runner.os == 'macOS'
+        shell: bash
+        working-directory: NexusCentral-V2
+        run: |
+          archive="release/nexuscentral-v2-${{ matrix.id }}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "release/NexusCentral-${{ matrix.platform }}-${{ matrix.arch }}" "$archive"
+          shasum -a 256 "$archive" | awk '{print $1 "  " $2}' > "$archive.sha256"
+      - name: Archive Linux bundle
+        if: runner.os == 'Linux'
+        shell: bash
+        working-directory: NexusCentral-V2
+        run: |
+          cd release
+          zip -qry "nexuscentral-v2-${{ matrix.id }}.zip" "NexusCentral-${{ matrix.platform }}-${{ matrix.arch }}"
+          sha256sum "nexuscentral-v2-${{ matrix.id }}.zip" > "nexuscentral-v2-${{ matrix.id }}.zip.sha256"
+      - name: Archive Windows bundle
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: NexusCentral-V2
+        run: |
+          $archive = "release/nexuscentral-v2-${{ matrix.id }}.zip"
+          Compress-Archive -Path "release/NexusCentral-${{ matrix.platform }}-${{ matrix.arch }}" -DestinationPath $archive -Force
+          $hash = (Get-FileHash $archive -Algorithm SHA256).Hash.ToLower()
+          "$hash  nexuscentral-v2-${{ matrix.id }}.zip" | Set-Content "$archive.sha256" -NoNewline
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexuscentral-v2-${{ matrix.id }}
+          path: |
+            NexusCentral-V2/release/nexuscentral-v2-${{ matrix.id }}.zip
+            NexusCentral-V2/release/nexuscentral-v2-${{ matrix.id }}.zip.sha256
+          if-no-files-found: error
+          retention-days: ${{ needs.targets.outputs.retention_days }}

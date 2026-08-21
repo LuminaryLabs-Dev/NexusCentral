@@ -1,24 +1,24 @@
-name: NexusCentral Build
+name: NexusCentral Legacy V1 Build
 
 on:
   push:
     branches:
       - "**"
     paths:
-      - ".github/scripts/**"
-      - ".github/workflows/**"
+      - ".github/scripts/discover-nexuscentral.ps1"
+      - ".github/scripts/publish-nexuscentral.ps1"
       - "global.json"
-      - "updates/**"
+      - "updates/release-targets.json"
       - "packages/**"
-      - "NexusCentral-V*/**"
+      - "NexusCentral-V1/**"
   pull_request:
     paths:
-      - ".github/scripts/**"
-      - ".github/workflows/**"
+      - ".github/scripts/discover-nexuscentral.ps1"
+      - ".github/scripts/publish-nexuscentral.ps1"
       - "global.json"
-      - "updates/**"
+      - "updates/release-targets.json"
       - "packages/**"
-      - "NexusCentral-V*/**"
+      - "NexusCentral-V1/**"
   workflow_dispatch:
 
 permissions:
@@ -37,7 +37,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Discover version lanes and targets
         id: discover
         shell: pwsh
@@ -55,12 +54,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ needs.discover.outputs.dotnet_sdk }}
-
       - name: Publish target
         shell: pwsh
         run: >
@@ -69,7 +66,6 @@ jobs:
           -Runtime "${{ matrix.target.rid }}"
           -Configuration "${{ needs.discover.outputs.configuration }}"
           -SelfContained $${{ needs.discover.outputs.self_contained }}
-
       - name: Upload archive
         uses: actions/upload-artifact@v4
         with:

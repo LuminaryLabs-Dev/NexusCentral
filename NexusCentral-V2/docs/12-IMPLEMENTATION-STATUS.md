@@ -28,6 +28,12 @@
 - browser ONNX import, hashing, local smoke, WebGPU/WASM selection, Web Worker
   tensor execution, heartbeat, cancellation, and host queue registration;
 - dry-run/apply migration and macOS/Linux/Windows packaging assembly scripts;
+- explicit desktop package platform/architecture selection for darwin x64,
+  darwin arm64, win32 x64, and linux x64;
+- packaged-node smoke validation that starts the embedded Nexus Node through the
+  Electron executable and probes `/api/v1/capabilities`;
+- OS credential storage through macOS Keychain, Linux Secret Service, and
+  Windows DPAPI CurrentUser encrypted blobs;
 - content-hashed SimSpace copies, Codex JSONL, validation logs, NexusSimulator
   evidence, binary diffs, bounded repair, and separate approve/apply commands.
 
@@ -45,6 +51,12 @@ live Codex: Review-only and Coding profiles, gpt-5.4, npm validation
 NexusSimulator: report, before/after screenshots, Playwright trace, and WebM retained
 promotion: source unchanged until separate approve and apply commands
 ```
+
+## Deployment Validation Added
+
+`.github/workflows/nexuscentral-v2-build.yml` now defines native V2 package gates for Windows x64, Linux x64, macOS Intel, and macOS Apple Silicon. Each target must build V2, package Electron with the embedded Nexus Node, start the packaged Node runtime, probe `/api/v1/capabilities`, archive the result, and publish a SHA-256 sidecar. Windows additionally runs a real DPAPI set/get/delete round trip.
+
+This section describes the executable gate. A target is only promoted to the Proven section after a successful workflow run on that target.
 
 ## Not Promoted
 
@@ -65,17 +77,17 @@ promotion: source unchanged until separate approve and apply commands
 - Source diff application requires explicit approve and apply commands. Commit,
   push, deploy, credentials, and external submission still have no approved
   command surface.
-- Linux and Windows bundles assemble on macOS but have not been launched on those
-  operating systems. Signing, installers, upgrade, and rollback remain pending.
-- Windows secure credential storage is not implemented. LAN TLS uses a generated
-  development certificate unless an operator provides trusted certificate paths.
+- Native V2 package smoke must pass on all four configured CI targets before
+  cross-platform launch proof is considered complete.
+- Signing, installers, upgrade, and rollback remain pending.
+- LAN TLS uses a generated development certificate unless an operator provides
+  trusted certificate paths.
 - The 50-node result is an in-memory domain simulation, not 50 physical machines
   or bounded live mDNS traffic proof.
 - `npm audit` reports two moderate PostCSS findings through the latest stable
   Next.js 16.2.10 dependency. Do not use the suggested forced Next.js downgrade.
 
-These items keep `goal.md` active and block an enterprise/open-source release
-claim. V1 and the existing Electron paths remain rollback references.
+These items keep `goal.md` active and block an enterprise/open-source stable release claim. V1 and the existing Electron path remain rollback references.
 
 ## Validation Commands
 
@@ -84,9 +96,13 @@ npm run check
 npm run check:integration
 npm run check:scale
 npm run simulate
+npm run check:secret-store
 npm run check:lm-studio
 npm run check:harness-live
 npm audit --audit-level=moderate
 npm run migrate:electron
-npm run package:desktop -- darwin
+npm run package:desktop -- darwin arm64
+npm run smoke:packaged -- darwin arm64
 ```
+
+See `15-DESKTOP-DEPLOYMENT.md` for the complete native package matrix and promotion gate.

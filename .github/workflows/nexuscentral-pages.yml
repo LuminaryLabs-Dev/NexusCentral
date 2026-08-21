@@ -1,16 +1,17 @@
-name: NexusCentral Pages Downloads
+name: NexusCentral Legacy V1 Pages Downloads
 
 on:
   push:
     branches:
       - "**"
     paths:
-      - ".github/scripts/**"
-      - ".github/workflows/**"
+      - ".github/scripts/discover-nexuscentral.ps1"
+      - ".github/scripts/publish-nexuscentral.ps1"
+      - ".github/scripts/update_pages_downloads.py"
       - "global.json"
-      - "updates/**"
+      - "updates/release-targets.json"
       - "packages/**"
-      - "NexusCentral-V*/**"
+      - "NexusCentral-V1/**"
   workflow_dispatch:
 
 permissions:
@@ -32,9 +33,7 @@ jobs:
       self_contained: ${{ steps.discover.outputs.self_contained }}
       artifact_retention_days: ${{ steps.discover.outputs.artifact_retention_days }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Discover version lanes and targets
         id: discover
         shell: pwsh
@@ -51,14 +50,10 @@ jobs:
         version_dir: ${{ fromJson(needs.discover.outputs.version_dirs) }}
         target: ${{ fromJson(needs.discover.outputs.targets) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ needs.discover.outputs.dotnet_sdk }}
-
       - name: Publish target
         shell: pwsh
         run: >
@@ -67,9 +62,7 @@ jobs:
           -Runtime "${{ matrix.target.rid }}"
           -Configuration "${{ needs.discover.outputs.configuration }}"
           -SelfContained $${{ needs.discover.outputs.self_contained }}
-
-      - name: Upload Pages download payload
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: pages-${{ matrix.version_dir }}-${{ matrix.target.rid }}
           path: |
@@ -79,9 +72,7 @@ jobs:
           retention-days: ${{ needs.discover.outputs.artifact_retention_days }}
 
   publish-pages:
-    needs:
-      - discover
-      - build
+    needs: [discover, build]
     if: github.ref_name != 'gh-pages'
     runs-on: ubuntu-latest
     steps:
@@ -89,12 +80,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: source
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           path: pages-artifacts
-
       - name: Checkout Pages branch
         shell: bash
         env:
@@ -105,19 +93,12 @@ jobs:
           cd pages-worktree
           git init
           git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          if git fetch --depth=1 origin gh-pages; then
-            git checkout gh-pages
-          else
-            git checkout --orphan gh-pages
-            git rm -rf . >/dev/null 2>&1 || true
-          fi
+          if git fetch --depth=1 origin gh-pages; then git checkout gh-pages; else git checkout --orphan gh-pages; git rm -rf . >/dev/null 2>&1 || true; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
       - name: Update downloads site
         shell: bash
         run: |
-          set -euo pipefail
           python3 source/.github/scripts/update_pages_downloads.py \
             --site-dir pages-worktree \
             --artifact-dir pages-artifacts \
@@ -127,16 +108,11 @@ jobs:
             --run-number "${GITHUB_RUN_NUMBER}" \
             --repository "${GITHUB_REPOSITORY}" \
             --workflow-name "${GITHUB_WORKFLOW}"
-
       - name: Publish Pages branch
         shell: bash
         run: |
-          set -euo pipefail
           cd pages-worktree
           git add .
-          if git diff --cached --quiet; then
-            echo "No Pages changes to publish."
-            exit 0
-          fi
-          git commit -m "Update NexusCentral downloads for ${GITHUB_REF_NAME}"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Update legacy NexusCentral V1 downloads for ${GITHUB_REF_NAME}"
           git push origin gh-pages

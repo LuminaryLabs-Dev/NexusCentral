@@ -1,13 +1,10 @@
-name: NexusCentral Release
+name: NexusCentral Legacy V1 Release
 
 on:
-  push:
-    tags:
-      - "v*"
   workflow_dispatch:
     inputs:
       release_tag:
-        description: "Release tag to create or update, for example v0.1.0"
+        description: "Legacy V1 release tag, for example v0.1.0-v1"
         required: true
         type: string
       prerelease:
@@ -34,20 +31,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Resolve release tag
         id: release
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            tag="${{ inputs.release_tag }}"
-          else
-            tag="${GITHUB_REF_NAME}"
-          fi
+          tag="${{ inputs.release_tag }}"
           version="${tag#v}"
           echo "release_tag=${tag}" >> "$GITHUB_OUTPUT"
           echo "release_version=${version}" >> "$GITHUB_OUTPUT"
-
       - name: Discover version lanes and targets
         id: discover
         shell: pwsh
@@ -63,14 +54,10 @@ jobs:
         version_dir: ${{ fromJson(needs.discover.outputs.version_dirs) }}
         target: ${{ fromJson(needs.discover.outputs.targets) }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ needs.discover.outputs.dotnet_sdk }}
-
       - name: Publish target
         shell: pwsh
         env:
@@ -81,9 +68,7 @@ jobs:
           -Runtime "${{ matrix.target.rid }}"
           -Configuration "${{ needs.discover.outputs.configuration }}"
           -SelfContained $${{ needs.discover.outputs.self_contained }}
-
-      - name: Upload archive
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: nexuscentral-${{ matrix.version_dir }}-${{ matrix.target.rid }}
           path: |
@@ -93,55 +78,23 @@ jobs:
           retention-days: ${{ needs.discover.outputs.artifact_retention_days }}
 
   release:
-    needs:
-      - discover
-      - build
+    needs: [discover, build]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
         with:
           path: release-artifacts
-
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ needs.discover.outputs.release_tag }}
-          RELEASE_VERSION: ${{ needs.discover.outputs.release_version }}
-          PRERELEASE: ${{ github.event_name == 'workflow_dispatch' && inputs.prerelease || false }}
+          PRERELEASE: ${{ inputs.prerelease }}
         shell: bash
         run: |
           set -euo pipefail
-          find release-artifacts -type f | sort
           mapfile -d '' release_files < <(find release-artifacts -type f \( -name '*.zip' -o -name '*.size.json' \) -print0 | sort -z)
-          if [ "${#release_files[@]}" -eq 0 ]; then
-            echo "No release files found."
-            exit 1
-          fi
-
-          notes_file="$(mktemp)"
-          {
-            echo "NexusCentral ${RELEASE_TAG}"
-            echo
-            echo "Builds are produced from the buildable NexusCentral-V* lanes and targets in updates/release-targets.json."
-            echo
-            echo "Artifacts:"
-            find release-artifacts -type f \( -name '*.zip' -o -name '*.size.json' \) -printf "- %f\n" | sort
-          } > "$notes_file"
-
-          prerelease_args=()
-          if [ "$PRERELEASE" = "true" ]; then
-            prerelease_args+=(--prerelease)
-          fi
-
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" "${release_files[@]}" --clobber
-          else
-            gh release create "$RELEASE_TAG" "${release_files[@]}" \
-              --title "NexusCentral ${RELEASE_TAG}" \
-              --notes-file "$notes_file" \
-              "${prerelease_args[@]}"
-          fi
+          test "${#release_files[@]}" -gt 0
+          args=("$RELEASE_TAG" "${release_files[@]}" --title "NexusCentral V1 $RELEASE_TAG" --generate-notes)
+          if [ "$PRERELEASE" = "true" ]; then args+=(--prerelease); fi
+          gh release create "${args[@]}"

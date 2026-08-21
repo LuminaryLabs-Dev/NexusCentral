@@ -2,12 +2,9 @@
 
 ## Authority
 
-These documents are the V2 implementation contract. When chat history, old
-screenshots, stale build output, or older plans conflict with this folder, this
-folder wins unless the user explicitly changes the goal.
+These documents are the V2 implementation contract. When chat history, old screenshots, stale build output, or older plans conflict with this folder, this folder wins unless the user explicitly changes the goal.
 
-NexusEngine itself remains an external read-only dependency. V2 follows the
-current NexusEngine rules:
+NexusEngine itself remains an external read-only dependency. V2 follows the current NexusEngine rules:
 
 - bootstrap remains small;
 - DSKs own reusable meaning, state, services, snapshots, and reset behavior;
@@ -22,8 +19,7 @@ Primary upstream references:
 - https://github.com/LuminaryLabs-Dev/NexusEngine/blob/main/docs/DOMAIN-ADDRESSABILITY.md
 - https://github.com/LuminaryLabs-Dev/NexusEngine/blob/main/docs/protokit-boundaries.md
 
-Pin an exact compatible NexusEngine package version or commit before runtime
-implementation begins. Do not float against `main` during a proof phase.
+Pin an exact compatible NexusEngine package version or commit before runtime implementation begins. Do not float against `main` during a proof phase.
 
 ## Reading Order
 
@@ -41,6 +37,8 @@ implementation begins. Do not float against `main` during a proof phase.
 12. `12-IMPLEMENTATION-STATUS.md`
 13. `13-HARNESS-EXPERIMENTS.md`
 14. `14-PROVIDERS-AND-PEERJS-ROOMS.md`
+15. `15-DESKTOP-DEPLOYMENT.md`
+16. `16-LEGACY-LANE-AUDIT.md`
 
 ## Source Hierarchy
 
@@ -54,6 +52,6 @@ V2 docs and goal
 
 ## Completion Rule
 
-V2 is complete only when the shared UI, Electron shell, headless node, LAN host,
-mesh, provider/model routing, harness execution, proof review, persistence
-migration, and packaging gates all have executable evidence.
+V2 is complete only when the shared UI, Electron shell, headless node, LAN host, mesh, provider/model routing, harness execution, proof review, persistence migration, and packaging gates all have executable evidence.
+
+For desktop deployment specifically, a generated package is not enough: each supported operating-system/architecture target must launch the embedded Nexus Node and pass the packaged `/api/v1/capabilities` smoke gate on its native CI runner.
