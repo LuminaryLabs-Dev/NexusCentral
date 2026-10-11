@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CentralClient, ElectronIpcTransport, HttpTransport } from "@nexuscentral/central-client";
 
-const tabs = ["Lab", "Router", "Models", "Review", "Settings"];
+import Workbench from "./workbench.jsx";
+import "./workbench.css";
 const providerDefaults = {
   "lm-studio": ["LM Studio", "http://127.0.0.1:1234/v1"], ollama: ["Ollama", "http://127.0.0.1:11434/v1"], llamacpp: ["llama.cpp", "http://127.0.0.1:8080/v1"], vllm: ["vLLM", "http://127.0.0.1:8000/v1"], localai: ["LocalAI", "http://127.0.0.1:8080/v1"],
   openrouter: ["OpenRouter", "https://openrouter.ai/api/v1"], openai: ["OpenAI", "https://api.openai.com/v1"], google: ["Google Gemini", "https://generativelanguage.googleapis.com/v1beta/openai"], "google-native": ["Google Gemini native", "https://generativelanguage.googleapis.com/v1beta"], vertex: ["Google Vertex AI", ""],
@@ -23,7 +24,7 @@ function useCentral() {
     let unsubscribe = () => {};
     refresh().then((authorized) => {
       if (!active || !authorized) return;
-      unsubscribe = client.subscribe((event) => { if ((event.type === "state.changed" && event.data?.command !== "system.state") || event.type.startsWith("job.") || event.type.startsWith("experiment.")) refresh(); });
+      unsubscribe = client.subscribe((event) => { if ((event.type === "state.changed" && event.data?.command !== "system.state") || event.type.startsWith("job.") || event.type.startsWith("experiment.") || event.type.startsWith("workflow.")) refresh(); });
     });
     return () => { active = false; unsubscribe(); };
   }, []);
@@ -32,17 +33,13 @@ function useCentral() {
 
 export default function Home() {
   const { client, state, error, refresh } = useCentral();
-  const [tab, setTab] = useState("Lab");
   if (!state && error) return <PairScreen />;
-  return <main>
-    <header><strong>NexusCentral</strong><span>shared local workbench</span><nav>{tabs.map((name) => <button key={name} className={tab === name ? "active" : ""} onClick={() => setTab(name)}>{name}</button>)}</nav></header>
-    {error && <div className="notice error">{error}</div>}
-    {tab === "Lab" && <Lab client={client} state={state} refresh={refresh} />}
-    {tab === "Router" && <Router client={client} state={state} refresh={refresh} />}
-    {tab === "Models" && <Models client={client} state={state} refresh={refresh} />}
-    {tab === "Review" && <Review client={client} state={state} refresh={refresh} />}
-    {tab === "Settings" && <Settings client={client} state={state} refresh={refresh} />}
-  </main>;
+  return <Workbench client={client} state={state} refresh={refresh} advanced={<>
+    <details className="wb-advanced"><summary>AI connections</summary><Router client={client} state={state} refresh={refresh}/></details>
+    <details className="wb-advanced"><summary>Models</summary><Models client={client} state={state} refresh={refresh}/></details>
+    <details className="wb-advanced"><summary>Devices, access, and runtime</summary><Settings client={client} state={state} refresh={refresh}/></details>
+    <details className="wb-advanced"><summary>Existing coding experiments</summary><Lab client={client} state={state} refresh={refresh}/><Review client={client} state={state} refresh={refresh}/></details>
+  </>}/>;
 }
 
 function PairScreen() {

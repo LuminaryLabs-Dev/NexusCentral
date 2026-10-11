@@ -17,6 +17,7 @@ mkdirSync(destination, { recursive: true });
 cpSync(source, destination, { recursive: true });
 cpSync(resolve(root, "kits"), resolve(destination, "kits"), { recursive: true });
 cpSync(resolve(root, "packages/composition"), resolve(destination, "packages/composition"), { recursive: true });
+cpSync(resolve(root, "packages/workflows"), resolve(destination, "packages/workflows"), { recursive: true });
 cpSync(nexusEngineSource, resolve(destination, "vendor/nexusengine"), { recursive: true });
 
 console.log(`Prepared NexusSimulator browser proof at ${destination}`);

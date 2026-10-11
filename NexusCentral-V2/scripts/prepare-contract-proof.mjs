@@ -12,6 +12,7 @@ const requires = {
   "n:central:workspace-transfer": ["n:central:workspace", "n:central:artifacts", "n:central:jobs", "n:central:policy"], "n:central:proof": ["n:central:jobs", "n:central:artifacts", "n:central:audit"],
   "n:central:lab": ["n:central:workspace", "n:central:harnesses", "n:central:jobs", "n:central:proof"],
   "n:central:experiments": ["n:central:harnesses", "n:central:workspace", "n:central:jobs", "n:central:proof", "n:central:audit"],
+  "n:central:workflows": ["n:central:jobs", "n:central:artifacts", "n:central:audit"],
   "n:central:lan-access": ["n:central:node", "n:central:policy", "n:central:audit"]
 };
 

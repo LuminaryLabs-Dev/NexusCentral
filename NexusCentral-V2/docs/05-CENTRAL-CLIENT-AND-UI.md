@@ -1,5 +1,19 @@
 # CentralClient And Shared UI
 
+## Current interaction contract
+
+Primary navigation is Home, Workflows, Apps, and Activity. Settings contains
+existing provider/model/device controls and prior coding experiments. Blocks show
+one action and one Configure control; configuration and tool implementation details
+are outside the canvas. See `17-AUTOMATION-WORKBENCH.md` for current behavior.
+
+New commands: `workflows.list`, `workflows.save`, `workflows.remove`,
+`workflows.start`, `workflows.pause`, `workflows.resume`, `workflows.cancel`,
+`workflows.approve`, `workflows.clean`, and `apps.configure`.
+
+The following Lab-era layout is retained as migration context; its visual rule is
+superseded by the current workbench contract.
+
 ## One UI Rule
 
 There is one product UI. Electron and LAN hosting use different transports to

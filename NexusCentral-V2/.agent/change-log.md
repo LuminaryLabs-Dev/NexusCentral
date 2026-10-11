@@ -8,3 +8,5 @@
 - 2026-07-22T21:45:26Z: Locked transport-neutral FIFO job claiming across direct, LAN mesh, and PeerJS providers with atomic leases and safe requeue.
 - 2026-07-23T22:48:20Z: Made NexusCentral the crash-safe authority for canonical context and memory while treating model and harness output as untrusted until validated.
 - 2026-07-23T22:57:44Z: Tightened the guided intake format to shorter questions and choices with only the key long-term tradeoff.
+
+- 2026-10-11: Implemented the authorized visual workflow foundation on main: service-owned workflow state, one-action/Configure blocks, Linux restricted built-ins, operations reporting, durable review, and desktop/mobile proof. Supersedes the July UI intake navigation. See docs/17-AUTOMATION-WORKBENCH.md for remaining integration work; external agents and live Framework connectors are not yet enabled.

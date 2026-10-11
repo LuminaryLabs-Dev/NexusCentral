@@ -102,7 +102,7 @@ export class LanServer {
       const context = this.context(request); this.node.requireScope(context, "view");
       try {
         const id = decodeURIComponent(url.pathname.slice("/api/v1/artifacts/".length));
-        const file = this.node.artifactFile(id);
+        const file = this.node.artifactFile(id, context);
         response.writeHead(200, { "Content-Type": file.mediaType, "Content-Length": file.size, "Content-Disposition": `attachment; filename="${basename(file.path).replaceAll('"', "")}"`, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" });
         return createReadStream(file.path).pipe(response);
       } catch (error) { return json(response, 404, { ok: false, error: { code: "NOT_FOUND", message: error.message } }); }

@@ -2,10 +2,14 @@
   "name": "@nexuscentral/web",
   "version": "0.1.0",
   "private": true,
-  "scripts": { "dev": "next dev", "build": "next build", "check": "next build" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "check": "next build"
+  },
   "dependencies": {
     "@nexuscentral/central-client": "*",
-    "next": "16.2.10",
+    "next": "16.4.0",
     "onnxruntime-web": "1.27.0",
     "react": "19.2.7",
     "react-dom": "19.2.7"

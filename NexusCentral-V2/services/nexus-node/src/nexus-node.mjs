@@ -1,3 +1,4 @@
+import { WorkflowCoordinator } from './workflows/coordinator.mjs';
 import { EventEmitter } from "node:events";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { dirname, join, relative, resolve } from "node:path";
@@ -7,7 +8,7 @@ import { createCentralRuntime, getCentralGraphSnapshot } from "../../../packages
 import { RunCoordinator } from "./run-coordinator.mjs";
 
 const SNAPSHOT_APIS = {
-  "n:central": "central", "n:central:node": "centralNode", "n:central:audit": "centralAudit", "n:central:policy": "centralPolicy",
+  "n:central:workflows": "centralWorkflows", "n:central": "central", "n:central:node": "centralNode", "n:central:audit": "centralAudit", "n:central:policy": "centralPolicy",
   "n:central:workspace": "centralWorkspace", "n:central:artifacts": "centralArtifacts", "n:central:providers": "centralProviders",
   "n:central:model-catalog": "centralModelCatalog", "n:central:model-runtime": "centralModelRuntime", "n:central:mesh-membership": "centralMeshMembership",
   "n:central:routing": "centralRouting", "n:central:harnesses": "centralHarnesses", "n:central:jobs": "centralJobs",
@@ -41,6 +42,7 @@ export class NexusNode extends EventEmitter {
     this.filesystem = new FilesystemWorkspaceAdapter();
     this.restore();
     this.runCoordinator = new RunCoordinator(this);
+    this.workflowCoordinator = new WorkflowCoordinator(this);
     this.#indexRetainedArtifacts();
     this.mesh = meshCoordinator || new MeshTransportCoordinator({
       lan: new Libp2pMeshAdapter({ secretStore: this.secretStore }),
@@ -65,7 +67,7 @@ export class NexusNode extends EventEmitter {
     }
     this.engine.n.centralJobs.recoverRunning({ requestId: `restore:${this.now()}` });
     this.engine.n.centralExperiments.recoverRunning({ error: "Nexus Node stopped during the experiment. Evidence was retained.", requestId: `experiment-restore:${this.now()}` });
-    for (const job of this.engine.n.centralJobs.getSnapshot().jobs.filter((item) => item.status === "retry" && item.kind !== "inference")) {
+    for (const job of this.engine.n.centralJobs.getSnapshot().jobs.filter((item) => item.status === "retry" && item.kind !== "inference" && item.kind !== "workflow")) {
       const run = this.engine.n.centralExperiments.getSnapshot().experiments.find((item) => item.id === job.id);
       this.engine.n.centralJobs.finish({ id: job.id, status: "failed", error: run?.error || "Nexus Node stopped during this run. Retained evidence is available for a new run.", at: this.now(), requestId: `non-replayable-job-restore:${job.id}:${this.now()}` });
     }
@@ -83,11 +85,11 @@ export class NexusNode extends EventEmitter {
   }
 
   persist() {
-    for (const [domainPath, apiName] of Object.entries(SNAPSHOT_APIS)) this.store.save(domainPath, this.engine.n[apiName].getSnapshot());
+    this.store.saveAll(Object.entries(SNAPSHOT_APIS).map(([domainPath, apiName]) => [domainPath, this.engine.n[apiName].getSnapshot()]));
   }
 
   capabilities() {
-    return { apiVersion: 1, product: "Nexus Central Web", contextLength: DEFAULT_CONTEXT_LENGTH, surfaces: ["lab", "router", "models", "review", "settings"], inferenceRoutes: ["provider", "local-runtime", "remote-peer", "browser-onnx"], runStatuses: RUN_STATUSES, harnessExecutors: ["direct-inference", "codex-cli"], codexGateway: "/v1/chat/completions", meshTransports: ["lan", "peerjs"], browserOnnxTasks: ["tensor"], hostAuthoritative: true };
+    return { apiVersion: 1, product: "Nexus Central Web", contextLength: DEFAULT_CONTEXT_LENGTH, surfaces: ["home", "workflows", "apps", "activity", "settings"], inferenceRoutes: ["provider", "local-runtime", "remote-peer", "browser-onnx"], runStatuses: RUN_STATUSES, harnessExecutors: ["direct-inference", "codex-cli"], codexGateway: "/v1/chat/completions", meshTransports: ["lan", "peerjs"], browserOnnxTasks: ["tensor"], hostAuthoritative: true };
   }
 
   publicState(context = { actorId: "anonymous", scopes: [] }) {
@@ -104,7 +106,7 @@ export class NexusNode extends EventEmitter {
       .filter((session) => admin || session.id === context.actorId)
       .map(({ id, ...session }) => admin ? { id, ...session } : session);
     return {
-      capabilities: this.capabilities(), graph: graph.paths, workspace: graph.workspace,
+      workflows: this.workflowCoordinator.state(), capabilities: this.capabilities(), graph: graph.paths, workspace: graph.workspace,
       providers: { ...graph.providers, profiles }, models: graph.modelCatalog, runtimes: { ...graph.modelRuntime, runtimes },
       peers, harnesses: { ...harnessState, profiles: harnessProfiles }, jobs,
       runs: { runs: this.runCoordinator.list() }, artifacts: graph.artifacts, audit, policy: admin ? graph.policy : { defaultDecision: graph.policy.defaultDecision }, routing: graph.routing, proof: graph.proof, lab: graph.lab, experiments: graph.experiments, service: this.serviceManager.status(), sessions: { sessions }
@@ -121,6 +123,8 @@ export class NexusNode extends EventEmitter {
     const payload = { ...envelope.payload, requestId: envelope.idempotencyKey };
     let result;
     try { switch (envelope.command) {
+      case "workflows.list": case "workflows.save": case "workflows.remove": case "workflows.start": case "workflows.pause": case "workflows.resume": case "workflows.cancel": case "workflows.approve": case "workflows.clean": case "apps.configure":
+        result = await this.workflowCoordinator.command(envelope.command, payload, context); break;
       case "system.state": this.requireScope(context, "view"); result = { ...this.publicState(context), actor: { id: context.actorId, scopes: context.scopes } }; break;
       case "workspace.open": this.requireScope(context, "workspace.operate"); result = this.#openWorkspace(payload); break;
       case "workspace.list": this.requireScope(context, "view"); result = this.engine.n.centralWorkspace.getSnapshot(); break;
@@ -624,7 +628,7 @@ export class NexusNode extends EventEmitter {
 
   setBrowserDispatcher(dispatcher) { this.browserDispatcher = dispatcher; }
   getSession(sessionId) { return this.engine.n.centralLanAccess.getSnapshot().sessions.find((item) => item.id === sessionId && !item.revoked && item.expiresAt > this.now()) || null; }
-  artifactFile(id) { const artifact = this.engine.n.centralArtifacts.getSnapshot().artifacts.find((item) => item.id === id); if (!artifact) throw new Error("Unknown artifact."); return { artifact, ...this.artifactStore.open(artifact) }; }
+  artifactFile(id, context = { actorId: "artifact-client", scopes: ["view"] }) { this.requireScope(context, "view"); const artifact = this.engine.n.centralArtifacts.getSnapshot().artifacts.find((item) => item.id === id); if (!artifact) throw new Error("Unknown artifact."); const file = this.artifactStore.open(artifact); this.engine.n.centralAudit.append({ actorId: context.actorId, command: "workflow.tool.artifact.export", artifactId: id, runId: artifact.runId, hash: artifact.hash, destination: "authorized-client", at: this.now() }); this.persist(); return { artifact, ...file }; }
   #listArtifacts(payload = {}) { const items = this.engine.n.centralArtifacts.getSnapshot().artifacts; return payload.runId ? items.filter((item) => item.runId === payload.runId || item.jobId === payload.runId) : items; }
   #readArtifact(id) { const artifact = this.engine.n.centralArtifacts.getSnapshot().artifacts.find((item) => item.id === id); if (!artifact) throw new Error("Unknown artifact."); return this.artifactStore.read(artifact); }
   #recordArtifact(path, metadata = {}) {
@@ -639,7 +643,7 @@ export class NexusNode extends EventEmitter {
     }
   }
   #emit(type, data) { const event = { id: randomUUID(), type, data, at: this.now() }; this.store.appendEvent(event); this.emit("event", event); }
-  async close() { await this.mesh.stop(); this.persist(); this.store.close(); }
+  async close() { await this.workflowCoordinator.close(); await this.mesh.stop(); this.persist(); this.store.close(); }
 }
 
 function relativeArtifact(root, path) { return relative(root, path); }

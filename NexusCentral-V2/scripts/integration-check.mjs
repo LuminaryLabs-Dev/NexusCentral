@@ -180,6 +180,9 @@ assert.equal(restored.engine.n.centralJobs.getSnapshot().jobs.find((item) => ite
 assert.equal(restored.engine.n.centralWorkspace.getSnapshot().selected.id, "proof-workspace");
 await restored.close();
 
+const skipNetworkProof = process.env.NEXUS_SKIP_NETWORK_PROOF === "1";
+const roomChunks = [];
+if (!skipNetworkProof) {
 const meshA = new Libp2pMeshAdapter({ secretStore: new MemorySecretStore() });
 const meshB = new Libp2pMeshAdapter({ secretStore: new MemorySecretStore() });
 meshB.setRequestHandler(async (request) => ({ action: request.action, payload: request.payload }));
@@ -196,7 +199,6 @@ const brokerAddress = await broker.start();
 const roomA = new PeerJsRoomAdapter({ nodeId: "room-node-a" });
 const roomB = new PeerJsRoomAdapter({ nodeId: "room-node-b" });
 const isolatedRoom = new PeerJsRoomAdapter({ nodeId: "room-node-isolated" });
-const roomChunks = [];
 roomB.setRequestHandler(async (request, _peer, stream) => { await stream.onChunk("peer "); await stream.onChunk("routed"); return { action: request.action, accepted: true }; });
 await roomA.start({ roomCode: "integration-room", brokerUrl: brokerAddress.url, iceServers: [] });
 await roomB.start({ roomCode: "integration-room", brokerUrl: brokerAddress.url, iceServers: [] });
@@ -211,8 +213,9 @@ assert.deepEqual(roomResult, { action: "mesh.inference", accepted: true });
 assert.equal(roomChunks.join(""), "peer routed");
 await roomA.stop(); await roomB.stop(); await isolatedRoom.stop(); await broker.close();
 
+}
 rmSync(temp, { recursive: true, force: true });
-await new Promise((resolvePromise) => process.stdout.write(`${JSON.stringify({ status: "passed", providerStream: "host routed", specializedProviderStreams: protocolChunks, providerShareOptIn: true, routeRetryResumed: true, disposableExperiment: true, boundedRepair: actAttempt === 2, approvalBeforePromotion: true, interruptedJobRecovered: true, persistedJob: true, pairingScopes: session.scopes, browserRuntimeLease: true, crossOriginRejected: true, workspaceRestored: true, libp2pDirectRequest: true, peerJsDirectRequest: roomChunks.join(""), peerJsRoomIsolation: true }, null, 2)}\n`, resolvePromise));
+await new Promise((resolvePromise) => process.stdout.write(`${JSON.stringify({ status: skipNetworkProof ? "partial" : "passed", skipped: skipNetworkProof ? ["libp2p live LAN", "PeerJS live connections"] : [], providerStream: "host routed", specializedProviderStreams: protocolChunks, providerShareOptIn: true, routeRetryResumed: true, disposableExperiment: true, boundedRepair: actAttempt === 2, approvalBeforePromotion: true, interruptedJobRecovered: true, persistedJob: true, pairingScopes: session.scopes, browserRuntimeLease: true, crossOriginRejected: true, workspaceRestored: true, libp2pDirectRequest: !skipNetworkProof, peerJsDirectRequest: skipNetworkProof ? null : roomChunks.join(""), peerJsRoomIsolation: !skipNetworkProof }, null, 2)}\n`, resolvePromise));
 // The native Node WebRTC binding may retain an internal worker after every
 // PeerJS connection is explicitly closed. This standalone proof owns the
 // process, so exit only after assertions, teardown, cleanup, and output flush.

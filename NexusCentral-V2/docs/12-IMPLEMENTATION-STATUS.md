@@ -1,9 +1,18 @@
 # Implementation Status
 
+## October 11 workbench update
+
+The new primary interface is Home / Workflows / Apps / Activity with advanced
+Settings. A twentieth DSK owns versioned workflow definitions and run state.
+The first Operations workflow has real Linux worker and desktop/mobile browser
+proof. Full area-by-area coverage and limitations are in
+`17-AUTOMATION-WORKBENCH.md`. The older proven list below is historical evidence;
+it is not new proof of physical networking or native packaging.
+
 ## Implemented
 
 - npm/ESM workspace with shared web, Electron, Nexus Node, contracts, clients,
-  adapters, and 19 NexusEngine DSKs;
+  adapters, and 20 NexusEngine DSKs;
 - SQLite WAL snapshots, jobs, events, audit cursors, host values, and recovery;
 - typed CentralClient transports for direct tests, Electron IPC, and HTTP/WS;
 - host-owned provider routing, 16K compatibility filtering, ordered streaming,
@@ -23,8 +32,8 @@
   room isolation, sharing budgets, and receiver-side grants;
 - host-served TLS LAN Web, short-lived pairing, scoped secure cookies, revocation,
   origin checks, WebSocket events, browser runtime leases, and disconnect expiry;
-- Next.js static UI with `Lab | Router | Models | Review | Settings` and a thin
-  Electron launcher/native workspace dialog;
+- Next.js static workbench with `Home | Workflows | Apps | Activity | Settings`,
+  advanced legacy controls, and a thin Electron launcher/native workspace dialog;
 - browser ONNX import, hashing, local smoke, WebGPU/WASM selection, Web Worker
   tensor execution, heartbeat, cancellation, and host queue registration;
 - dry-run/apply migration and macOS/Linux/Windows packaging assembly scripts;
@@ -90,8 +99,8 @@ This section describes the executable gate. A target is only promoted to the Pro
   trusted certificate paths.
 - The 50-node result is an in-memory domain simulation, not 50 physical machines
   or bounded live mDNS traffic proof.
-- `npm audit` reports two moderate PostCSS findings through the latest stable
-  Next.js 16.2.10 dependency. Do not use the suggested forced Next.js downgrade.
+- The October 11 dependency update reports zero npm audit findings locally.
+  Native release gates remain required after these dependency updates.
 
 These items keep `goal.md` active and block an enterprise/open-source stable release claim. V1 and the existing Electron path remain rollback references.
 

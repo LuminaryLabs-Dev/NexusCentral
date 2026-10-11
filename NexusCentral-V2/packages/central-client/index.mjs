@@ -10,6 +10,10 @@ export class CentralClient {
   }
 
   getCapabilities() { return this.transport.getCapabilities(); }
+  listWorkflows() { return this.command("workflows.list", {}); }
+  saveWorkflow(definition, expectedRevision = 0) { return this.command("workflows.save", { definition, expectedRevision }); }
+  startWorkflow(id, options) { return this.command("workflows.start", { id }, options); }
+  controlWorkflow(action, id, blockId) { return this.command(`workflows.${action}`, { id, blockId }); }
   chooseWorkspace() { return this.transport.chooseWorkspace?.() || Promise.resolve(null); }
   getState() { return this.command("system.state", {}); }
   openWorkspace(payload) { return this.command("workspace.open", payload); }

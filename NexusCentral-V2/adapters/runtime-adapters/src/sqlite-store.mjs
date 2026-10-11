@@ -42,6 +42,17 @@ export class SqliteStateStore {
     this.putSnapshot.run(domainPath, Number(snapshot.revision || 0), JSON.stringify(snapshot), Date.now());
   }
 
+  saveAll(entries) {
+    this.database.exec("BEGIN IMMEDIATE");
+    try {
+      for (const [domainPath, snapshot] of entries) this.save(domainPath, snapshot);
+      this.database.exec("COMMIT");
+    } catch (error) {
+      this.database.exec("ROLLBACK");
+      throw error;
+    }
+  }
+
   loadAll() {
     return Object.fromEntries(this.getSnapshots.all().map((row) => [row.domain_path, JSON.parse(row.body_json)]));
   }

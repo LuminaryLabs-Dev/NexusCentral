@@ -31,28 +31,31 @@
     "prepare:proof": "node ./scripts/prepare-simulator-proof.mjs",
     "simulate:contracts": "node ./scripts/run-nexus-simulator.mjs contracts",
     "simulate:browser": "node ./scripts/run-nexus-simulator.mjs browser",
-    "simulate": "npm run check && npm run check:integration && npm run check:scale && npm run simulate:contracts && npm run simulate:browser"
+    "simulate": "npm run check && npm run check:integration && npm run check:scale && npm run simulate:contracts && npm run simulate:browser",
+    "check:workflows": "node ./scripts/workflows-check.mjs",
+    "check:workbench-browser": "node ./scripts/workbench-browser-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock": "3.1085.0",
     "@aws-sdk/client-bedrock-runtime": "3.1085.0",
     "@chainsafe/libp2p-noise": "17.0.0",
     "@chainsafe/libp2p-yamux": "8.0.1",
-    "@libp2p/identify": "4.1.9",
     "@libp2p/crypto": "5.1.21",
+    "@libp2p/identify": "4.1.9",
     "@libp2p/mdns": "12.0.26",
     "@libp2p/tcp": "11.0.23",
+    "@roamhq/wrtc": "0.10.0",
+    "express": "4.22.3",
     "libp2p": "3.3.5",
+    "nexusengine": "github:LuminaryLabs-Dev/NexusEngine#d76d54f862f9c6c6a115471b483dc1afda3f6b4a",
     "peer": "1.0.2",
     "peerjs": "1.5.5",
-    "@roamhq/wrtc": "0.10.0",
-    "express": "4.22.2",
-    "nexusengine": "github:LuminaryLabs-Dev/NexusEngine#d76d54f862f9c6c6a115471b483dc1afda3f6b4a",
     "ws": "8.21.0"
   },
   "devDependencies": {
     "@electron/packager": "20.0.2",
-    "electron": "43.1.0"
+    "electron": "43.7.9",
+    "playwright": "1.57.0"
   },
   "engines": {
     "node": ">=24"

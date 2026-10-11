@@ -64,12 +64,43 @@ jobs:
       - name: Build shared web and Electron assets
         working-directory: NexusCentral-V2
         run: npm run build
+      - name: Isolated workflow checks
+        working-directory: NexusCentral-V2
+        run: npm run check:workflows
+      - name: Install workbench browser
+        working-directory: NexusCentral-V2
+        run: npx playwright install --with-deps chromium
+      - name: Workbench browser checks
+        working-directory: NexusCentral-V2
+        run: npm run check:workbench-browser
+      - name: Check out pinned NexusSimulator
+        uses: actions/checkout@v4
+        with:
+          repository: LuminaryLabs-Dev/NexusSimulator
+          ref: 82ef06fc4e1c45ccf90d1b81b3e0aa44444786c9
+          path: .tools/NexusSimulator
+      - name: Install simulator dependencies and browser
+        working-directory: .tools/NexusSimulator/NexusSimulator-V1
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
       - name: Contract simulator
+        env:
+          NEXUS_SIMULATOR_CLI: ${{ github.workspace }}/.tools/NexusSimulator/NexusSimulator-V1/src/cli.js
         working-directory: NexusCentral-V2
         run: npm run simulate:contracts
       - name: Browser simulator
+        env:
+          NEXUS_SIMULATOR_CLI: ${{ github.workspace }}/.tools/NexusSimulator/NexusSimulator-V1/src/cli.js
         working-directory: NexusCentral-V2
         run: npm run simulate:browser
+      - name: Upload workflow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexuscentral-workbench-proof
+          path: NexusCentral-V2/output/workbench-browser
+          if-no-files-found: warn
       - name: Dependency audit (high severity gate)
         working-directory: NexusCentral-V2
         run: npm audit --audit-level=high

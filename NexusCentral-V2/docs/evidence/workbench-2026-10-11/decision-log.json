@@ -1,0 +1,18 @@
+[
+  {
+    "at": "2026-10-11T17:40:04.071Z",
+    "stage": "inspect",
+    "kind": "fact",
+    "statement": "Actual modified checkout, static production build. DOM/SVG app; use browser recorder rather than a synthetic Three.js scene.",
+    "basis": "source inspection",
+    "effect": "none"
+  },
+  {
+    "at": "2026-10-11T17:40:04.071Z",
+    "stage": "route",
+    "kind": "decision",
+    "statement": "Using explicitly supplied Chromium. The default browser CDN returned an invalid archive; packaged Chromium was extracted locally with system fonts. Server and browser share this process network namespace.",
+    "basis": "local browser availability",
+    "effect": "route-change"
+  }
+]

@@ -10,12 +10,12 @@ const expectedPaths = [
   "n:central", "n:central:artifacts", "n:central:audit", "n:central:experiments", "n:central:harnesses", "n:central:inference", "n:central:jobs",
   "n:central:lab", "n:central:lan-access", "n:central:mesh-membership", "n:central:model-catalog", "n:central:model-runtime",
   "n:central:node", "n:central:policy", "n:central:proof", "n:central:providers", "n:central:routing", "n:central:workspace",
-  "n:central:workspace-transfer"
+  "n:central:workflows", "n:central:workspace-transfer"
 ];
 
 const engine = createCentralRuntime({ node: { nodeId: "node-check", displayName: "Check Node" } });
 const graph = getCentralGraphSnapshot(engine);
-assert.deepEqual(graph.paths.map((entry) => entry.path).sort(), expectedPaths);
+assert.deepEqual(graph.paths.map((entry) => entry.path).sort(), expectedPaths.sort());
 assert.equal(graph.central.readiness, "ready");
 
 const denied = engine.n.centralPolicy.evaluate({ peerId: "peer-beta", action: "mesh.inference", requestId: "request-denied" });

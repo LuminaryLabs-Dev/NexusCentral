@@ -1,0 +1,22 @@
+[
+  {
+    "at": "2026-10-11T17:40:05.525Z",
+    "action": "Home rendered with Launch and workflow template."
+  },
+  {
+    "at": "2026-10-11T17:40:06.414Z",
+    "action": "Created three blocks, used drag/drop and accessible Add, configured fields and typed connections."
+  },
+  {
+    "at": "2026-10-11T17:40:07.605Z",
+    "action": "Verified move, undo/redo, duplicate/remove, and plain-language configuration errors."
+  },
+  {
+    "at": "2026-10-11T17:40:08.666Z",
+    "action": "Ran real isolated workers, downloaded the report, and approved the review to complete the workflow."
+  },
+  {
+    "at": "2026-10-11T17:40:09.619Z",
+    "action": "Reopened persisted workflow, inspected Apps, and configured a mobile action without horizontal overflow."
+  }
+]

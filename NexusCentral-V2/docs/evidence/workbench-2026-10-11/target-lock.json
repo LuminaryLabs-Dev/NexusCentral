@@ -1,0 +1,12 @@
+{
+  "runId": "workbench-verified-20261011",
+  "requested": {
+    "mode": "local",
+    "target": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2",
+    "revision": "eac58b1ecd0b7ae069115831a4fe9d5256a855ae",
+    "workingTreeModified": true,
+    "expectedSurface": "dom",
+    "expectedState": "Home, action canvas, configuration, and reviewed workflow results",
+    "interaction": "Build a workflow from an empty canvas, configure, connect, save, execute, approve, reopen, and inspect mobile layout"
+  }
+}

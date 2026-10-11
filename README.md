@@ -2,6 +2,15 @@
 
 NexusCentral V2 is the canonical active implementation on `main`. It is a local-first AI control plane built around a durable headless Nexus Node, a shared Next.js interface, and a thin Electron desktop shell that packages the Node runtime with the app.
 
+## Automation Workbench
+
+The primary V2 UI now uses Home, Workflows, Apps, and Activity. The first complete
+workflow converts task records into an operations report and a human review step.
+Read [current workbench coverage](NexusCentral-V2/docs/17-AUTOMATION-WORKBENCH.md)
+before treating the full integration roadmap as delivered. Linux built-in workers
+are validated; external agents, live Luminary connectors, and cross-platform
+workflow isolation remain pending.
+
 ## Active Product
 
 ```text

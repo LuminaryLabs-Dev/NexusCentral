@@ -1,5 +1,16 @@
 # NexusCentral V2
 
+The active interface is the visual automation workbench: Home, Workflows, Apps,
+and Activity. Drag or click to add an action, configure it, connect its result,
+and run a saved workflow. Start with the Operations review template.
+
+See [Automation Workbench](docs/17-AUTOMATION-WORKBENCH.md) for exact feature
+coverage, sandbox requirements, validation, and remaining integration work.
+Built-in workflow execution currently requires Linux, Python 3, libseccomp, and
+Node 24+. Other platforms can edit/save workflows; external agent apps are not
+enabled for workflow execution yet.
+
+
 NexusCentral V2 is a service-operated coding workbench. A headless Nexus Node
 owns workspaces, jobs, routing, policy, mesh membership, browser compute leases,
 and audit state. The shared Next.js interface runs in Electron or over the LAN.

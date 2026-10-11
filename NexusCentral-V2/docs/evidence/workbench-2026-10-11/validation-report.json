@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "sandbox.web-render-validation/1",
+  "runId": "workbench-verified-20261011",
+  "startedAt": "2026-10-11T17:40:04.071Z",
+  "completedAt": "2026-10-11T17:40:09.689Z",
+  "runDirectory": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011",
+  "requested": {
+    "mode": "local",
+    "target": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2",
+    "revision": "eac58b1ecd0b7ae069115831a4fe9d5256a855ae",
+    "workingTreeModified": true,
+    "expectedSurface": "dom",
+    "expectedState": "Home, action canvas, configuration, and reviewed workflow results",
+    "interaction": "Build a workflow from an empty canvas, configure, connect, save, execute, approve, reopen, and inspect mobile layout"
+  },
+  "observed": {
+    "target": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2",
+    "revision": "eac58b1ecd0b7ae069115831a4fe9d5256a855ae",
+    "workingTreeModified": true,
+    "finalUrl": "http://127.0.0.1:47811/",
+    "surface": "dom"
+  },
+  "identity": {
+    "matchesRequestedMode": true,
+    "matchesRequestedTarget": true,
+    "matchesRequestedRevision": true
+  },
+  "freshness": {
+    "currentRunOnly": true,
+    "historicalEvidenceExcluded": true
+  },
+  "render": {
+    "visible": true,
+    "nonEmpty": true,
+    "surfaceProven": true,
+    "fatalErrors": []
+  },
+  "interaction": {
+    "required": true,
+    "performed": true,
+    "changeProven": true
+  },
+  "children": [
+    {
+      "name": "sandbox-record-browser-it",
+      "verdict": "pass",
+      "evidence": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/validation.json"
+    }
+  ],
+  "artifacts": {
+    "before": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/before.png",
+    "after": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/after.png",
+    "decisionLog": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/decision-log.json",
+    "console": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/console.json",
+    "networkFailures": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/network-failures.json",
+    "interaction": "/workspace/scratch/373c840c95f0/NexusCentral/NexusCentral-V2/output/workbench-verified-20261011/interaction.json"
+  },
+  "supplementalRuns": [],
+  "cleanup": {
+    "required": true,
+    "completed": true
+  },
+  "verdict": "pass",
+  "coverageBoundary": "Modified exact V2 checkout; local production DOM/SVG interface and built-in workflow. No external agent, native desktop, live cloud credential, or physical mesh proof."
+}

@@ -163,3 +163,11 @@ Settings = node + policy + LAN access + adapter configuration
 
 There is no Settings DSK, Review UI DSK, Electron DSK, or LAN website DSK.
 Those are presentation or host compositions over domain APIs.
+
+## Workbench addition (October 11)
+
+`n-central-workflows-kit` exposes `n:central:workflows` as `centralWorkflows`. It
+requires jobs, artifacts, and audit. It owns definitions, revisions, run snapshots,
+step state, approval records, and installed-app enablement. Host I/O stays in
+`WorkflowCoordinator` and `WorkflowSandbox`. Snapshot/load round trips and reset
+preserve definitions/history; host restart explicitly pauses unfinished runs.

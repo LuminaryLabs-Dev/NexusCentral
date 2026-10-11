@@ -1,3 +1,4 @@
+import { createCentralWorkflowsKit } from '../../kits/workflows-kit/index.mjs';
 import { createEngine } from "nexusengine";
 import { createCentralKit } from "../../kits/central-kit/index.mjs";
 import { createCentralNodeKit } from "../../kits/node-kit/index.mjs";
@@ -39,7 +40,8 @@ export function createCentralRuntime(config = {}) {
     createCentralProofKit(),
     createCentralLabKit(),
     createCentralExperimentsKit(),
-    createCentralLanAccessKit()
+    createCentralLanAccessKit(),
+    createCentralWorkflowsKit()
   ];
   const engine = createEngine({ kits });
   engine.n.central.setReadiness("ready", "central-ready");
@@ -70,6 +72,7 @@ export function getCentralGraphSnapshot(engine) {
     proof: engine.n.centralProof.getSnapshot(),
     lab: engine.n.centralLab.getSnapshot(),
     experiments: engine.n.centralExperiments.getSnapshot(),
-    lanAccess: engine.n.centralLanAccess.getSnapshot()
+    lanAccess: engine.n.centralLanAccess.getSnapshot(),
+    workflows: engine.n.centralWorkflows.getSnapshot()
   };
 }

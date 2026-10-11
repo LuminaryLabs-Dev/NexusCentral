@@ -1,5 +1,11 @@
 # Start Here
 
+## Current UI and workflow contract
+
+The October 11 workbench decision supersedes earlier Lab-first navigation and
+visual rules. Read `17-AUTOMATION-WORKBENCH.md` first for implemented scope and
+remaining roadmap, then retain the underlying ownership/security contracts below.
+
 ## Authority
 
 These documents are the V2 implementation contract. When chat history, old screenshots, stale build output, or older plans conflict with this folder, this folder wins unless the user explicitly changes the goal.

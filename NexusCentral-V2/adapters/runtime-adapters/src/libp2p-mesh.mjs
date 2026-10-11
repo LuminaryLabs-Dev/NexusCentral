@@ -1,3 +1,4 @@
+import { networkInterfaces } from "node:os";
 import { EventEmitter } from "node:events";
 import { createHash, createHmac, randomUUID, scryptSync, timingSafeEqual } from "node:crypto";
 import { createLibp2p } from "libp2p";
@@ -39,6 +40,7 @@ export class Libp2pMeshAdapter extends EventEmitter {
 
   async start({ lanCode, addresses = ["/ip4/0.0.0.0/tcp/0"] }) {
     if (this.node) return this.status();
+    try { networkInterfaces(); } catch { throw new Error("LAN discovery is unavailable: this environment prevents network interface enumeration."); }
     const membership = this.deriveMembership(lanCode);
     this.membership = membership;
     this.node = await createLibp2p({
