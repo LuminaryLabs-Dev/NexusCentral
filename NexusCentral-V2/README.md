@@ -10,6 +10,22 @@ Built-in workflow execution currently requires Linux, Python 3, libseccomp, and
 Node 24+. Other platforms can edit/save workflows; external agent apps are not
 enabled for workflow execution yet.
 
+### Managed llama.cpp (Linux x64)
+
+Run `npm run setup:llama-cpp` to build the pinned official llama.cpp source
+commit for this machine. The result is staged outside Git and included by
+`npm run package:desktop -- linux x64` when present; packaging without this
+optional runtime remains supported. The setup needs Git, CMake, and a C++
+toolchain. GGUF model files are not downloaded or packaged. In Models, enter a
+host-local GGUF path and start the runtime. NexusCentral launches the staged
+server on loopback only, checks readiness and model identity, and keeps it alive
+only while Nexus Node runs. Choose “Use for inference” to route new jobs there.
+
+Run a real CPU proof with `NEXUS_LLAMA_MODEL_PATH=/path/to/model.gguf`
+`NEXUS_LLAMA_SERVER_PATH=/path/to/llama-server npm run check:llama-cpp-live`.
+The check uses the app's 16,000-token context and verifies that Nexus Node
+terminates the owned server process on shutdown.
+
 
 NexusCentral V2 is a service-operated coding workbench. A headless Nexus Node
 owns workspaces, jobs, routing, policy, mesh membership, browser compute leases,

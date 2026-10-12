@@ -21,6 +21,17 @@ Router stores secret-free profiles. Credentials stay in host secure storage.
 Every request still follows policy -> durable job -> route -> adapter -> audit.
 The 16,000-token requirement is never silently reduced.
 
+The Models surface can also start a NexusCentral-managed llama.cpp server from
+a host-local GGUF path. `npm run setup:llama-cpp` builds the official source at
+commit `f2cc7282ce0042641df55e0e563b75e824e2b647` for Linux x64 and stages the
+binary, sibling shared libraries, and upstream license notices outside Git.
+The managed process binds only to `127.0.0.1`, gets a free loopback port, and
+must announce readiness and report the configured model identity before Nexus
+Central marks it healthy. It is stopped with Nexus Node; manual stop never
+targets a pre-existing endpoint. Only explicitly selecting the managed provider
+changes the active inference route. Model weights remain user-supplied, and
+other OS/architecture builds are not claimed by this setup path.
+
 ## Sharing Rules
 
 - providers are private by default;

@@ -1,9 +1,10 @@
 import { WorkflowCoordinator } from './workflows/coordinator.mjs';
 import { EventEmitter } from "node:events";
+import { existsSync } from "node:fs";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { dirname, join, relative, resolve } from "node:path";
 import { DEFAULT_CONTEXT_LENGTH, PROVIDER_TEMPLATES, RUN_STATUSES, assertEnvelope } from "@nexuscentral/contracts";
-import { ArtifactStoreAdapter, FilesystemWorkspaceAdapter, HarnessExecutorRegistry, Libp2pMeshAdapter, MacOsLaunchAgentAdapter, MemorySecretStore, MeshTransportCoordinator, ModelLifecycleAdapter, OsSecretStore, PeerJsRoomAdapter, ProcessHarnessAdapter, ProviderAdapterRegistry, SimSpaceExperimentAdapter, SqliteStateStore } from "@nexuscentral/runtime-adapters";
+import { ArtifactStoreAdapter, FilesystemWorkspaceAdapter, HarnessExecutorRegistry, Libp2pMeshAdapter, LlamaCppRuntimeAdapter, MacOsLaunchAgentAdapter, MemorySecretStore, MeshTransportCoordinator, ModelLifecycleAdapter, OsSecretStore, PeerJsRoomAdapter, ProcessHarnessAdapter, ProviderAdapterRegistry, SimSpaceExperimentAdapter, SqliteStateStore } from "@nexuscentral/runtime-adapters";
 import { createCentralRuntime, getCentralGraphSnapshot } from "../../../packages/composition/index.mjs";
 import { RunCoordinator } from "./run-coordinator.mjs";
 
@@ -24,7 +25,7 @@ function publicProvider({ secretRef, ...profile }, admin = false) {
 function publicHarness(profile) { return profile; }
 
 export class NexusNode extends EventEmitter {
-  constructor({ databasePath, secretStore, fetchImpl = fetch, now = () => Date.now(), harnessProcess, harnessExecutors, experimentAdapter, artifactStore, serviceManager, simulatorCli, meshCoordinator } = {}) {
+  constructor({ databasePath, secretStore, fetchImpl = fetch, now = () => Date.now(), harnessProcess, harnessExecutors, experimentAdapter, artifactStore, serviceManager, simulatorCli, meshCoordinator, llamaCppRuntime } = {}) {
     super();
     this.now = now;
     this.dataRoot = dirname(databasePath);
@@ -33,6 +34,17 @@ export class NexusNode extends EventEmitter {
     this.secretStore = secretStore || (process.env.NODE_ENV === "test" ? new MemorySecretStore() : new OsSecretStore());
     this.providers = new ProviderAdapterRegistry({ secretStore: this.secretStore, fetchImpl });
     this.models = new ModelLifecycleAdapter({ fetchImpl });
+    const stagedLlamaServer = join(resolve(import.meta.dirname, "../../.."), ".llama-runtime", `${process.platform}-${process.arch}`, "bin", process.platform === "win32" ? "llama-server.exe" : "llama-server");
+    this.llamaCpp = llamaCppRuntime || new LlamaCppRuntimeAdapter({ binaryPath: process.env.NEXUS_LLAMA_SERVER_PATH || (existsSync(stagedLlamaServer) ? stagedLlamaServer : ""), fetchImpl });
+    this.managedLlamaProviderId = "managed-llama-cpp";
+    this.llamaGeneration = 0;
+    this.llamaStartInProgress = null;
+    this.llamaCpp.on("exit", ({ code, signal, modelId }) => {
+      this.llamaGeneration += 1;
+      this.#clearManagedLlamaState(`llama-exit:${this.now()}`);
+      this.persist();
+      this.#emit("llama.runtime-stopped", { modelId, code, signal });
+    });
     this.harnessProcess = harnessProcess || new ProcessHarnessAdapter();
     this.harnessExecutors = harnessExecutors || new HarnessExecutorRegistry({ processHarness: this.harnessProcess });
     this.experimentAdapter = experimentAdapter || new SimSpaceExperimentAdapter({ runRoot: join(this.dataRoot, "experiments"), simulatorCli: simulatorCli || resolve(import.meta.dirname, "../../../../../NexusSimulator/NexusSimulator-V1/src/cli.js") });
@@ -77,6 +89,8 @@ export class NexusNode extends EventEmitter {
     if (!harnesses.profiles.some((profile) => profile.id === harnesses.selectedHarnessId)) this.engine.n.centralHarnesses.select({ id: harnesses.selectedHarnessId === "codex-cli-harness" ? "coding-harness" : "conversation-harness", requestId: `harness-migrate:${this.now()}` });
     this.engine.n.centralModelRuntime.expire({ now: this.now(), requestId: `runtime-expire:${this.now()}` });
     this.engine.n.centralLanAccess.expire({ now: this.now(), requestId: `session-expire:${this.now()}` });
+    const managedLlama = this.engine.n.centralProviders.getSnapshot().profiles.find((item) => item.id === this.managedLlamaProviderId);
+    if (managedLlama) this.#clearManagedLlamaState(`llama-restore:${this.now()}`);
     const workspace = this.engine.n.centralWorkspace.getSnapshot().selected;
     const workspacePath = this.store.getHostValue("workspace.path");
     if (workspace && workspacePath) {
@@ -131,6 +145,7 @@ export class NexusNode extends EventEmitter {
       case "providers.list": this.requireScope(context, "view"); result = { ...this.publicState(context).providers, templates: PROVIDER_TEMPLATES }; break;
       case "providers.save": this.requireScope(context, "admin"); result = this.#saveProvider(payload); break;
       case "providers.test": this.requireScope(context, "admin"); result = await this.#testProvider(payload); break;
+      case "providers.select": this.requireScope(context, "admin"); result = this.engine.n.centralProviders.select(payload); break;
       case "providers.set-share-policy": this.requireScope(context, "admin"); result = this.engine.n.centralProviders.setSharePolicy(payload); break;
       case "models.register": this.requireScope(context, "admin"); result = this.engine.n.centralModelCatalog.register(payload); break;
       case "models.list": this.requireScope(context, "view"); result = this.engine.n.centralModelCatalog.getSnapshot(); break;
@@ -139,6 +154,8 @@ export class NexusNode extends EventEmitter {
       case "models.download": this.requireScope(context, "admin"); result = await this.models.download(this.#lmStudioProfile(), payload.modelId); break;
       case "models.load": this.requireScope(context, "admin"); result = await this.#loadModel(payload); break;
       case "models.unload": this.requireScope(context, "admin"); result = await this.#unloadModel(payload); break;
+      case "models.start-llamacpp": this.requireScope(context, "admin"); result = await this.#startManagedLlama(payload); break;
+      case "models.stop-llamacpp": this.requireScope(context, "admin"); result = await this.#stopManagedLlama(payload); break;
       case "harnesses.import": this.requireScope(context, "admin"); result = publicHarness(this.engine.n.centralHarnesses.importProfile(payload)); break;
       case "harnesses.select": this.requireScope(context, "admin"); this.engine.n.centralHarnesses.select(payload); result = this.publicState(context).harnesses; break;
       case "harnesses.configure": this.requireScope(context, "admin"); result = this.engine.n.centralHarnesses.configure(payload); break;
@@ -240,6 +257,71 @@ export class NexusNode extends EventEmitter {
     const result = await this.models.unload(this.#lmStudioProfile(), payload.instanceId);
     this.engine.n.centralModelRuntime.remove({ id: `lm-studio:${payload.instanceId}`, requestId: payload.requestId });
     return result;
+  }
+
+  async #startManagedLlama(payload) {
+    const id = this.managedLlamaProviderId;
+    if (this.llamaStartInProgress === this.llamaGeneration) throw new Error("A managed llama.cpp start is already being verified.");
+    const existing = this.engine.n.centralProviders.getSnapshot().profiles.find((item) => item.id === id);
+    if (existing && (existing.kind !== "llamacpp" || existing.name !== "Managed llama.cpp" || existing.local !== true || !/^http:\/\/127\.0\.0\.1:\d+\/v1$/.test(existing.baseUrl))) {
+      throw new Error("The managed llama.cpp provider ID is already used by another configuration. Rename or remove that profile before starting the managed runtime.");
+    }
+    const generation = ++this.llamaGeneration;
+    this.llamaStartInProgress = generation;
+    let runtime = null;
+    try {
+      runtime = await this.llamaCpp.start({ modelPath: String(payload.modelPath || ""), contextLength: DEFAULT_CONTEXT_LENGTH });
+      if (!this.#managedLlamaStartIsCurrent(generation, runtime)) throw new Error("The managed llama.cpp start was stopped before readiness completed.");
+      const template = PROVIDER_TEMPLATES.llamacpp;
+      this.engine.n.centralProviders.upsert({ ...template, id, kind: "llamacpp", name: "Managed llama.cpp", baseUrl: runtime.baseUrl, modelId: runtime.modelId, contextLength: runtime.contextLength, local: true, requestId: payload.requestId });
+      const profile = this.engine.n.centralProviders.getSnapshot().profiles.find((item) => item.id === id);
+      const models = await this.providers.probe(profile);
+      if (!this.#managedLlamaStartIsCurrent(generation, runtime)) throw new Error("The managed llama.cpp start was stopped during provider verification.");
+      if (!models.some((item) => item.id === runtime.modelId)) throw new Error("llama.cpp is ready but did not advertise the configured model.");
+      this.engine.n.centralProviders.observeHealth({ id, health: "healthy", models, lastProbeUtc: new Date().toISOString(), requestId: `${payload.requestId}:health` });
+      this.engine.n.centralModelCatalog.register({ id: runtime.modelId, name: runtime.modelId, source: "llamacpp-managed", format: "gguf", contextLength: runtime.contextLength, availability: "loaded", requestId: `${payload.requestId}:catalog` });
+      this.engine.n.centralModelRuntime.register({ id: `llamacpp-managed:${id}`, kind: "llamacpp-managed", modelId: runtime.modelId, contextLength: runtime.contextLength, executionProvider: "cpu", status: "ready", requestId: `${payload.requestId}:runtime` });
+      this.persist();
+      return { ...runtime, providerId: id };
+    } catch (error) {
+      if (generation === this.llamaGeneration) {
+        if (runtime?.pid) await this.llamaCpp.stopIfOwned(runtime.pid).catch(() => {});
+        if (generation === this.llamaGeneration && !this.llamaCpp.status().running) {
+          this.#clearManagedLlamaState(`${payload.requestId}:failed-start`);
+          this.persist();
+        }
+      }
+      throw error;
+    } finally {
+      if (this.llamaStartInProgress === generation) this.llamaStartInProgress = null;
+    }
+  }
+
+  async #stopManagedLlama(payload) {
+    const generation = ++this.llamaGeneration;
+    const result = await this.llamaCpp.stop();
+    if (generation === this.llamaGeneration || !this.llamaCpp.status().running) {
+      this.#clearManagedLlamaState(payload.requestId);
+      this.persist();
+    }
+    return result;
+  }
+
+  #managedLlamaStartIsCurrent(generation, runtime) {
+    const current = this.llamaCpp.status();
+    return generation === this.llamaGeneration && current.running && current.pid === runtime?.pid;
+  }
+
+  #clearManagedLlamaState(requestId) {
+    const id = this.managedLlamaProviderId;
+    const profile = this.engine.n.centralProviders.getSnapshot().profiles.find((item) => item.id === id);
+    if (profile) {
+      this.engine.n.centralProviders.observeHealth({ id, health: "inactive", models: [], lastProbeUtc: new Date().toISOString(), requestId });
+      if (this.engine.n.centralProviders.getSnapshot().activeProviderId === id) this.engine.n.centralProviders.select({ id: "", requestId: `${requestId}:clear-active` });
+    }
+    this.engine.n.centralModelRuntime.remove({ id: `llamacpp-managed:${id}`, requestId: `${requestId}:runtime` });
+    const modelId = profile?.modelId;
+    if (modelId) this.engine.n.centralModelCatalog.setAvailability({ id: modelId, availability: "available", requestId: `${requestId}:catalog` });
   }
 
   #createPairing(payload) {
@@ -643,7 +725,7 @@ export class NexusNode extends EventEmitter {
     }
   }
   #emit(type, data) { const event = { id: randomUUID(), type, data, at: this.now() }; this.store.appendEvent(event); this.emit("event", event); }
-  async close() { await this.workflowCoordinator.close(); await this.mesh.stop(); this.persist(); this.store.close(); }
+  async close() { await this.workflowCoordinator.close(); await this.mesh.stop(); this.llamaGeneration += 1; await this.llamaCpp.close(); this.#clearManagedLlamaState(`node-shutdown:${this.now()}`); this.persist(); this.store.close(); }
 }
 
 function relativeArtifact(root, path) { return relative(root, path); }

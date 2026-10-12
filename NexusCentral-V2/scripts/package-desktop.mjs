@@ -21,6 +21,10 @@ for (const source of ["adapters", "kits", "packages", "services", "node_modules"
   cpSync(resolve(root, source), resolve(payload, source), { recursive: true });
 }
 cpSync(resolve(root, "apps/web/out"), resolve(payload, "apps/web/out"), { recursive: true });
+const llamaRuntime = resolve(root, ".llama-runtime", `${platform}-${arch}`);
+if (platform === "linux" && arch === "x64" && existsSync(llamaRuntime)) {
+  cpSync(llamaRuntime, resolve(payload, "llama.cpp"), { recursive: true });
+}
 
 const paths = await packager({
   dir: resolve(root, "apps/electron"),

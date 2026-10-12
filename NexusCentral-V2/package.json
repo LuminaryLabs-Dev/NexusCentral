@@ -11,11 +11,12 @@
     "adapters/*"
   ],
   "scripts": {
-    "check": "node ./scripts/check.mjs && npm run check --workspaces --if-present",
-    "check:integration": "node ./scripts/integration-check.mjs",
+    "check": "node ./scripts/check.mjs && node ./scripts/llama-cpp-runtime-check.mjs && npm run check --workspaces --if-present",
+    "check:integration": "node ./scripts/integration-check.mjs && node ./scripts/llama-cpp-node-race-check.mjs",
     "check:scale": "node ./scripts/mesh-scale-check.mjs",
     "check:secret-store": "node ./scripts/check-secret-store.mjs",
     "check:lm-studio": "node ./scripts/live-lm-studio-check.mjs",
+    "check:llama-cpp-live": "node ./scripts/live-llama-cpp-check.mjs",
     "check:harness-live": "node ./scripts/live-harness-check.mjs",
     "dev": "node ./services/nexus-node/src/cli.mjs",
     "dev:peer-broker": "node ./services/peer-broker/src/cli.mjs",
@@ -23,6 +24,7 @@
     "build": "npm run build --workspace @nexuscentral/web && npm run build --workspace @nexuscentral/electron",
     "migrate:electron": "node ./scripts/migrate-electron.mjs",
     "package:desktop": "node ./scripts/package-desktop.mjs",
+    "setup:llama-cpp": "node ./scripts/setup-llama-cpp.mjs",
     "smoke:packaged": "node ./scripts/smoke-packaged-node.mjs",
     "service:install": "node ./scripts/macos-service.mjs install",
     "service:status": "node ./scripts/macos-service.mjs status",

@@ -189,7 +189,10 @@ async function api(path, options) {
 async function ensureNode() {
   if (await reachable()) return;
   const executable = process.env.NEXUS_NODE_EXECUTABLE || (app.isPackaged ? process.execPath : "node");
-  const child = spawn(executable, [resolve(runtimeRoot, "services/nexus-node/src/cli.mjs")], { cwd: runtimeRoot, detached: true, stdio: "ignore", env: { ...process.env, ...(app.isPackaged ? { ELECTRON_RUN_AS_NODE: "1" } : {}), NEXUS_CENTRAL_HOST: "127.0.0.1" } });
+  const llamaServer = app.isPackaged
+    ? join(process.resourcesPath, "nexuscentral", "llama.cpp", "bin", process.platform === "win32" ? "llama-server.exe" : "llama-server")
+    : join(bundledRoot, ".llama-runtime", `${process.platform}-${process.arch}`, "bin", process.platform === "win32" ? "llama-server.exe" : "llama-server");
+  const child = spawn(executable, [resolve(runtimeRoot, "services/nexus-node/src/cli.mjs")], { cwd: runtimeRoot, detached: true, stdio: "ignore", env: { ...process.env, ...(app.isPackaged ? { ELECTRON_RUN_AS_NODE: "1" } : {}), ...(!process.env.NEXUS_LLAMA_SERVER_PATH && existsSync(llamaServer) ? { NEXUS_LLAMA_SERVER_PATH: llamaServer } : {}), NEXUS_CENTRAL_HOST: "127.0.0.1" } });
   nodeProcess = child;
   child.once("exit", () => { if (nodeProcess === child) nodeProcess = null; });
   child.unref();

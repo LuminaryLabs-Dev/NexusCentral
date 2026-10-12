@@ -30,8 +30,9 @@ export function createCentralProvidersKit() {
         return { state };
       },
       select(state, payload) {
-        if (!state.profiles.some((item) => item.id === payload.id)) throw new Error("Unknown provider.");
-        state.activeProviderId = String(payload.id);
+        const id = String(payload.id || "");
+        if (id && !state.profiles.some((item) => item.id === id)) throw new Error("Unknown provider.");
+        state.activeProviderId = id || null;
         return { state };
       },
       setModel(state, payload) {

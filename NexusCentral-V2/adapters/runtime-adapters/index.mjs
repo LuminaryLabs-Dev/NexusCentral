@@ -1,6 +1,7 @@
 export * from "./src/sqlite-store.mjs";
 export * from "./src/provider-http.mjs";
 export * from "./src/model-lifecycle.mjs";
+export * from "./src/llama-cpp-runtime.mjs";
 export * from "./src/filesystem-workspace.mjs";
 export * from "./src/secret-store.mjs";
 export * from "./src/process-harness.mjs";

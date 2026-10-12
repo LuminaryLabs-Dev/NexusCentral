@@ -21,6 +21,7 @@ export class CentralClient {
   listProviders() { return this.command("providers.list", {}); }
   saveProvider(payload) { return this.command("providers.save", payload); }
   testProvider(id) { return this.command("providers.test", { id }); }
+  selectProvider(id) { return this.command("providers.select", { id }); }
   setProviderSharePolicy(payload) { return this.command("providers.set-share-policy", payload); }
   listModels() { return this.command("models.list", {}); }
   listInstalledModels() { return this.command("models.list-installed", {}); }
@@ -28,6 +29,8 @@ export class CentralClient {
   downloadModel(modelId) { return this.command("models.download", { modelId }); }
   loadModel(modelId) { return this.command("models.load", { modelId }); }
   unloadModel(instanceId) { return this.command("models.unload", { instanceId }); }
+  startLlamaCpp(modelPath) { return this.command("models.start-llamacpp", { modelPath }); }
+  stopLlamaCpp() { return this.command("models.stop-llamacpp", {}); }
   importHarness(payload) { return this.command("harnesses.import", payload); }
   selectHarness(id) { return this.command("harnesses.select", { id }); }
   configureHarness(payload) { return this.command("harnesses.configure", payload); }

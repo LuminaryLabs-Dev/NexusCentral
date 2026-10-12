@@ -102,12 +102,18 @@ function Router({ client, state, refresh }) {
 
 function Models({ client, state, refresh }) {
   const [query, setQuery] = useState("");
+  const [llamaModelPath, setLlamaModelPath] = useState("");
+  const [llamaStarting, setLlamaStarting] = useState(false);
   const [results, setResults] = useState([]);
   const [status, setStatus] = useState("");
   const admin = state?.actor?.scopes?.includes("admin");
+  const llamaRuntime = (state?.runtimes?.runtimes || []).find((runtime) => runtime.kind === "llamacpp-managed");
+  const llamaProvider = (state?.providers?.profiles || []).find((provider) => provider.id === "managed-llama-cpp");
   const run = async (label, action) => { setStatus(label); try { await action(); await refresh(); setStatus(`${label} complete.`); } catch (error) { setStatus(error.message); } };
+  const startLlama = async () => { setLlamaStarting(true); await run("Starting llama.cpp", () => client.startLlamaCpp(llamaModelPath.trim())); setLlamaStarting(false); };
   const search = async () => { setStatus("Searching Hugging Face..."); try { setResults(await client.searchModels(query)); setStatus(""); } catch (error) { setStatus(error.message); } };
-  return <Surface title="Models" intro="Find models, then let LM Studio own download and runtime state.">
+  return <Surface title="Models" intro="Find models, manage local runtime, and choose where new inference runs.">
+    {admin && <><h3>Managed llama.cpp</h3><p className="muted">Uses the host's configured pinned llama-server, binds only to 127.0.0.1, and leaves other provider settings unchanged.</p><div className="action-line"><input value={llamaModelPath} onChange={(event) => setLlamaModelPath(event.target.value)} placeholder="Host path to a local GGUF model" aria-label="Local GGUF model path" disabled={llamaStarting} />{llamaRuntime ? <button onClick={() => run("Stopping llama.cpp", () => client.stopLlamaCpp())}>Stop runtime</button> : llamaStarting ? <button onClick={() => run("Canceling llama.cpp startup", () => client.stopLlamaCpp())}>Cancel start</button> : <button disabled={!llamaModelPath.trim()} onClick={startLlama}>Start runtime</button>}{llamaRuntime && llamaProvider && <button disabled={state?.providers?.activeProviderId === llamaProvider.id} onClick={() => run("Selecting llama.cpp for inference", () => client.selectProvider(llamaProvider.id))}>{state?.providers?.activeProviderId === llamaProvider.id ? "Selected for inference" : "Use for inference"}</button>}</div>{llamaRuntime && <p className="muted">Ready: {llamaRuntime.modelId} · {llamaRuntime.contextLength.toLocaleString()} context · CPU</p>}{llamaProvider?.health === "inactive" && !llamaRuntime && <p className="muted">Managed runtime stopped. Other provider selections are unchanged.</p>}<div className="divider" /></>}
     <div className="action-line"><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && search()} placeholder="Search Hugging Face GGUF models" /><button onClick={search}>Search</button>{admin && <button onClick={() => run("Refreshing installed models", () => client.listInstalledModels())}>Refresh installed</button>}</div>
     {status && <p className="muted">{status}</p>}
     {results.length > 0 && <div className="rows">{results.map((model) => <div className="row" key={model.id}><div><b>{model.name}</b><span>{model.downloads.toLocaleString()} downloads</span></div>{admin && <button onClick={() => run(`Downloading ${model.name}`, () => client.downloadModel(model.id))}>Download</button>}</div>)}</div>}
